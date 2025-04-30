@@ -2,7 +2,7 @@
 </script>
 
 <template>
-    <h2>SÅ ER DER VANDPLASKERI</h2>
+    <h2>VW SVØMMEHAL</h2>
 </template>
 
 <style scoped>

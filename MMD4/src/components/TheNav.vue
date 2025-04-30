@@ -1,4 +1,5 @@
 <script setup>
+import { RouterLink } from "vue-router";
  let lastScrollY = window.scrollY;
 const header = document.querySelector('.header');
 
@@ -86,7 +87,7 @@ function initDesktopHoverNav() {
           <input type="radio" name="slider" id="close-btn">
           <ul class="nav-links">
             <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
-            <li><a class="no-drop" href="#">Forside</a></li>
+            <li><router-link class="no-drop" :to="{ name: 'frontpage' }">Forside</router-link></li>
             <li>
               <a href="#" class="desktop-item">Om Haraldslund</a>
               <input type="checkbox" id="showMega1">
@@ -128,18 +129,18 @@ function initDesktopHoverNav() {
               </div>
             </li>
             <li>
-              <a href="#" class="desktop-item">Vand & Wellness</a>
+             <router-link class="desktop-item" :to="{ name: 'vandogwellness' }">Vand & Wellness</router-link>
               <input type="checkbox" id="showMega3">
               <label for="showMega3" class="mobile-item">Vand & Wellness</label>
               <div class="dropbox">
                 <div class="content">
                   <div class="row">
                     <ul class="drop-links">
-                      <li><a href="#">Svømmehallen</a></li>
-                      <li><a href="#">Wellness</a></li>
-                      <li><a href="#">Holdoversigt</a></li>
-                      <li><a href="#">Priser</a></li>
-                      <li><a href="#">Regler</a></li>
+                      <li><router-link class="no-drop" :to="{ name: 'svommehallen-vandogwellness' }">Svømmehallen</router-link></li>
+                      <li><router-link class="no-drop" :to="{ name: 'wellness-vandogwellness' }">Wellness</router-link></li>
+                      <li><router-link class="no-drop" :to="{ name: 'holdoversigt-vandogwellness' }">Holdoversigt</router-link></li>
+                      <li><router-link class="no-drop" :to="{ name: 'priser-vandogwellness' }">Priser</router-link></li>
+                      <li><router-link class="no-drop" :to="{ name: 'regler-vandogwellness' }">Regler</router-link></li>
                     </ul>
                   </div>
                 </div>
