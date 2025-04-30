@@ -6,6 +6,14 @@ import VWPriser from '@/views/VWPriserView.vue';
 import VWRegler from '@/views/VWReglerView.vue';
 import VWSvoemmehallen from '@/views/VWSvoemmehallenView.vue';
 import VWWellness from '@/views/VWWellnessView.vue';
+import Motion from '@/views/MotionView.vue';
+import MOmMotionscenteret from '@/views/MOmMotionscenteretView.vue';
+import MPriser from '@/views/MPriserView.vue';
+import MRegler from '@/views/MReglerView.vue';
+import MLejeAfSalogInstruktor from '@/views/MLejeAfSalogInstruktorView.vue';
+import MPersonligTraening from '@/views/MPersonligtraeningView.vue';
+import MHoldoversigt from '@/views/MHoldoversigtView.vue';
+import MSIB from '@/views/MSIBView.vue';
 
 const router = createRouter({
   history: createWebHashHistory(), // Brug hash-baseret historik
@@ -44,6 +52,46 @@ const router = createRouter({
       path: '/wellness_svommehallen',
       component: VWWellness,
       name: 'wellness-vandogwellness',
+    },
+    {
+      path: '/motion',
+      component: Motion,
+      name: 'motion',
+    },
+    {
+      path: '/om-motioncenteret',
+      component: MOmMotionscenteret,
+      name: 'om-motionscenteret',
+    },
+    {
+      path: '/motioncenteret_priser',
+      component: MPriser,
+      name: 'priser-motionscenteret',
+    },
+    {
+      path: '/motioncenteret_regler',
+      component: MRegler,
+      name: 'regler-motionscenteret',
+    },
+    {
+      path: '/motioncenteret_leje-af-sal-og-instruktor',
+      component: MLejeAfSalogInstruktor,
+      name: 'leje-af-sal-og-instruktor-motionscenteret',
+    },
+    {
+      path: '/motioncenteret_personlig-traening',
+      component: MPersonligTraening,
+      name: 'personlig-traening-motionscenteret',
+    },
+    {
+      path: '/motioncenteret_holdoversigt',
+      component: MHoldoversigt,
+      name: 'holdoversigt-motionscenteret',
+    },
+    {
+      path: '/motioncenteret_sundhed-i-bevaegelse',
+      component: MSIB,
+      name: 'sib-motionscenteret',
     },
   ],
 });

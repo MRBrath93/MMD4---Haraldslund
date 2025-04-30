@@ -13,28 +13,16 @@ app.use(router)
 
 app.mount('#app')
 
-
 let lastScrollY = window.scrollY;
 const header = document.querySelector('.header');
 
-function handleScroll() {
-    if (window.innerWidth > 970) {
-        if (window.scrollY < lastScrollY) {
-            header.classList.remove('hide');
-        } else {
-            header.classList.add('hide');
-        }
-        lastScrollY = window.scrollY;
+window.addEventListener('scroll', () => {
+    if (window.scrollY < lastScrollY) {
+        header.classList.remove('hide');
     } else {
-        header.classList.remove('hide');
+        header.classList.add('hide');
     }
-}
-
-window.addEventListener('scroll', handleScroll);
-window.addEventListener('resize', () => {
-    if (window.innerWidth <= 970) {
-        header.classList.remove('hide');
-    }
+    lastScrollY = window.scrollY;
 });
 
 document.addEventListener("DOMContentLoaded", () => {

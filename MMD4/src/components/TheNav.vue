@@ -1,27 +1,16 @@
 <script setup>
 import { RouterLink } from "vue-router";
- let lastScrollY = window.scrollY;
-const header = document.querySelector('.header');
+let lastScrollY = window.scrollY;
+    const header = document.querySelector('.header');
 
-function handleScroll() {
-  if (window.innerWidth > 970) {
-    if (window.scrollY < lastScrollY) {
-      header.classList.remove('hide');
-    } else {
-      header.classList.add('hide');
-    }
-    lastScrollY = window.scrollY;
-  } else {
-    header.classList.remove('hide');
-  }
-}
-
-window.addEventListener('scroll', handleScroll);
-window.addEventListener('resize', () => {
-  if (window.innerWidth <= 970) {
-    header.classList.remove('hide');
-  }
-});
+    window.addEventListener('scroll', () => {
+        if (window.scrollY < lastScrollY) {
+            header.classList.remove('hide');
+        } else {
+            header.classList.add('hide');
+        }
+        lastScrollY = window.scrollY;
+    });
 
     document.addEventListener("DOMContentLoaded", () => {
   if (window.innerWidth > 970) {
@@ -76,6 +65,14 @@ function initDesktopHoverNav() {
   });
 }
 
+function handleNavBehavior() {
+  if (window.innerWidth > 970) {
+    initDesktopHoverNav();
+  }
+}
+
+document.addEventListener("DOMContentLoaded", handleNavBehavior);
+window.addEventListener("resize", handleNavBehavior);
 
 </script>
 
@@ -109,20 +106,20 @@ function initDesktopHoverNav() {
               </div>
             </li>
             <li>
-              <a href="#" class="desktop-item">Motion</a>
+              <router-link class="desktop-item" :to="{ name: 'motion' }">Motion</router-link>
               <input type="checkbox" id="showMega2">
               <label for="showMega2" class="mobile-item">Motion</label>
               <div class="dropbox">
                 <div class="content">
                   <div class="row">
                     <ul class="drop-links">
-                      <li><a href="#">Motionscenteret</a></li>
-                      <li><a href="#">Holdoversigt</a></li>
-                      <li><a href="#">Priser</a></li>
-                      <li><a href="#">Regler</a></li>
-                      <li><a href="#">Personlig træning</a></li>
-                      <li><a href="#">Leje af sal & instruktør</a></li>
-                      <li><a href="#">Sundhed i bevægelse</a></li>
+                      <li><router-link :to="{ name: 'om-motionscenteret' }">Motionscenteret</router-link></li>
+                      <li><router-link :to="{ name: 'priser-motionscenteret' }">Priser</router-link></li>
+                      <li><router-link :to="{ name: 'holdoversigt-motionscenteret' }">Holdoversigt</router-link></li>
+                      <li><router-link :to="{ name: 'regler-motionscenteret' }">Regler</router-link></li>
+                      <li><router-link :to="{ name: 'personlig-traening-motionscenteret' }">Personlig træning</router-link></li>
+                      <li><router-link :to="{ name: 'leje-af-sal-og-instruktor-motionscenteret' }">Leje af sal & Instruktør</router-link></li>
+                      <li><router-link :to="{ name: 'sib-motionscenteret' }">Sundhed i bevægelse</router-link></li>
                     </ul>
                   </div>
                 </div>
@@ -136,11 +133,11 @@ function initDesktopHoverNav() {
                 <div class="content">
                   <div class="row">
                     <ul class="drop-links">
-                      <li><router-link class="no-drop" :to="{ name: 'svommehallen-vandogwellness' }">Svømmehallen</router-link></li>
-                      <li><router-link class="no-drop" :to="{ name: 'wellness-vandogwellness' }">Wellness</router-link></li>
-                      <li><router-link class="no-drop" :to="{ name: 'holdoversigt-vandogwellness' }">Holdoversigt</router-link></li>
-                      <li><router-link class="no-drop" :to="{ name: 'priser-vandogwellness' }">Priser</router-link></li>
-                      <li><router-link class="no-drop" :to="{ name: 'regler-vandogwellness' }">Regler</router-link></li>
+                      <li><router-link :to="{ name: 'svommehallen-vandogwellness' }">Svømmehallen</router-link></li>
+                      <li><router-link :to="{ name: 'wellness-vandogwellness' }">Wellness</router-link></li>
+                      <li><router-link :to="{ name: 'holdoversigt-vandogwellness' }">Holdoversigt</router-link></li>
+                      <li><router-link :to="{ name: 'priser-vandogwellness' }">Priser</router-link></li>
+                      <li><router-link :to="{ name: 'regler-vandogwellness' }">Regler</router-link></li>
                     </ul>
                   </div>
                 </div>
