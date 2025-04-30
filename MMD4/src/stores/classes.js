@@ -17,7 +17,6 @@ export const useClassesStore = defineStore("classes", () => {
 
     // Computed property
     const numberOfClasses = computed(() => classes.value.length)
-    // const authors = computed(() => books.value.map(book => book.author).join(" & "))
 
     return { classes, numberOfClasses }
 })

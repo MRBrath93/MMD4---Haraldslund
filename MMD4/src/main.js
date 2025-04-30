@@ -17,22 +17,61 @@ app.mount('#app')
 let lastScrollY = window.scrollY;
 const header = document.querySelector('.header');
 
-window.addEventListener('scroll', () => {
-    if (window.scrollY < lastScrollY) {
-        header.classList.remove('hide');
+function handleScroll() {
+    if (window.innerWidth > 970) {
+        if (window.scrollY < lastScrollY) {
+            header.classList.remove('hide');
+        } else {
+            header.classList.add('hide');
+        }
+        lastScrollY = window.scrollY;
     } else {
-        header.classList.add('hide');
+        header.classList.remove('hide');
     }
-    lastScrollY = window.scrollY;
+}
+
+window.addEventListener('scroll', handleScroll);
+window.addEventListener('resize', () => {
+    if (window.innerWidth <= 970) {
+        header.classList.remove('hide');
+    }
 });
 
-
 document.addEventListener("DOMContentLoaded", () => {
+    if (window.innerWidth > 970) {
+        const nav = document.querySelector("nav");
+        const desktopItems = document.querySelectorAll(".desktop-item");
+        const noDropElements = document.querySelectorAll(".no-drop");
+
+        // Hover-funktion
+        desktopItems.forEach(item => {
+            item.addEventListener("mouseenter", () => {
+                desktopItems.forEach(i => i.classList.remove("active-hover"));
+                item.classList.add("active-hover");
+            });
+        });
+
+        // Når musen forlader hele navigationen
+        nav.addEventListener("mouseleave", () => {
+            desktopItems.forEach(i => i.classList.remove("active-hover"));
+        });
+
+        // Når man hover over et no-drop-element
+        noDropElements.forEach(el => {
+            el.addEventListener("mouseenter", () => {
+                desktopItems.forEach(i => i.classList.remove("active-hover"));
+            });
+        });
+    }
+});
+
+function initDesktopHoverNav() {
     const nav = document.querySelector("nav");
     const desktopItems = document.querySelectorAll(".desktop-item");
     const noDropElements = document.querySelectorAll(".no-drop");
 
-    // Hover-funktion
+    // Fjern gamle eventListeners hvis nødvendigt (kun vigtigt hvis du genkører funktionen)
+
     desktopItems.forEach(item => {
         item.addEventListener("mouseenter", () => {
             desktopItems.forEach(i => i.classList.remove("active-hover"));
@@ -40,15 +79,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // Når musen forlader hele navigationen
     nav.addEventListener("mouseleave", () => {
         desktopItems.forEach(i => i.classList.remove("active-hover"));
     });
 
-    // Når man hover over et no-drop-element
     noDropElements.forEach(el => {
         el.addEventListener("mouseenter", () => {
             desktopItems.forEach(i => i.classList.remove("active-hover"));
         });
     });
-});
+}
+
+function handleNavBehavior() {
+    if (window.innerWidth > 970) {
+        initDesktopHoverNav();
+    }
+}
+
+document.addEventListener("DOMContentLoaded", handleNavBehavior);
+window.addEventListener("resize", handleNavBehavior);
