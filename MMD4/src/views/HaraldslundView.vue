@@ -3,9 +3,9 @@
 
 <template>
     <main>
-        <h2>Forside</h2>
+        <h2>Om Haraldslund</h2>
+        <img src="https://i.gifer.com/6tp.gif" alt="" />
     </main>
-
 </template>
 
 <style scoped>

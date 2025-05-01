@@ -75,80 +75,81 @@ document.addEventListener("DOMContentLoaded", handleNavBehavior);
 window.addEventListener("resize", handleNavBehavior);
 
 </script>
-
 <template>
-        <nav class="header">
+    <nav class="header">
         <div class="wrapper">
-          <div class="logo"><a href="#"><img src="../assets/images/image-removebg-preview.png" alt=""></a></div>
-          <input type="radio" name="slider" id="menu-btn">
-          <input type="radio" name="slider" id="close-btn">
-          <ul class="nav-links">
-            <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
-            <li><router-link class="no-drop" :to="{ name: 'frontpage' }">Forside</router-link></li>
-            <li>
-              <a href="#" class="desktop-item">Om Haraldslund</a>
-              <input type="checkbox" id="showMega1">
-              <label for="showMega1" class="mobile-item">Om Haraldslund</label>
-              <div class="dropbox">
-                <div class="content">
-                  <div class="row">
-                    <ul class="drop-links">
-                      <li><a href="#">Priser</a></li>
-                      <li><a href="#">Café Harald</a></li>
-                      <li><a href="#">Personale</a></li>
-                      <li><a href="#">Historien</a></li>
-                      <li><a href="#">Bibliotek</a></li>
-                      <li><a href="#">Firmaaftaler</a></li>
-                      <li><a href="#">Brugerråd</a></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-              <router-link class="desktop-item" :to="{ name: 'motion' }">Motion</router-link>
-              <input type="checkbox" id="showMega2">
-              <label for="showMega2" class="mobile-item">Motion</label>
-              <div class="dropbox">
-                <div class="content">
-                  <div class="row">
-                    <ul class="drop-links">
-                      <li><router-link :to="{ name: 'om-motionscenteret' }">Motionscenteret</router-link></li>
-                      <li><router-link :to="{ name: 'priser-motionscenteret' }">Priser</router-link></li>
-                      <li><router-link :to="{ name: 'holdoversigt-motionscenteret' }">Holdoversigt</router-link></li>
-                      <li><router-link :to="{ name: 'regler-motionscenteret' }">Regler</router-link></li>
-                      <li><router-link :to="{ name: 'personlig-traening-motionscenteret' }">Personlig træning</router-link></li>
-                      <li><router-link :to="{ name: 'leje-af-sal-og-instruktor-motionscenteret' }">Leje af sal & Instruktør</router-link></li>
-                      <li><router-link :to="{ name: 'sib-motionscenteret' }">Sundhed i bevægelse</router-link></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li>
-             <router-link class="desktop-item" :to="{ name: 'vandogwellness' }">Vand & Wellness</router-link>
-              <input type="checkbox" id="showMega3">
-              <label for="showMega3" class="mobile-item">Vand & Wellness</label>
-              <div class="dropbox">
-                <div class="content">
-                  <div class="row">
-                    <ul class="drop-links">
-                      <li><router-link :to="{ name: 'svommehallen-vandogwellness' }">Svømmehallen</router-link></li>
-                      <li><router-link :to="{ name: 'wellness-vandogwellness' }">Wellness</router-link></li>
-                      <li><router-link :to="{ name: 'holdoversigt-vandogwellness' }">Holdoversigt</router-link></li>
-                      <li><router-link :to="{ name: 'priser-vandogwellness' }">Priser</router-link></li>
-                      <li><router-link :to="{ name: 'regler-vandogwellness' }">Regler</router-link></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </li>
-            <li><a class="no-drop" href="#">Møder & Konferencer</a></li>
-            <li><a class="no-drop booking-cta" href="#">Booking</a></li>
-          </ul>
-          <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+            <div class="logo">
+                <router-link class="no-drop" :to="{ name: 'frontpage' }"><img src="../assets/images/image-removebg-preview.png" alt=""></router-link>
+            </div>
+            <input type="radio" name="slider" id="menu-btn">
+            <input type="radio" name="slider" id="close-btn">
+            <ul class="nav-links">
+                <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
+                <li><router-link class="no-drop" :to="{ name: 'frontpage' }">Forside</router-link></li>
+                <li>
+                    <router-link class="desktop-item" :to="{ name: 'om-haraldslund' }">Om Haraldslund</router-link>
+                    <input type="checkbox" id="showMega1">
+                    <label for="showMega1" class="mobile-item">Om Haraldslund</label>
+                    <div class="dropbox">
+                        <div class="content">
+                            <div class="row">
+                                <ul class="drop-links">
+                                    <li><router-link :to="{ name: 'haraldslund-priser' }">Priser</router-link></li>
+                                    <li><router-link :to="{ name: 'haraldslund-café' }">Café Harald</router-link></li>
+                                    <li><router-link :to="{ name: 'haraldslund-personale' }">Personale</router-link></li>
+                                    <li><router-link :to="{ name: 'haraldslund-historie' }">Vores Historie</router-link></li>
+                                    <li><router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link></li>
+                                    <li><router-link :to="{ name: 'haraldslund-firmaaftaler' }">Firmaaftaler</router-link></li>
+                                    <li><router-link :to="{ name: 'haraldslund-brugerraad' }">Brugerråd</router-link></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <router-link class="desktop-item" :to="{ name: 'motion' }">Motion</router-link>
+                    <input type="checkbox" id="showMega2">
+                    <label for="showMega2" class="mobile-item">Motion</label>
+                    <div class="dropbox">
+                        <div class="content">
+                            <div class="row">
+                                <ul class="drop-links">
+                                    <li><router-link :to="{ name: 'om-motionscenteret' }">Motionscenteret</router-link></li>
+                                    <li><router-link :to="{ name: 'priser-motionscenteret' }">Priser</router-link></li>
+                                    <li><router-link :to="{ name: 'holdoversigt-motionscenteret' }">Holdoversigt</router-link></li>
+                                    <li><router-link :to="{ name: 'regler-motionscenteret' }">Regler</router-link></li>
+                                    <li><router-link :to="{ name: 'personlig-traening-motionscenteret' }">Personlig træning</router-link></li>
+                                    <li><router-link :to="{ name: 'leje-af-sal-og-instruktor-motionscenteret' }">Leje af sal & Instruktør</router-link></li>
+                                    <li><router-link :to="{ name: 'sib-motionscenteret' }">Sundhed i bevægelse</router-link></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <router-link class="desktop-item" :to="{ name: 'vandogwellness' }">Vand & Wellness</router-link>
+                    <input type="checkbox" id="showMega3">
+                    <label for="showMega3" class="mobile-item">Vand & Wellness</label>
+                    <div class="dropbox">
+                        <div class="content">
+                            <div class="row">
+                                <ul class="drop-links">
+                                    <li><router-link :to="{ name: 'svommehallen-vandogwellness' }">Svømmehallen</router-link></li>
+                                    <li><router-link :to="{ name: 'wellness-vandogwellness' }">Wellness</router-link></li>
+                                    <li><router-link :to="{ name: 'holdoversigt-vandogwellness' }">Holdoversigt</router-link></li>
+                                    <li><router-link :to="{ name: 'priser-vandogwellness' }">Priser</router-link></li>
+                                    <li><router-link :to="{ name: 'regler-vandogwellness' }">Regler</router-link></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li><router-link class="no-drop" :to="{ name: 'moder-og-konferencer' }">Møder & Konferencer</router-link></li>
+                <li><router-link class="no-drop booking-cta" :to="{ name: 'booking' }">Booking</router-link></li>
+            </ul>
+            <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
         </div>
-      </nav>
+    </nav>
 </template>
 
 <style>

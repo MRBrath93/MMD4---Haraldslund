@@ -2,7 +2,7 @@
 </script>
 
 <template>
-    <h2>Holdoversigt</h2>
+    <h2>VW Holdoversigt</h2>
 </template>
 
 <style scoped>

@@ -3,9 +3,9 @@
 
 <template>
     <main>
-        <h2>Forside</h2>
+        <h2>Brugerråd</h2>
+        <img src="https://thecastlegrp.com/wp-content/uploads/2014/10/giphy.gif" alt="" />
     </main>
-
 </template>
 
 <style scoped>

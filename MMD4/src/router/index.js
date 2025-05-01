@@ -14,6 +14,16 @@ import MLejeAfSalogInstruktor from '@/views/MLejeAfSalogInstruktorView.vue';
 import MPersonligTraening from '@/views/MPersonligtraeningView.vue';
 import MHoldoversigt from '@/views/MHoldoversigtView.vue';
 import MSIB from '@/views/MSIBView.vue';
+import OmHaraldslund from '@/views/HaraldslundView.vue';
+import HaraldslundPriser from '@/views/HaraldslundPriserView.vue';
+import HaraldslundCafé from '@/views/HaraldslundCaféView.vue';
+import HaraldslundHistorie from '@/views/HaraldslundHistorieView.vue';
+import HaraldslundPersonale from '@/views/HaraldslundPersonaleView.vue';
+import HaraldslundBibliotek from '@/views/HaraldslundBibliotekView.vue';
+import HaraldslundFirmaaftaler from '@/views/HaraldslundFirmaaftalerView.vue';
+import HaraldslundBrugerraad from '@/views/HaraldslundBrugerraadView.vue';
+import Booking from '@/views/BookingView.vue';
+import ModerOgKonferencer from '@/views/ModerOgKonferencerView.vue';
 
 const router = createRouter({
   history: createWebHashHistory(), // Brug hash-baseret historik
@@ -92,6 +102,56 @@ const router = createRouter({
       path: '/motioncenteret_sundhed-i-bevaegelse',
       component: MSIB,
       name: 'sib-motionscenteret',
+    },
+    {
+      path: '/om-haraldslund',
+      component: OmHaraldslund,
+      name: 'om-haraldslund',
+    },
+    {
+      path: '/om-haraldslund_priser',
+      component: HaraldslundPriser,
+      name: 'haraldslund-priser',
+    },
+    {
+      path: '/om-haraldslund_café-harald',
+      component: HaraldslundCafé,
+      name: 'haraldslund-café',
+    },
+    {
+      path: '/om-haraldslund_vores-historie',
+      component: HaraldslundHistorie,
+      name: 'haraldslund-historie',
+    },
+    {
+      path: '/om-haraldslund_personale',
+      component: HaraldslundPersonale,
+      name: 'haraldslund-personale',
+    },
+    {
+      path: '/om-haraldslund_bibliotek',
+      component: HaraldslundBibliotek,
+      name: 'haraldslund-bibliotek',
+    },
+    {
+      path: '/om-haraldslund_firmaaftaler',
+      component: HaraldslundFirmaaftaler,
+      name: 'haraldslund-firmaaftaler',
+    },
+    {
+      path: '/om-haraldslund_brugerraad',
+      component: HaraldslundBrugerraad,
+      name: 'haraldslund-brugerraad',
+    },
+    {
+      path: '/moder-og-konferencer',
+      component: ModerOgKonferencer,
+      name: 'moder-og-konferencer',
+    },
+    {
+      path: '/booking',
+      component: Booking,
+      name: 'booking',
     },
   ],
 });

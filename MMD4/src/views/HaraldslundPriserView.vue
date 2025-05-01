@@ -3,9 +3,9 @@
 
 <template>
     <main>
-        <h2>Forside</h2>
+        <h2>Om Haraldslunds Priser</h2>
+        <img src="https://www.theknot.com/tk-media/images/62513acc-1115-4c49-be41-bc6bce3b8553" alt="" />
     </main>
-
 </template>
 
 <style scoped>

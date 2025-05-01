@@ -3,9 +3,9 @@
 
 <template>
     <main>
-        <h2>Forside</h2>
+        <h2>Personale</h2>
+        <img src="https://gifdb.com/images/high/welcome-to-the-team-the-office-9plya8zxs93ju0st.gif" alt="" />
     </main>
-
 </template>
 
 <style scoped>
