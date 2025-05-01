@@ -1,16 +1,22 @@
 <script setup>
 import { RouterLink } from "vue-router";
-let lastScrollY = window.scrollY;
-    const header = document.querySelector('.header');
+import { onMounted } from 'vue';
 
-    window.addEventListener('scroll', () => {
-        if (window.scrollY < lastScrollY) {
-            header.classList.remove('hide');
-        } else {
-            header.classList.add('hide');
-        }
-        lastScrollY = window.scrollY;
-    });
+onMounted(() => {
+  const header = document.querySelector('.header');
+  let lastScrollY = window.scrollY;
+
+  window.addEventListener('scroll', () => {
+    if (!header) return;
+
+    if (window.scrollY < lastScrollY) {
+      header.classList.remove('hide');
+    } else {
+      header.classList.add('hide');
+    }
+    lastScrollY = window.scrollY;
+  });
+});
 
     document.addEventListener("DOMContentLoaded", () => {
   if (window.innerWidth > 970) {
@@ -44,8 +50,6 @@ function initDesktopHoverNav() {
   const nav = document.querySelector("nav");
   const desktopItems = document.querySelectorAll(".desktop-item");
   const noDropElements = document.querySelectorAll(".no-drop");
-
-  // Fjern gamle eventListeners hvis nødvendigt (kun vigtigt hvis du genkører funktionen)
 
   desktopItems.forEach(item => {
     item.addEventListener("mouseenter", () => {
