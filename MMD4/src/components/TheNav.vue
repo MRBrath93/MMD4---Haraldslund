@@ -29,12 +29,23 @@ onMounted(() => {
       item.addEventListener("mouseenter", () => {
         desktopItems.forEach(i => i.classList.remove("active-hover"));
         item.classList.add("active-hover");
+
+        const icon = item.querySelector(".material-symbols-outlined");
+    if (icon) {
+      icon.textContent = "keyboard_arrow_up";
+    }
       });
     });
 
     // Når musen forlader hele navigationen
     nav.addEventListener("mouseleave", () => {
+        
       desktopItems.forEach(i => i.classList.remove("active-hover"));
+
+      const icon = item.querySelector(".material-symbols-outlined");
+    if (icon) {
+      icon.textContent = "keyboard_arrow_down";
+    }
     });
 
     // Når man hover over et no-drop-element
@@ -91,7 +102,8 @@ window.addEventListener("resize", handleNavBehavior);
                 <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
                 <li><router-link class="no-drop" :to="{ name: 'frontpage' }">Forside</router-link></li>
                 <li>
-                    <router-link class="desktop-item" :to="{ name: 'om-haraldslund' }">Om Haraldslund</router-link>
+                    <router-link class="desktop-item" :to="{ name: 'om-haraldslund' }">  <span class="text">Om Haraldslund</span>
+                        <span class="material-symbols-outlined">keyboard_arrow_down</span></router-link>
                     <input type="checkbox" id="showMega1">
                     <label for="showMega1" class="mobile-item">Om Haraldslund</label>
                     <div class="dropbox">
@@ -157,6 +169,7 @@ window.addEventListener("resize", handleNavBehavior);
 </template>
 
 <style>
+
 main {
     padding-top: 80px;
     /* Giver plads til navigationen, juster størrelsen afhængig af højden på navbaren */
@@ -231,6 +244,10 @@ nav .wrapper {
     background-color: #5f7062;
 }
 
+.nav-links li .desktop-item:hover{
+    text-decoration: none;
+}
+
 .nav-links .mobile-item {
     display: none;
 }
@@ -249,6 +266,10 @@ nav .wrapper {
     transition: all 0.3s ease;
 }
 
+.desktop-item{
+    display: flex;
+    align-items: center;
+}
 
 .nav-links li:hover .dropbox {
     top: 60px;
@@ -506,9 +527,15 @@ nav input {
 }
 
 .desktop-item.active-hover {
-    /* vælg den farve du ønsker */
-    text-decoration: underline;
     background-color: #364038;
+}
+
+.desktop-item.active-hover .text {
+  text-decoration: underline;
+}
+
+.desktop-item.active-hover span.material-symbols-outlined {
+  text-decoration: none;
 }
 
 .header {
