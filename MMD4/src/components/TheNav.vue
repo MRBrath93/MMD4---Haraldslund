@@ -41,11 +41,6 @@ onMounted(() => {
     nav.addEventListener("mouseleave", () => {
         
       desktopItems.forEach(i => i.classList.remove("active-hover"));
-
-      const icon = item.querySelector(".material-symbols-outlined");
-    if (icon) {
-      icon.textContent = "keyboard_arrow_down";
-    }
     });
 
     // Når man hover over et no-drop-element
