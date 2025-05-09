@@ -66,4 +66,13 @@ defineProps({
     height: 7.6rem;
     object-fit: cover;
 }
+
+@media screen and (min-width: 768px) {
+    .hero {
+        height: 21.8rem;
+    }
+    #hero-image {
+        height: 21.8rem;
+    }
+}
 </style>
