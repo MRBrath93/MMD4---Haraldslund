@@ -18,35 +18,54 @@ onMounted(() => {
   });
 });
 
-    document.addEventListener("DOMContentLoaded", () => {
-  if (window.innerWidth > 970) {
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.innerWidth > 1050) {
     const nav = document.querySelector("nav");
     const desktopItems = document.querySelectorAll(".desktop-item");
     const noDropElements = document.querySelectorAll(".no-drop");
 
     // Hover-funktion
     desktopItems.forEach(item => {
-      item.addEventListener("mouseenter", () => {
-        desktopItems.forEach(i => i.classList.remove("active-hover"));
-        item.classList.add("active-hover");
+  item.addEventListener("mouseenter", () => {
+    desktopItems.forEach(i => {
+      i.classList.remove("active-hover");
 
-        const icon = item.querySelector(".material-symbols-outlined");
-    if (icon) {
-      icon.textContent = "keyboard_arrow_up";
-    }
-      });
+      const icon = i.querySelector(".material-symbols-rounded");
+      if (icon) {
+        icon.textContent = "keyboard_arrow_down";
+      }
     });
+
+    item.classList.add("active-hover");
+
+    const activeIcon = item.querySelector(".material-symbols-rounded");
+    if (activeIcon) {
+      activeIcon.textContent = "keyboard_arrow_up";
+    }
+  });
+});
 
     // Når musen forlader hele navigationen
     nav.addEventListener("mouseleave", () => {
-        
-      desktopItems.forEach(i => i.classList.remove("active-hover"));
-    });
+  desktopItems.forEach(i => {
+    i.classList.remove("active-hover");
+    const icon = i.querySelector(".material-symbols-rounded");
+    if (icon) {
+      icon.textContent = "keyboard_arrow_down";
+    }
+  });
+});
 
     // Når man hover over et no-drop-element
     noDropElements.forEach(el => {
       el.addEventListener("mouseenter", () => {
-        desktopItems.forEach(i => i.classList.remove("active-hover"));
+        desktopItems.forEach(i => {
+    i.classList.remove("active-hover");
+    const icon = i.querySelector(".material-symbols-rounded");
+    if (icon) {
+      icon.textContent = "keyboard_arrow_down";
+    }
+  });
       });
     });
   }
@@ -76,7 +95,7 @@ function initDesktopHoverNav() {
 }
 
 function handleNavBehavior() {
-  if (window.innerWidth > 970) {
+  if (window.innerWidth > 1050) {
     initDesktopHoverNav();
   }
 }
@@ -98,7 +117,7 @@ window.addEventListener("resize", handleNavBehavior);
                 <li><router-link class="no-drop" :to="{ name: 'frontpage' }">Forside</router-link></li>
                 <li>
                     <router-link class="desktop-item" :to="{ name: 'om-haraldslund' }">  <span class="text">Om Haraldslund</span>
-                        <span class="material-symbols-outlined">keyboard_arrow_down</span></router-link>
+                        <span class="material-symbols-rounded">keyboard_arrow_down</span></router-link>
                     <input type="checkbox" id="showMega1">
                     <label for="showMega1" class="mobile-item">Om Haraldslund</label>
                     <div class="dropbox">
@@ -351,7 +370,7 @@ nav .wrapper {
     }
 }
 
-@media screen and (max-width: 970px) {
+@media screen and (max-width: 1050px) {
     .wrapper .btn {
         display: block;
     }
@@ -529,7 +548,7 @@ nav input {
   text-decoration: underline;
 }
 
-.desktop-item.active-hover span.material-symbols-outlined {
+.desktop-item.active-hover span.material-symbols-rounded {
   text-decoration: none;
 }
 

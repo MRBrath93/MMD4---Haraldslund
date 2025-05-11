@@ -1,6 +1,14 @@
 <script setup>
 import { RouterView } from "vue-router";
 import TheNav from "./components/TheNav.vue";
+import { watch } from "vue";
+import { useRoute } from "vue-router";
+
+const route = useRoute();
+
+watch(() => route.meta.title, (title) => {
+  if (title) document.title = title;
+});
 </script>
 
 <template>

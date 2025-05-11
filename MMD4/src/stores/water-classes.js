@@ -1,13 +1,13 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
-export const useClassesStore = defineStore("classes", () => {
+export const useClassesStoreWater = defineStore("waterclasses", () => {
     const classes = ref([]);
 
     // Fetch data from Strapi using .then()
     const fetchClasses = () => {
         fetch(
-            "https://popular-gift-b355856076.strapiapp.com/api/hold-motions?populate[0]=De_praktiske_oplysninger&populate[2]=Priser&populate[3]=Cover_Billedet&populate[4]=Relaterede_hold.Cover_Billedet&populate[5]=Indhold.Afsnit.Tekst&populate[6]=Indhold.Afsnit.Billede&populate[7]=Indhold.Afsnit.Knapper"
+            "https://popular-gift-b355856076.strapiapp.com/api/hold-vands?pLevel"
         )
             .then(response => response.json())
             .then(data => {
