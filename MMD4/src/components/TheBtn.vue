@@ -4,7 +4,8 @@ const props = defineProps({
   link: String,
   icon: String,
   title: String,
-  text: String
+  text: String,
+  target: String,
 });
 
 const handleClick = () => {
@@ -35,7 +36,7 @@ const handleClick = () => {
     </slot>
   </button>
 
-  <a v-else target="_blank" :href="link" class="button">
+  <a v-else :target="target" :href="link" class="button">
     <!-- Plads til indhold via slot -->
     <slot>
         <div class="flex">
