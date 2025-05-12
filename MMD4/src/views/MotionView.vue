@@ -1,10 +1,16 @@
 <script setup>
+import { RouterView } from "vue-router";
+import TheHero from "../components/TheHero.vue";
+
+import TheFooter from "../components/TheFooter.vue";
+
 </script>
 
 <template>
-    <h2>MOTION</h2>
+
+
+
+
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>
