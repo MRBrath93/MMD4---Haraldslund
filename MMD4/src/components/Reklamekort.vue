@@ -54,7 +54,7 @@ template{
   justify-content: center;
   background-color:  #e8dbcd;
   gap: 2rem;
-  width: 90%;
+  width: 95%;
   max-width: 1432px;
   padding: 0 2rem;
   margin: 50px auto;
@@ -103,7 +103,7 @@ template{
 
   .ads_cart{
     padding: 0rem;
-    margin: 0 auto;
+    margin: 50px auto;
     width: 95%;
   }
 
@@ -115,7 +115,7 @@ template{
 
 .text-content{
   grid-column: unset;
-  grid-row: 2/3;;
+  grid-row: 2/3;
 }
 
 .billede{
