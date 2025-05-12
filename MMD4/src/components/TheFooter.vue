@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink } from "vue-router";
 import { ref } from "vue";
+import { useRoute } from "vue-router";
 
 </script>
 
@@ -92,10 +93,7 @@ import { ref } from "vue";
                 </div>
             </div>
             <div class="footer-column">
-                <div>
-                    <img src="../assets/images/image-removebg-preview.png" class="footer-logo" alt="Logo Haraldslund" />
-    
-                </div>
+            <router-link :to="{ name: 'frontpage' }"><img src="../assets/images/image-removebg-preview.png" alt="Logo" class="footer-logo"></router-link>
                 <div class="footer-icons">
                     <img src="../assets/images/instagram_Glyph_White.png" class="social-icon" alt="Logo Instagram" />
                     <img src="../assets/images/Facebook_Logo_Secondary.png" class="social-icon" alt="Logo Facebook" />
