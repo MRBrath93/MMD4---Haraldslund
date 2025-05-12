@@ -19,7 +19,7 @@ const props = defineProps({
           <span v-if="icon" :class="color" class="icon material-symbols-rounded">{{ icon }}</span>
         </div>
         
-        <div class="text-wrapper" :class="color">{{ title }}</div>
+        <div class="text-wrapper" :class="color"><h5>{{ title }}</h5></div>
   
         <div class="overlay">
           <p>Tryk for at læse mere</p>
@@ -76,10 +76,13 @@ const props = defineProps({
   justify-content: center;
   width: 100%;
   color: var(--color-font-2);
-  font-size: 1.5rem;
   padding: var(--spacer-x0-5) 0;
   position: relative;
-  z-index: 1;
+  z-index: 3;
+}
+
+.text-wrapper h5 {
+  font-weight: 500;
 }
 
 .link-wrapper {
@@ -129,6 +132,18 @@ const props = defineProps({
 
 .brown {
   background-color: var(--color-meetings);
+}
+
+
+@media screen and (max-width: 700px) {
+   .overlay{
+    display: none;
+   }
+
+   .link-wrapper:hover .bg-layer {
+    filter: none;
+}
+    
 }
 
 </style>
