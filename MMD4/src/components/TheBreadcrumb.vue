@@ -1,5 +1,4 @@
 <script setup>
-import { useRoute } from "vue-router";
 
 const props = defineProps({
   labels: {
@@ -14,7 +13,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <section class="breadcrumb-container">
+  <section>
     <ul class="breadcrumb-list">
       <li v-for="(item, index) in labels" :key="index" 
       :class="{ fat: index === labels.length - 1 }">
@@ -28,9 +27,6 @@ const props = defineProps({
 </template>
 
 <style scoped>
-.breadcrumb-container {
-  display: flex;
-}
 .breadcrumb-list {
   display: flex;
   padding: 0;
@@ -43,7 +39,9 @@ const props = defineProps({
 
 .fat {
   font-weight: bold;
-  color: var(--color-accent, #f00); /* Eksempel på farve */
+  color: var(--color-accent, #f00); 
 }
-
 </style>
+
+<!-- INSPIRATIONSKILDE: Atakan COSKUNDERE. Vue.js Dynamic Breadcrumb. Published 07/09/2020 Istanbul. (online) [Accessed 12/05/25] URL:https://www.youtube.com/watch?v=yL2z3oUr-So -->
+<!-- INSPIRATIONSKILDE: Evan You, Eduardo San Martin Morote. Vue Router. 2014. (online) [Accessed 12/05/2025] URL: https://router.vuejs.org/guide/essentials/navigation.html#Programmatic-Navigation -->

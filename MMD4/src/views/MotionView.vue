@@ -8,6 +8,7 @@ import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 import TheFooter from "../components/TheFooter.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 
+// Definerer breadcrumbLabels som en reaktiv variabel
 const breadcrumbLabels = [
   { id: 0, label: "Forside", name: "frontpage" },
   { id: 1, label: "Om Motionscenteret ", name: "om-motionscenteret" },
@@ -15,29 +16,34 @@ const breadcrumbLabels = [
   { id: 3, label: "Priser ", name: "priser-motionscenteret" },
 ];
 
+// Variabel til breadcrumbs-separator
 const breadcrumbsSeparator = " / ";
+
+
+const internNavLabels = [
+  { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
+  { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
+  { id: 3, label: "Priser", name: "priser-motionscenteret" },
+  { id: 4, label: "Regler", name: "regler-motionscenteret" },
+  { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
+  { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
+  { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
+];
+
 
 
 </script>
 
 <template>
-
+<!-- 
 <TheBreadcrumb 
 :labels="breadcrumbLabels" 
 :separator="breadcrumbsSeparator" 
- />
+ /> -->
 
-<!-- <TheInternNavMotion
-    :label="[
-        'Om Motionscenteret',
-        'Holdoversigt',
-        'Priser',
-        'Regler',
-        'Personlig træning',
-        'Leje af sal & instruktør',
-        'Sundhed I bevægelse'
-    ]"
-    /> -->
+<TheInternNavMotion
+    :label="internNavLabels"
+/>
 
 <!-- <TheTeamCard 
     link="/motion"
@@ -57,9 +63,8 @@ const breadcrumbsSeparator = " / ";
 </template>
 
 <style scoped>
-
-
-.intern-nav {
-  display: flex;
+.router-link-active {
+  text-decoration: underline;
+  text-underline-offset: 0.5rem;
 }
 </style>
