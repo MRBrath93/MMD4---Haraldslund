@@ -16,7 +16,7 @@ const props = defineProps({
         <div class="bg-layer" :style="{ backgroundImage: `url(${bgimage})` }"></div>
         
         <div class="icon-wrapper">
-          <span v-if="icon" :class="color" class="icon material-symbols-outlined">{{ icon }}</span>
+          <span v-if="icon" :class="color" class="icon material-symbols-rounded">{{ icon }}</span>
         </div>
         
         <div class="text-wrapper" :class="color">{{ title }}</div>

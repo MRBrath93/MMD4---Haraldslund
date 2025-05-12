@@ -30,7 +30,7 @@ const handleClick = () => {
                 <h4 class="title">{{ title }}</h4>
                 <p class="small">{{ text }}</p>
             </div>
-            <span v-if="icon" class="icon material-symbols-outlined">{{ icon }}</span>
+            <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
         </div>
     </slot>
   </button>
@@ -43,7 +43,7 @@ const handleClick = () => {
                 <h4 class="title">{{ title }}</h4>
                 <p class="small">{{ text }}</p>
             </div>
-            <span v-if="icon" class="icon material-symbols-outlined">{{ icon }}</span>
+            <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
         </div>
     </slot>
   </a>
