@@ -41,7 +41,7 @@ const handleClick = () => {
     <slot>
         <div class="flex">
             <div class="flex-column">
-                <h4 class="title">{{ title }}</h4>
+                <h5 class="title">{{ title }}</h5>
                 <p class="small">{{ text }}</p>
             </div>
             <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
@@ -82,6 +82,7 @@ button{
   border-radius: var( --border-radius);
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: block;
 }
 
 
