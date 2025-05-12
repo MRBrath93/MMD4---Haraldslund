@@ -123,7 +123,7 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 1rem 3rem;
+    padding: var(--spacer-x1) var(--spacer-x3);
 }
 
 footer ul {
@@ -134,7 +134,7 @@ footer ul {
 footer li a {
     color: var(--color-font-2);
     font-size: 1.25rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: var(--spacer-x0-5);
 }
 
 footer li button {
@@ -142,7 +142,7 @@ footer li button {
     border: none;
     color: var(--color-font-2);
     font-size: 1.25rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: var(--spacer-x0-5);
     padding-left: 1px;
     padding-top: 0.2rem;
     border: none;
@@ -177,11 +177,11 @@ footer div {
     align-items: center;
     gap: 1.5rem;
     width: 100%;
-    padding: 1rem 0;
+    padding: var(--spacer-x1) 0;
 }
 
 footer h4 {
-    padding-bottom: 0.5rem;
+    padding-bottom: var(--spacer-x0-5);
 }
 
 .social-icon {
@@ -204,7 +204,7 @@ footer h4 {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1.5rem;
+    gap: var(--spacer-x1-5);
     max-width: 100%;
 }
 
@@ -223,7 +223,7 @@ footer h4 {
 #opening-hours-container {
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
+    gap: var(--spacer-x1);
     flex-wrap: wrap;
 }
 
@@ -254,11 +254,11 @@ footer h4 {
         width: 100%;
         flex-direction: row;
         justify-content: space-between;
-        padding-top: 1rem;
+        padding-top: var(--spacer-x1);
     }
 
     .footer-container {
-        gap: 3rem;
+        gap: var(--spacer-x3);
     }
 
     .separator {
