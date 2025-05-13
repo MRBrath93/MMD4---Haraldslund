@@ -229,6 +229,15 @@ const router = createRouter({
       }
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    // Hvis du navigerer tilbage, behold positionen
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      // Ellers scroll til toppen
+      return { top: 0 };
+    }
+  }
 });
 
 export default router;

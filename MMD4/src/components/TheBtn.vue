@@ -1,10 +1,13 @@
 <script setup>
+import { RouterLink } from "vue-router";
+import { computed } from "vue";
 const props = defineProps({
   onClick: Function,
   link: String,
   icon: String,
   title: String,
-  text: String
+  text: String,
+  target: String,
 });
 
 const handleClick = () => {
@@ -13,40 +16,52 @@ const handleClick = () => {
     props.onClick(); 
   }
 };
+
+// Tjek om linket er eksternt (starter med http eller https)
+const isExternalLink = computed(() => {
+  return props.link?.startsWith("http");
+});
 </script>
 
 <template>
-    <button
-    v-if="!link"
-
-    class="button"
-    
-    @click="handleClick"
-  >
-  <!-- Plads til indhold via slot -->
-  <slot>
-        <div class="flex">
-            <div class="flex-column">
-                <h4 class="title">{{ title }}</h4>
-                <p class="small">{{ text }}</p>
-            </div>
-            <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
+   <!-- Knap uden link -->
+  <button v-if="!link" class="button" @click="handleClick">
+    <slot>
+      <div class="flex">
+        <div class="flex-column">
+          <h4 class="title">{{ title }}</h4>
+          <p class="small">{{ text }}</p>
         </div>
+        <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
+      </div>
     </slot>
   </button>
 
-  <a v-else target="_blank" :href="link" class="button">
-    <!-- Plads til indhold via slot -->
+  <!-- Eksternt link -->
+  <a v-else-if="isExternalLink" :href="link" :target="target" class="button">
     <slot>
-        <div class="flex">
-            <div class="flex-column">
-                <h4 class="title">{{ title }}</h4>
-                <p class="small">{{ text }}</p>
-            </div>
-            <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
+      <div class="flex">
+        <div class="flex-column">
+          <h5 class="title">{{ title }}</h5>
+          <p class="small">{{ text }}</p>
         </div>
+        <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
+      </div>
     </slot>
   </a>
+
+  <!-- Internt link via RouterLink -->
+  <RouterLink v-else :to="link" class="button">
+    <slot>
+      <div class="flex">
+        <div class="flex-column">
+          <h5 class="title">{{ title }}</h5>
+          <p class="small">{{ text }}</p>
+        </div>
+        <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
+      </div>
+    </slot>
+  </RouterLink>
 </template>
 
 <style scoped>
@@ -81,6 +96,7 @@ button{
   border-radius: var( --border-radius);
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  display: block;
 }
 
 

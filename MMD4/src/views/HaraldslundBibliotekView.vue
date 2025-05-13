@@ -2,9 +2,12 @@
 
 </script>
 
-<template>
-        <h2>Bibliotek</h2>
-</template>
-
 <style scoped>
+
 </style>
+
+<template>
+        <div>
+                <h2>Bibliotek</h2>
+        </div>
+</template>
