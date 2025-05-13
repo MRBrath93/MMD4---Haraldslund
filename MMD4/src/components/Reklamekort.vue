@@ -2,7 +2,7 @@
 import ImageHolder from './ImageHolder.vue'
 import TheBtn from './TheBtn.vue'
 
-defineProps({
+const props = defineProps({
   src: String,
   alt: {
     type: String,
