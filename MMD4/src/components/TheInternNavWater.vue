@@ -8,13 +8,11 @@ const props = defineProps({
   label: {
     type: Array,
     default: () => [
-      { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
-      { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
-      { id: 3, label: "Priser", name: "priser-motionscenteret" },
-      { id: 4, label: "Regler", name: "regler-motionscenteret" },
-      { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
-      { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
-      { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
+      { id: 1, label: "Svømmehallen", name: "svommehallen-vandogwellness" },
+      { id: 2, label: "Wellness", name: "wellness-vandogwellness" },
+      { id: 3, label: "Holdoversigt", name: "holdoversigt-vandogwellness" },
+      { id: 4, label: "Priser", name: "priser-vandogwellness" },
+      { id: 5, label: "Regler", name: "regler-vandogwellness" },
     ],
   },
 });
@@ -30,41 +28,28 @@ const isSticky = ref(false);
 
 // --- FUNKTIONER ---
 // HÅNDTERING AF STICKY NAVIGATION
-// Eventlistener til at lukke dropdown-menuen, når der klikkes udenfor
-// metoden getBoundingClientRect() bruges til at få positionen af elementet i forhold til viewporten. 
-// Konkret returnerer metoden et "DOMRect" objekt, der indeholder oplysninger om elementets størrelse og position.
 const handleScroll = () => {
   const nav = dropdownRef.value;
   if (nav) {
     const offset = nav.getBoundingClientRect().top;
-    isSticky.value = offset <= 0; // Bliver true, når elementet når toppen af viewporten.
+    isSticky.value = offset <= 0; 
   }
 };
-// KILDEREFERENCE GetBoundingClientRect: MDN - Mozilla Foundation. 2025. Element: getBoundingClientRect() method. (online) [Accessed 13/05/2025] URL: https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
 
 // ÅBNE OG LUKKE DROPDOWN-MENU PÅ SMÅ SKÆRME
-// Eventlistener til at lukke dropdown-menuen, når der klikkes udenfor elementet
-// event.target bruges til at få fat i det element, der blev klikket på.
-// contains() metoden bruges til at kontrollere, om dropdownRef.value indeholder det klikkede element.
-// Hvis det klikkede element ikke er en del af dropdownRef.value, sættes "isOpen" til false, hvilket lukker dropdown-menuen.
 const handleClickOutside = (event) => {
   if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
     isOpen.value = false;
   }
 };
-// INSPIRATIONSKILDE: Aparna Rathore. 24/07/2023. How to Detect Clicks Outside an Element with Vue.js?. Medium. (online) [Accessed 13/05/2025] URL: https://rathoreaparna678.medium.com/how-to-detect-clicks-outside-an-element-with-vue-js-64f05804445a
 
 // KLIK PÅ DROPDOWN-MENU
-// Funktion til at håndtere klik på dropdown-menuen, der kaldes ved @click på router-linket.
-// Når brugeren vælger et <li>-punkt i menuen, opdateres den valgte label og dropdown-menuen lukkes.
-// "item" er det valgte <li> i menuen og dets label sendes fra router-linket til funktionen.
 const selectItem = (item) => {
   selectedLabel.value = item.label;
   isOpen.value = false; 
 };
 
 // LIFECYCLE HOOKS
-// Lifecycle hooks til at tilføje og fjerne eventlistenere ved click og scroll
 onMounted(() => {
     window.addEventListener("scroll", handleScroll);
   document.addEventListener('click', handleClickOutside);
@@ -199,9 +184,6 @@ span:hover {
 .router-link-exact-active {
     font-weight: bold;
 }
-/* INSPIRATIONSKILDE: Vue Router. Active links. (online) 2014. Evan You, Eduardo San Martin Morote. [Accessed 13/05/2025] URL: https://router.vuejs.org/guide/essentials/active-links */
 }
-</style>
-
-<!-- 
- INSPIRATIONSKILDE: mmmrks. Building a VueJS dropdown menu component. 28/01/2025. DEV Community 2016-2025. (online) [Accessed 13/05/2025] URL: https://dev.to/mmmrks/building-a-vuejs-dropdown-menu-component-ho3 -->
+</style> 
+<!-- INSPIRATIONSKILDER: SE REFERENCER TIL KODE I FILEN "src/components/TheInternNavMotion.vue" -->

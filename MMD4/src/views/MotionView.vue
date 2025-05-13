@@ -7,6 +7,7 @@ import teamImage from "../assets/images/svomme.jpg";
 import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 import TheFooter from "../components/TheFooter.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
+import TheInternNavWater from "@/components/TheInternNavWater.vue";
 
 // Definerer breadcrumbLabels som en reaktiv variabel
 const breadcrumbLabels = [
@@ -20,16 +21,23 @@ const breadcrumbLabels = [
 const breadcrumbsSeparator = " / ";
 
 
-const internNavLabels = [
-  { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
-  { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
-  { id: 3, label: "Priser", name: "priser-motionscenteret" },
-  { id: 4, label: "Regler", name: "regler-motionscenteret" },
-  { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
-  { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
-  { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
-];
+// const internNavLabels = [
+//   { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
+//   { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
+//   { id: 3, label: "Priser", name: "priser-motionscenteret" },
+//   { id: 4, label: "Regler", name: "regler-motionscenteret" },
+//   { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
+//   { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
+//   { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
+// ];
 
+const internNavLabels = [
+  { id: 1, label: "Svømmehallen", name: "svommehallen-vandogwellness" },
+  { id: 2, label: "Wellness", name: "wellness-vandogwellness" },
+  { id: 3, label: "Holdoversigt", name: "holdoversigt-vandogwellness" },
+  { id: 4, label: "Priser", name: "priser-vandogwellness" },
+  { id: 5, label: "Regler", name: "regler-vandogwellness" },
+];
 
 
 </script>
@@ -41,10 +49,14 @@ const internNavLabels = [
 :separator="breadcrumbsSeparator" 
  /> -->
 
-<TheInternNavMotion
+<!-- <TheInternNavMotion
+    :label="internNavLabels" -->
+<!-- /> -->
+
+
+<TheInternNavWater
     :label="internNavLabels"
 />
-
 <!-- <TheTeamCard 
     link="/motion"
     colors="var(--color-motion)"
