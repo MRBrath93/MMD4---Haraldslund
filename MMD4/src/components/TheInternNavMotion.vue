@@ -142,10 +142,7 @@ onBeforeUnmount(() => {
     display: flex;
     flex-direction: column;
     gap: var(--spacer-x1);
-    /* background: var(--color-btn-primary); */
     padding: var(--spacer-x0-5) var(--spacer-x1);
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
-
     width: max-content;
 }
   
@@ -175,6 +172,7 @@ span {
     background: none;
     padding: 0;
     margin-top: 0;
+    gap: var(--spacer-x2);
 }
   
 .intern-nav {
