@@ -9,16 +9,6 @@ import TheFooter from "../components/TheFooter.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import TheInternNavWater from "@/components/TheInternNavWater.vue";
 
-// Definerer breadcrumbLabels som en reaktiv variabel
-const breadcrumbLabels = [
-  { id: 0, label: "Forside", name: "frontpage" },
-  { id: 1, label: "Om Motionscenteret ", name: "om-motionscenteret" },
-  { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
-  { id: 3, label: "Priser ", name: "priser-motionscenteret" },
-];
-
-// Variabel til breadcrumbs-separator
-const breadcrumbsSeparator = " / ";
 
 
 // const internNavLabels = [
@@ -31,13 +21,6 @@ const breadcrumbsSeparator = " / ";
 //   { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
 // ];
 
-const internNavLabels = [
-  { id: 1, label: "Svømmehallen", name: "svommehallen-vandogwellness" },
-  { id: 2, label: "Wellness", name: "wellness-vandogwellness" },
-  { id: 3, label: "Holdoversigt", name: "holdoversigt-vandogwellness" },
-  { id: 4, label: "Priser", name: "priser-vandogwellness" },
-  { id: 5, label: "Regler", name: "regler-vandogwellness" },
-];
 
 
 </script>
