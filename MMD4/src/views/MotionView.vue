@@ -9,15 +9,7 @@ import TheFooter from "../components/TheFooter.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import TheInternNavWater from "@/components/TheInternNavWater.vue";
 
-// Definerer breadcrumbLabels som en reaktiv variabel
-const breadcrumbLabels = [
-  { id: 0, label: "Forside", name: "frontpage" },
-  { id: 1, label: "Om Motionscenteret ", name: "om-motionscenteret" },
-  { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
-  { id: 3, label: "Priser ", name: "priser-motionscenteret" },
-];
 
-const breadcrumbsSeparator = " / ";
 
 // const internNavLabels = [
 //   { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },

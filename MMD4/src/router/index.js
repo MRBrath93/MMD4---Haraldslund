@@ -188,6 +188,7 @@ const router = createRouter({
       name: 'haraldslund-praktisk-info',
       meta: {
         title: 'Praktisk Information - Haraldslund',
+        breadcrumb: 'Praktisk Information',
       }
     },
     {
