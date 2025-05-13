@@ -9,6 +9,7 @@ import imgSvom from '@/assets/images/svomme.jpg'
 import imgMot from '@/assets/images/motion.jpg'
 import Image1 from '../assets/images/svomme.jpg';
 import Reklamekort from '@/components/Reklamekort.vue';
+import RushHoursHaraldslund from '@/components/RushHoursHaraldslund.vue';
 </script>
 
 <style scoped>
@@ -40,6 +41,19 @@ main{
 
 .overview{
     grid-row: 1/-1;
+}
+
+.overview-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacer-x1);
+    width: 95%;
+    max-width: 1432px;
+    background-color: var(--color-activity-viewer);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
 }
 
 @media screen and (max-width: 1200px) {
@@ -77,6 +91,10 @@ main{
 
 <template>
     <main>
+        <section class="overview-container">
+            <h2>Det sker i Haraldslund</h2>
+            <RushHoursHaraldslund></RushHoursHaraldslund>
+        </section>
         <h2>Forside</h2>
         <TheBtn title="Motion" text="Se vores faciliteter og priser" icon="arrow_forward"></TheBtn>
         <br>

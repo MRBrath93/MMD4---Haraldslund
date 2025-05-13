@@ -51,6 +51,8 @@
   --font-text: 'open-sans', sans-serif;
 
   --border-radius: 3px;
+
+  --max-width: 1436px;
 }
 
 *,

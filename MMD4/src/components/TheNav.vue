@@ -124,6 +124,7 @@ window.addEventListener("resize", handleNavBehavior);
                         <div class="content">
                             <div class="row">
                                 <ul class="drop-links">
+                                    <li><router-link :to="{ name: 'haraldslund-praktisk-info' }">Praktisk Information</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-priser' }">Priser</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-café' }">Café Harald</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-personale' }">Personale</router-link></li>
@@ -137,7 +138,8 @@ window.addEventListener("resize", handleNavBehavior);
                     </div>
                 </li>
                 <li>
-                    <router-link class="desktop-item" :to="{ name: 'motion' }">Motion</router-link>
+                    <router-link class="desktop-item" :to="{ name: 'motion' }"><span class="text">Motion</span>
+                        <span class="material-symbols-rounded">keyboard_arrow_down</span></router-link>
                     <input type="checkbox" id="showMega2">
                     <label for="showMega2" class="mobile-item">Motion</label>
                     <div class="dropbox">
@@ -157,7 +159,8 @@ window.addEventListener("resize", handleNavBehavior);
                     </div>
                 </li>
                 <li>
-                    <router-link class="desktop-item" :to="{ name: 'vandogwellness' }">Vand & Wellness</router-link>
+                    <router-link class="desktop-item" :to="{ name: 'vandogwellness' }"><span class="text">Vand & Wellness</span>
+                        <span class="material-symbols-rounded">keyboard_arrow_down</span></router-link>
                     <input type="checkbox" id="showMega3">
                     <label for="showMega3" class="mobile-item">Vand & Wellness</label>
                     <div class="dropbox">

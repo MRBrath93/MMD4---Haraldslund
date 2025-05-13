@@ -24,6 +24,7 @@ import HaraldslundFirmaaftaler from '@/views/HaraldslundFirmaaftalerView.vue';
 import HaraldslundBrugerraad from '@/views/HaraldslundBrugerraadView.vue';
 import Booking from '@/views/BookingView.vue';
 import ModerOgKonferencer from '@/views/ModerOgKonferencerView.vue';
+import HaraldslundPraktiskInfo from '@/views/HaraldslundPraktiskInfo.vue';
 
 const router = createRouter({
   history: createWebHashHistory(), // Brug hash-baseret historik
@@ -179,6 +180,14 @@ const router = createRouter({
       meta: {
         title: 'Priser - Haraldslund',
         breadcrumb: 'Priser',
+      }
+    },
+    {
+      path: '/om-haraldslund_praktisk-info',
+      component: HaraldslundPraktiskInfo,
+      name: 'haraldslund-praktisk-info',
+      meta: {
+        title: 'Praktisk Information - Haraldslund',
       }
     },
     {
