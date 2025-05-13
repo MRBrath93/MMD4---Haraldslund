@@ -34,6 +34,7 @@ const router = createRouter({
       name: 'frontpage',
       meta: {
         title: 'Forside - Haraldslund',
+        breadcrumb: 'Forside',
       }
     },
     {
@@ -42,6 +43,7 @@ const router = createRouter({
       name: 'vandogwellness',
       meta: {
         title: 'Vand & Wellness - Haraldslund',
+        breadcrumb: 'Vand & Wellness',
       }
     },
     {
@@ -50,6 +52,7 @@ const router = createRouter({
       name: 'holdoversigt-vandogwellness',
       meta: {
         title: 'Holdoversigt - Vand & Wellness - Haraldslund',
+        breadcrumb: 'Holdoversigt',
       }
     },
     {
@@ -58,6 +61,7 @@ const router = createRouter({
       name: 'priser-vandogwellness',
       meta: {
         title: 'Priser - Vand & Wellness - Haraldslund',
+        breadcrumb: 'Priser',
       }
     },
     {
@@ -66,6 +70,7 @@ const router = createRouter({
       name: 'regler-vandogwellness',
       meta: {
         title: 'Vand & Wellness - Regler - Haraldslund',
+        breadcrumb: 'Regler',
       }
     },
     {
@@ -74,6 +79,7 @@ const router = createRouter({
       name: 'svommehallen-vandogwellness',
       meta: {
         title: 'Svømmehallen - Vand & Wellness - Haraldslund',
+        breadcrumb: 'Svømmehallen',
       }
     },
     {
@@ -82,6 +88,7 @@ const router = createRouter({
       name: 'wellness-vandogwellness',
       meta: {
         title: 'Wellness - Vand & Wellness - Haraldslund',
+        breadcrumb: 'Wellness',
       }
     },
     {
@@ -90,6 +97,7 @@ const router = createRouter({
       name: 'motion',
       meta: {
         title: 'Motion - Haraldslund',
+        breadcrumb: 'Motion',
       }
     },
     {
@@ -98,6 +106,7 @@ const router = createRouter({
       name: 'om-motionscenteret',
       meta: {
         title: 'Om Motioncenteret - Haraldslund',
+        breadcrumb: 'Om Motioncenteret',
       }
     },
     {
@@ -106,6 +115,7 @@ const router = createRouter({
       name: 'priser-motionscenteret',
       meta: {
         title: 'Priser - Motioncenteret - Haraldslund',
+        breadcrumb: 'Priser',
       }
     },
     {
@@ -114,6 +124,7 @@ const router = createRouter({
       name: 'regler-motionscenteret',
       meta: {
         title: 'Regler - Motioncenteret - Haraldslund',
+        breadcrumb: 'Regler',
       }
     },
     {
@@ -122,6 +133,7 @@ const router = createRouter({
       name: 'leje-af-sal-og-instruktor-motionscenteret',
       meta: {
         title: 'Leje af sal og instruktør - Motioncenteret - Haraldslund',
+        breadcrumb: 'Leje af sal og instruktør',
       }
     },
     {
@@ -130,6 +142,7 @@ const router = createRouter({
       name: 'personlig-traening-motionscenteret',
       meta: {
         title: 'Personlig træning - Motioncenteret - Haraldslund',
+        breadcrumb: 'Personlig træning',
       }
     },
     {
@@ -138,6 +151,7 @@ const router = createRouter({
       name: 'holdoversigt-motionscenteret',
       meta: {
         title: 'Holdoversigt - Motioncenteret - Haraldslund',
+        breadcrumb: 'Holdoversigt',
       }
     },
     {
@@ -146,6 +160,7 @@ const router = createRouter({
       name: 'sib-motionscenteret',
       meta: {
         title: 'Sundhed i bevægelse - Motioncenteret - Haraldslund',
+        breadcrumb: 'Sundhed & bevægelse',
       }
     },
     {
@@ -154,6 +169,7 @@ const router = createRouter({
       name: 'om-haraldslund',
       meta: {
         title: 'Om Haraldslund - Haraldslund',
+        breadcrumb: 'Om Haraldslund',
       }
     },
     {
@@ -162,6 +178,7 @@ const router = createRouter({
       name: 'haraldslund-priser',
       meta: {
         title: 'Priser - Haraldslund',
+        breadcrumb: 'Priser',
       }
     },
     {
@@ -170,6 +187,7 @@ const router = createRouter({
       name: 'haraldslund-café',
       meta: {
         title: 'Café Harald - Haraldslund',
+        breadcrumb: 'Café Harald',
       }
     },
     {
@@ -178,6 +196,7 @@ const router = createRouter({
       name: 'haraldslund-historie',
       meta: {
         title: 'Vores historie - Haraldslund',
+        breadcrumb: 'Historien',
       }
     },
     {
@@ -186,6 +205,7 @@ const router = createRouter({
       name: 'haraldslund-personale',
       meta: {
         title: 'Personale - Haraldslund',
+        breadcrumb: 'Personale',
       }
     },
     {
@@ -194,6 +214,7 @@ const router = createRouter({
       name: 'haraldslund-bibliotek',
       meta: {
         title: 'Bibliotek - Haraldslund',
+        breadcrumb: 'Bibliotek',
       }
     },
     {
@@ -202,6 +223,7 @@ const router = createRouter({
       name: 'haraldslund-firmaaftaler',
       meta: {
         title: 'Firmaaftaler - Haraldslund',
+        breadcrumb: 'Firmaaftaler',
       }
     },
     {
@@ -210,6 +232,7 @@ const router = createRouter({
       name: 'haraldslund-brugerraad',
       meta: {
         title: 'Brugerraad - Haraldslund',
+        breadcrumb: 'Brugerråd',
       }
     },
     {
@@ -217,7 +240,8 @@ const router = createRouter({
       component: ModerOgKonferencer,
       name: 'moder-og-konferencer',
       meta: {
-        title: 'Møder og konferencer - Haraldslund',
+        title: 'Møder og Events - Haraldslund',
+        breadcrumb: 'Møder og Events',
       }
     },
     {
@@ -226,6 +250,7 @@ const router = createRouter({
       name: 'booking',
       meta: {
         title: 'Booking - Haraldslund',
+        breadcrumb: 'Booking',
       }
     },
   ],

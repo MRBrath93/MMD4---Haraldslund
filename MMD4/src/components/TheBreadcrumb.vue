@@ -1,47 +1,46 @@
 <script setup>
-
-const props = defineProps({
-  labels: {
-    type: Array,
-    required: true,
-  },
-  separator: {
-    type: String,
-    default: " / ",
-  },
-});
 </script>
 
 <template>
-  <section>
-    <ul class="breadcrumb-list">
-      <li v-for="(item, index) in labels" :key="index" 
-      :class="{ fat: index === labels.length - 1 }">
-        <router-link :to="{ name: item.name }">
-          <span class="small">{{ item.label }}</span>
-        </router-link>
-        <span v-if="index < labels.length - 1">{{ separator }}</span>
-      </li>
+  <section label="breadcrumb">
+    <ul class="breadcrumb">
+        <li
+            v-for="(crumb, index) in $breadcrumbs.value"
+            :key="index"
+            class="breadcrumb-item"
+            :class="{ active: crumb.current }"
+        >
+            <router-link 
+            v-if="!crumb.current" 
+            :to="crumb.link">
+            {{ crumb.label }}
+            </router-link>
+            <span v-else>{{ crumb.label }}</span>
+        </li>
     </ul>
   </section>
 </template>
 
 <style scoped>
-.breadcrumb-list {
+.breadcrumb {
   display: flex;
+  list-style: none;
   padding: 0;
 }
-.breadcrumb-list li {
-  list-style: none;
-  color: var(--color-font-1);
-  margin-right: 0.5rem;
+
+.breadcrumb-item + .breadcrumb-item::before {
+  content: " / ";
+  padding: 0 0.5rem;
 }
 
-.fat {
+.breadcrumb-item.active {
   font-weight: bold;
-  color: var(--color-accent, #f00); 
+}
+
+li, span {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
+  font-family: var(--font-text);
 }
 </style>
 
-<!-- INSPIRATIONSKILDE: Atakan COSKUNDERE. Vue.js Dynamic Breadcrumb. Published 07/09/2020 Istanbul. (online) [Accessed 12/05/25] URL:https://www.youtube.com/watch?v=yL2z3oUr-So -->
-<!-- INSPIRATIONSKILDE: Evan You, Eduardo San Martin Morote. Vue Router. 2014. (online) [Accessed 12/05/2025] URL: https://router.vuejs.org/guide/essentials/navigation.html#Programmatic-Navigation -->
+<!-- KILDE: Merkushin-AY. Vue-3-breadcrumbs (online) NPM [Accessed 12/05/25] URL:https://www.npmjs.com/package/vue-3-breadcrumbs -->
