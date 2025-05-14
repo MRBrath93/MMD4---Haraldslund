@@ -111,7 +111,7 @@ main{
         </div>
 
 
-        <Reklamekort :src="Image1" alt="En beskrivelse af billedet" title="Velkommen til Haraldslund" text="Haraldslund er mere end et sted, hvor du kan svømme, træne og slappe af. Bag murene gemmer der sig en fortælling, der rækker langt tilbage i tiden - om fællesskab, fremsyn og folkelig vilje. I dag er Haraldslund et samlingspunkt for byens borgere - men historien om, hvordan det hele begyndte, er både rørende og inspirerende." :Btn="{ Btn_title: 'Læs mere', Btn_text: 'Klik her', Btn_link: '/om-haraldslund_café-harald', Btn_icon: 'arrow_forward', Btn_target: '_self'}"></Reklamekort>
+        <Reklamekort :src="Image1" alt="En beskrivelse af billedet" title="Velkommen til Haraldslund" text="Haraldslund er mere end et sted, hvor du kan svømme, træne og slappe af. Bag murene gemmer der sig en fortælling, der rækker langt tilbage i tiden - om fællesskab, fremsyn og folkelig vilje. I dag er Haraldslund et samlingspunkt for byens borgere - men historien om, hvordan det hele begyndte, er både rørende og inspirerende." :Btn="{ Btn_title: 'Læs mere', Btn_text: 'Klik her', Btn_link: '/om-haraldslund/cafe-harald', Btn_icon: 'arrow_forward', Btn_target: '_self'}"></Reklamekort>
         
         <section class="two--column-grid">
             <QuickInfo class="overview" time="45 min" pris="50 kr." praticalInfo="Mød op 10 minutter før start" cancelBooking="Senest 2 timer før start" kategori="Svømmehal"></QuickInfo>
