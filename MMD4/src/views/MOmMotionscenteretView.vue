@@ -1,4 +1,5 @@
 <script setup>
+import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 
 
@@ -19,9 +20,11 @@ const internNavLabels = [
         <h2>OM MOTIONSCENTERET</h2>
         <img src="https://media.tenor.com/L-Y5H7y1R50AAAAM/gym-fall.gif" alt="" />
         
+    <TheBreadcrumb/>  
     <TheInternNavMotion
     :label="internNavLabels"
     />
+
 
     </main>
 </template>
