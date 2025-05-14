@@ -25,6 +25,8 @@ import HaraldslundBrugerraad from '@/views/HaraldslundBrugerraadView.vue';
 import Booking from '@/views/BookingView.vue';
 import ModerOgKonferencer from '@/views/ModerOgKonferencerView.vue';
 import HaraldslundPraktiskInfo from '@/views/HaraldslundPraktiskInfo.vue';
+import MEnkeltHoldView from '@/views/MEnkeltHoldView.vue';
+import VWEnkeltHoldView from '@/views/VWEnkeltHoldView.vue';
 
 const router = createRouter({
   history: createWebHashHistory(), // Brug hash-baseret historik
@@ -52,12 +54,26 @@ const router = createRouter({
         },
         {
           path: 'holdoversigt',
-          component: HoldoversigtVandOgWellness,
-          name: 'holdoversigt-vandogwellness',
-          meta: {
-            title: 'Holdoversigt - Vand & Wellness - Haraldslund',
-            breadcrumb: 'Holdoversigt',
-          }
+          children: [
+            {
+              path: '',
+              component: HoldoversigtVandOgWellness,
+              name: 'holdoversigt-vandogwellness',
+              meta: {
+                title: 'Holdoversigt - Vand & Wellness - Haraldslund',
+                breadcrumb: 'Holdoversigt',
+              }
+            },
+            {
+              path: 'holdbeskrivelse/:id',
+              component: VWEnkeltHoldView,
+              name: 'holdbeskrivelse-vandogwellness',
+              meta: {
+                title: 'Holdbeskrivelse - Vand & Wellness - Haraldslund',
+                breadcrumb: 'Holdbeskrivelse',
+              }
+            },
+          ]
         },
         {
           path: 'priser',
@@ -156,12 +172,26 @@ const router = createRouter({
         },
         {
           path: 'holdoversigt',
-          component: MHoldoversigt,
-          name: 'holdoversigt-motionscenteret',
-          meta: {
-            title: 'Holdoversigt - Motioncenteret - Haraldslund',
-            breadcrumb: 'Holdoversigt',
-          }
+          children: [
+            {
+              path: '',
+              component: MHoldoversigt,
+              name: 'holdoversigt-motionscenteret',
+              meta: {
+                title: 'Holdoversigt - Motioncenteret - Haraldslund',
+                breadcrumb: 'Holdoversigt',
+              }
+            },
+            {
+              path: ':id',
+              component: MEnkeltHoldView,
+              name: 'holdbeskrivelse-motion',
+              meta: {
+                title: 'Holdbeskrivelse - Motion - Haraldslund',
+                breadcrumb: 'Holdbeskrivelse',
+              }
+            },
+          ]
         },
         {
           path: 'sundhed-i-bevaegelse',
