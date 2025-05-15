@@ -1,6 +1,7 @@
 <script setup>
 import ImageHolder from './ImageHolder.vue'
 import TheBtn from './TheBtn.vue'
+import { computed } from 'vue';
 
 const props = defineProps({
   src: String,
@@ -10,12 +11,33 @@ const props = defineProps({
   },
   title: String,
   text: String,
-
+  kategori: String,
   Btn_title: String,
   Btn_text: String,
   Btn_link: String,
   Btn_icon: String,
   Btn_target: String,
+});
+
+const computedBtnLink = computed(() => {
+  switch (props.kategori) {
+    case 'Motion':
+      return '/motion';
+    case 'Wellness':
+      return '/wellness';
+    case 'Svømmehal':
+      return '/svommehal';
+    case 'Møder & Konferencer':
+      return '/moder-og-konferencer';
+    case 'Om Haraldslund':
+      return '/om-haraldslund';
+    default:
+      return props.Btn_link || '#';
+  }
+});
+
+const computedTarget = computed(() => {
+  return props.Btn_target ? props.Btn_target : '_self';
 });
 
 
@@ -31,7 +53,7 @@ const props = defineProps({
               <h4 class="title">{{ title }}</h4>
               <p>{{ text }}</p>
             </div>
-              <TheBtn :link="Btn_link" :title="Btn_title" :text="Btn_text" :icon="Btn_icon"></TheBtn>
+              <TheBtn :link="computedBtnLink" :title="Btn_title" :target="computedTarget" :text="Btn_text" :icon="Btn_icon"></TheBtn>
           </div>
         </div>
     </div>
