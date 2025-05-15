@@ -29,7 +29,7 @@ defineProps({
     text-align: center;
     height: 7.6rem;
     width: 100%;
-    margin-bottom: var(--spacer-Elements);
+    margin-bottom: var(--spacer-x5);
 }
 
 
@@ -62,7 +62,7 @@ defineProps({
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(20, 20, 20, 0.5);
+    background-color: rgba(255, 198, 84, 0.2);
     z-index: 1;
 }
 
@@ -92,11 +92,11 @@ defineProps({
 
 @media screen and (min-width: 768px) {
     #hero-image {
-        height: 21.8rem;
+        height: 32.5rem;
     }
 
     .hero {
-        height: 21.8rem;
+        height: 32.5rem;
     }
 }
 

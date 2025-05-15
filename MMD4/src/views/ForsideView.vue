@@ -10,7 +10,7 @@ import imgMot from '@/assets/images/motion.jpg'
 import Image1 from '../assets/images/svomme.jpg';
 import Reklamekort from '@/components/Reklamekort.vue';
 
-import TheHero from '@/components/TheHero.vue';
+import FrontpageTheHero from '@/components/FrontpageTheHero.vue';
 import RushHoursHaraldslund from '@/components/RushHoursHaraldslund.vue';
 import ImageHolder from '@/components/ImageHolder.vue';
 import { ref, onMounted } from 'vue';
@@ -191,7 +191,7 @@ th {
         <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
         <main v-else v-for="tekstsektion in forsideData.Indhold.Afsnit" :key="tekstsektion.id">
 
-            <TheHero :title="forsideData.Hero_sektion.Hero_titel_h5.Titel_H5" :subtitle="forsideData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6" :image="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url" :alt="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
+            <FrontpageTheHero :title="forsideData.Hero_sektion.Hero_titel_h5.Titel_H5" :subtitle="forsideData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6" :image="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url" :alt="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></FrontpageTheHero>
 
             <section class="textsection" v-for="tekstsektion in forsideData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
@@ -251,15 +251,8 @@ th {
             </table>
             <RushHoursHaraldslund></RushHoursHaraldslund>
         </section>
-        <h2>Forside</h2>
-        <TheBtn title="Motion" text="Se vores faciliteter og priser" icon="arrow_forward"></TheBtn>
-        <br>
-        <TheBtn title="Motion" text="Se vores faciliteter og priser" link="https://www.erdetfredag.dk/" target="_blank" icon="arrow_forward"></TheBtn>
-        <br>
-        <TheBtn title="Motion" text="Se vores faciliteter og priser" link="/motion" icon="arrow_forward"></TheBtn>
-        <br>
-
-        <Reklamekort :src="Image1" alt="En beskrivelse af billedet" title="Velkommen til Haraldslund" text="Haraldslund er mere end et sted, hvor du kan svømme, træne og slappe af. Bag murene gemmer der sig en fortælling, der rækker langt tilbage i tiden - om fællesskab, fremsyn og folkelig vilje. I dag er Haraldslund et samlingspunkt for byens borgere - men historien om, hvordan det hele begyndte, er både rørende og inspirerende." :Btn="{ Btn_title: 'Læs mere', Btn_text: 'Klik her', Btn_link: '/om-haraldslund_café-harald', Btn_icon: 'arrow_forward', Btn_target: '_self'}"></Reklamekort>
+        <Reklamekort :src="getImage(forsideData.reklame_kort.Billede)" :alt="forsideData.reklame_kort.Billede.alternativeText" :title="forsideData.reklame_kort.Titel" :text="forsideData.reklame_kort.Tekst_afsnit" :Btn_title="forsideData.reklame_kort.Knapper[0].btn_titel" :Btn_text="forsideData.reklame_kort.Knapper[0].btn_description" :kategori="forsideData.reklame_kort.Kategori" :Btn_icon="forsideData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+        
         
         <section class="two--column-grid">
             <QuickInfo class="overview" time="45 min" pris="50 kr." praticalInfo="Mød op 10 minutter før start" cancelBooking="Senest 2 timer før start" kategori="Svømmehal"></QuickInfo>
