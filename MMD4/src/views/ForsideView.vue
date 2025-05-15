@@ -10,6 +10,7 @@ import imgMot from '@/assets/images/motion.jpg'
 import Image1 from '../assets/images/svomme.jpg';
 import Reklamekort from '@/components/Reklamekort.vue';
 
+import TheSpinner from '@/components/TheSpinner.vue';
 import FrontpageTheHero from '@/components/FrontpageTheHero.vue';
 import RushHoursHaraldslund from '@/components/RushHoursHaraldslund.vue';
 import ImageHolder from '@/components/ImageHolder.vue';
@@ -193,6 +194,9 @@ th {
 
             <FrontpageTheHero :title="forsideData.Hero_sektion.Hero_titel_h5.Titel_H5" :subtitle="forsideData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6" :image="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url" :alt="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></FrontpageTheHero>
 
+            <TheSpinner>
+  <span class="material-icons">sports_gymnastics</span>
+</TheSpinner>
             <section class="textsection" v-for="tekstsektion in forsideData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <h1>{{ tekstsektion.Overskrift }}</h1>
