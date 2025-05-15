@@ -10,13 +10,12 @@ const props = defineProps({
   },
   title: String,
   text: String,
-  Btn:{
-    Btn_title: String,
-    Btn_text: String,
-    Btn_link: String,
-    Btn_icon: String,
-    Btn_target: String,
-  }
+
+  Btn_title: String,
+  Btn_text: String,
+  Btn_link: String,
+  Btn_icon: String,
+  Btn_target: String,
 });
 
 
@@ -32,7 +31,7 @@ const props = defineProps({
               <h4 class="title">{{ title }}</h4>
               <p>{{ text }}</p>
             </div>
-              <TheBtn :link="Btn.Btn_link" :title="Btn.Btn_title" :text="Btn.Btn_text" :icon="Btn.Btn_icon"></TheBtn>
+              <TheBtn :link="Btn_link" :title="Btn_title" :text="Btn_text" :icon="Btn_icon"></TheBtn>
           </div>
         </div>
     </div>
