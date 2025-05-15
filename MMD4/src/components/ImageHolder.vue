@@ -19,11 +19,9 @@ defineProps({
   <style scoped>
   .image-container {
     position: relative;
-    display: inline-block;
+    display: block;
     width: 100%;
     height: 100%;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
   }
   
   .image {

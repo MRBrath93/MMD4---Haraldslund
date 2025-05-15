@@ -23,6 +23,11 @@ defineProps({
 .hero {
     position: relative;
     overflow: hidden;
+    background-color: rgb(20, 20, 20, 0.5);
+    margin-bottom: var(--spacer-Elements);
+}
+
+.hero-text {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -35,6 +40,12 @@ defineProps({
     font-weight: 700;
     font-family: var( --font-heading);
     text-transform: uppercase;
+    color: var(--color-font-2);
+    text-shadow:
+    -0.5px -0.5px 0 black,
+    0.5px -0.5px 0 black,
+    -0.5px  0.5px 0 black,
+    0.5px  0.5px 0 black
 }
 
 .hero-subtitle{
@@ -63,8 +74,11 @@ defineProps({
 
 .hero-title, .hero-subtitle {
     color: var(--color-font-2);
-    -webkit-text-stroke: 0.5px var(--color-font-1); 
-    -webkit-text-fill-color: var(--color-font-2);
+    text-shadow:
+    -0.5px -0.5px 0 black,
+    0.5px -0.5px 0 black,
+    -0.5px  0.5px 0 black,
+    0.5px  0.5px 0 black
 }
 
 #hero-image {

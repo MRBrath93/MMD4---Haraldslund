@@ -187,11 +187,6 @@ window.addEventListener("resize", handleNavBehavior);
 
 <style>
 
-main {
-    padding-top: 80px;
-    /* Giver plads til navigationen, juster størrelsen afhængig af højden på navbaren */
-}
-
 ul{
     padding-inline-start: 0;
 }

@@ -270,6 +270,7 @@ button.disabled {
   color: var(--color-font-2);
   width: 95%;
   max-width: 1000px;
+  margin: var(--spacer-x2) auto;
 }
 
 .rush-hours .intro h4, .rush-hours .intro p {
@@ -294,8 +295,7 @@ button.disabled {
 }
 
 .rush-hours canvas {
-  width: 90% !important;
-  height: 90% !important;
+  width: 80% !important;
   margin: 0 auto;
   max-width: 1432px;
   color: var(--color-font-2);
