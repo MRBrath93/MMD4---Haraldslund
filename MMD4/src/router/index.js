@@ -322,3 +322,5 @@ const router = createRouter({
 });
 
 export default router;
+
+// INSPIRATIONSKILDE NESTED ROUTING: Guide - Essentials - Nested Routes. Vue Router. 2014 Evan You, Eduardo San Martin Morote. [Accessed 14/05/2025] URL: https://router.vuejs.org/guide/essentials/nested-routes

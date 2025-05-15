@@ -1,32 +1,100 @@
 <script setup>
-import { onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { useClassesStoreMotion } from "@/stores/motion-classes.js";
 
-const classesStore = useClassesStoreMotion();
+import TheHero from "@/components/TheHero.vue";
+import TheInternNavMotion from "@/components/TheInternNavMotion.vue";
+import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
+import ImageHolder from "@/components/ImageHolder.vue";
+import Reklamekort from "@/components/Reklamekort.vue";
+import TheTeamCard from "@/components/TheTeamCard.vue";
 
-onMounted(() => {
-  classesStore.fetchClasses();
-  console.log(classesStore.classes.coverbillede);
+// const classesStore = useClassesStoreMotion();
+
+// onMounted(() => {
+  // classesStore.fetchClasses();
+  // console.log(classesStore.classes.coverbillede);
+
+  onMounted(() => {
+  fetch('https://popular-gift-b355856076.strapiapp.com/api/hold-motions?pLevel')
+  .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP fejl! Status: ${response.status}`);
+      }
+      return response.json();
+    })    
+    .then(data => {
+        holdMotionData.value = data.data;   
+    })
+    .catch(err => {
+      error.value = err.message;
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+
 });
 
-// Funktion der bestemmer hvilket billede der skal vises
-function getCoverImage(klasse) {
-  if (klasse.coverbilledeMedium) {
-    return klasse.coverbilledeMedium; // Hvis medium er tilgængeligt, brug det
-  } else if (klasse.coverbilledeSmall) {
-    return klasse.coverbilledeSmall; // Ellers brug small
-  } else {
-    return klasse.coverbilledeThumbnail; // Hvis ingen af dem er tilgængelige, brug thumbnail
-  }
+const holdMotionData = ref(null);
+const isLoading = ref(true);
+const error = ref(null);
+
+
+const internNavLabels = [
+  { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
+  { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
+  { id: 3, label: "Priser", name: "priser-motionscenteret" },
+  { id: 4, label: "Regler", name: "regler-motionscenteret" },
+  { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
+  { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
+  { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
+];
+
+
+function getImage(billede) {
+  if (!billede || !billede.formats) return '';
+  return billede.formats.large?.url ||
+  billede.formats.medium?.url ||
+  billede.formats.small?.url ||
+  billede.formats.thumbnail?.url ||
+  billede.url || '';
 }
 </script>
 
 <template>
     <div>
-        <h2>Motionshold</h2>
-        <img src="https://media1.giphy.com/media/bF7z0iF8GmmBkNfeYL/giphy.gif?cid=6c09b952nvke9s151rhgfhv2bv9thhqh5byk4j6oaia95qq7&ep=v1_gifs_search&rid=giphy.gif&ct=g" alt="" />
+        <h1>Motionscenter Holdoversigt</h1>
+        <TheHero
+          title="HARALDSLUND"
+          subtitle="Holdoversigt"
+          description="Læs om vores moderne motionscenter."
+          />
+        <TheBreadcrumb/>
+        <TheInternNavMotion
+        :labels="internNavLabels" />
 
-        <p>Her har vi {{ classesStore.numberOfClasses }} hold</p>
+        <p>Haraldslund Motionscenter tilbyder desuden mange spændende holdaktiviteter både på land og i vand, hvor du sammen med 
+          andre kan træne eksempelvis styrke og kondition, eventuelt kombineret med din individuelle træning i centeret.</p>
+        <p>Flere gange om året revideres vores holdplan, således at vi altid har spændende og aktuelle aktiviteter på programmet.</p>
+
+        <section>
+          <i class="material-symbols-rounded">filter_alt</i><h4>Kategorier:</h4>
+          
+        </section>
+        <section>
+          <TheTeamCard
+            link="/motion"
+            colors="var(--color-motion)"
+            label="Motion"
+            overlayText="Tryk for at gå til holdbeskrivelse"
+            :labels="{ title: 'motion', label: 'Motion', color: 'var(--color-motion)' }"
+            icon="arrow_forward"
+            backgroundColor="var(--color-motion)"
+            :teamImage="getImage(holdMotionData.Cover_Billedet)"/>
+        </section>
+
+
+        <!-- <p>Her har vi {{ classesStore.numberOfClasses }} hold</p>
 
         <div v-for="klasse in classesStore.classes" :key="klasse.id">
             <h3>{{ klasse.name }}</h3>
@@ -43,8 +111,19 @@ function getCoverImage(klasse) {
                 <h5 v-for="subtitle in tekstsektion.tekst" :key="subtitle.id">{{ subtitle.underoverskrift }}</h5>
                 <p v-for="paragraph in tekstsektion.tekst" :key="paragraph.id">{{ paragraph.brodtekst }}</p>
         </div>
-      </div>
+      </div> -->
     </div>
+
+    <!-- <TheTeamCard 
+    link="/motion"
+    colors="var(--color-motion)"
+    label="Motion"
+    overlayText="Tryk for at gå til holdbeskrivelse"
+    :labels="{ title: 'motion', label: 'Motion', color: 'var(--color-motion)' }"
+    icon="arrow_forward"
+    backgroundColor="var(--color-motion)"
+    :teamImage="teamImage"/> -->
+  
 </template>
 
 <style scoped>

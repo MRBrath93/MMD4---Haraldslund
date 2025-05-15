@@ -24,8 +24,10 @@
 <style scoped>
 .breadcrumb {
   display: flex;
+  align-items: center;
   list-style: none;
-  padding: 0;
+  padding: var(--spacer-x1) 0;
+  width: 100vw;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
