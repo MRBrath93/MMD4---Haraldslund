@@ -1,9 +1,12 @@
 <script setup>
+import TheBreadcrumb from "../components/TheBreadcrumb.vue";
+
 </script>
 
 <template>
     <main>
         <h2>Om Haraldslunds Priser</h2>
+        <TheBreadcrumb />
         <img src="https://www.theknot.com/tk-media/images/62513acc-1115-4c49-be41-bc6bce3b8553" alt="" />
     </main>
 </template>

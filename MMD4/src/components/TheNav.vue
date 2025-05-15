@@ -126,7 +126,7 @@ window.addEventListener("resize", handleNavBehavior);
                                 <ul class="drop-links">
                                     <li><router-link :to="{ name: 'haraldslund-praktisk-info' }">Praktisk Information</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-priser' }">Priser</router-link></li>
-                                    <li><router-link :to="{ name: 'haraldslund-café' }">Café Harald</router-link></li>
+                                    <li><router-link :to="{ name: 'haraldslund-cafe' }">Café Harald</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-personale' }">Personale</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-historie' }">Vores Historie</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link></li>
