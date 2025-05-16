@@ -1,14 +1,10 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import { defineProps } from "vue";
 
 defineProps({
   link: {
-    type: String,
-    required: true,
-  },
-  colors: {
-    type: String,
+    type: [String, Object],
     required: true,
   },
   overlayText: {
@@ -38,12 +34,6 @@ defineProps({
 teamCategorys: {
   type: Array,
   default: () => [
-    "Cardio",
-    "Styrketræning",
-    "Wellness",
-    "Cirkeltræning",
-    "Undervisning",
-    "Mindfulness",
   ],
 },
 isOverlayVisible: {
@@ -53,44 +43,64 @@ isOverlayVisible: {
 });
 
 // Definer reaktive variabler
-const isOverlayVisible = ref(false);
+const overlayVisible = ref(false);
 
 
   // Metode til at håndtere hover-effekt
   const handleMouseEnter = () => {
-    isOverlayVisible.value = true;
+    overlayVisible.value = true;
   };
 
   const handleMouseLeave = () => {
-    isOverlayVisible.value = false;
+    overlayVisible.value = false;
   };
 
-    
+  const isScreenLarge = ref(false);
+
+  checkScreenSize();
+  window.addEventListener("resize", checkScreenSize);
+
+  onMounted(() => {
+    checkScreenSize();
+    window.addEventListener("resize", checkScreenSize);
+  });
+
+  onUnmounted(() => {
+  window.removeEventListener("resize", checkScreenSize);
+});
+
+function checkScreenSize() {
+  isScreenLarge.value = window.innerWidth >= 768;
+}
+
+
 
 </script>
 <template>
-  <a 
-    :href="link" 
+  <router-link 
+    :to="link" 
+    :key="labels.id"
     class="team-card team-card-image" 
     aria-label="Tryk for at gå til holdbeskrivelse"
-    :style="{ backgroundImage: 'url(' + teamImage + ')' }"
+    :style="isScreenLarge ? { backgroundImage: 'url(' + teamImage + ')' } : { }"
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
-    <span class="icon material-symbols-rounded" :style="{ backgroundColor: backgroundColor }">{{ icon }}</span>
-
-    <div class="team-card-overlay" :class="{ 'overlay-visible': isOverlayVisible }">
-    <span class="icon material-symbols-rounded" :style="{ backgroundColor: backgroundColor }">{{ icon }}</span>
-    <p class="overlay-text">{{ overlayText }}</p>
-</div>
-    <div :style="{ backgroundColor: backgroundColor }" class="card-label">
-        <h3>{{ labels.label }}</h3>
-        <p v-if ="teamCategorys.length > 0" class="card-tags">
-            {{ teamCategorys[1] }}
-        </p>
+    <i class="icon material-symbols-rounded" :style="{ backgroundColor: backgroundColor }">{{ icon }}</i>
+    <div class="team-card-overlay" :class="{ 'overlay-visible': overlayVisible }">
+      <i class="icon material-symbols-rounded" :style="{ backgroundColor: backgroundColor }">{{ icon }}</i>
+      <p class="overlay-text">{{ overlayText }}</p>
     </div>
-    </a>
-
+    <div :style="{ backgroundColor: backgroundColor }" class="card-label">
+      <h3>{{ labels.label }}</h3>
+      <p v-if="teamCategorys.length > 0" class="card-tags">
+        <span v-for="(category, index) in teamCategorys" :key="index">
+          {{ category }}
+          <span v-if="index < teamCategorys.length - 1">, </span>
+        </span>
+      </p>
+    </div>
+  </router-link>
 
 </template>
 
@@ -101,10 +111,9 @@ const isOverlayVisible = ref(false);
   justify-content: space-between;
   align-items: flex-end;
   text-align: center;
-  max-width: 27.5rem;
-  max-height: 20.6rem;
-  min-height: 12.5rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  height: 100%;
 }
 
 .team-card:hover {
@@ -146,9 +155,9 @@ const isOverlayVisible = ref(false);
 .team-card-image {
   width: 100%;
   height: auto;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .team-card-overlay {
@@ -189,10 +198,11 @@ const isOverlayVisible = ref(false);
 
 @media screen and (min-width: 768px) {
   .team-card {
-    width: 30rem;
-    height: 25rem;
+    max-height: 20.6rem;
+    min-height: 12.5rem;
+    max-width: 27.5rem;
   }
-
+  
   .overlay-visible .overlay-text {
     padding-top: var(--spacer-x5);
   }
@@ -200,3 +210,5 @@ const isOverlayVisible = ref(false);
 }
 
 </style>
+
+<!-- INSPIRATIONSKILDE, ROUTER LINK: Evan You, Eduardo San Martin Morote. Getting Started. Vue Router. 2014. (online) [Accessed 16/05/2025] URL: https://router.vuejs.org/guide/ -->

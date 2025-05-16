@@ -1,10 +1,52 @@
-import { ref, computed } from "vue";
+// IMPORTS
 import { defineStore } from "pinia";
+import { ref, computed } from "vue";
 
-export const useClassesStoreMotion = defineStore("motionclasses", () => {
+// Pinia store til motion classes
+// Denne store håndterer data og tilstand for motion classes, herunder filtrering af klasser baseret på kategori.
+export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
     const classes = ref([]);
+    const numberOfTeams = ref(0);
+    const selectedCategory = ref("Alle Hold"); // default kategori
+    const availableCategories = [
+        "Alle Hold",
+        "Mindfulness",
+        "Styrketræning",
+        "Cirkeltræning",
+        "Specialhold",
+        "Kredsløbstræning",
+    ];
 
-    // Fetch data from Strapi using .then()
+    // FILTERING
+    // Der anvendes en computed property til at filtrere holdene baseret på den valgte kategori. Det gør det muligt at opdatere listen af hold dynamisk, når brugeren vælger en kategori.
+    const filteredClasses = computed(() => {
+        // Hvis ingen kategori er valgt, eller hvis "Alle Hold" er valgt, returneres alle klasser
+        if (!selectedCategory.value || selectedCategory.value === "Alle Hold") {
+            return classes.value;
+        }
+        // Ellers filtreres klasserne baseret på den valgte kategori. Der anvendes en JS-metode til at filtrere klasserne, der matcher den valgte kategori.
+        // Her antages det, at hver klasse har en 'kategorier' egenskab, der er et array af kategorier.
+        // includes metoden bruges til at tjekke, om den valgte kategori findes i klassens kategorier.
+        
+        let filteredClasses = classes.value.filter(klasse =>
+            klasse.kategorier && klasse.kategorier.includes(selectedCategory.value)
+        );
+        return filteredClasses;
+    });
+
+    // Funktion til at ændre den valgte kategori. Denne funktion opdaterer den reaktive 'selectedCategory' værdi, når brugeren vælger en ny kategori.
+    // Dette gør det muligt at opdatere den viste liste af klasser i UI'en.
+    // Funktionen tager en kategori som parameter og opdaterer 'selectedCategory' værdien.
+    const setCategory = (category) => {
+        selectedCategory.value = category;
+    };
+
+    // Total Antal hold (Til counter)
+    numberOfTeams.value = classes.value.filter(klasse => klasse.kategorier.includes("Hold")).length;
+
+
+
+    // Fetch data fra Strapi API med .then()
     const fetchClasses = () => {
         fetch(
             "https://popular-gift-b355856076.strapiapp.com/api/hold-motions?pLevel"
@@ -71,13 +113,17 @@ export const useClassesStoreMotion = defineStore("motionclasses", () => {
             })
             .catch(error => {
                 console.error("Fejl ved hentning af hold:", error);
+                this.error = "Beklager. Der opstod en fejl under hentning af holdene.";
             });
     };
 
-
-
-    // Computed property
-    const numberOfClasses = computed(() => classes.value.length);
-
-    return { classes, numberOfClasses, fetchClasses, };
+    return {
+        classes,
+        numberOfTeams,
+        fetchClasses,
+        filteredClasses,
+        selectedCategory,
+        setCategory,
+        availableCategories,
+    };
 });

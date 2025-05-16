@@ -1,4 +1,18 @@
 <script setup>
+import TheInternNavHaraldslund from "../components/TheInternNavHaraldslund.vue";
+import TheBreadcrumb from "../components/TheBreadcrumb.vue";
+import TheHero from "../components/TheHero.vue";
+
+const internNavLabels = [
+{ id: 1, label: "Praktisk Information", name: "haraldslund-praktisk-info" },
+{ id: 2, label: "Prisoversigt", name: "haraldslund-priser" },
+{ id: 3, label: "Café Harald", name: "haraldslund-cafe" },
+{ id: 4, label: "Personale", name: "haraldslund-personale" },
+{ id: 5, label: "Historien", name: "haraldslund-historie" },
+{ id: 6, label: "Bibliotek", name: "haraldslund-bibliotek" },
+{ id: 7, label: "Firmaaftaler", name: "haraldslund-firmaaftaler" },
+{ id: 8, label: "Brugerråd", name: "haraldslund-brugerraad" },
+];
 
 </script>
 
@@ -8,8 +22,18 @@
 
 <template>
         <main>
-                <h2>Praktisk Info</h2>
-                <img src="https://media.baamboozle.com/uploads/images/162312/1615828708_450835_gif-url.gif" alt="" />
+        <TheHero
+            title="HARALDSLUND"
+            subtitle="Praktisk Information"
+            description="Find praktisk information om Haraldslund, herunder åbningstider, adresse og kontaktoplysninger."
+            image="https://media.tenor.com/L-Y5H7y1R50AAAAM/gym-fall.gif"
+            alt="Haraldslund Vand og kulturhus"/>
+        <h1>Praktisk Information</h1>
+        <TheBreadcrumb />
+        <TheInternNavHaraldslund
+        :label="internNavLabels"
+        />
+
         </main>
 </template>
 

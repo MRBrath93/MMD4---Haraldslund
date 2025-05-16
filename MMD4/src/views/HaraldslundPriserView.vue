@@ -1,13 +1,36 @@
 <script setup>
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
+import TheInternNavHaraldslund from "../components/TheInternNavHaraldslund.vue";
+import TheHero from "../components/TheHero.vue";
+
+const internNavLabels = [
+{ id: 1, label: "Praktisk Information", name: "haraldslund-praktisk-info" },
+{ id: 2, label: "Prisoversigt", name: "haraldslund-priser" },
+{ id: 3, label: "Café Harald", name: "haraldslund-cafe" },
+{ id: 4, label: "Personale", name: "haraldslund-personale" },
+{ id: 5, label: "Historien", name: "haraldslund-historie" },
+{ id: 6, label: "Bibliotek", name: "haraldslund-bibliotek" },
+{ id: 7, label: "Firmaaftaler", name: "haraldslund-firmaaftaler" },
+{ id: 8, label: "Brugerråd", name: "haraldslund-brugerraad" },
+];
 
 </script>
 
 <template>
     <main>
-        <h2>Om Haraldslunds Priser</h2>
+        <TheHero
+            title="HARALDSLUND"
+            subtitle="Prisoversigt"
+            description="Find priser for billetter og abonnementer til Haraldslund."
+            image="https://media.tenor.com/L-Y5H7y1R50AAAAM/gym-fall.gif"
+            alt="Haraldslund Vand og kulturhus"/>
+        <h1>Prisoversigt</h1>
         <TheBreadcrumb />
-        <img src="https://www.theknot.com/tk-media/images/62513acc-1115-4c49-be41-bc6bce3b8553" alt="" />
+        <TheInternNavHaraldslund
+        :label="internNavLabels"
+        />
+
+
     </main>
 </template>
 
