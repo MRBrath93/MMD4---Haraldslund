@@ -79,7 +79,7 @@ const error = ref(null);
             <!-- <aside class="img-container">
                 <ImageHolder class="aside-image" v-if="motionImage" :src="getImage(motionImage)" :alt="motionImage.alternativeText || 'Motionscenter billede'" ></ImageHolder>
             </aside>
-        </section>
+        </section> 
         
         <section>
             <h2 class="text-align-center">Udforsk vores tilbud</h2>
@@ -89,7 +89,7 @@ const error = ref(null);
                 <EntryPoint icon="arrow_forward" color="green" title="Sundhed & Bevægelse" :bgimage="sbImg" name="sib-motionscenteret"></EntryPoint>
             </div>
             -->
-        </section> 
+        </section>  
     </main>
 </template>
 
@@ -107,8 +107,6 @@ main{
   text-underline-offset: 0.5rem;
 }
 
-
-
 .flex-column-container{
     display: flex;
     flex-direction: column;
@@ -125,8 +123,6 @@ main{
 .image-container {
     padding: var(--spacer-x2);
 }
-
-
 
 .text-align-center{
     text-align: center;

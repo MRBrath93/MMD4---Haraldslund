@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import TheHero from "../components/TheHero.vue";
 import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";

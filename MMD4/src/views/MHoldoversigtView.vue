@@ -1,45 +1,51 @@
 <script setup>
+// IMPORTS
 import { ref, onMounted } from "vue";
 import { useClassesStoreMotion } from "@/stores/motion-classes.js";
 
 import TheHero from "@/components/TheHero.vue";
 import TheInternNavMotion from "@/components/TheInternNavMotion.vue";
+import TheSpinner from "@/components/TheSpinner.vue";
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
-import ImageHolder from "@/components/ImageHolder.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 import TheTeamCard from "@/components/TheTeamCard.vue";
+import TheFilterBar from "@/components/TheFilterBar.vue";
 
-// const classesStore = useClassesStoreMotion();
 
-// onMounted(() => {
-  // classesStore.fetchClasses();
-  // console.log(classesStore.classes.coverbillede);
 
-  onMounted(() => {
-  fetch('https://popular-gift-b355856076.strapiapp.com/api/hold-motions?pLevel')
-  .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP fejl! Status: ${response.status}`);
-      }
-      return response.json();
-    })    
-    .then(data => {
-        holdMotionData.value = data.data;   
-    })
-    .catch(err => {
-      error.value = err.message;
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
-
-});
-
-const holdMotionData = ref(null);
+// REAKTIVE VARIABLER
+const classesStore = useClassesStoreMotion();
 const isLoading = ref(true);
 const error = ref(null);
+const numberOfTeams = ref(0);
 
 
+// HENT DATA FRA STORE
+onMounted(async () => {
+  try {
+    await classesStore.fetchClasses();
+  } catch (err) {
+    error.value = "Beklager, der opstod en fejl under indlæsning af data.";
+    console.error("Fejl under indlæsning af data:", err);
+  } finally {
+    isLoading.value = false;
+  }
+});
+
+
+// FUNKTIONER
+// Funktion der bestemmer hvilket billede der skal vises
+function getCoverImage(klasse) {
+  if (klasse.coverbilledeMedium) {
+    return klasse.coverbilledeMedium; // Hvis medium er tilgængeligt, brug det
+  } else if (klasse.coverbilledeSmall) {
+    return klasse.coverbilledeSmall; // Ellers brug small
+  } else {
+    return klasse.coverbilledeThumbnail; // Hvis ingen af dem er tilgængelige, brug thumbnail
+  }
+};
+
+// Intern navigation labels (fra Strapi)
 const internNavLabels = [
   { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
   { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
@@ -50,80 +56,61 @@ const internNavLabels = [
   { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
 ];
 
-
-function getImage(billede) {
-  if (!billede || !billede.formats) return '';
-  return billede.formats.large?.url ||
-  billede.formats.medium?.url ||
-  billede.formats.small?.url ||
-  billede.formats.thumbnail?.url ||
-  billede.url || '';
-}
 </script>
 
 <template>
-    <div>
-        <h1>Motionscenter Holdoversigt</h1>
-        <TheHero
+    <main v-if="isLoading">Indlæser...</main>
+    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
+    <main v-else>
+      <TheHero
           title="HARALDSLUND"
           subtitle="Holdoversigt"
-          description="Læs om vores moderne motionscenter."
-          />
-        <TheBreadcrumb/>
-        <TheInternNavMotion
+          description="Læs om vores motionstilbud og holdoversigt. Find praktisk information om motionscenteret, herunder faciliteter, priser og holdbeskrivelser."
+          :image="getCoverImage[0]|| ''"
+          :alt="getCoverImage.alternativeText || 'Hero billede'"
+      />
+      <TheBreadcrumb/>
+      <TheInternNavMotion 
         :labels="internNavLabels" />
+      <h1>Motionscenter Holdoversigt</h1>
+      <p>Haraldslund Motionscenter tilbyder desuden mange spændende holdaktiviteter både på land og i vand, hvor du sammen med 
+        andre kan træne eksempelvis styrke og kondition, eventuelt kombineret med din individuelle træning i centeret.</p>
+      <p>Flere gange om året revideres vores holdplan, således at vi altid har spændende og aktuelle aktiviteter på programmet.</p>
+      <section>
+        <div class="filter-container">
+  
 
-        <p>Haraldslund Motionscenter tilbyder desuden mange spændende holdaktiviteter både på land og i vand, hvor du sammen med 
-          andre kan træne eksempelvis styrke og kondition, eventuelt kombineret med din individuelle træning i centeret.</p>
-        <p>Flere gange om året revideres vores holdplan, således at vi altid har spændende og aktuelle aktiviteter på programmet.</p>
+          <TheFilterBar
+            :labels="classesStore.availableCategories"
+            :selectedCategory="classesStore.selectedCategory"
+            @categorySelected="classesStore.setCategory"
+          />
 
-        <section>
-          <i class="material-symbols-rounded">filter_alt</i><h4>Kategorier:</h4>
-          
-        </section>
-        <section>
-          <TheTeamCard
-            link="/motion"
-            colors="var(--color-motion)"
-            label="Motion"
-            overlayText="Tryk for at gå til holdbeskrivelse"
-            :labels="{ title: 'motion', label: 'Motion', color: 'var(--color-motion)' }"
-            icon="arrow_forward"
-            backgroundColor="var(--color-motion)"
-            :teamImage="getImage(holdMotionData.Cover_Billedet)"/>
-        </section>
-
-
-        <!-- <p>Her har vi {{ classesStore.numberOfClasses }} hold</p>
-
-        <div v-for="klasse in classesStore.classes" :key="klasse.id">
-            <h3>{{ klasse.name }}</h3>
-            <img class="cover" :src="getCoverImage(klasse)" alt="Cover Image" />
-            <p v-for="kategori in klasse.kategorier" :key="kategori.id ">{{ kategori }}</p>
-            <div v-for="hold in klasse.relateredeHold" :key="hold.id">
-                <p>{{ hold.name }}</p>
-                <img class="minicover" :src="getCoverImage(hold)" alt="Cover Image" />
+        </div>
+        <section> 
+          <h4>Holdbeskrivelser</h4>
+          <div>
+            <p>Viser {{ classesStore.numberOfClasses }} ud af {{ numberOfTeams }} hold</p>
+            <div class="grid-container">
+              <TheTeamCard
+                v-for="klasse in classesStore.filteredClasses"
+                :key="klasse.id"
+                :labels="{ label: klasse.name || 'Ukendt hold' }"
+                icon="arrow_forward"
+                backgroundColor="var(--color-motion)"
+                :teamCategorys="klasse.kategorier"
+                :link="{ name: 'holdbeskrivelse-motion', params: { id: klasse.id } }"
+                :teamImage="getCoverImage(klasse)"
+                :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
+              />
             </div>
 
-        <div v-for="tekstsektion in klasse.indhold.afsnit" :key="tekstsektion.id">
-    
-                <h4>{{ tekstsektion.overskrift }}</h4>
-                <h5 v-for="subtitle in tekstsektion.tekst" :key="subtitle.id">{{ subtitle.underoverskrift }}</h5>
-                <p v-for="paragraph in tekstsektion.tekst" :key="paragraph.id">{{ paragraph.brodtekst }}</p>
-        </div>
-      </div> -->
-    </div>
-
-    <!-- <TheTeamCard 
-    link="/motion"
-    colors="var(--color-motion)"
-    label="Motion"
-    overlayText="Tryk for at gå til holdbeskrivelse"
-    :labels="{ title: 'motion', label: 'Motion', color: 'var(--color-motion)' }"
-    icon="arrow_forward"
-    backgroundColor="var(--color-motion)"
-    :teamImage="teamImage"/> -->
-  
+            
+          
+          </div>
+        </section>
+      </section>
+    </main>
 </template>
 
 <style scoped>
@@ -134,11 +121,35 @@ main{
     justify-content: center;
 }
 
-.cover{
-height: 200px;
+.filter-container{
+    display: flex;
+    justify-content: center;
+    gap: var(--spacer-x1);
 }
 
-.minicover{
-    height: 50px;
+.team-card {
+  background-color: var(--color-motion);
 }
+
+.grid-container{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacer-x1);
+    width: 100%;
+    margin: 0 auto;
+}
+
+
+
+@media screen and (min-width: 768px) {
+
+  .grid-container {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    max-width: 1432px;
+    margin: 0 auto;
+  }
+
+
+}
+  
 </style>
