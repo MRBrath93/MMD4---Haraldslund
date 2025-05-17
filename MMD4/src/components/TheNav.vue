@@ -132,6 +132,7 @@ window.addEventListener("resize", handleNavBehavior);
                                     <li><router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-firmaaftaler' }">Firmaaftaler</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-brugerraad' }">Brugerråd</router-link></li>
+                                    <li><router-link :to="{ name: 'haraldslund-events' }">Events</router-link></li>
                                 </ul>
                             </div>
                         </div>

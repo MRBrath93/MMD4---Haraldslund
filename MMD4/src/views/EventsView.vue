@@ -1,12 +1,6 @@
 <script setup>
-import { ref } from "vue";
-import { useRoute } from "vue-router";
-import TheHero from "../components/TheHero.vue";
-import image from "../assets/images/svomme.jpg";
-
 import TheInternNavHaraldslund from "../components/TheInternNavHaraldslund.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
-
 
 const internNavLabels = [
 { id: 1, label: "Praktisk Information", name: "haraldslund-praktisk-info" },
@@ -19,33 +13,23 @@ const internNavLabels = [
 { id: 8, label: "Brugerråd", name: "haraldslund-brugerraad" },
 { id: 9, label: "Events", name: "haraldslund-events" },
 ];
-
 </script>
 
 <template>
     <main>
-        <TheHero
-            title="HARALDSLUND"
-            subtitle="Om Haraldslund"
-            description="Find praktisk information om Haraldslund, herunder åbningstider, adresse og kontaktoplysninger."
-            :image="image"
-            alt="Haraldslund Vand og kulturhus"/>
+        <h1>Firmaaftaler</h1>
         <TheBreadcrumb />
-        <h2>Om Haraldslund</h2>
-        <TheInternNavHaraldslund 
+        <TheInternNavHaraldslund
         :label="internNavLabels"
         />
-
     </main>
 </template>
 
 <style scoped>
-/* main{
+main{
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
-    width: 100vw;
-} */
+}
 </style>
