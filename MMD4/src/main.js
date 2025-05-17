@@ -91,3 +91,8 @@ function handleNavBehavior() {
 
 document.addEventListener("DOMContentLoaded", handleNavBehavior);
 window.addEventListener("resize", handleNavBehavior);
+
+
+window.onload = () => {
+    window.scrollTo(0, 0);
+};
