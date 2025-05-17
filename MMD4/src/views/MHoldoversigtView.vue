@@ -17,13 +17,12 @@ import TheFilterBar from "@/components/TheFilterBar.vue";
 const classesStore = useClassesStoreMotion();
 const isLoading = ref(true);
 const error = ref(null);
-const numberOfTeams = ref(0);
 
 
 // HENT DATA FRA STORE
 onMounted(async () => {
   try {
-    await classesStore.fetchClasses();
+    classesStore.fetchClasses();
   } catch (err) {
     error.value = "Beklager, der opstod en fejl under indlæsning af data.";
     console.error("Fejl under indlæsning af data:", err);
@@ -31,7 +30,6 @@ onMounted(async () => {
     isLoading.value = false;
   }
 });
-
 
 // FUNKTIONER
 // Funktion der bestemmer hvilket billede der skal vises
@@ -78,8 +76,8 @@ const internNavLabels = [
       <p>Flere gange om året revideres vores holdplan, således at vi altid har spændende og aktuelle aktiviteter på programmet.</p>
       <section>
         <div class="filter-container">
-  
-
+          <i class="material-symbols-rounded">filter_alt</i>
+          <h4>Kategorier:</h4>
           <TheFilterBar
             :labels="classesStore.availableCategories"
             :selectedCategory="classesStore.selectedCategory"
@@ -90,7 +88,7 @@ const internNavLabels = [
         <section> 
           <h4>Holdbeskrivelser</h4>
           <div>
-            <p>Viser {{ classesStore.numberOfClasses }} ud af {{ numberOfTeams }} hold</p>
+            <p>Viser {{ classesStore.numberOfClasses }} ud af {{ classesStore.numberOfTeams }} hold</p>
             <div class="grid-container">
               <TheTeamCard
                 v-for="klasse in classesStore.filteredClasses"
