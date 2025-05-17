@@ -7,6 +7,7 @@ import { ref, computed } from "vue";
 export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
     const classes = ref([]);
     const numberOfTeams = ref(0);
+    const numberOfClasses = ref(0);
     const selectedCategory = ref("Alle Hold"); // default kategori
     const availableCategories = [
         "Alle Hold",
@@ -22,6 +23,7 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
     const filteredClasses = computed(() => {
         // Hvis ingen kategori er valgt, eller hvis "Alle Hold" er valgt, returneres alle klasser
         if (!selectedCategory.value || selectedCategory.value === "Alle Hold") {
+            numberOfClasses.value = classes.value.length; // Opdaterer antallet af klasser til det samlede antal
             return classes.value;
         }
         // Ellers filtreres klasserne baseret på den valgte kategori. Der anvendes en JS-metode til at filtrere klasserne, der matcher den valgte kategori.
@@ -31,6 +33,7 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
         let filteredClasses = classes.value.filter(klasse =>
             klasse.kategorier && klasse.kategorier.includes(selectedCategory.value)
         );
+        numberOfClasses.value = filteredClasses.length; // Opdaterer antallet af klasser baseret på filtreringen
         return filteredClasses;
     });
 
@@ -40,11 +43,6 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
     const setCategory = (category) => {
         selectedCategory.value = category;
     };
-
-    // Total Antal hold (Til counter)
-    numberOfTeams.value = classes.value.filter(klasse => klasse.kategorier.includes("Hold")).length;
-
-
 
     // Fetch data fra Strapi API med .then()
     const fetchClasses = () => {
@@ -110,6 +108,8 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
                         })) : [], // Hvis "Afsnit" er null, giv en tom array
                     } : {}, // Hvis "Indhold" er null, giv et tomt objekt
                 }));
+                // Total Antal hold (Til counter)
+                numberOfTeams.value = classes.value.length;
             })
             .catch(error => {
                 console.error("Fejl ved hentning af hold:", error);
@@ -119,6 +119,7 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
 
     return {
         classes,
+        numberOfClasses,
         numberOfTeams,
         fetchClasses,
         filteredClasses,

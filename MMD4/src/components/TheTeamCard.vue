@@ -179,10 +179,10 @@ function checkScreenSize() {
     transition: opacity 0.3s ease;
 }
 
-
 .overlay-visible {
     overflow: hidden;
 }
+
 .overlay-visible .overlay-text {
     display: block;
     text-align: center;
@@ -190,7 +190,6 @@ function checkScreenSize() {
     font-weight: 500;
     transition: opacity 0.3s ease;
     width: 100%;
-
 }
 .overlay-visible .icon {
   display: block;
