@@ -24,9 +24,9 @@ const computedBtnLink = computed(() => {
     case 'Motion':
       return '/motion';
     case 'Wellness':
-      return '/wellness';
+      return '/vand-og-wellness/wellness';
     case 'Svømmehal':
-      return '/svommehal';
+      return '/vand-og-wellness/svommehal';
     case 'Møder & Konferencer':
       return '/moder-og-konferencer';
     case 'Om Haraldslund':
@@ -79,12 +79,26 @@ const computedTarget = computed(() => {
   return props.Btn_target ? props.Btn_target : '_self';
 });
 
-
+const kategoriColor = computed(() => {
+  switch (props.kategori) {
+    case 'Om Haraldslund':
+      return 'bg-haraldslund';
+    case 'Møder & Konferencer':
+      return 'bg-meeting';
+    case 'Wellness':
+      return 'bg-wellness';
+    case 'Motion':
+      return 'bg-motion';
+    case 'Svømmehal':
+      return 'bg-svommehal';
+    default:
+      return 'bg-default';
+  }
+});
 </script>
 
-
 <template>
-    <div class="ads_cart">
+    <div class="ads_cart" :class="kategoriColor" >
         <ImageHolder class="billede" :src="src" :alt="alt"></ImageHolder>
         <div class="text-wrapper">
           <div class="text-content">
@@ -131,7 +145,7 @@ template{
 .text-wrapper {
   padding: 2rem;
   height: 100%;
-  background-color:  #e8dbcd;
+  background-color:  transparent;
   width: 100%;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -145,6 +159,30 @@ template{
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.bg-haraldslund {
+  background-color: var(--color-haraldslund-light);
+}
+
+.bg-meeting {
+  background-color: var(--color-meetings-light);
+}
+
+.bg-motion {
+  background-color: var(--color-motion-light);
+}
+
+.bg-svommehal {
+  background-color: var(--color-svim-light);
+}
+
+.bg-wellness {
+  background-color: var(--color-wellness-light);
+}
+
+.bg-default {
+  background-color: #eecdad;
 }
 
 
@@ -163,7 +201,7 @@ template{
 
   .ads_cart{
     padding: 0rem;
-    margin: 50px auto;
+    margin: var(--spacer-Elements) auto;
     width: 95%;
   }
 

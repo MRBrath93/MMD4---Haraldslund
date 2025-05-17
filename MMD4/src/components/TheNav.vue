@@ -229,13 +229,13 @@ nav {
 nav .wrapper {
     position: relative;
     max-width: 100vw;
-    padding: 0px 1.875rem;
+    padding: 0px 30px;
     height: fit-content;
     margin: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacer-x1);
+    gap: var(--spacer-x2);
 }
 
 .wrapper .logo {
@@ -274,7 +274,7 @@ nav .wrapper {
     text-decoration: none;
     text-underline-offset: 0.5rem;
     font-family: var(--font-heading);
-    padding: var(--spacer-x0-5) var(--spacer-x1);
+    padding: 9px 15px;
     border-radius: var(--border-radius);
     transition: all 0.3s ease;
     margin: 10px 0px;
@@ -354,7 +354,7 @@ nav .wrapper {
 .row .drop-links li a {
     padding: 10px;
     color: #d9d9d9;
-    font-size: var(--spacer-x1);
+    font-size: 17px;
     display: block;
 }
 
@@ -364,7 +364,7 @@ nav .wrapper {
 
 .wrapper .btn {
     color: #fff;
-    font-size: var(--spacer-x1-25);
+    font-size: 20px;
     cursor: pointer;
     display: none;
 }
@@ -386,7 +386,7 @@ nav .wrapper {
     }
 
     nav .wrapper{
-        gap: var(--spacer-x1);
+        
         padding: 0 10px;
     }
 

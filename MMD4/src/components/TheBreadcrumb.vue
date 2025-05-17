@@ -27,7 +27,7 @@
   align-items: center;
   list-style: none;
   padding: var(--spacer-x1) 0;
-  width: 100vw;
+  width: 100%;
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
