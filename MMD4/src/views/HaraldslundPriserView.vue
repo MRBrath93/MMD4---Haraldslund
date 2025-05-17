@@ -12,6 +12,7 @@ const internNavLabels = [
 { id: 6, label: "Bibliotek", name: "haraldslund-bibliotek" },
 { id: 7, label: "Firmaaftaler", name: "haraldslund-firmaaftaler" },
 { id: 8, label: "Brugerråd", name: "haraldslund-brugerraad" },
+{ id: 9, label: "Events", name: "haraldslund-events" },
 ];
 
 </script>

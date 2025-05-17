@@ -1,18 +1,18 @@
 <script setup>
-import TheBtn from '@/components/TheBtn.vue';
-import QuickInfo from '@/components/QuickInfo.vue';
-import BookingSquare from '@/components/BookingSquare.vue';
-import EntryPoint from '@/components/EntryPoint.vue';
 import imgMeet from '@/assets/images/2024-Haraldslund_Wellness_015.jpg'
 import imgWell from '@/assets/images/2024-Haraldslund_Wellness_041.jpg'
 import imgSvom from '@/assets/images/svomme.jpg'
 import imgMot from '@/assets/images/motion.jpg'
+import TheTeamCard from '@/components/TheTeamCard.vue'
 
+import EntryPoint from '@/components/EntryPoint.vue';
+import TheBtn from '@/components/TheBtn.vue';
 import Reklamekort from '@/components/Reklamekort.vue';
 import TheSpinner from '@/components/TheSpinner.vue';
 import FrontpageTheHero from '@/components/FrontpageTheHero.vue';
 import RushHoursHaraldslund from '@/components/RushHoursHaraldslund.vue';
 import ImageHolder from '@/components/ImageHolder.vue';
+import EventsCard from '@/components/EventsCard.vue';
 import { ref, computed, onMounted } from 'vue';
 
 const forsideData = ref(null);
@@ -221,7 +221,7 @@ main{
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: var(--spacer-x1);
+    padding:var(--spacer-x1);
     width: 95%;
     max-width: 1432px;
     background-color: var(--color-activity-viewer);
@@ -254,8 +254,10 @@ main{
 
 .btn--container{
     display: flex;
+    justify-content: left;
     gap: var(--spacer-x1);
-    margin-top: var(--spacer-x2);
+    width: 100%;
+    margin: var(--spacer-x1) 0;
 }
 
 .flex--column{
@@ -283,11 +285,22 @@ table {
     font-family: var(--font-text);
 }
 
-th, td {
-    /* border-top: 1px solid var(--color-font-1); */
+th, td{
     width: fit-content;
     padding: 10px;
     text-align: left;
+    font-size: 12px;
+}
+
+table a {
+    display: block;
+    width: fit-content;
+    text-align: left;
+    font-size: 12px;
+}
+
+.hide{
+    display: none;
 }
 
 th{
@@ -308,6 +321,16 @@ tr:nth-child(even){
     }
 }
 
+@media screen and (min-width: 600px) {
+    .hide{
+        display: table-cell;
+    }
+
+    th, td, table a{
+        font-size: unset;
+    }
+}
+
 @media screen and (min-width: 700px) {
     .two--column-grid{
         grid-template-columns: repeat(2,1fr);
@@ -318,6 +341,10 @@ tr:nth-child(even){
     .textsection{
         flex-direction: row;
     }
+
+    .img--container{
+        max-height: 400px;
+    }
 }
 
 @media screen and (min-width: 1000px) {
@@ -325,6 +352,10 @@ tr:nth-child(even){
     .four--column-grid{
         grid-template-columns: repeat(4,1fr);
         height: 300px;
+    }
+
+    .overview-container{
+        padding:var(--spacer-x3) var(--spacer-x7);
     }
 }
 
@@ -345,34 +376,37 @@ tr:nth-child(even){
     border: 1px solid var(--color-font-1);
 }
 
-.left{
-    border-top-left-radius: var(--border-radius);
-    border-bottom-left-radius: var(--border-radius);
+.date--picker button.disabled {
+  color: gray;
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 
-.right{
-    border-top-right-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
+.date--picker button {
+    border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--color-font-1);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 0;
 }
 
-
-
-.date--picker button{
-    border: none;
-    background-color: transparent;
-    color: var(--color-font-1);
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    padding: 0;
+.date--picker button:hover {
+  background-color: var(--color-btn-primary-hover);
+  color: var(--color-font-2);
+  border: 1px solid var(--color-btn-primary-hover);
 }
 
-.date--picker button:hover{
-    background-color: var(--color-btn-primary-hover);
-    color: var(--color-font-2);
+.date--picker .bold {
+  font-weight: bold;
+  text-align: start;
+  font-size: 0.8rem;
+  color: var(--color-font-1);
 }
+
 </style>
 
 <template>
@@ -414,7 +448,7 @@ tr:nth-child(even){
               :title="btn.btn_titel"
               :text="btn.btn_description"
               :icon="btn.Ikon[0]"
-            />
+            ></TheBtn>
           </div>
         </article>
         <div class="img--container flex1" v-for="billede in tekstsektion.Billede" :key="billede.id">
@@ -434,16 +468,16 @@ tr:nth-child(even){
 
       <section class="overview-container">
         <h2>Det sker i Haraldslund</h2>
-        <div class="btn--container date--picker">
-            <button class="left" @click="gåTilbage" :disabled="erTidligereEndIDag">
-  <span class="material-symbols-rounded">chevron_left</span>
-</button>
-  <div class="dato-display">
-    {{ dageNavne[selectedDate.getDay()] }} d. {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}
-  </div>
-  <button class="right" @click="gåFrem">
-        <span class="material-symbols-rounded">chevron_right</span>
-      </button>
+        <div class="btn--container">
+            <div class="date--picker">
+                <button class="left" :class="{ disabled: erTidligereEndIDag }" @click="gåTilbage" :disabled="erTidligereEndIDag">
+      <span class="material-symbols-rounded">chevron_left</span>
+    </button>
+    <p class="bold">{{ dageNavne[selectedDate.getDay()] }} d. {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}</p>
+      <button class="right" @click="gåFrem">
+            <span class="material-symbols-rounded">chevron_right</span>
+          </button>
+            </div>
 </div>
 
         <table>
@@ -451,21 +485,38 @@ tr:nth-child(even){
                 <tr>
                     <th>Tidspunkt</th>
                     <th>Aktivitet</th>
-                    <th>Kategori</th>
+                    <th class="hide">Kategori</th>
                     <th>Sted</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="hold in filteredHold" :key="hold.id">
-                    <td>{{ formatTime(hold.tidspunkt) }}</td>
-                    <td>{{ hold.aktivitet }}</td>
-                    <td>{{ hold.kategori }}</td>
-                    <td>{{ hold.lokation }}</td>
-                </tr>
-            </tbody>
+  <tr v-for="hold in filteredHold" :key="hold.id">
+    <td>{{ formatTime(hold.tidspunkt) }}</td>
+    <td><a href="">{{ hold.aktivitet }}</a></td>
+    <td class="hide">{{ hold.kategori }}</td>
+    <td>{{ hold.lokation }}</td>
+  </tr>
+  <tr v-if="filteredHold.length === 0">
+    <td colspan="4" style="text-align: center; padding: 1rem;">
+      Der er ingen hold resten af dagen.
+    </td>
+  </tr>
+</tbody>
         </table>
         <RushHoursHaraldslund></RushHoursHaraldslund>
+        <EventsCard></EventsCard>
+
     </section>
+    <Reklamekort 
+    :src="getImage(forsideData.reklame_kort.Billede)" 
+    :alt="forsideData.reklame_kort.Billede.alternativeText" 
+    :title="forsideData.reklame_kort.Titel" 
+    :text="forsideData.reklame_kort.Tekst_afsnit" 
+    :Btn_title="forsideData.reklame_kort.Knapper[0].btn_titel" 
+    :Btn_text="forsideData.reklame_kort.Knapper[0].btn_description" 
+    :kategori="forsideData.reklame_kort.Kategori" 
+    :Btn_icon="forsideData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+
     </main>
   </body>
 </template>

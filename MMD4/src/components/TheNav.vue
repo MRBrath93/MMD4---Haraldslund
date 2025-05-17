@@ -132,6 +132,7 @@ window.addEventListener("resize", handleNavBehavior);
                                     <li><router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-firmaaftaler' }">Firmaaftaler</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-brugerraad' }">Brugerråd</router-link></li>
+                                    <li><router-link :to="{ name: 'haraldslund-events' }">Events</router-link></li>
                                 </ul>
                             </div>
                         </div>
@@ -191,6 +192,33 @@ ul{
     padding-inline-start: 0;
 }
 
+nav input {
+    display: none;
+}
+
+.desktop-item.active-hover {
+    background-color: #364038;
+}
+
+.desktop-item.active-hover .text {
+  text-decoration: underline 2px;
+}
+
+.desktop-item.active-hover span.material-symbols-rounded {
+  text-decoration: none;
+}
+
+.header {
+    position: fixed;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+}
+
+.header.hide {
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
 nav {
     position: fixed;
     z-index: 99;
@@ -201,13 +229,13 @@ nav {
 nav .wrapper {
     position: relative;
     max-width: 100vw;
-    padding: 0px 30px;
+    padding: 0px 1.875rem;
     height: fit-content;
     margin: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
+    gap: var(--spacer-x1);
 }
 
 .wrapper .logo {
@@ -244,15 +272,17 @@ nav .wrapper {
 .nav-links li a {
     color: #f2f2f2;
     text-decoration: none;
+    text-underline-offset: 0.5rem;
     font-family: var(--font-heading);
-    padding: 9px 15px;
-    border-radius: 3px;
+    padding: var(--spacer-x0-5) var(--spacer-x1);
+    border-radius: var(--border-radius);
     transition: all 0.3s ease;
     margin: 10px 0px;
 }
 
 .nav-links li a:hover {
     text-decoration: underline 2px;
+    text-underline-offset: var(--spacer-x0-5);
     background-color: #5f7062;
 }
 
@@ -267,7 +297,6 @@ nav .wrapper {
 .dropbox {
     position: absolute;
     left: 50%;
-    /* Placér elementet midt på skærmen horisontalt */
     transform: translateX(-50%);
     width: 100%;
     top: 60px;
@@ -301,7 +330,6 @@ nav .wrapper {
 }
 
 .dropbox .content .row {
-    /* width: calc(25% - 30px); */
     line-height: 45px;
 }
 
@@ -326,7 +354,7 @@ nav .wrapper {
 .row .drop-links li a {
     padding: 10px;
     color: #d9d9d9;
-    font-size: 17px;
+    font-size: var(--spacer-x1);
     display: block;
 }
 
@@ -336,7 +364,7 @@ nav .wrapper {
 
 .wrapper .btn {
     color: #fff;
-    font-size: 20px;
+    font-size: var(--spacer-x1-25);
     cursor: pointer;
     display: none;
 }
@@ -358,12 +386,12 @@ nav .wrapper {
     }
 
     nav .wrapper{
-        gap: var(--spacer-1x);
+        gap: var(--spacer-x1);
         padding: 0 10px;
     }
 
     .desktop-item, .no-drop, .row .drop-links li a{
-        font-size: 1rem;
+        font-size: var(--spacer-x1);
         padding: 0 10px;
     }
 }
@@ -532,32 +560,5 @@ nav .wrapper {
     .wrapper .nav-links {
         max-width: 100%;
     }
-}
-
-nav input {
-    display: none;
-}
-
-.desktop-item.active-hover {
-    background-color: #364038;
-}
-
-.desktop-item.active-hover .text {
-  text-decoration: underline;
-}
-
-.desktop-item.active-hover span.material-symbols-rounded {
-  text-decoration: none;
-}
-
-.header {
-    position: fixed;
-    transition: transform 0.3s ease-in-out;
-    z-index: 1000;
-}
-
-.header.hide {
-    transform: translateY(-100%);
-    pointer-events: none;
 }
 </style>

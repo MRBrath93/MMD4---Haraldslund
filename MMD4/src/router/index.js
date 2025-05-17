@@ -27,6 +27,7 @@ import ModerOgKonferencer from '@/views/ModerOgKonferencerView.vue';
 import HaraldslundPraktiskInfo from '@/views/HaraldslundPraktiskInfo.vue';
 import MEnkeltHoldView from '@/views/MEnkeltHoldView.vue';
 import VWEnkeltHoldView from '@/views/VWEnkeltHoldView.vue';
+import EventsView from '@/views/EventsView.vue';
 
 const router = createRouter({
   history: createWebHashHistory(), // Brug hash-baseret historik
@@ -286,6 +287,15 @@ const router = createRouter({
           meta: {
             title: 'Brugerraad - Haraldslund',
             breadcrumb: 'Brugerråd',
+          }
+        },
+        {
+          path: 'events',
+          component: EventsView,
+          name: 'haraldslund-events',
+          meta: {
+            title: 'Events - Haraldslund',
+            breadcrumb: 'Events',
           }
         },
       ]
