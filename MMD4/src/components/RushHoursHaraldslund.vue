@@ -231,13 +231,14 @@ const chartOptions = {
   <div class="rush-hours">
     <div class="date--picker">
       <button 
+      class="left"
         @click="goToPreviousDay" 
         :disabled="isPreviousDisabled" 
         :class="{ disabled: isPreviousDisabled }">
         <span class="material-symbols-rounded">chevron_left</span>
       </button>
       <p class="bold">{{ formattedDate }}</p>
-      <button 
+      <button class="right"
         @click="goToNextDay" 
         :disabled="isNextDisabled" 
         :class="{ disabled: isNextDisabled }">
@@ -312,8 +313,16 @@ button{
     align-items: center;
     width: fit-content;
     padding: 0;
+}
+
+.left{
     border-top-left-radius: var(--border-radius);
     border-bottom-left-radius: var(--border-radius);
+}
+
+.right{
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
 }
 
 button:hover{

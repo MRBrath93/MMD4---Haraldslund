@@ -55,10 +55,13 @@ onBeforeUnmount(() => {
 .spinner-wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 1rem;
   font-family: var(--font-heading);
   color: white;
+  height: 100vh;
+  margin:var(--spacer-Elements);
 }
 
 .spinner {
@@ -72,7 +75,7 @@ onBeforeUnmount(() => {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: var(--spacer-x2-5);
+  font-size: 2.8rem;
   user-select: none;
   animation: pulse 2.5s infinite ease-in-out;
 }
