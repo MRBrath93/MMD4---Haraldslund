@@ -3,8 +3,8 @@ import imgMeet from '@/assets/images/2024-Haraldslund_Wellness_015.jpg'
 import imgWell from '@/assets/images/2024-Haraldslund_Wellness_041.jpg'
 import imgSvom from '@/assets/images/svomme.jpg'
 import imgMot from '@/assets/images/motion.jpg'
-import TheTeamCard from '@/components/TheTeamCard.vue'
 
+import DynamicHeading from '@/components/DynamicHeading.vue';
 import EntryPoint from '@/components/EntryPoint.vue';
 import TheBtn from '@/components/TheBtn.vue';
 import Reklamekort from '@/components/Reklamekort.vue';
@@ -232,7 +232,7 @@ function getImage(billede) {
 </script>
 
 <template>
-<body>
+<span>
     <main v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
@@ -248,9 +248,9 @@ function getImage(billede) {
         :image="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></FrontpageTheHero>
         
-        <section class="textsection" v-for="tekstsektion in forsideData.Indhold.Afsnit" :key="tekstsektion.id">
+        <section class="textsection" v-for="(tekstsektion,index) in forsideData.Indhold.Afsnit" :key="tekstsektion.id">
             <article class="flex--column flex1">
-                <h1>{{ tekstsektion.Overskrift }}</h1>
+                <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 6)">{{ tekstsektion.Overskrift }}</DynamicHeading>
                 <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
                     <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
                     <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
@@ -258,7 +258,7 @@ function getImage(billede) {
                     </ul>
                     <p v-else> {{ single_text.Brodtekst }}</p>
                 </div>
-                <div class="btn--container">
+                <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 1" class="btn--container">
                     <TheBtn
                     v-for="btn in tekstsektion.Knapper"
                     :key="btn.id"
@@ -330,7 +330,7 @@ function getImage(billede) {
         :kategori="forsideData.reklame_kort.Kategori" 
         :Btn_icon="forsideData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     </main>
-</body>
+</span>
 </template>
 
 

@@ -40,9 +40,5 @@ defineProps({
     border: 1px solid white;
   }
 
-  .image-container {
-  min-height: 100%;
-}
-
   </style>
   

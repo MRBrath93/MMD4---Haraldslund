@@ -27,7 +27,7 @@ defineProps({
     justify-content: center;
     align-items: center;
     text-align: center;
-    height: 7.6rem;
+    height: 50vh;
     width: 100%;
     margin-bottom: var(--spacer-x5);
 }
@@ -82,7 +82,7 @@ defineProps({
 
 #hero-image {
     width: 100%;
-    height: 7.6rem;
+    height: 50vh;
     object-fit: cover;
     position: absolute;
     top: 0;
