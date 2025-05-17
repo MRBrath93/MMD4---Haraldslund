@@ -78,7 +78,7 @@ template{
   width: 95%;
   max-width: 1432px;
   padding: 0 2rem;
-  margin: 50px auto;
+  margin: var(--spacer-Elements) auto;
 }
 
 .billede{
