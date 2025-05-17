@@ -466,6 +466,8 @@ tr:nth-child(even){
         </table>
         <RushHoursHaraldslund></RushHoursHaraldslund>
     </section>
+    <Reklamekort :src="getImage(forsideData.reklame_kort.Billede)" :alt="forsideData.reklame_kort.Billede.alternativeText" :title="forsideData.reklame_kort.Titel" :text="forsideData.reklame_kort.Tekst_afsnit" :Btn_title="forsideData.reklame_kort.Knapper[0].btn_titel" :Btn_text="forsideData.reklame_kort.Knapper[0].btn_description" :kategori="forsideData.reklame_kort.Kategori" :Btn_icon="forsideData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+
     </main>
   </body>
 </template>
