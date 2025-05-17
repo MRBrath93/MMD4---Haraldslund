@@ -25,7 +25,7 @@ const isExternalLink = computed(() => {
 
 <template>
    <!-- Knap uden link -->
-  <button v-if="!link" class="button" @click="handleClick">
+  <button v-if="!link" :aria-label="text" class="button" @click="handleClick">
     <slot>
       <div class="flex">
         <div class="flex-column">
@@ -38,7 +38,7 @@ const isExternalLink = computed(() => {
   </button>
 
   <!-- Eksternt link -->
-  <a v-else-if="isExternalLink" :href="link" :target="target" class="button">
+  <a v-else-if="isExternalLink" :aria-label="text" :href="link" :target="target" class="button">
     <slot>
       <div class="flex">
         <div class="flex-column">
@@ -51,7 +51,7 @@ const isExternalLink = computed(() => {
   </a>
 
   <!-- Internt link via RouterLink -->
-  <RouterLink v-else :to="link" class="button">
+  <RouterLink v-else :to="link" :aria-label="text" class="button">
     <slot>
       <div class="flex">
         <div class="flex-column">

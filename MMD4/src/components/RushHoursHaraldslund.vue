@@ -173,7 +173,7 @@ const chartData = computed(() => ({
     // Farve baseret på antal besøgende
     backgroundColor: visitorData.value.map(v => getColor(v.amount)),
     hoverBorderColor: '#bcbcbc',
-    hoverBorderWidth: 2,
+    hoverBorderWidth: .5,
     borderRadius: {
       topLeft: 10,
       topRight: 10,
@@ -229,6 +229,10 @@ const chartOptions = {
 
 <template>
   <div class="rush-hours">
+    <div class="intro">
+      <h4>Planlæg dit besøg - undgå myldretiden</h4>
+      <p>Få et hurtigt overblik over, hvornår der typisk er flest besøgende i Haraldslund Kulturhus. Grafen viser det forventede aktivitetsniveau i løbet af dagen baseret på tidligere besøgstal.</p>
+    </div>
     <div class="date--picker">
       <button 
       class="left"
@@ -245,10 +249,6 @@ const chartOptions = {
         <span class="material-symbols-rounded">chevron_right</span>
       </button>
     </div>
-    <div class="intro">
-      <h4>Planlæg dit besøg - undgå myldretiden</h4>
-      <p>Få et hurtigt overblik over, hvornår der typisk er flest besøgende i Haraldslund Kulturhus. Grafen viser det forventede aktivitetsniveau i løbet af dagen baseret på tidligere besøgstal.</p>
-    </div>
     <Bar :data="chartData" :options="chartOptions" />
   </div>
 </template>
@@ -263,11 +263,10 @@ button.disabled {
 .rush-hours {
   background-color:var(--color-activity-viewer);
   border-radius: var( --border-radius);
-  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: var(--spacer-x2);
+  gap: var(--spacer-x1);
   color: var(--color-font-2);
   width: 95%;
   max-width: 1000px;
@@ -304,30 +303,21 @@ button.disabled {
 }
 
 button{
-    border: none;
-    background-color: transparent;
-    color: var(--color-font-1);
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: fit-content;
-    padding: 0;
-}
-
-.left{
-    border-top-left-radius: var(--border-radius);
-    border-bottom-left-radius: var(--border-radius);
-}
-
-.right{
-    border-top-right-radius: var(--border-radius);
-    border-bottom-right-radius: var(--border-radius);
+  border: 1px solid transparent;
+  background-color: transparent;
+  color: var(--color-font-1);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 0;
 }
 
 button:hover{
-    background-color: var(--color-btn-primary-hover);
-    color: var(--color-font-2);
+  background-color: var(--color-btn-primary-hover);
+  color: var(--color-font-2);
+  border: 1px solid var(--color-btn-primary-hover);
 }
 
 .material-symbols-rounded{
@@ -344,6 +334,7 @@ text-align: center;
     color: var(--color-font-1);
     border-radius: var(--border-radius);
     border: 1px solid var(--color-font-1);
+    margin: 0 auto;
 }
 
 @media screen and (max-width: 700px) {

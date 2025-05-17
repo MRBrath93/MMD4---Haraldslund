@@ -39,7 +39,7 @@ const computedBtnLink = computed(() => {
       return '/om-haraldslund/cafe-harald';
     case 'Firmaaftaler':
       return '/om-haraldslund/firmaaftaler';
-    case 'Firmaaftaler':
+    case 'Historien':
       return '/om-haraldslund/vores-historie';
     case 'Personale':
       return '/om-haraldslund/personale';

@@ -57,7 +57,7 @@ onBeforeUnmount(() => {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: var(--spacer-x1);
   font-family: var(--font-heading);
   color: white;
   height: 100vh;
@@ -124,7 +124,7 @@ onBeforeUnmount(() => {
 }
 
 .loading-text {
-  font-size: 1.1rem;
+  font-size: var(--spacer-x1);
   font-weight: 600;
   color: var(--color-font-1);
 }
