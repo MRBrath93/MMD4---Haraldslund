@@ -28,6 +28,9 @@
   list-style: none;
   padding: var(--spacer-x1) 0;
   width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  margin-bottom: var(--spacer-x2);
 }
 
 .breadcrumb-item + .breadcrumb-item::before {

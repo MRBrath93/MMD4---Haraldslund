@@ -10,6 +10,61 @@ const props = defineProps({
   target: String,
 });
 
+const computedBtnLink = computed(() => {
+  switch (props.link) {
+    case 'Motion':
+      return '/motion';
+    case 'Wellness':
+      return '/vand-og-wellness/wellness';
+    case 'Svømmehal':
+      return '/vand-og-wellness/svommehallen';
+    case 'Møder & Konferencer':
+      return '/moder-og-konferencer';
+    case 'Om Haraldslund':
+      return '/om-haraldslund';
+    case 'Bibliotek':
+      return '/om-haraldslund/bibliotek';
+    case 'Brugerråd':
+      return '/om-haraldslund/brugerraad';
+    case 'Cafe':
+      return '/om-haraldslund/cafe-harald';
+    case 'Firmaaftaler':
+      return '/om-haraldslund/firmaaftaler';
+    case 'Historien':
+      return '/om-haraldslund/vores-historie';
+    case 'Personale':
+      return '/om-haraldslund/personale';
+    case 'Praktisk information':
+      return '/om-haraldslund/praktisk-info';
+    case 'Samlet priser':
+      return '/om-haraldslund/priser';
+    case 'Motion hold':
+      return '/motion/holdoversigt';
+    case 'Leje af sal og instruktør':
+      return '/motion/leje-af-sal-og-instruktor';
+    case 'Om motionscenteret':
+      return '/motion/om-motioncenteret';
+    case 'Personlig træning':
+      return '/motion/personlig-traening';
+    case 'Motion priser':
+      return '/motion/priser';
+    case 'Motion regler':
+      return '/motion/regler';
+    case 'Sundhed i bevægelse':
+      return '/motion/sundhed-i-bevaegelse';
+    case 'Vand og wellness':
+      return '/vand-og-wellness';
+    case 'VW hold':
+      return '/vand-og-wellness/holdoversigt';
+    case 'VW priser':
+      return '/vand-og-wellness/priser';
+    case 'VW regler':
+      return '/vand-og-wellness/regler';
+    default:
+      return props.link || '#';
+  }
+});
+
 const handleClick = () => {
   if (props.onClick) {
     // Kald den funktion, der er sendt som prop
@@ -38,7 +93,7 @@ const isExternalLink = computed(() => {
   </button>
 
   <!-- Eksternt link -->
-  <a v-else-if="isExternalLink" :aria-label="text" :href="link" :target="target" class="button">
+  <a v-else-if="isExternalLink" :aria-label="text" :href="computedBtnLink" :target="target" class="button">
     <slot>
       <div class="flex">
         <div class="flex-column">
@@ -51,7 +106,7 @@ const isExternalLink = computed(() => {
   </a>
 
   <!-- Internt link via RouterLink -->
-  <RouterLink v-else :to="link" :aria-label="text" class="button">
+  <RouterLink v-else :to="computedBtnLink" :aria-label="text" class="button">
     <slot>
       <div class="flex">
         <div class="flex-column">

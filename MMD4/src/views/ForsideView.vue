@@ -262,6 +262,7 @@ function getImage(billede) {
                     <TheBtn
                     v-for="btn in tekstsektion.Knapper"
                     :key="btn.id"
+                    :link="btn.link_to"
                     :title="btn.btn_titel"
                     :text="btn.btn_description"
                     :icon="btn.Ikon[0]"></TheBtn>
