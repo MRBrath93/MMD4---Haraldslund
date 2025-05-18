@@ -204,10 +204,8 @@ section{
     .btn--container{
         flex-direction: row;
     }
-
- 
-
 }
+
 @media screen and (min-width: 900px) {
     .textsection{
         flex-direction: row;
