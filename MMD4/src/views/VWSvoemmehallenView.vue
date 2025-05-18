@@ -8,7 +8,6 @@ import Reklamekort from '@/components/Reklamekort.vue';
 import ImageHolder from '@/components/ImageHolder.vue';
 import DynamicHeading from '@/components/DynamicHeading.vue';
 import { ref, onMounted } from 'vue';
-import Svomimg from '../assets/images/motion.jpg'
 
 const internNavLabels = [
     { id: 1, label: "Svømmehallen", name: "svommehallen-vandogwellness" },
@@ -116,6 +115,7 @@ function getImage(billede) {
                     <TheBtn
                     v-for="btn in tekstsektion.Knapper"
                     :key="btn.id"
+                    :link="btn.link_to"
                     :title="btn.btn_titel"
                     :text="btn.btn_description"
                     :icon="btn.Ikon[0]"></TheBtn>

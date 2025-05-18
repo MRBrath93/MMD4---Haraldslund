@@ -26,7 +26,7 @@ const computedBtnLink = computed(() => {
     case 'Wellness':
       return '/vand-og-wellness/wellness';
     case 'Svømmehal':
-      return '/vand-og-wellness/svommehal';
+      return '/vand-og-wellness/svommehallen';
     case 'Møder & Konferencer':
       return '/moder-og-konferencer';
     case 'Om Haraldslund':
