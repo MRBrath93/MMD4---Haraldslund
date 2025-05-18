@@ -4,20 +4,48 @@ import TheBtn from './TheBtn.vue'
 import { computed } from 'vue';
 
 const props = defineProps({
-  src: String,
+  src: {
+    type: String,
+    default: 'https://via.placeholder.com/600x400?text=Test+Billede',
+  },
   alt: {
     type: String,
     default: 'Ingen beskrivelse til billedet',
   },
-  title: String,
-  text: String,
-  kategori: String,
-  Btn_title: String,
-  Btn_text: String,
-  Btn_link: String,
-  Btn_icon: String,
-  Btn_target: String,
+  title: {
+    type: String,
+    default: 'Test Overskrift',
+  },
+  text: {
+    type: String,
+    default: 'Dette er en test tekst, som vises, hvis ingen anden tekst er givet.',
+  },
+  kategori: {
+    type: String,
+    default: 'Default',
+  },
+  Btn_title: {
+    type: String,
+    default: 'Læs mere',
+  },
+  Btn_text: {
+    type: String,
+    default: 'Læs mere om dette emne',
+  },
+  Btn_link: {
+    type: String,
+    default: '#',
+  },
+  Btn_icon: {
+    type: String,
+    default: 'arrow-right', // forudsat du bruger et ikon-bibliotek
+  },
+  Btn_target: {
+    type: String,
+    default: '_self',
+  },
 });
+
 
 const computedBtnLink = computed(() => {
   switch (props.kategori) {

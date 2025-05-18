@@ -146,11 +146,6 @@ function getImage(billede) {
 
 <style scoped>
 
-
-.heroImage img{
-    object-position: top;
-}
-
 .galleri {
   display: grid;
   grid-template-columns: 1fr;
@@ -264,7 +259,6 @@ section{
 }
 
 .galleri .galleryImg:nth-child(4) {
-
   grid-row: 1/3;
 }
 

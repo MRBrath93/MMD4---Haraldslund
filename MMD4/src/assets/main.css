@@ -115,7 +115,7 @@ a:active {
 p,
 a {
   /* 16–24px */
-  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-size: 1rem;
   line-height: 1.5;
   max-width: 75ch;
   font-family: var(--font-text);
@@ -129,7 +129,7 @@ a {
 }
 
 .punkt {
-  font-size: clamp(1rem, 2vw, 1.125rem);
+  font-size: 1rem;
   line-height: 1.5;
   max-width: 75ch;
   font-family: var(--font-text);

@@ -10,14 +10,14 @@ defineProps({
 
 
 <template>
-    <div class="image-container">
+    <div class="images-container">
       <img :src="src" :alt="alt" class="image" />
       <div class="overlay-border"></div>
     </div>
 </template>
   
   <style scoped>
-  .image-container {
+  .images-container {
     position: relative;
     display: block;
     width: 100%;
