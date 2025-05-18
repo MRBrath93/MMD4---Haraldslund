@@ -29,7 +29,7 @@ defineProps({
     text-align: center;
     height: 7.6rem;
     width: 100%;
-    margin-bottom: var(--spacer-Elements);
+    margin-bottom: 2rem;
 }
 
 

@@ -7,7 +7,8 @@ import TheBtn from '@/components/TheBtn.vue';
 import Reklamekort from '@/components/Reklamekort.vue';
 import ImageHolder from '@/components/ImageHolder.vue';
 import DynamicHeading from '@/components/DynamicHeading.vue';
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
+import Svomimg from '../assets/images/motion.jpg'
 
 const internNavLabels = [
     { id: 1, label: "Svømmehallen", name: "svommehallen-vandogwellness" },
@@ -103,17 +104,15 @@ function getImage(billede) {
         <section v-for="(tekstsektion,index) in svoemmehalData.Indhold.Afsnit" :key="tekstsektion.id">
             <div class="textsection" :class="['textsection', { 'small-margin': index === 1 }, { 'reverse-layout': index === 2 }]">
                 <article class="flex--column flex1">
-                    <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 6)">
-  {{ tekstsektion.Overskrift }}
-</DynamicHeading>
-                <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
-                    <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
-                    <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
-                        <li> {{ single_text.Brodtekst }}</li>
-                    </ul>
-                    <p v-else> {{ single_text.Brodtekst }}</p>
-                </div>
-                <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 1" class="btn--container">
+                    <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 6)">{{ tekstsektion.Overskrift }}</DynamicHeading>
+                    <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
+                        <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
+                        <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
+                            <li> {{ single_text.Brodtekst }}</li>
+                        </ul>
+                        <p v-else> {{ single_text.Brodtekst }}</p>
+                    </div>
+                    <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 1" class="btn--container">
                     <TheBtn
                     v-for="btn in tekstsektion.Knapper"
                     :key="btn.id"
@@ -145,6 +144,7 @@ function getImage(billede) {
 </template>
 
 <style scoped>
+
 
 .galleri {
   display: grid;
@@ -185,6 +185,10 @@ function getImage(billede) {
 
 .small-margin{
     margin: var(--spacer-x1) auto;
+}
+
+.small-margin .flex--column, .reverse-layout .flex--column{
+    justify-content: center;
 }
 
 .img--container {
