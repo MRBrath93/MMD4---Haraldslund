@@ -4,6 +4,7 @@ import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 import TheHero from "@/components/TheHero.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
+import TheSpinner from "@/components/TheSpinner.vue";
 
 import { ref, onMounted } from "vue";
 
@@ -54,7 +55,11 @@ function getImage(billede) {
 </script>
 
 <template>
-    <main v-if="isLoading">Indlæser...</main>
+    <main v-if="isLoading">        
+      <TheSpinner>
+            <span class="material-icons">sports_gymnastics</span>
+        </TheSpinner>
+      </main>
     <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
     <main v-else>
       <TheHero
@@ -67,41 +72,49 @@ function getImage(billede) {
       <TheBreadcrumb />  
   
       <TheInternNavMotion :labels="internNavLabels" />
-        <h1>{{ motionData.Titel }}</h1>
-      <section v-for="afsnit in motionData.Indhold.Afsnit || []" :key="afsnit.id" >
+      <h1>{{ motionData.Titel }}</h1>
+      <section v-for="(afsnit, index) in motionData.Indhold.Afsnit || []" :key="afsnit.id" >
+        
         <h2>{{ afsnit.Overskrift }}</h2>
-  
-        <div class="tekst-section" v-for="afsnit in motionData.Indhold.Afsnit || []" :key="afsnit.id">
+        <div class="container">
+          <div class="flex-column-container">
             <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+                <p class="fat-text" v-if="tekst.Underoverskift" :key="tekst.id"> 
+                  {{ tekst.Underoverskift }}</p>
                 <p>{{ tekst.Brodtekst }}</p>
             </div>
-
+          </div>
+          <aside v-if="motionData.Billeder?.length > 0">
+            <ImageHolder
+              v-for="billede in motionData.Billeder"
+              :key="billede.id"
+              class="side-img"
+              :src="getImage(billede)"
+              :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
+          </aside>
         </div>
-        <aside v-if="afsnit.Billede?.length == 1 ">
-          <ImageHolder
-            v-for="billede in afsnit.Billede"
-            :key="billede.id"
-            class="side-img"
-            :src="getImage(billede)"
-            :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-        </aside>
-        <article class="gallery-grid" v-if="afsnit.Billede?.length > 1">
-          <ImageHolder
-            v-for="billede in afsnit.Billede"
-            :key="billede.id"
-            class="gallery-img"
-            :src="getImage(billede)"
-            :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-        </article>
-      </section>
+        <article>
+          <div class="gallery-grid" v-if="afsnit.Billede?.length > 1">
+            <ImageHolder
+              v-for="billede in afsnit.Billede"
+              :key="billede.id"
+              class="gallery-img"
+              :src="getImage(billede)"
+              :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
+            </div>
+          </article>
+        </section>
 
-      <!-- <article>
-        <Reklamekort
-          :title="motionData.Reklamekort?.Titel"
-          :subtitle="motionData.Reklamekort?.Undertitel"
-          :image="getImage(motionData.Reklamekort?.Billede)"
-          :alt="motionData.Reklamekort?.Billede?.data?.attributes?.alternativeText || 'Reklamekort billede'" />
-      </article> -->
+      <Reklamekort 
+        :src="getImage(motionData.reklame_kort.Billede) || '' " 
+        :alt="motionData.reklame_kort.Billede.alternativeText" 
+        :title="motionData.reklame_kort.Titel" 
+        :text="motionData.reklame_kort.Tekst_afsnit" 
+        :Btn_title="motionData.reklame_kort.Knapper[0].btn_titel" 
+        :Btn_text="motionData.reklame_kort.Knapper[0].btn_description" 
+        :kategori="motionData.reklame_kort.Kategori" 
+        :Btn_icon="motionData.reklame_kort.Knapper[0].Ikon[0]">
+      </Reklamekort>
     </main>
   </template>
   
@@ -113,6 +126,19 @@ main{
     align-items: center;
     justify-content: center;
 }
+
+.container {
+    display: flex;
+    flex-direction: column;
+  
+}
+
+.flex-column-container{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-x2);
+}
+
 
 .tekst-section {
     display: flex;
@@ -130,10 +156,9 @@ main{
     padding: var(--spacer-x1);
 }
 
-.side-img {
+aside {
     max-width: 700px;
     max-height: 845px;
-    object-fit: cover;
 }
 
 .gallery-img {
@@ -147,6 +172,22 @@ main{
     max-height: 674px;
 }
 
+.fatText {
+  font-weight: 700;
+  padding: var(--spacer-x0-5) 0;
+}
+
+@media screen and (min-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    flex-section {
+        flex-direction: column;
+        gap: var(--spacer-x2);
+    }
+
+}
 
 
 </style>

@@ -95,15 +95,24 @@ function getImage(billede) {
     <section class="white-bg" v-for="indhold in motionPriser.Indhold.Afsnit || []" :key="indhold.id">
         <h3>{{ indhold.Overskrift }}</h3>
         <div v-for="tekst in indhold.Tekst || []" :key="tekst.id">
-        <ul class="liste" v-if="tekst.Skal_det_punktopstilles">
-            <li> {{ tekst.Brodtekst }}</li>
-        </ul>
-        <p v-else> {{ tekst.Brodtekst }}</p>
+            <p class="fatText" v-if="tekst.Underoverskift" :key="tekst.id"> {{ tekst.Underoverskift }}</p>
+            <ul class="liste" v-if="tekst.Skal_det_punktopstilles">
+                <li> {{ tekst.Brodtekst }}</li>
+            </ul>
+            <p v-else> {{ tekst.Brodtekst }}</p>
         </div>
-
     </section>
   
-    <Reklamekort></Reklamekort>
+    <Reklamekort 
+        :src="getImage(motionPriser.reklame_kort.Billede) || '' " 
+        :alt="motionPriser.reklame_kort.Billede.alternativeText" 
+        :title="motionPriser.reklame_kort.Titel" 
+        :text="motionPriser.reklame_kort.Tekst_afsnit" 
+        :Btn_title="motionPriser.reklame_kort.Knapper[0].btn_titel" 
+        :Btn_text="motionPriser.reklame_kort.Knapper[0].btn_description" 
+        :kategori="motionPriser.reklame_kort.Kategori" 
+        :Btn_icon="motionPriser.reklame_kort.Knapper[0].Ikon[0]">
+      </Reklamekort>
 
            
     
@@ -125,7 +134,7 @@ function getImage(billede) {
     padding: var(--spacer-x2);
     display: flex;
     flex-direction: column;
-    width: 30.75rem;
+    width: 18rem;
 }
 
 .pris-article ul {
@@ -135,6 +144,9 @@ function getImage(billede) {
 .pris-article li {
     display: flex;
     padding-bottom: var(--spacer-x0-5);
+}
+
+li {
     font-family: var(--font-text);
 }
 
@@ -161,7 +173,17 @@ main {
     margin: var(--spacer-x4) auto;
 }
 
+.fatText {
+  font-weight: 700;
+  padding: var(--spacer-x0-5) 0;
+}
 
+@media screen and (min-width: 768px) {
+    .pris-article {
+        width: 30.75rem;
+        margin: 0 auto;
+    }
+}
 
 
 

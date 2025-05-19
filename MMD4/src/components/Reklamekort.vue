@@ -115,7 +115,9 @@ const kategoriColor = computed(() => {
       return 'bg-meeting';
     case 'Wellness':
       return 'bg-wellness';
-    case 'Motion':
+    case 'Motion hold':
+      return 'bg-motion';
+    case 'Personlig træning':
       return 'bg-motion';
     case 'Svømmehal':
       return 'bg-svommehal';
