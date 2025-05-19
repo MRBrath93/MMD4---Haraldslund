@@ -1,11 +1,55 @@
+// IMPORTS
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
+// Pinia store til motion classes
+// Denne store håndterer data og tilstand for motion classes, herunder filtrering af klasser baseret på kategori.
 export const useClassesStoreWater = defineStore("waterclasses", () => {
     const classes = ref([]);
+    const isLoading = ref(false);
+    const numberOfTeams = ref(0);
+    const numberOfClasses = ref(0);
+    const selectedCategory = ref("Alle Hold"); // default kategori
+    const availableCategories = [
+        "Alle Hold",
+        "Mindfullness",
+        "Styrketræning",
+        "Cirkeltræning",
+        "Specialhold",
+        "Kredsløbstræning",
+        "Undervisning",
+        "Wellness"
+    ];
+
+    // FILTERING
+    // Der anvendes en computed property til at filtrere holdene baseret på den valgte kategori. Det gør det muligt at opdatere listen af hold dynamisk, når brugeren vælger en kategori.
+    const filteredClasses = computed(() => {
+        // Hvis ingen kategori er valgt, eller hvis "Alle Hold" er valgt, returneres alle klasser
+        if (!selectedCategory.value || selectedCategory.value === "Alle Hold") {
+            numberOfClasses.value = classes.value.length; // Opdaterer antallet af klasser til det samlede antal
+            return classes.value;
+        }
+        // Ellers filtreres klasserne baseret på den valgte kategori. Der anvendes en JS-metode til at filtrere klasserne, der matcher den valgte kategori.
+        // Her antages det, at hver klasse har en 'kategorier' egenskab, der er et array af kategorier.
+        // includes metoden bruges til at tjekke, om den valgte kategori findes i klassens kategorier.
+
+        let filteredClasses = classes.value.filter(klasse =>
+            klasse.kategorier && klasse.kategorier.includes(selectedCategory.value)
+        );
+        numberOfClasses.value = filteredClasses.length; // Opdaterer antallet af klasser baseret på filtreringen
+        return filteredClasses.sort((a, b) => a.name.localeCompare(b.name, 'da', { sensitivity: 'base' }));
+    });
+
+    // Funktion til at ændre den valgte kategori. Denne funktion opdaterer den reaktive 'selectedCategory' værdi, når brugeren vælger en ny kategori.
+    // Dette gør det muligt at opdatere den viste liste af klasser i UI'en.
+    // Funktionen tager en kategori som parameter og opdaterer 'selectedCategory' værdien.
+    const setCategory = (category) => {
+        selectedCategory.value = category;
+    };
 
     // Fetch data from Strapi using .then()
     const fetchClasses = () => {
+        isLoading.value = true;
         fetch(
             "https://popular-gift-b355856076.strapiapp.com/api/hold-vands?pLevel"
         )
@@ -21,6 +65,7 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
                     aflysning: item.Aflysning,
                     praktiskeOplysninger: item.De_praktiske_oplysninger,
                     priser: item.Priser,
+                    type_af_hold: item.Type_af_hold,
                     coverbilledeLarge: item.Cover_Billedet.formats.large ? item.Cover_Billedet.formats.large.url : null,
                     coverbilledeMedium: item.Cover_Billedet.formats.medium ? item.Cover_Billedet.formats.medium.url : null,
                     coverbilledeSmall: item.Cover_Billedet.formats.small ? item.Cover_Billedet.formats.small.url : null,
@@ -68,16 +113,28 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
                         })) : [], // Hvis "Afsnit" er null, giv en tom array
                     } : {}, // Hvis "Indhold" er null, giv et tomt objekt
                 }));
+                // Total Antal hold (Til counter)
+                numberOfTeams.value = classes.value.length;
             })
             .catch(error => {
                 console.error("Fejl ved hentning af hold:", error);
+            })
+            .finally(() => {
+                isLoading.value = false; // Stop spinner
             });
+
     };
 
 
-
-    // Computed property
-    const numberOfClasses = computed(() => classes.value.length);
-
-    return { classes, numberOfClasses, fetchClasses, };
+    return {
+        classes,
+        numberOfClasses,
+        numberOfTeams,
+        fetchClasses,
+        filteredClasses,
+        selectedCategory,
+        setCategory,
+        availableCategories,
+        isLoading
+    };
 });

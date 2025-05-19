@@ -29,12 +29,12 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
         // Ellers filtreres klasserne baseret på den valgte kategori. Der anvendes en JS-metode til at filtrere klasserne, der matcher den valgte kategori.
         // Her antages det, at hver klasse har en 'kategorier' egenskab, der er et array af kategorier.
         // includes metoden bruges til at tjekke, om den valgte kategori findes i klassens kategorier.
-        
+
         let filteredClasses = classes.value.filter(klasse =>
             klasse.kategorier && klasse.kategorier.includes(selectedCategory.value)
         );
         numberOfClasses.value = filteredClasses.length; // Opdaterer antallet af klasser baseret på filtreringen
-        return filteredClasses;
+        return filteredClasses.sort((a, b) => a.name.localeCompare(b.name, 'da', { sensitivity: 'base' }));
     });
 
     // Funktion til at ændre den valgte kategori. Denne funktion opdaterer den reaktive 'selectedCategory' værdi, når brugeren vælger en ny kategori.
@@ -61,6 +61,7 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
                     aflysning: item.Aflysning,
                     praktiskeOplysninger: item.De_praktiske_oplysninger,
                     priser: item.Priser,
+                    type_af_hold: item.Type_af_hold,
                     coverbilledeLarge: item.Cover_Billedet.formats.large ? item.Cover_Billedet.formats.large.url : null,
                     coverbilledeMedium: item.Cover_Billedet.formats.medium ? item.Cover_Billedet.formats.medium.url : null,
                     coverbilledeSmall: item.Cover_Billedet.formats.small ? item.Cover_Billedet.formats.small.url : null,
