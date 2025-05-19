@@ -155,7 +155,10 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
             });
     };
 
-
+    // Ny funktion: Find klasse efter ID
+    const getClassById = (id) => {
+        return classes.value.find(klasse => klasse.id === id);
+    };
 
     return {
         classes,
@@ -166,6 +169,9 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
         selectedCategory,
         setCategory,
         availableCategories,
-        isLoading
+        isLoading,
+
+        // Eksporterer den nye getter
+        getClassById,
     };
 });
