@@ -110,6 +110,7 @@ const computedTarget = computed(() => {
 const kategoriColor = computed(() => {
   switch (props.kategori) {
     case 'Om Haraldslund':
+    case 'Historien':
       return 'bg-haraldslund';
     case 'Møder & Konferencer':
       return 'bg-meeting';
@@ -210,7 +211,7 @@ template{
 }
 
 .bg-default {
-  background-color: #eecdad;
+  background-color: #ffffff;
 }
 
 

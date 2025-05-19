@@ -131,7 +131,7 @@ isScreenLarge.value = window.innerWidth >= 768;
         </section> 
         
         <section>
-            <h2 class="text-align-center">Udforsk vores tilbud</h2>
+            <h2 class="text-align-center">Din tid, din træning - vælg det tilbud der passer dig</h2>
             <div class="card-container">
                 <EntryPoint 
                     class="entrypoint" 
@@ -247,6 +247,5 @@ main{
     max-width: 27.5rem;
   }
 }
-
 
 </style>

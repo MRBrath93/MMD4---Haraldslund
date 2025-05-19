@@ -33,12 +33,21 @@ defineProps({
   
   .overlay-border {
     position: absolute;
-    top: .6rem;
-    left: .6rem;
-    right: .6rem;
-    bottom: .6rem;
+    top: .5rem;
+    left: .5rem;
+    right: .5rem;
+    bottom: .5rem;
     border: 1px solid white;
   }
+
+  @media screen and (min-width: 800px) {
+    .overlay-border {
+      top: 1rem;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+    }
+}
 
   </style>
   
