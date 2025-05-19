@@ -30,7 +30,7 @@ onMounted(() => {
   isLoading.value = true;
   error.value = null;
 
-  const cachedvwRaw = localStorage.getItem('vandogwellnessData ');
+  const cachedvwRaw = localStorage.getItem('vandogwellnessData');
   const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
   const now = Date.now();
 
@@ -39,7 +39,7 @@ onMounted(() => {
 
     if (now - cachedTimestamp < CACHE_DURATION_MS) {
       try {
-        vandogwellnessData .value = JSON.parse(cachedvwRaw);
+        vandogwellnessData.value = JSON.parse(cachedvwRaw);
         isLoading.value = false;
         return;
       } catch (e) {
@@ -56,8 +56,8 @@ onMounted(() => {
       return response.json();
     })
     .then(json => {
-      vandogwellnessData .value = json.data;
-      localStorage.setItem('vandogwellnessData ', JSON.stringify(vandogwellnessData .value));
+      vandogwellnessData.value = json.data;
+      localStorage.setItem('vandogwellnessData', JSON.stringify(vandogwellnessData.value));
       localStorage.setItem('cacheTimestamp', now.toString());
     })
     .catch(err => {
@@ -81,7 +81,7 @@ function getImage(billede) {
 
 <template>
 <span>
-    <main v-if="isLoading">
+    <main v-if="isLoading" class="loading-container">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
@@ -91,17 +91,17 @@ function getImage(billede) {
     
     <main v-else>
         <TheHero class="heroImage"
-        :title="vandogwellnessData .Hero_sektion.Hero_titel_h5.Titel_H5"
-        :subtitle="vandogwellnessData .Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
-        :image="vandogwellnessData .Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
-        :alt="vandogwellnessData .Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
+        :title="vandogwellnessData.Hero_sektion.Hero_titel_h5.Titel_H5"
+        :subtitle="vandogwellnessData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
+        :image="vandogwellnessData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
+        :alt="vandogwellnessData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
 
         <TheBreadcrumb></TheBreadcrumb>
         <TheInternNavWater
             :label="internNavLabels"
         ></TheInternNavWater>
         
-        <section v-for="(tekstsektion,index) in vandogwellnessData .Indhold.Afsnit" :key="tekstsektion.id">
+        <section v-for="(tekstsektion,index) in vandogwellnessData.Indhold.Afsnit" :key="tekstsektion.id">
             <div class="textsection">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
@@ -146,6 +146,13 @@ function getImage(billede) {
 </template>
 
 <style scoped>
+
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* TEKST SECTION STYLE */
 
