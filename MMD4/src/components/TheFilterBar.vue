@@ -1,31 +1,42 @@
 <script setup>
-import { useClassesStoreMotion } from '@/stores/motion-classes.js';
+import { defineProps } from 'vue';
 
-const store = useClassesStoreMotion()
-
+const props = defineProps({
+  store: {
+    type: Object,
+    required: true
+  }
+});
 </script>
 
 <template>
-    <div>
-        <div class="flex-row-container"> 
-            <i class="material-symbols-rounded">filter_alt</i>
-            <h3>Filtrér efter kategori:</h3>
-        </div>
-        <div class="category-buttons">
-            <button
-            v-for="category in store.availableCategories"
-            :key="category"
-            @click="store.setCategory(category)"
-            :class="{ active: store.selectedCategory === category }"
-            >
-            {{ category }}
-            </button>
-        </div>
+  <div class="wrapper">
+    <div class="flex-row-container"> 
+      <i class="material-symbols-rounded">filter_alt</i>
+      <h5>Filtrér efter kategori:</h5>
     </div>
-  </template>
+    <div class="category-buttons">
+      <button
+        v-for="category in store.availableCategories"
+        :key="category"
+        @click="store.setCategory(category)"
+        :class="{ active: store.selectedCategory === category }"
+      >
+        {{ category }}
+      </button>
+    </div>
+  </div>
+</template>
   
 
   <style scoped>
+  .wrapper{
+    width: 95%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+
+  }
+
   .category-buttons {
     display: flex;
     gap: var(--spacer-x1);
@@ -36,7 +47,7 @@ const store = useClassesStoreMotion()
     border: none;
     cursor: pointer;
     font-family: var(--font-text);
-    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-size: 1rem;
     font-weight: 700;
     background-color: var(--color-btn-primary);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
@@ -45,6 +56,7 @@ const store = useClassesStoreMotion()
   
   button.active, button:hover {
     text-decoration: underline;
+    text-underline-offset: 5px;
     font-weight: bold;
     background-color: var(--color-navigation);
     color: var(--color-font-2);
@@ -59,6 +71,7 @@ const store = useClassesStoreMotion()
     display: flex;
     align-items: center;
     gap: var(--spacer-x0-5);
+    width: 100%;
 
   }
 

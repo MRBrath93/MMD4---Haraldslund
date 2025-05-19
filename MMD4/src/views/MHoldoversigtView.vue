@@ -76,10 +76,8 @@ const internNavLabels = [
       <p>Flere gange om året revideres vores holdplan, således at vi altid har spændende og aktuelle aktiviteter på programmet.</p>
       <section>
         <div class="filter-container">
-          <i class="material-symbols-rounded">filter_alt</i>
-          <h4>Kategorier:</h4>
           <TheFilterBar
-            :labels="classesStore.availableCategories"
+            :labels="classesStore.availableCategories" :store="classesStore"
             :selectedCategory="classesStore.selectedCategory"
             @categorySelected="classesStore.setCategory"
           />
@@ -95,7 +93,7 @@ const internNavLabels = [
                 :key="klasse.id"
                 :labels="{ label: klasse.name || 'Ukendt hold' }"
                 icon="arrow_forward"
-                backgroundColor="var(--color-motion)"
+                :backgroundColor="klasse.type_af_hold"
                 :teamCategorys="klasse.kategorier"
                 :link="{ name: 'holdbeskrivelse-motion', params: { id: klasse.id } }"
                 :teamImage="getCoverImage(klasse)"

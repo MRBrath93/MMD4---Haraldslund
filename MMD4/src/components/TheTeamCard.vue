@@ -1,8 +1,8 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted, onUnmounted, computed } from "vue";
 import { defineProps } from "vue";
 
-defineProps({
+const props =  defineProps({
   link: {
     type: [String, Object],
     required: true,
@@ -73,7 +73,18 @@ function checkScreenSize() {
   isScreenLarge.value = window.innerWidth >= 768;
 }
 
-
+const kategoriColor = computed(() => {
+  switch (props.backgroundColor) {
+    case 'Wellness':
+      return 'bg-wellness';
+    case 'Motion':
+      return 'bg-motion';
+    case 'Svømning':
+      return 'bg-svommehal';
+    default:
+      return 'bg-default';
+  }
+});
 
 </script>
 <template>
@@ -86,12 +97,12 @@ function checkScreenSize() {
     @mouseenter="handleMouseEnter"
     @mouseleave="handleMouseLeave"
   >
-    <i class="icon material-symbols-rounded" :style="{ backgroundColor: backgroundColor }">{{ icon }}</i>
+    <i class="icon material-symbols-rounded" :class="kategoriColor">{{ icon }}</i>
     <div class="team-card-overlay" :class="{ 'overlay-visible': overlayVisible }">
-      <i class="icon material-symbols-rounded" :style="{ backgroundColor: backgroundColor }">{{ icon }}</i>
+      <i class="icon material-symbols-rounded" :class="kategoriColor">{{ icon }}</i>
       <p class="overlay-text">{{ overlayText }}</p>
     </div>
-    <div :style="{ backgroundColor: backgroundColor }" class="card-label">
+    <div :class="kategoriColor" class="card-label">
       <h3>{{ labels.label }}</h3>
       <p v-if="teamCategorys.length > 0" class="card-tags">
         <span v-for="(category, index) in teamCategorys" :key="index">
@@ -194,6 +205,22 @@ function checkScreenSize() {
 }
 .overlay-visible .icon {
   display: block;
+}
+
+.bg-motion {
+  background-color: var(--color-motion);
+}
+
+.bg-svommehal {
+  background-color: var(--color-svim);
+}
+
+.bg-wellness {
+  background-color: var(--color-wellness);
+}
+
+.bg-default {
+  background-color: #FFF;
 }
 
 @media screen and (min-width: 768px) {
