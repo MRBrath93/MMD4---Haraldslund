@@ -131,10 +131,10 @@ function getImage(billede) {
             </div>
         </section>
         
-        <Reklamekort 
-        :src="getImage(wellnessData .reklame_kort.Billede)" 
+        <Reklamekort
+        :src="getImage(wellnessData .reklame_kort.Billede)"
         :alt="wellnessData .reklame_kort.Billede.alternativeText" 
-        :title="wellnessData .reklame_kort.Titel" 
+        :title="wellnessData .reklame_kort.Titel"
         :text="wellnessData .reklame_kort.Tekst_afsnit" 
         :Btn_title="wellnessData .reklame_kort.Knapper[0].btn_titel" 
         :Btn_text="wellnessData .reklame_kort.Knapper[0].btn_description" 

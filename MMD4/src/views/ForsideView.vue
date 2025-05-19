@@ -1,9 +1,4 @@
 <script setup>
-import imgMeet from '@/assets/images/2024-Haraldslund_Wellness_015.jpg'
-import imgWell from '@/assets/images/2024-Haraldslund_Wellness_041.jpg'
-import imgSvom from '@/assets/images/svomme.jpg'
-import imgMot from '@/assets/images/motion.jpg'
-
 import DynamicHeading from '@/components/DynamicHeading.vue';
 import EntryPoint from '@/components/EntryPoint.vue';
 import TheBtn from '@/components/TheBtn.vue';
@@ -273,15 +268,20 @@ function getImage(billede) {
             </div>
         </section>
         
-        <section>
+        <section class="entrypoints">
             <h2 class="text-align-center">Udforsk vores tilbud</h2>
-            <div class="four--column-grid">
-                <EntryPoint icon="arrow_forward" color="blue" title="Svømmehal" :bgimage="imgSvom" name="svommehallen-vandogwellness" />
-                <EntryPoint icon="arrow_forward" color="purple" title="Wellness" :bgimage="imgWell" name="vandogwellness" />
-                <EntryPoint icon="arrow_forward" color="green" title="Motion" :bgimage="imgMot" name="motion" />
-                <EntryPoint icon="arrow_forward" color="brown" title="Møder & Konferencer" :bgimage="imgMeet" name="moder-og-konferencer" />
+            <div class="card-container">
+                <EntryPoint v-for="card in forsideData.Entrypoints" :key="card.id"
+                    class="entrypoint" 
+                    icon="arrow_forward" 
+                    :color="card.Kategori" 
+                    :title="card.label" 
+                    :bgimage= "getImage(card.billede)"
+                    :name="card.link_to">
+                </EntryPoint>
             </div>
-        </section>
+           
+        </section>  
         
         <section class="overview-container">
             <h2>Det sker i Haraldslund</h2>
@@ -515,6 +515,51 @@ tr:nth-child(even){
   color: var(--color-font-1);
 }
 
+
+
+.text-align-center{
+    text-align: center;
+}
+
+.entrypoints{
+    width: 95%;
+}
+
+.card-container{
+    display: grid;
+    grid-template-columns:1fr;
+    gap: var(--spacer-x1);
+    width: 100%;
+    max-width: 1432px;
+    margin: var(--spacer-x1) auto;
+}
+
+.entrypoint {
+    width: 100%;
+    height: 100%;
+    min-height: 10rem;
+    background-color: var(--color-motion);
+}
+
+@media screen and (min-width: 500px) {
+    .card-container{
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .entrypoint{
+        min-height: 200px;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .card-container{
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .entrypoint{
+        min-height: 300px;
+    }
+}
 
 
 @media screen and (min-width: 500px) {

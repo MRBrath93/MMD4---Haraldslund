@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from 'vue';
 const props = defineProps({
   name: String,
   icon: String,
@@ -8,18 +9,91 @@ const props = defineProps({
 
 });
 
+
+const computedBtnLink = computed(() => {
+  switch (props.name) {
+    case 'Motion':
+      return '/motion';
+    case 'Wellness':
+      return '/vand-og-wellness/wellness';
+    case 'Svømmehal':
+      return '/vand-og-wellness/svommehallen';
+    case 'Møder & Konferencer':
+      return '/moder-og-konferencer';
+    case 'Om Haraldslund':
+      return '/om-haraldslund';
+    case 'Bibliotek':
+      return '/om-haraldslund/bibliotek';
+    case 'Brugerråd':
+      return '/om-haraldslund/brugerraad';
+    case 'Cafe':
+      return '/om-haraldslund/cafe-harald';
+    case 'Firmaaftaler':
+      return '/om-haraldslund/firmaaftaler';
+    case 'Historien':
+      return '/om-haraldslund/vores-historie';
+    case 'Personale':
+      return '/om-haraldslund/personale';
+    case 'Praktisk information':
+      return '/om-haraldslund/personale';
+    case 'Samlet priser':
+      return '/om-haraldslund/priser';
+    case 'Motion hold':
+      return '/motion/holdoversigt';
+    case 'Leje af sal og instruktør':
+      return '/motion/leje-af-sal-og-instruktor';
+    case 'Om motionscenteret':
+      return '/motion/om-motioncenteret';
+    case 'Personlig træning':
+      return '/motion/personlig-traening';
+    case 'Motion priser':
+      return '/motion/priser';
+    case 'Motion regler':
+      return '/motion/regler';
+    case 'Sundhed i bevægelse':
+      return '/motion/sundhed-i-bevaegelse';
+    case 'Vand og wellness':
+      return '/vand-og-wellness';
+    case 'VW hold':
+      return '/vand-og-wellness/holdoversigt';
+    case 'VW priser':
+      return '/vand-og-wellness/priser';
+    case 'VW regler':
+      return '/vand-og-wellness/regler';
+    default:
+      return props.Btn_link || '#';
+  }
+});
+
+const kategoriColor = computed(() => {
+  switch (props.color) {
+    case 'Om Haraldslund':
+      return 'bg-haraldslund';
+    case 'Møder & Konferencer':
+      return 'bg-meeting';
+    case 'Wellness':
+      return 'bg-wellness';
+    case 'Motion':
+      return 'bg-motion';
+    case 'Svømmehal':
+      return 'bg-svommehal';
+    default:
+      return 'bg-default';
+  }
+});
+
 </script>
 
 <template>
-    <router-link :to="{ name: `${name}` }" class="link-wrapper">
+    <router-link :to="{ path: `${computedBtnLink}` }" class="link-wrapper">
       <div class="wrapper">
         <div class="bg-layer" :style="{ backgroundImage: `url(${bgimage})` }"></div>
         
         <div class="icon-wrapper">
-          <span v-if="icon" :class="color" class="icon material-symbols-rounded">{{ icon }}</span>
+          <span v-if="icon" :class="kategoriColor" class="icon material-symbols-rounded">{{ icon }}</span>
         </div>
         
-        <div class="text-wrapper" :class="color"><h5>{{ title }}</h5></div>
+        <div class="text-wrapper" :class="kategoriColor"><h5>{{ title }}</h5></div>
   
         <div class="overlay">
           <p>Tryk for at læse mere</p>
@@ -132,6 +206,30 @@ const props = defineProps({
 
 .brown {
   background-color: var(--color-meetings);
+}
+
+.bg-haraldslund {
+  background-color: var(--color-haraldslund);
+}
+
+.bg-meeting {
+  background-color: var(--color-meetings);
+}
+
+.bg-motion {
+  background-color: var(--color-motion);
+}
+
+.bg-svommehal {
+  background-color: var(--color-svim);
+}
+
+.bg-wellness {
+  background-color: var(--color-wellness);
+}
+
+.bg-default {
+  background-color: #040404;
 }
 
 
