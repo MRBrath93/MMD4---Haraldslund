@@ -110,6 +110,7 @@ const computedTarget = computed(() => {
 const kategoriColor = computed(() => {
   switch (props.kategori) {
     case 'Om Haraldslund':
+    case 'Historien':
       return 'bg-haraldslund';
     case 'Møder & Konferencer':
       return 'bg-meeting';
@@ -159,7 +160,7 @@ template{
   background-color:  #e8dbcd;
   gap: 2rem;
   width: 95%;
-  max-width: 1432px;
+  max-width: var(--max-width);
   padding: 0 2rem;
   margin: var(--spacer-Elements) auto;
 }
@@ -212,9 +213,16 @@ template{
 }
 
 .bg-default {
-  background-color: #eecdad;
+  background-color: #ffffff;
 }
 
+
+@media screen and (min-width: 1300px) {
+
+.ads_cart {
+    min-height: 350px;
+}
+}
 
 @media screen and (max-width: 1000px) {
 
