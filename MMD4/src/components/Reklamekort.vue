@@ -126,7 +126,7 @@ const kategoriColor = computed(() => {
 </script>
 
 <template>
-    <div class="ads_cart" :class="kategoriColor" >
+    <article class="ads_cart" :class="kategoriColor" >
         <ImageHolder class="billede" :src="src" :alt="alt"></ImageHolder>
         <div class="text-wrapper">
           <div class="text-content">
@@ -137,7 +137,7 @@ const kategoriColor = computed(() => {
               <TheBtn :link="computedBtnLink" :title="Btn_title" :target="computedTarget" :text="Btn_text" :icon="Btn_icon"></TheBtn>
           </div>
         </div>
-    </div>
+      </article>
 </template>
   
   <style scoped>

@@ -61,7 +61,7 @@ function getImage(billede) {
         :title="motionData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="motionData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om vores moderne motionscenter."
-        :image="getImage(motionData.Hero_sektion.Hero_Baggrundsbillede)"
+        :image="getImage(motionData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
         :alt="motionData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
   
       <TheBreadcrumb />  
@@ -75,16 +75,24 @@ function getImage(billede) {
             <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
                 <p>{{ tekst.Brodtekst }}</p>
             </div>
+
         </div>
-  
-        <div class="gallery-grid" v-if="afsnit.Billede?.length">
+        <aside v-if="afsnit.Billede?.length == 1 ">
+          <ImageHolder
+            v-for="billede in afsnit.Billede"
+            :key="billede.id"
+            class="side-img"
+            :src="getImage(billede)"
+            :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
+        </aside>
+        <article class="gallery-grid" v-if="afsnit.Billede?.length > 1">
           <ImageHolder
             v-for="billede in afsnit.Billede"
             :key="billede.id"
             class="gallery-img"
             :src="getImage(billede)"
             :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-        </div>
+        </article>
       </section>
 
       <!-- <article>
@@ -120,6 +128,12 @@ main{
     max-width: 1545px;
     margin: 0 auto;
     padding: var(--spacer-x1);
+}
+
+.side-img {
+    max-width: 700px;
+    max-height: 845px;
+    object-fit: cover;
 }
 
 .gallery-img {
