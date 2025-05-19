@@ -79,13 +79,9 @@ function getImage(billede) {
         <section v-for="afsnit in lejeData?.Indhold.Afsnit || []" :key="afsnit.id">
             <h2>{{ afsnit.Overskrift }}</h2>
             <div class="flex-section" v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                <p v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</p>
-                <p>{{ tekst.Brodtekst }}</p>
-                <div v-if="afsnit === lejeData?.Indhold.Afsnit[1]">
-                    <p class="fat-text" v-if="tekst.Brodtekst2">{{ tekst.Brodtekst2 }}</p>
-                    <p v-if="tekst.Brodtekst2">{{ tekst.Brodtekst2 }}</p>
-            
-                </div>
+                <p>
+                  <span v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</span> <span :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</span>
+                </p>
             </div>
           
             <aside class="flex-section" v-for="billede in afsnit.Billede" :key="billede.id">
@@ -142,6 +138,7 @@ p {
     padding-bottom: var(--spacer-x1);
 }
 
-
-
+.fat-text {
+    font-weight: 700;
+}
 </style>
