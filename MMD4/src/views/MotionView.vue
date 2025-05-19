@@ -56,7 +56,7 @@ onUnmounted(() => {
 window.removeEventListener("resize", checkScreenSize);
 });
 
-// INTERN NAVIGATION LABELS (FRA STRAPI)
+// Intern navigation labels (fra Strapi)
 const internNavLabels = [
   { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
   { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
