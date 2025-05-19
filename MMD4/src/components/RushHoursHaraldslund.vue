@@ -297,7 +297,7 @@ button.disabled {
 .rush-hours canvas {
   width: 80% !important;
   margin: 0 auto;
-  max-width: 1432px;
+  max-width: var(--max-width);
   color: var(--color-font-2);
   font-family: var(--font-heading);
 }
