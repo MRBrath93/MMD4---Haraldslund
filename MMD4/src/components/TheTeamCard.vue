@@ -89,14 +89,13 @@ const kategoriColor = computed(() => {
 </script>
 <template>
   <router-link 
-    :to="link" 
-    :key="labels.id"
-    class="team-card team-card-image" 
-    aria-label="Tryk for at gå til holdbeskrivelse"
-    :style="isScreenLarge ? { backgroundImage: 'url(' + teamImage + ')' } : { }"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-  >
+  :to="link" 
+  class="team-card team-card-image" 
+  aria-label="Tryk for at gå til holdbeskrivelse"
+  :style="isScreenLarge ? { backgroundImage: 'url(' + teamImage + ')' } : { }"
+  @mouseenter="handleMouseEnter"
+  @mouseleave="handleMouseLeave"
+>
     <i class="icon material-symbols-rounded" :class="kategoriColor">{{ icon }}</i>
     <div class="team-card-overlay" :class="{ 'overlay-visible': overlayVisible }">
       <i class="icon material-symbols-rounded" :class="kategoriColor">{{ icon }}</i>
