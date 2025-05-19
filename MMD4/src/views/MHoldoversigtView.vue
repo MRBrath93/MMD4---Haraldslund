@@ -66,10 +66,10 @@ const internNavLabels = [
           description="Læs om vores motionstilbud og holdoversigt. Find praktisk information om motionscenteret, herunder faciliteter, priser og holdbeskrivelser."
           :image="getCoverImage[0]|| ''"
           :alt="getCoverImage.alternativeText || 'Hero billede'"
-      />
-      <TheBreadcrumb/>
+      ></TheHero>
+      <TheBreadcrumb></TheBreadcrumb>
       <TheInternNavMotion 
-        :labels="internNavLabels" />
+        :labels="internNavLabels"></TheInternNavMotion>
       <h1>Motionscenter Holdoversigt</h1>
       <p>Haraldslund Motionscenter tilbyder desuden mange spændende holdaktiviteter både på land og i vand, hvor du sammen med 
         andre kan træne eksempelvis styrke og kondition, eventuelt kombineret med din individuelle træning i centeret.</p>
