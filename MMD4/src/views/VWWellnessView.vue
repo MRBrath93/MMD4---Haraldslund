@@ -112,7 +112,7 @@ function getImage(billede) {
                         </ul>
                         <p v-else> {{ single_text.Brodtekst }}</p>
                     </div>
-                    <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 1" class="btn--container">
+                    <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
                     <TheBtn
                     v-for="btn in tekstsektion.Knapper"
                     :key="btn.id"
@@ -152,7 +152,7 @@ function getImage(billede) {
   grid-auto-rows: 300px;
   gap: var(--spacer-x1);
   width: 100%;
-  max-width: 1432px;
+  max-width: var(--max-width);
   margin: 0 auto;
   margin-bottom: var(--spacer-x1);
 }
@@ -180,7 +180,7 @@ function getImage(billede) {
   margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
   width: 100%;
-  max-width: 1432px;
+  max-width: var(--max-width);
 }
 
 .small-margin{

@@ -253,7 +253,7 @@ function getImage(billede) {
                     </ul>
                     <p v-else> {{ single_text.Brodtekst }}</p>
                 </div>
-                <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 1" class="btn--container">
+                <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
                     <TheBtn
                     v-for="btn in tekstsektion.Knapper"
                     :key="btn.id"
@@ -350,7 +350,7 @@ main{
     height: 400px;
     gap: 0.5rem;
     width:100%;
-    max-width: 1432px;
+    max-width: var(--max-width);
     margin: 0 auto;
 }
 
@@ -360,7 +360,7 @@ main{
     grid-template-rows: repeat(2, 0.5fr);
     gap: 1rem;
     width: 95%;
-    max-width: 1432px;
+    max-width: var(--max-width);
     margin: 50px auto;
 }
 
@@ -375,7 +375,7 @@ main{
     align-items: center;
     padding:var(--spacer-x1);
     width: 95%;
-    max-width: 1432px;
+    max-width: var(--max-width);
     background-color: var(--color-activity-viewer);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: var(--border-radius);
@@ -388,7 +388,7 @@ main{
   gap: var(--spacer-x2);
   margin: 0 auto var(--spacer-Elements);
   width: 95%;
-  max-width: 1432px;
+  max-width: var(--max-width);
 }
 
 .img--container {
@@ -530,7 +530,7 @@ tr:nth-child(even){
     grid-template-columns:1fr;
     gap: var(--spacer-x1);
     width: 100%;
-    max-width: 1432px;
+    max-width: var(--max-width);
     margin: var(--spacer-x1) auto;
 }
 
