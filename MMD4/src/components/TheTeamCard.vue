@@ -106,6 +106,7 @@ function checkScreenSize() {
 
 <style scoped>
 .team-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
