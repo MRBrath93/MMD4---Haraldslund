@@ -27,7 +27,7 @@
   align-items: center;
   list-style: none;
   padding: var(--spacer-x1) 0;
-  width: 100%;
+  width: 95%;
   max-width: var(--max-width);
   margin: 0 auto;
   margin-bottom: var(--spacer-x2);
