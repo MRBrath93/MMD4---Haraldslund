@@ -31,7 +31,7 @@ const internNavLabels = [
             :image="image"
             alt="Haraldslund Vand og kulturhus"/>
         <TheBreadcrumb />
-        <h2>Om Haraldslund</h2>
+        <h1>Om Haraldslund</h1>
         <TheInternNavHaraldslund 
         :label="internNavLabels"
         />
