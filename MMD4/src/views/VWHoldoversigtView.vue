@@ -2,9 +2,9 @@
 import { ref, onMounted } from "vue";
 import TheHero from "@/components/TheHero.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
-import TESTIMG from "@/assets/images/motion.jpg";
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import TheBtn from "@/components/TheBtn.vue";
+import DynamicHeading from "@/components/DynamicHeading.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
 import TheTeamCard from "@/components/TheTeamCard.vue";
 import TheFilterBar from "@/components/TheFilterBar.vue";
@@ -14,9 +14,9 @@ import TheInternNavWater from "@/components/TheInternNavWater.vue";
 const classesStore = useClassesStoreWater();
 const error = ref(null);
 const isLoading = ref(true);
-const vandogwellnessData = ref(null); // OBS: null er bedre end []
+const vandogwellnessHoldData = ref(null); // OBS: null er bedre end []
 
-const CACHE_KEY = "vandogwellnessData";
+const CACHE_KEY = "vandogwellnessHoldData";
 const CACHE_TIMESTAMP_KEY = "cacheTimestamp";
 const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
 
@@ -26,16 +26,16 @@ onMounted(async () => {
 
   await classesStore.fetchClasses();
 
-  const cachedvwRaw = localStorage.getItem(CACHE_KEY);
+  const cachedvwholdRaw = localStorage.getItem(CACHE_KEY);
   const cachedTimestampRaw = localStorage.getItem(CACHE_TIMESTAMP_KEY);
   const now = Date.now();
 
-  if (cachedvwRaw && cachedTimestampRaw) {
+  if (cachedvwholdRaw && cachedTimestampRaw) {
     const cachedTimestamp = Number(cachedTimestampRaw);
 
     if (now - cachedTimestamp < CACHE_DURATION_MS) {
       try {
-        vandogwellnessData.value = JSON.parse(cachedvwRaw);
+        vandogwellnessHoldData.value = JSON.parse(cachedvwholdRaw);
         isLoading.value = false;
         return;
       } catch (e) {
@@ -44,7 +44,7 @@ onMounted(async () => {
     }
   }
 
-  fetch("https://popular-gift-b355856076.strapiapp.com/api/vand-og-wellness?pLevel")
+  fetch("https://popular-gift-b355856076.strapiapp.com/api/holdoversigt-vand-og-wellness?pLevel")
     .then(response => {
       if (!response.ok) {
         throw new Error(`Vand og Wellness - Regler fejl: ${response.status}`);
@@ -52,8 +52,8 @@ onMounted(async () => {
       return response.json();
     })
     .then(json => {
-      vandogwellnessData.value = json.data;
-      localStorage.setItem(CACHE_KEY, JSON.stringify(vandogwellnessData.value));
+      vandogwellnessHoldData.value = json.data;
+      localStorage.setItem(CACHE_KEY, JSON.stringify(vandogwellnessHoldData.value));
       localStorage.setItem(CACHE_TIMESTAMP_KEY, now.toString());
     })
     .catch(err => {
@@ -73,42 +73,55 @@ function getCoverImage(klasse) {
     return klasse.coverbilledeThumbnail;
   }
 }
+
+function getImage(billede) {
+    if (!billede || !billede.formats) return '';
+    return billede.formats.large?.url ||
+        billede.formats.medium?.url ||
+        billede.formats.small?.url ||
+        billede.formats.thumbnail?.url ||
+        billede.url || '';
+}
 </script>
 
 
 <template>
-    <main v-if="classesStore.isLoading || !vandogwellnessData" class="loading-container"><TheSpinner></TheSpinner></main>
+    <main v-if="classesStore.isLoading || !vandogwellnessHoldData" class="loading-container"><TheSpinner></TheSpinner></main>
     <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
     <main v-else>
       <TheHero class="heroImage"
-        :title="vandogwellnessData.Hero_sektion.Hero_titel_h5.Titel_H5"
-        :subtitle="vandogwellnessData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
-        :image="vandogwellnessData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
-        :alt="vandogwellnessData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
+        :title="vandogwellnessHoldData.Hero_sektion.Hero_titel_h5.Titel_H5"
+        :subtitle="vandogwellnessHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
+        :image="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
+        :alt="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
       <TheBreadcrumb></TheBreadcrumb>
       <TheInternNavWater></TheInternNavWater>
-
-      <section>
+      <section v-for="(tekstsektion,index) in vandogwellnessHoldData.Indhold.Afsnit" :key="tekstsektion.id">
             <div class="textsection">
                 <article class="flex--column flex1">
-                    <h1>Holdtræning i vand for alle aldre</h1>
-                    <p>Uanset om du er til leg og læring i vandet, afslappende saunagus eller rolig bevægelse i varmtvandsbassinet, har vi et hold, der passer til dig.</p>
-                    <p>I vores holdoversigt kan du finde vandaktiviteter for både børn og unge – samt forskellige wellness-hold for voksne, hvor velvære og ro er i fokus.</p>
-                    <p>Flere gange om året revideres vores holdplan, således at vi altid har spændende og aktuelle aktiviteter på programmet.</p>
-                    <div class="btn--container">
+                    <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
+                    <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
+                        <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
+                        <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
+                            <li> {{ single_text.Brodtekst }}</li>
+                        </ul>
+                        <p v-else> {{ single_text.Brodtekst }}</p>
+                    </div>
+                    <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
                     <TheBtn
-                    link="VW regler"
-                    title="Til- og afmeldingsfrister for hold"
-                    text="Få overblik over frister for til- og afmelding."
-                    icon="Arrow_forward"></TheBtn>
+                    v-for="btn in tekstsektion.Knapper"
+                    :key="btn.id"
+                    :link="btn.link_to"
+                    :title="btn.btn_titel"
+                    :text="btn.btn_description"
+                    :icon="btn.Ikon[0]"></TheBtn>
                 </div>
             </article>
             <div class="img--container flex1">
-                <ImageHolder class="img" :src="TESTIMG" alt="Et billede" />
+                <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
             </div>
             </div>
         </section>
-
       <section class="elementspacing">
           <TheFilterBar
             :labels="classesStore.availableCategories" :store="classesStore"
