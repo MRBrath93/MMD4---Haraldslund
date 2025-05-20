@@ -15,33 +15,41 @@ import TheFilterBar from "@/components/TheFilterBar.vue";
 
 // REAKTIVE VARIABLER
 const classesStore = useClassesStoreMotion();
+const holdbeskrivelseImg = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
 
 
 // HENT DATA FRA STORE
 onMounted(async () => {
-  try {
-    classesStore.fetchClasses();
-  } catch (err) {
-    error.value = "Beklager, der opstod en fejl under indlæsning af data.";
-    console.error("Fejl under indlæsning af data:", err);
-  } finally {
-    isLoading.value = false;
-  }
+  fetch ('https://popular-gift-b355856076.strapiapp.com/api/holdoversigt-motionscenter?pLevel')
+  .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP fejl! Status: ${response.status}`);
+      }
+      return response.json();
+    })    
+    .then(data => {
+        holdData.value = data.data;   
+    })
+    .catch(err => {
+      error.value = err.message;
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
 });
 
-// FUNKTIONER
-// Funktion der bestemmer hvilket billede der skal vises
-function getCoverImage(klasse) {
-  if (klasse.coverbilledeMedium) {
-    return klasse.coverbilledeMedium; // Hvis medium er tilgængeligt, brug det
-  } else if (klasse.coverbilledeSmall) {
-    return klasse.coverbilledeSmall; // Ellers brug small
-  } else {
-    return klasse.coverbilledeThumbnail; // Hvis ingen af dem er tilgængelige, brug thumbnail
-  }
-};
+
+// funktion til at hente den bedste tilgængelige billed-URL fra et billede-objekt
+function getImage(billede) {
+  if (!billede || !billede.formats) return '';
+  return billede.formats.large?.url ||
+    billede.formats.medium?.url ||
+    billede.formats.small?.url ||
+    billede.formats.thumbnail?.url ||
+    billede.url || '';
+}
 
 // Intern navigation labels (fra Strapi)
 const internNavLabels = [
@@ -57,23 +65,28 @@ const internNavLabels = [
 </script>
 
 <template>
-    <main v-if="isLoading">Indlæser...</main>
+    <main v-if="isLoading">    
+      <TheSpinner>
+            <span class="material-icons">sports_gymnastics</span>
+      </TheSpinner>
+    </main>
     <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
     <main v-else>
       <TheHero
-          title="HARALDSLUND"
-          subtitle="Holdoversigt"
-          description="Læs om vores motionstilbud og holdoversigt. Find praktisk information om motionscenteret, herunder faciliteter, priser og holdbeskrivelser."
-          :image="getCoverImage[0]|| ''"
-          :alt="getCoverImage.alternativeText || 'Hero billede'"
-      ></TheHero>
-      <TheBreadcrumb></TheBreadcrumb>
+        :title="holdData.Hero_sektion.Hero_titel_h5?.Titel_H5"
+        :subtitle="holdData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
+        description="Læs om vores udvalg af motionshold i motionscenter Haraldslund."
+        :image="getImage(holdData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
+        :alt="holdData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
+  
+      <TheBreadcrumb/>
       <TheInternNavMotion 
-        :labels="internNavLabels"></TheInternNavMotion>
-      <h1>Motionscenter Holdoversigt</h1>
-      <p>Haraldslund Motionscenter tilbyder desuden mange spændende holdaktiviteter både på land og i vand, hvor du sammen med 
-        andre kan træne eksempelvis styrke og kondition, eventuelt kombineret med din individuelle træning i centeret.</p>
-      <p>Flere gange om året revideres vores holdplan, således at vi altid har spændende og aktuelle aktiviteter på programmet.</p>
+        :labels="internNavLabels" />
+
+      <section v-for="afsnit in holdData.Indhold.Afsnit || []" :key="afsnit.id" >
+        <h1>{{ afsnit.Titel }}</h1>
+        <p></p>
+      </section>
       <section>
         <div class="filter-container">
           <TheFilterBar
@@ -96,16 +109,24 @@ const internNavLabels = [
                 :backgroundColor="klasse.type_af_hold"
                 :teamCategorys="klasse.kategorier"
                 :link="{ name: 'holdbeskrivelse-motion', params: { id: klasse.id } }"
-                :teamImage="getCoverImage(klasse)"
+                :teamImage="getImage(klasse)"
                 :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
               />
-            </div>
-
-            
-          
+            </div>          
           </div>
         </section>
       </section>
+
+      <Reklamekort 
+        :src="getImage(classesStore.reklame_kort.Billede) || '' " 
+        :alt="classesStore.reklame_kort.Billede.alternativeText" 
+        :title="classesStore.reklame_kort.Titel" 
+        :text="classesStore.reklame_kort.Tekst_afsnit" 
+        :Btn_title="classesStore.reklame_kort.Knapper[0].btn_titel" 
+        :Btn_text="classesStore.reklame_kort.Knapper[0].btn_description" 
+        :kategori="classesStore.reklame_kort.Kategori" 
+        :Btn_icon="classesStore.reklame_kort.Knapper[0].Ikon[0]">
+      </Reklamekort>
     </main>
 </template>
 

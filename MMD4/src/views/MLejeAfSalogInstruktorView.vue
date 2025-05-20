@@ -1,4 +1,5 @@
 <script setup>
+// IMPORTS
 import { ref, onMounted } from "vue";
 import TheHero from "../components/TheHero.vue";
 import TheInternNavMotion from "../components/TheInternNavMotion.vue";
@@ -9,7 +10,31 @@ import TheSpinner from "../components/TheSpinner.vue";
 import TheBtn from "@/components/TheBtn.vue";
 
 
+// FETCH DATA
 onMounted(() => {
+  isLoading.value = true;
+  error.value = null;
+
+  const cachedLejeRaw = localStorage.getItem('lejeData');
+  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const now = Date.now();
+
+  if (cachedLejeRaw && cachedTimestampRaw) {
+    const cachedTimestamp = Number(cachedTimestampRaw);
+
+    if (now - cachedTimestamp < CACHE_DURATION_MS) {
+      try {
+        lejeData.value = JSON.parse(cachedLejeRaw);
+        isLoading.value = false;
+        return;
+      } catch (e) {
+        console.warn('Fejl ved parsing af cached data:', e);
+      }
+    }
+  }
+  // Hvis cached data ikke findes eller er forældet, hent data fra Strapi
+  // og gem det i localStorage
+  // og opdater timestamp
   fetch('https://popular-gift-b355856076.strapiapp.com/api/leje-af-sal-og-instruktor-motionscenter?pLevel')
   .then(response => {
       if (!response.ok) {
@@ -17,8 +42,10 @@ onMounted(() => {
       }
       return response.json();
     })    
-    .then(data => {
-        lejeData.value = data.data;   
+    .then(json => {
+        lejeData.value = json.data;
+        localStorage.setItem('lejeData', JSON.stringify(lejeData.value));
+        localStorage.setItem('cacheTimestamp', now.toString());   
     })
     .catch(err => {
       error.value = err.message;
@@ -29,10 +56,15 @@ onMounted(() => {
 
 });
 
+// REAKTIVE VARIABLER
 const lejeData = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
 
+const CACHE_DURATION_MS = 5 * 60 * 1000;
+
+
+// Intern navigation labels (fra Strapi)
 const internNavLabels = [
   { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
   { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
@@ -43,6 +75,7 @@ const internNavLabels = [
   { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
 ];
 
+// FUNKTIONER
 function getImage(billede) {
   if (!billede || !billede.formats) return '';
   return billede.formats.large?.url ||
@@ -51,7 +84,6 @@ function getImage(billede) {
   billede.formats.thumbnail?.url ||
   billede.url || '';
 }
-
 
 </script>
 
@@ -75,41 +107,36 @@ function getImage(billede) {
       <!-- <h1>{{ lejeData.Titel }}</h1> -->
       <TheInternNavMotion 
       :labels="internNavLabels" />
-           
-        <section v-for="afsnit in lejeData?.Indhold.Afsnit || []" :key="afsnit.id">
-            <h2>{{ afsnit.Overskrift }}</h2>
-            <div class="flex-section" v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                <p v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</p>
-                <p>{{ tekst.Brodtekst }}</p>
-                <div v-if="afsnit === lejeData?.Indhold.Afsnit[1]">
-                    <p class="fat-text" v-if="tekst.Brodtekst2">{{ tekst.Brodtekst2 }}</p>
-                    <p v-if="tekst.Brodtekst2">{{ tekst.Brodtekst2 }}</p>
-            
-                </div>
-            </div>
-          
-            <aside class="flex-section" v-for="billede in afsnit.Billede" :key="billede.id">
-                <ImageHolder
-                :key="billede.id"
-                class="side-img"
-                :src="getImage(billede)"
-                :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-            </aside>
-            
-            <div v-if="afsnit.Knapper?.length > 0">
+      <div id="wrapper-content">
+        <div class="tekst-container">
+            <section v-for="afsnit in lejeData?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section">
+              <h2>{{ afsnit.Overskrift }}</h2>
+              <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+                <span v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</span>
+                <span :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</span>
+              </div>
+              <div v-if="afsnit.Knapper?.length > 0">
                 <TheBtn
-                v-for="btn in afsnit.Knapper || []"
-                :key="btn.id"
-                :link="btn.link_to"
-                :title="btn.btn_titel"
-                :text="btn.btn_description"
-                :icon="btn.Ikon[0]">
+                  v-for="btn in afsnit.Knapper || []"
+                  :key="btn.id"
+                  :link="btn.link_to"
+                  :title="btn.btn_titel"
+                  :text="btn.btn_description"
+                  :icon="btn.Ikon[0]">
                 </TheBtn>
-            </div>
-        </section>
-
-
-        <Reklamekort 
+              </div>
+            </section>
+        </div>
+        <aside class="billede-container" v-if="lejeData?.Billede?.Billede_element">
+          <ImageHolder
+            v-for="billede in lejeData.Billede.Billede_element"
+            :key="billede?.id"
+            class="side-img"
+            :src="getImage(billede)"
+            :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
+        </aside>
+      </div>
+      <Reklamekort 
         :src="getImage(lejeData.reklame_kort.Billede)" 
         :alt="lejeData.reklame_kort.Billede.alternativeText" 
         :title="lejeData.reklame_kort.Titel" 
@@ -117,8 +144,8 @@ function getImage(billede) {
         :Btn_title="lejeData.reklame_kort.Knapper[0].btn_titel" 
         :Btn_text="lejeData.reklame_kort.Knapper[0].btn_description" 
         :kategori="lejeData.reklame_kort.Kategori" 
-        :Btn_icon="lejeData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-
+        :Btn_icon="lejeData.reklame_kort.Knapper[0].Ikon[0]">
+      </Reklamekort>
     </main>
 </template>
 
@@ -127,21 +154,60 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--spacer-x3);
+    gap: var(--spacer-x2);
     justify-content: center;
     margin: 0 auto;
 }
-
 
 aside {
     max-width: 700px;
     max-height: 845px;
 }
 
+.afsnit-section div {
+padding-bottom: var(--spacer-x0-25);
+}
+
+span {
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 75ch;
+  font-family: var(--font-text);
+  color: var(--color-font-1);
+}
+
+.button {
+  margin: var(--spacer-x1-5) 0;
+}
+
+.tekst-container {
+  display: flex;
+  flex-direction: column; 
+  gap: var(--spacer-x2);
+  max-width: 650px;
+}
+
 p {
     padding-bottom: var(--spacer-x1);
 }
 
+.fat-text {
+    font-weight: 700;
+}
 
+#wrapper-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 90vw;
+  gap: var(--spacer-x2);
+}
+
+@media screen and (min-width: 768px) {
+  #wrapper-content {
+    flex-direction: row;
+    gap: var(--spacer-x3);
+  }
+}
 
 </style>

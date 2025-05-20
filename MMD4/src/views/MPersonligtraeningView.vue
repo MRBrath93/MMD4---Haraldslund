@@ -10,17 +10,49 @@ import TheBtn from "@/components/TheBtn.vue";
 
 import { ref, onMounted } from "vue";
 
-// FETCH DATA FRA STRAPI
+// REAKTIVE VARIABLER
+const personligTraening = ref(null);
+const isLoading = ref(true);
+const error = ref(null);
+
+// CACHE VARIABLER
+const CACHE_DURATION_MS = 5 * 60 * 1000; 
+
+// FETCH DATA FRA LOCAL STORAGE 
 onMounted(() => {
+  isLoading.value = true;
+  error.value = null;
+
+  const cachedPersonligTraeningRaw = localStorage.getItem('personligTraeningData'); // Hent cached data
+  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp'); // Hent cached timestamp
+  const now = Date.now();   // CACHE VARIABLER
+
+  // CHECK CACHE 
+  if (cachedPersonligTraeningRaw && cachedTimestampRaw) {
+    const cachedTimestamp = Number(cachedTimestampRaw);
+    if (now - cachedTimestamp < CACHE_DURATION_MS) {
+      try {
+        personligTraening.value = JSON.parse(cachedPersonligTraeningRaw);
+        isLoading.value = false;
+        return;
+      } catch (e) {
+        console.warn('Fejl ved parsing af cached data:', e);
+      }
+    }
+  }
+
+  // FETCH DATA FRA STRAPI
   fetch('https://popular-gift-b355856076.strapiapp.com/api/personlig-traening-motionscenter?pLevel')
-  .then(response => {
+    .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP fejl! Status: ${response.status}`);
       }
       return response.json();
     })    
-    .then(data => {
-        personligTraening.value = data.data;   
+    .then(json => {
+      personligTraening.value = json.data;
+      localStorage.setItem('personligTraeningData', JSON.stringify(personligTraening.value));
+      localStorage.setItem('cacheTimestamp', now.toString());
     })
     .catch(err => {
       error.value = err.message;
@@ -29,7 +61,6 @@ onMounted(() => {
       isLoading.value = false;
     });
 });
-
 
 // INTERN NAVIGATION LABELS (FRA STRAPI)
 const internNavLabels = [
@@ -42,10 +73,7 @@ const internNavLabels = [
   { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
 ];
 
-// REAKTIVE VARIABLER
-const personligTraening = ref(null);
-const isLoading = ref(true);
-const error = ref(null);
+
 
 // FUNKTIONER
 function getImage(billede) {
@@ -76,36 +104,38 @@ function getImage(billede) {
 
     <TheBreadcrumb />  
 
-    <TheInternNavMotion :labels="internNavLabels" />
-    <h1>{{ personligTraening.Titel }}</h1>
-    <section v-for="afsnit in personligTraening.Indhold.Afsnit || []" :key="afsnit.id" >
-      <h2>{{ afsnit.Overskrift }}</h2>
-      <div class="container">
-        <div v-for="textEl in afsnit.Tekst || []" :key="textEl.id">
-          <p v-if="textEl.Underoverskift">{{ textEl.Underoverskift }}</p>
-          <p>{{ textEl.Brodtekst }}</p>
-        </div>
-      </div>
-      <aside v-if="afsnit.Billede">
-        <ImageHolder
-        v-for="billede in afsnit.Billede"
-        :key="billede.id"
+    <TheInternNavMotion 
+    :labels="internNavLabels" />
+    <!-- <h1>{{ personligTraening.Titel }}</h1> -->
+    <div id="wrapper-content">
+      <div class="tekst-container">
+        <section v-for="afsnit in personligTraening?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section" >
+          <h2>{{ afsnit.Overskrift }}</h2>
+          <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+            <span v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</span>
+            <span :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</span>
+          </div>
+          <div v-if="afsnit.Knapper?.length > 0">
+            <TheBtn
+              v-for="btn in afsnit.Knapper || []"
+              :key="btn.id"
+              :link="btn.link_to"
+              :title="btn.btn_titel"
+              :text="btn.btn_description"
+              :icon="btn.Ikon[0]">
+            </TheBtn>
+          </div>
+      </section>
+    </div>
+    <aside class="billede-container" v-if="personligTraening?.Billede?.Billede_element">
+      <ImageHolder
+        v-for="billede in personligTraening.Billede.Billede_element"
+        :key="billede?.id"
         class="side-img"
         :src="getImage(billede)"
         :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-      </aside>
-      <div v-if="afsnit.Knapper?.length > 0">
-        <TheBtn
-        v-for="btn in afsnit.Knapper || []"
-        :key="btn.id"
-        :link="btn.link_to"
-        :title="btn.btn_titel"
-        :text="btn.btn_description"
-        :icon="btn.Ikon[0]">
-        </TheBtn>
-      </div>
-  </section>
-
+    </aside>
+  </div>
     <Reklamekort 
       :src="getImage(personligTraening.reklame_kort.Billede) || '' " 
       :alt="personligTraening.reklame_kort.Billede.alternativeText" 
@@ -126,4 +156,57 @@ main{
     align-items: center;
     justify-content: center;
 }
+
+
+aside {
+    max-width: 700px;
+    max-height: 845px;
+}
+
+.afsnit-section div {
+padding-bottom: var(--spacer-x0-25);
+}
+
+span {
+  font-size: 1rem;
+  line-height: 1.5;
+  max-width: 75ch;
+  font-family: var(--font-text);
+  color: var(--color-font-1);
+}
+
+.button {
+  margin: var(--spacer-x1-5) 0;
+}
+
+.tekst-container {
+  display: flex;
+  flex-direction: column; 
+  gap: var(--spacer-x2);
+  max-width: 650px;
+}
+
+p {
+    padding-bottom: var(--spacer-x1);
+}
+
+.fat-text {
+    font-weight: 700;
+}
+
+#wrapper-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 90vw;
+  gap: var(--spacer-x2);
+}
+
+@media screen and (min-width: 768px) {
+  #wrapper-content {
+    flex-direction: row;
+    gap: var(--spacer-x3);
+  }
+}
+
 </style>

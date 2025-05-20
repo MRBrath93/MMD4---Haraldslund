@@ -1,7 +1,9 @@
 <script setup>
+// IMPORTS
 import { ref, onMounted, onUnmounted, computed } from "vue";
 import { defineProps } from "vue";
 
+// IMPORTER STRAPI DATA
 const props =  defineProps({
   link: {
     type: [String, Object],
@@ -42,9 +44,11 @@ isOverlayVisible: {
 },
 });
 
-// Definer reaktive variabler
+// REAKTIVE VARIABLER
 const overlayVisible = ref(false);
 
+
+// FUNKTIONER
 
   // Metode til at håndtere hover-effekt
   const handleMouseEnter = () => {
