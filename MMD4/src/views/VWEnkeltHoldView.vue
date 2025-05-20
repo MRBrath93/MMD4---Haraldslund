@@ -102,7 +102,7 @@ function getArticleImage(klasse) {
                     <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.overskrift }}</DynamicHeading>
                     <div v-for="single_text in tekstsektion.tekst || []" :key="single_text.id">
                         <h5 class="subtitle" v-if="single_text.underoverskrift">{{ single_text.underoverskrift }}</h5>
-                        <ul class="punkt" v-if="single_text.punktopstilles">
+                        <ul class="punkt" v-if="single_text.punktopstilles === true">
                             <li> {{ single_text.brodtekst }}</li>
                         </ul>
                         <p v-else> {{ single_text.brodtekst }}</p>
