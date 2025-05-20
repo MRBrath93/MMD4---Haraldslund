@@ -68,7 +68,6 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
                     numberOfTeams.value = cachedData.length;
                     numberOfClasses.value = cachedData.length; // Opdaterer antallet af klasser til det samlede antal
                     isLoading.value = false;
-                    console.log('Hentet klasser fra localStorage cache');
                     return;
                 } catch (e) {
                     console.warn('Fejl ved parsing af cached data:', e);
