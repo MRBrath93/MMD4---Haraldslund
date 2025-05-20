@@ -136,7 +136,7 @@ isScreenLarge.value = window.innerWidth >= 768;
                 <EntryPoint 
                     class="entrypoint" 
                     icon="arrow_forward" 
-                    color="green" 
+                    color="Motion" 
                     title="Motionscenter" 
                     :bgimage= "isScreenLarge ? getImage(motionscenterImg) : ''"
                     name="om-motionscenteret">
@@ -145,7 +145,7 @@ isScreenLarge.value = window.innerWidth >= 768;
                     class="entrypoint" 
                     id="teamImage" 
                     icon="arrow_forward" 
-                    color="green" 
+                    color="Motion" 
                     title="Holdoversigt"
                     :bgimage= "isScreenLarge ? getImage(teamCardImg) : ''"
                     name="holdoversigt-motionscenteret">
@@ -153,7 +153,7 @@ isScreenLarge.value = window.innerWidth >= 768;
                 <EntryPoint 
                     class="entrypoint" 
                     icon="arrow_forward" 
-                    color="green" 
+                    color="Motion" 
                     title="Sundhed & Bevægelse" 
                     :bgimage= "isScreenLarge ? getImage(sbImg) : ''"
                     name="sib-motionscenteret">
@@ -171,11 +171,6 @@ main{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-.router-link-active {
-  text-decoration: underline;
-  text-underline-offset: 0.5rem;
 }
 
 .flex-column-container{
