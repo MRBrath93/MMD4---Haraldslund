@@ -6,12 +6,13 @@ import { ref, computed } from "vue";
 // Denne store håndterer data og tilstand for motion classes, herunder filtrering af klasser baseret på kategori.
 export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
     const classes = ref([]);
+    const isLoading = ref(false);
     const numberOfTeams = ref(0);
     const numberOfClasses = ref(0);
     const selectedCategory = ref("Alle Hold"); // default kategori
     const availableCategories = [
         "Alle Hold",
-        "Mindfulness",
+        "Mindfullness",
         "Styrketræning",
         "Cirkeltræning",
         "Specialhold",
@@ -166,7 +167,6 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
         setCategory,
         availableCategories,
         isLoading,
-
         getClassById,
     };
 });

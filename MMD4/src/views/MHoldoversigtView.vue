@@ -19,19 +19,17 @@ const holdData = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
 
-const CACHE_KEY = "holdData";
-const CACHE_TIMESTAMP_KEY = "cacheTimestamp";
 const CACHE_DURATION_MS = 5 * 60 * 1000; 
 
 // HENT DATA FRA STORE
-onMounted(async () => {
+onMounted(() => {
   isLoading.value = true;
   error.value = null;
-  
-  // await classesStore.fetchClasses();
 
-  const cachedClassesMotionRaw = localStorage.getItem(CACHE_KEY);
-  const cachedTimestampRaw = localStorage.getItem(CACHE_TIMESTAMP_KEY);
+  classesStore.fetchClasses();
+  
+  const cachedClassesMotionRaw = localStorage.getItem('cachedClassesMotionRaw');
+  const cachedTimestampRaw = localStorage.getItem('cachedTimestampRaw');
   const now = Date.now();
   if (cachedClassesMotionRaw && cachedTimestampRaw) {
     const cachedTimestamp = Number(cachedTimestampRaw);
@@ -57,8 +55,8 @@ onMounted(async () => {
     })    
     .then(json => {
       holdData.value = json.data;
-      localStorage.setItem(CACHE_KEY, JSON.stringify(holdData.value));
-      localStorage.setItem(CACHE_TIMESTAMP_KEY, now.toString());
+      localStorage.setItem('cachedClassesMotionRaw', JSON.stringify(holdData.value));
+      localStorage.setItem('cachedTimestampRaw', now.toString());
     })
     .catch(err => {
       error.value = err.message;
@@ -73,10 +71,20 @@ onMounted(async () => {
 function getImage(billede) {
   if (!billede || !billede.formats) return '';
   return billede.formats.large?.url ||
-    billede.formats.medium?.url ||
-    billede.formats.small?.url ||
-    billede.formats.thumbnail?.url ||
-    billede.url || '';
+      billede.formats.medium?.url ||
+      billede.formats.small?.url ||
+      billede.formats.thumbnail?.url ||
+      billede.url || '';
+}
+
+function getCoverImage(klasse) {
+  if (klasse.coverbilledeMedium) {
+    return klasse.coverbilledeMedium;
+  } else if (klasse.coverbilledeSmall) {
+    return klasse.coverbilledeSmall;
+  } else {
+    return klasse.coverbilledeThumbnail;
+  }
 }
 
 // Intern navigation labels (fra Strapi)
@@ -111,7 +119,7 @@ const internNavLabels = [
       <TheInternNavMotion 
         :labels="internNavLabels" />
 
-      <section v-for="afsnit in holdData.Indhold.Afsnit || []" :key="afsnit.id" >
+      <section v-for="afsnit in holdData.Tekst_afsnit.Afsnit || []" :key="afsnit.id" >
         <h1>{{ afsnit.Titel }}</h1>
         <p></p>
       </section>
@@ -137,7 +145,7 @@ const internNavLabels = [
                 :backgroundColor="klasse.type_af_hold"
                 :teamCategorys="klasse.kategorier"
                 :link="{ name: 'holdbeskrivelse-motion', params: { id: klasse.id } }"
-                :teamImage="getImage(klasse)"
+                :teamImage="getCoverImage(klasse)"
                 :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
               />
             </div>          
@@ -145,14 +153,14 @@ const internNavLabels = [
         </section>
       </section>
       <Reklamekort 
-        :src="getImage(classesStore.reklame_kort?.Billede) || ''"
-        :alt="classesStore.reklame_kort?.Billede?.alternativeText || ''"
-        :title="classesStore.reklame_kort?.Titel || ''"
-        :text="classesStore.reklame_kort?.Tekst_afsnit || ''"
-        :Btn_title="classesStore.reklame_kort?.Knapper?.[0]?.btn_titel || ''"
-        :Btn_text="classesStore.reklame_kort?.Knapper?.[0]?.btn_description || ''"
-        :kategori="classesStore.reklame_kort?.Kategori || ''"
-        :Btn_icon="classesStore.reklame_kort?.Knapper?.[0]?.Ikon?.[0] || ''">
+        :src="getImage(holdData.reklame_kort?.Billede) || ''"
+        :alt="holdData.reklame_kort?.Billede?.alternativeText || ''"
+        :title="holdData.reklame_kort?.Titel || ''"
+        :text="holdData.reklame_kort?.Tekst_afsnit || ''"
+        :Btn_title="holdData.reklame_kort?.Knapper?.[0]?.btn_titel || ''"
+        :Btn_text="holdData.reklame_kort?.Knapper?.[0]?.btn_description || ''"
+        :kategori="holdData.reklame_kort?.Kategori || ''"
+        :Btn_icon="holdData.reklame_kort?.Knapper?.[0]?.Ikon?.[0] || ''">
       </Reklamekort>
     </main>
 </template>
