@@ -79,29 +79,29 @@ function getImage(billede) {
       <TheInternNavMotion 
       :labels="internNavLabels" />
       <div id="wrapper-content">
-        <section v-for="afsnit in lejeData?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section">
-          <div class="tekst-container">
-            <h2>{{ afsnit.Overskrift }}</h2>
-            <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-              <span v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</span>
-              <span :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</span>
-            </div>
-            <div v-if="afsnit.Knapper?.length > 0">
-              <TheBtn
-                v-for="btn in afsnit.Knapper || []"
-                :key="btn.id"
-                :link="btn.link_to"
-                :title="btn.btn_titel"
-                :text="btn.btn_description"
-                :icon="btn.Ikon[0]">
-              </TheBtn>
-            </div>
-          </div>
-        </section>
-        <aside class="billede-container" v-for="billedeEl in lejeData?.Billede|| []" :key="billedeEl.id">
+        <div class="tekst-container">
+            <section v-for="afsnit in lejeData?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section">
+              <h2>{{ afsnit.Overskrift }}</h2>
+              <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+                <span v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</span>
+                <span :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</span>
+              </div>
+              <div v-if="afsnit.Knapper?.length > 0">
+                <TheBtn
+                  v-for="btn in afsnit.Knapper || []"
+                  :key="btn.id"
+                  :link="btn.link_to"
+                  :title="btn.btn_titel"
+                  :text="btn.btn_description"
+                  :icon="btn.Ikon[0]">
+                </TheBtn>
+              </div>
+            </section>
+        </div>
+        <aside class="billede-container" v-if="lejeData?.Billede?.Billede_element">
           <ImageHolder
-            v-for="billede in billedeEl || []"
-            :key="billede.id"
+            v-for="billede in lejeData.Billede.Billede_element"
+            :key="billede?.id"
             class="side-img"
             :src="getImage(billede)"
             :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
@@ -125,21 +125,18 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--spacer-x3);
+    gap: var(--spacer-x2);
     justify-content: center;
     margin: 0 auto;
-}
-
-#wrapper-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 1492px;
 }
 
 aside {
     max-width: 700px;
     max-height: 845px;
+}
+
+.afsnit-section div {
+padding-bottom: var(--spacer-x0-25);
 }
 
 span {
@@ -150,24 +147,15 @@ span {
   color: var(--color-font-1);
 }
 
-.afsnit-section {
-  display: flex;
-  flex-direction: row;
-  gap: var(--spacer-x2);
-  align-items: flex-start;
+.button {
+  margin: var(--spacer-x1-5) 0;
 }
 
 .tekst-container {
   display: flex;
   flex-direction: column; 
-  flex: 1;
-  gap: var(--spacer-x1);
-  max-width: 700px;
-  margin-bottom: var(--spacer-x2);
-}
-
-.billede-container {
-
+  gap: var(--spacer-x2);
+  max-width: 650px;
 }
 
 p {
@@ -177,4 +165,20 @@ p {
 .fat-text {
     font-weight: 700;
 }
+
+#wrapper-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 90vw;
+  gap: var(--spacer-x2);
+}
+
+@media screen and (min-width: 768px) {
+  #wrapper-content {
+    flex-direction: row;
+    gap: var(--spacer-x3);
+  }
+}
+
 </style>
