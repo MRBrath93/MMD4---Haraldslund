@@ -68,7 +68,6 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
                     numberOfTeams.value = cachedData.length;
                     numberOfClasses.value = cachedData.length; // Opdaterer antallet af klasser til det samlede antal
                     isLoading.value = false;
-                    console.log('Hentet klasser fra localStorage cache');
                     return;
                 } catch (e) {
                     console.warn('Fejl ved parsing af cached data:', e);
@@ -120,7 +119,7 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
                                 id: text.id,
                                 underoverskrift: text.Underoverskift,
                                 brodtekst: text.Brodtekst,
-                                punktopstilles: text.Skal_det_punkteopstilles,
+                                punktopstilles: text.Skal_det_punktopstilles,
                             })) : [], // Hvis "Tekst" er null, giv en tom array
                             // Håndtering af Billeder i Afsnit (som array)
                             billeder: section.Billede ? section.Billede.map(billede => ({
@@ -133,9 +132,11 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
 
                             knapper: section.Knapper ? section.Knapper.map(button => ({
                                 id: button.id,
-                                titel: button.btn_title,
+                                titel: button.btn_titel,
                                 beskrivelse: button.btn_description,
-                                ikon: button.Icon,
+                                ikon: button.Ikon[0],
+                                link: button.link_to,
+
                             })) : [], // Hvis "Knapper" er null, giv en tom array
                         })) : [], // Hvis "Afsnit" er null, giv en tom array
                     } : {}, // Hvis "Indhold" er null, giv et tomt objekt
