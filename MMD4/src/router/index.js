@@ -71,7 +71,7 @@ const router = createRouter({
               name: 'holdbeskrivelse-vandogwellness',
               meta: {
                 title: 'Holdbeskrivelse - Vand & Wellness - Haraldslund',
-                breadcrumb: 'Holdbeskrivelse',
+                breadcrumb: 'Holdbeskrivelse - Vand',
               }
             },
           ]

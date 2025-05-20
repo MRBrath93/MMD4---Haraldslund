@@ -2,7 +2,6 @@
 import { ref, onMounted } from "vue";
 import TheHero from "@/components/TheHero.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
-import TESTIMG from "@/assets/images/motion.jpg";
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import TheBtn from "@/components/TheBtn.vue";
 import DynamicHeading from "@/components/DynamicHeading.vue";

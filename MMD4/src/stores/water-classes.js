@@ -133,9 +133,11 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
 
                             knapper: section.Knapper ? section.Knapper.map(button => ({
                                 id: button.id,
-                                titel: button.btn_title,
+                                titel: button.btn_titel,
                                 beskrivelse: button.btn_description,
-                                ikon: button.Icon,
+                                ikon: button.Ikon[0],
+                                link: button.link_to,
+
                             })) : [], // Hvis "Knapper" er null, giv en tom array
                         })) : [], // Hvis "Afsnit" er null, giv en tom array
                     } : {}, // Hvis "Indhold" er null, giv et tomt objekt
