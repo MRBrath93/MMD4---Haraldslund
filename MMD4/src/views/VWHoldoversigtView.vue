@@ -109,7 +109,7 @@ function getCoverImage(klasse) {
             </div>
         </section>
 
-      <section>
+      <section class="elementspacing">
           <TheFilterBar
             :labels="classesStore.availableCategories" :store="classesStore"
             :selectedCategory="classesStore.selectedCategory"
@@ -117,7 +117,6 @@ function getCoverImage(klasse) {
           ></TheFilterBar>
 
         <article> 
-          <h4>Holdbeskrivelser</h4>
           <div class="teams--view">
             <p>Viser {{ classesStore.numberOfClasses }} ud af {{ classesStore.numberOfTeams }} hold</p>
             <div class="grid-container">
@@ -224,6 +223,14 @@ section{
 
 /* TEXT STYLEING SLUT */
 
+
+.elementspacing{
+  margin-bottom: var(--spacer-Elements);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .loading-container {
   min-height: 100vh;
   display: flex;
@@ -235,10 +242,6 @@ section{
     display: flex;
     justify-content: center;
     gap: var(--spacer-x1);
-}
-
-.team-card {
-  background-color: var(--color-motion);
 }
 
 .grid-container{
@@ -255,17 +258,27 @@ section{
   margin: 0 auto;
 }
 
+.teams--view{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 700px) {
+
+  .grid-container {
+    grid-template-columns: repeat(2,1fr);
+    max-width: var(--max-width);
+  }
+}
+
+@media screen and (min-width: 1000px) {
 
   .grid-container {
     grid-template-columns: repeat(3,1fr);
-    max-width: var(--max-width);
-    margin: 0 auto;
   }
-
-
 }
+  
   
 </style>
