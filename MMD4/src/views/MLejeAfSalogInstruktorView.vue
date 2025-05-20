@@ -97,15 +97,15 @@ function getImage(billede) {
               </TheBtn>
             </div>
           </div>
-          <div class="billede-container" v-if="afsnit.Billede?.length > 0">
-            <ImageHolder
-              v-for="billede in afsnit.Billede"
-              :key="billede.id"
-              class="side-img"
-              :src="getImage(billede)"
-              :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-          </div>
         </section>
+        <aside class="billede-container" v-for="billedeEl in lejeData?.Billede|| []" :key="billedeEl.id">
+          <ImageHolder
+            v-for="billede in billedeEl || []"
+            :key="billede.id"
+            class="side-img"
+            :src="getImage(billede)"
+            :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
+        </aside>
       </div>
       <Reklamekort 
         :src="getImage(lejeData.reklame_kort.Billede)" 
@@ -167,10 +167,7 @@ span {
 }
 
 .billede-container {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  gap: var(--spacer-x1);
+
 }
 
 p {
