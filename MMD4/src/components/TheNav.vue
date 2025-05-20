@@ -186,7 +186,7 @@ window.addEventListener("resize", handleNavBehavior);
     </nav>
 </template>
 
-<style>
+<style scoped>
 
 ul{
     padding-inline-start: 0;

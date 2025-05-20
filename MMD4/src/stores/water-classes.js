@@ -47,9 +47,36 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
         selectedCategory.value = category;
     };
 
-    // Fetch data from Strapi using .then()
+    const CACHE_KEY = 'WaterClasses';
+    const CACHE_TIMESTAMP_KEY = 'WaterClassesCacheTimestamp';
+    const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter cache tid
+
     const fetchClasses = () => {
         isLoading.value = true;
+
+        // Tjek om data findes i localStorage og ikke er for gammel
+        const cachedRaw = localStorage.getItem(CACHE_KEY);
+        const cachedTimestampRaw = localStorage.getItem(CACHE_TIMESTAMP_KEY);
+        const now = Date.now();
+
+        if (cachedRaw && cachedTimestampRaw) {
+            const cachedTimestamp = Number(cachedTimestampRaw);
+            if (now - cachedTimestamp < CACHE_DURATION_MS) {
+                try {
+                    const cachedData = JSON.parse(cachedRaw);
+                    classes.value = cachedData;
+                    numberOfTeams.value = cachedData.length;
+                    numberOfClasses.value = cachedData.length; // Opdaterer antallet af klasser til det samlede antal
+                    isLoading.value = false;
+                    console.log('Hentet klasser fra localStorage cache');
+                    return;
+                } catch (e) {
+                    console.warn('Fejl ved parsing af cached data:', e);
+                }
+            }
+        }
+
+        // Fetch data from Strapi using .then()
         fetch(
             "https://popular-gift-b355856076.strapiapp.com/api/hold-vands?pLevel"
         )
@@ -115,6 +142,10 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
                 }));
                 // Total Antal hold (Til counter)
                 numberOfTeams.value = classes.value.length;
+
+                // Gem i localStorage cache med timestamp
+                localStorage.setItem(CACHE_KEY, JSON.stringify(classes.value));
+                localStorage.setItem(CACHE_TIMESTAMP_KEY, now.toString());
             })
             .catch(error => {
                 console.error("Fejl ved hentning af hold:", error);
@@ -122,9 +153,12 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
             .finally(() => {
                 isLoading.value = false; // Stop spinner
             });
-
     };
 
+    // Ny funktion: Find klasse efter ID
+    const getClassById = (id) => {
+        return classes.value.find(klasse => klasse.id === id);
+    };
 
     return {
         classes,
@@ -135,6 +169,9 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
         selectedCategory,
         setCategory,
         availableCategories,
-        isLoading
+        isLoading,
+
+        // Eksporterer den nye getter
+        getClassById,
     };
 });

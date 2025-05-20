@@ -93,21 +93,19 @@ const kategoriColor = computed(() => {
 </script>
 <template>
   <router-link 
-    :to="link" 
-    :key="labels.id"
-    class="team-card team-card-image" 
-    aria-label="Tryk for at gå til holdbeskrivelse"
-    :style="isScreenLarge ? { backgroundImage: 'url(' + teamImage + ')' } : { }"
-    @mouseenter="handleMouseEnter"
-    @mouseleave="handleMouseLeave"
-  >
+  :to="link" 
+  class="team-card team-card-image" 
+  aria-label="Tryk for at gå til holdbeskrivelse"
+  :style="{ backgroundImage: 'url(' + teamImage + ')' }"
+  @mouseenter="handleMouseEnter"
+  @mouseleave="handleMouseLeave"
+>
     <i class="icon material-symbols-rounded" :class="kategoriColor">{{ icon }}</i>
     <div class="team-card-overlay" :class="{ 'overlay-visible': overlayVisible }">
-      <i class="icon material-symbols-rounded" :class="kategoriColor">{{ icon }}</i>
       <p class="overlay-text">{{ overlayText }}</p>
     </div>
     <div :class="kategoriColor" class="card-label">
-      <h3>{{ labels.label }}</h3>
+      <p class="label">{{ labels.label }}</p>
       <p v-if="teamCategorys.length > 0" class="card-tags">
         <span v-for="(category, index) in teamCategorys" :key="index">
           {{ category }}
@@ -130,6 +128,7 @@ const kategoriColor = computed(() => {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   width: 100%;
   height: 100%;
+  min-height: 14rem;
 }
 
 .team-card:hover {
@@ -137,16 +136,17 @@ const kategoriColor = computed(() => {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-.team-card h3 {
+.team-card .label {
   margin: 0;
-  font-size: 1.5rem;
   color: var(--color-font-2);
 }
 
 .icon {
-  font-size: 2rem;
+  font-size: 1.5rem;
   padding: var(--spacer-x0-5);
   color: var(--color-font-2);
+  position: relative;
+  z-index: 2;
 }
 
 .overlay-text {
@@ -155,14 +155,16 @@ const kategoriColor = computed(() => {
 }
 
 .card-label {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: bold;
   width: 100%;
   padding: var(--spacer-x0-5) var(--spacer-x2-5);
+  position: relative;
+  z-index: 2;
 }
 
 .card-tags {
-    font-size: clamp(1rem, 2vw, 1.125rem);
+    font-size: 1rem;
     font-family: var(--font-text);
     color: var(--color-font-2);
     font-weight: 400;
@@ -189,6 +191,7 @@ const kategoriColor = computed(() => {
   background-color: rgba(0, 0, 0, 0.8);
   opacity: 0;
   width: 100%;
+  z-index: 1;
 }
 .overlay-visible {
     opacity: 1;
@@ -229,15 +232,12 @@ const kategoriColor = computed(() => {
 
 @media screen and (min-width: 768px) {
   .team-card {
-    max-height: 20.6rem;
-    min-height: 12.5rem;
-    max-width: 27.5rem;
+    min-height: 15.5rem;
   }
   
   .overlay-visible .overlay-text {
     padding-top: var(--spacer-x5);
   }
-    
 }
 
 </style>
