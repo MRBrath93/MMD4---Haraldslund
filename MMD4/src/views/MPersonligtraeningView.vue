@@ -10,17 +10,49 @@ import TheBtn from "@/components/TheBtn.vue";
 
 import { ref, onMounted } from "vue";
 
-// FETCH DATA FRA STRAPI
+// REAKTIVE VARIABLER
+const personligTraening = ref(null);
+const isLoading = ref(true);
+const error = ref(null);
+
+// CACHE VARIABLER
+const CACHE_DURATION_MS = 5 * 60 * 1000; 
+
+// FETCH DATA FRA LOCAL STORAGE 
 onMounted(() => {
+  isLoading.value = true;
+  error.value = null;
+
+  const cachedPersonligTraeningRaw = localStorage.getItem('personligTraeningData'); // Hent cached data
+  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp'); // Hent cached timestamp
+  const now = Date.now();   // CACHE VARIABLER
+
+  // CHECK CACHE 
+  if (cachedPersonligTraeningRaw && cachedTimestampRaw) {
+    const cachedTimestamp = Number(cachedTimestampRaw);
+    if (now - cachedTimestamp < CACHE_DURATION_MS) {
+      try {
+        personligTraening.value = JSON.parse(cachedPersonligTraeningRaw);
+        isLoading.value = false;
+        return;
+      } catch (e) {
+        console.warn('Fejl ved parsing af cached data:', e);
+      }
+    }
+  }
+
+  // FETCH DATA FRA STRAPI
   fetch('https://popular-gift-b355856076.strapiapp.com/api/personlig-traening-motionscenter?pLevel')
-  .then(response => {
+    .then(response => {
       if (!response.ok) {
         throw new Error(`HTTP fejl! Status: ${response.status}`);
       }
       return response.json();
     })    
-    .then(data => {
-        personligTraening.value = data.data;   
+    .then(json => {
+      personligTraening.value = json.data;
+      localStorage.setItem('personligTraeningData', JSON.stringify(personligTraening.value));
+      localStorage.setItem('cacheTimestamp', now.toString());
     })
     .catch(err => {
       error.value = err.message;
@@ -29,7 +61,6 @@ onMounted(() => {
       isLoading.value = false;
     });
 });
-
 
 // INTERN NAVIGATION LABELS (FRA STRAPI)
 const internNavLabels = [
@@ -42,10 +73,7 @@ const internNavLabels = [
   { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
 ];
 
-// REAKTIVE VARIABLER
-const personligTraening = ref(null);
-const isLoading = ref(true);
-const error = ref(null);
+
 
 // FUNKTIONER
 function getImage(billede) {

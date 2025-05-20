@@ -9,8 +9,32 @@ import Reklamekort from "@/components/Reklamekort.vue";
 import TheSpinner from "../components/TheSpinner.vue";
 import TheBtn from "@/components/TheBtn.vue";
 
+
 // FETCH DATA
 onMounted(() => {
+  isLoading.value = true;
+  error.value = null;
+
+  const cachedLejeRaw = localStorage.getItem('lejeData');
+  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const now = Date.now();
+
+  if (cachedLejeRaw && cachedTimestampRaw) {
+    const cachedTimestamp = Number(cachedTimestampRaw);
+
+    if (now - cachedTimestamp < CACHE_DURATION_MS) {
+      try {
+        lejeData.value = JSON.parse(cachedLejeRaw);
+        isLoading.value = false;
+        return;
+      } catch (e) {
+        console.warn('Fejl ved parsing af cached data:', e);
+      }
+    }
+  }
+  // Hvis cached data ikke findes eller er forældet, hent data fra Strapi
+  // og gem det i localStorage
+  // og opdater timestamp
   fetch('https://popular-gift-b355856076.strapiapp.com/api/leje-af-sal-og-instruktor-motionscenter?pLevel')
   .then(response => {
       if (!response.ok) {
@@ -18,8 +42,10 @@ onMounted(() => {
       }
       return response.json();
     })    
-    .then(data => {
-        lejeData.value = data.data;   
+    .then(json => {
+        lejeData.value = json.data;
+        localStorage.setItem('lejeData', JSON.stringify(lejeData.value));
+        localStorage.setItem('cacheTimestamp', now.toString());   
     })
     .catch(err => {
       error.value = err.message;
@@ -34,6 +60,9 @@ onMounted(() => {
 const lejeData = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
+
+const CACHE_DURATION_MS = 5 * 60 * 1000;
+
 
 // Intern navigation labels (fra Strapi)
 const internNavLabels = [
