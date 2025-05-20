@@ -40,12 +40,37 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
     // Funktion til at ændre den valgte kategori. Denne funktion opdaterer den reaktive 'selectedCategory' værdi, når brugeren vælger en ny kategori.
     // Dette gør det muligt at opdatere den viste liste af klasser i UI'en.
     // Funktionen tager en kategori som parameter og opdaterer 'selectedCategory' værdien.
+
+    // Cache variabler
     const setCategory = (category) => {
         selectedCategory.value = category;
     };
+    const CACHE_KEY = 'MotionClasses';
+    const CACHE_TIMESTAMP_KEY = 'MotionClassesCacheTimestamp';
+    const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter cache tid
 
-    // Fetch data fra Strapi API med .then()
     const fetchClasses = () => {
+        isLoading.value = true;
+        // Tjek om data findes i localStorage og ikke er for gammel
+        const cachedRaw = localStorage.getItem(CACHE_KEY);
+        const cachedTimestampRaw = localStorage.getItem(CACHE_TIMESTAMP_KEY);
+        const now = Date.now();
+        if (cachedRaw && cachedTimestampRaw) {
+            const cachedTimestamp = Number(cachedTimestampRaw);
+            if (now - cachedTimestamp < CACHE_DURATION_MS) {
+                try {
+                    const cachedData = JSON.parse(cachedRaw);
+                    classes.value = cachedData;
+                    numberOfTeams.value = cachedData.length;
+                    numberOfClasses.value = cachedData.length; // Opdaterer antallet af klasser til det samlede antal
+                    isLoading.value = false;
+                    return;
+                } catch (e) {
+                    console.error("Fejl ved parsing af cache data:", e);
+                }
+            }
+        }
+        // Hent data fra Strapi API
         fetch(
             "https://popular-gift-b355856076.strapiapp.com/api/hold-motions?pLevel"
         )
@@ -111,12 +136,25 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
                 }));
                 // Total Antal hold (Til counter)
                 numberOfTeams.value = classes.value.length;
+
+                // Gem data i localStorage med timestamp
+                localStorage.setItem(CACHE_KEY, JSON.stringify(classes.value));
+                localStorage.setItem(CACHE_TIMESTAMP_KEY, now.toString());
             })
             .catch(error => {
                 console.error("Fejl ved hentning af hold:", error);
-                this.error = "Beklager. Der opstod en fejl under hentning af holdene.";
+            })
+            .finally(() => {
+                isLoading.value = false;
             });
     };
+
+
+    // Ny funktion: Find klasse efter ID
+    const getClassById = (id) => {
+        return classes.value.find(klasse => klasse.id === id);
+    };
+
 
     return {
         classes,
@@ -127,5 +165,8 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
         selectedCategory,
         setCategory,
         availableCategories,
+        isLoading,
+
+        getClassById,
     };
 });

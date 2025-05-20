@@ -15,13 +15,39 @@ import TheFilterBar from "@/components/TheFilterBar.vue";
 
 // REAKTIVE VARIABLER
 const classesStore = useClassesStoreMotion();
-const holdbeskrivelseImg = ref(null);
+const holdData = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
 
+const CACHE_KEY = "holdData";
+const CACHE_TIMESTAMP_KEY = "cacheTimestamp";
+const CACHE_DURATION_MS = 5 * 60 * 1000; 
 
 // HENT DATA FRA STORE
 onMounted(async () => {
+  isLoading.value = true;
+  error.value = null;
+  
+  // await classesStore.fetchClasses();
+
+  const cachedClassesMotionRaw = localStorage.getItem(CACHE_KEY);
+  const cachedTimestampRaw = localStorage.getItem(CACHE_TIMESTAMP_KEY);
+  const now = Date.now();
+  if (cachedClassesMotionRaw && cachedTimestampRaw) {
+    const cachedTimestamp = Number(cachedTimestampRaw);
+
+    if (now - cachedTimestamp < CACHE_DURATION_MS) {
+      try {
+        holdData.value = JSON.parse(cachedClassesMotionRaw);
+        isLoading.value = false;
+        return;
+      } catch (e) {
+        console.warn('Fejl ved parsing af cached data:', e);
+      }
+    }
+  }
+  // Hvis cached data ikke findes eller er forældet, hent data fra Strapi
+  // og gem det i localStorage + opdater timestamp
   fetch ('https://popular-gift-b355856076.strapiapp.com/api/holdoversigt-motionscenter?pLevel')
   .then(response => {
       if (!response.ok) {
@@ -29,8 +55,10 @@ onMounted(async () => {
       }
       return response.json();
     })    
-    .then(data => {
-        holdData.value = data.data;   
+    .then(json => {
+      holdData.value = json.data;
+      localStorage.setItem(CACHE_KEY, JSON.stringify(holdData.value));
+      localStorage.setItem(CACHE_TIMESTAMP_KEY, now.toString());
     })
     .catch(err => {
       error.value = err.message;
@@ -116,16 +144,15 @@ const internNavLabels = [
           </div>
         </section>
       </section>
-
       <Reklamekort 
-        :src="getImage(classesStore.reklame_kort.Billede) || '' " 
-        :alt="classesStore.reklame_kort.Billede.alternativeText" 
-        :title="classesStore.reklame_kort.Titel" 
-        :text="classesStore.reklame_kort.Tekst_afsnit" 
-        :Btn_title="classesStore.reklame_kort.Knapper[0].btn_titel" 
-        :Btn_text="classesStore.reklame_kort.Knapper[0].btn_description" 
-        :kategori="classesStore.reklame_kort.Kategori" 
-        :Btn_icon="classesStore.reklame_kort.Knapper[0].Ikon[0]">
+        :src="getImage(classesStore.reklame_kort?.Billede) || ''"
+        :alt="classesStore.reklame_kort?.Billede?.alternativeText || ''"
+        :title="classesStore.reklame_kort?.Titel || ''"
+        :text="classesStore.reklame_kort?.Tekst_afsnit || ''"
+        :Btn_title="classesStore.reklame_kort?.Knapper?.[0]?.btn_titel || ''"
+        :Btn_text="classesStore.reklame_kort?.Knapper?.[0]?.btn_description || ''"
+        :kategori="classesStore.reklame_kort?.Kategori || ''"
+        :Btn_icon="classesStore.reklame_kort?.Knapper?.[0]?.Ikon?.[0] || ''">
       </Reklamekort>
     </main>
 </template>
