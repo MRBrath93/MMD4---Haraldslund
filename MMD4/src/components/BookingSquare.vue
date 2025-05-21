@@ -8,11 +8,11 @@ const props = defineProps({
   btn_text: String,
   btn_path: String,
   btn_icon: String,
-  kategori: String,
+  type_af_hold: String,
 });
 
 const backgroundClass = computed(() => {
-  switch (props.kategori) {
+  switch (props.type_af_hold) {
     case 'Om Haraldslund':
       return 'bg-haraldslund';
     case 'Møder & Konferencer':
@@ -21,7 +21,7 @@ const backgroundClass = computed(() => {
       return 'bg-wellness';
     case 'Motion':
       return 'bg-motion';
-    case 'Svømmehal':
+    case 'Svømning':
       return 'bg-svommehal';
     default:
       return 'bg-default';
@@ -50,6 +50,7 @@ const backgroundClass = computed(() => {
 .bookingSquare {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 0.5rem;
     width: 100%;
     padding: 1rem 2rem;

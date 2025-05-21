@@ -20,6 +20,8 @@ const computedBtnLink = computed(() => {
       return '/vand-og-wellness/svommehallen';
     case 'Møder & Konferencer':
       return '/moder-og-konferencer';
+    case 'Booking':
+      return '/booking';
     case 'Om Haraldslund':
       return '/om-haraldslund';
     case 'Bibliotek':

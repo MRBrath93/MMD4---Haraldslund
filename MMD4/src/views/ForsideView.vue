@@ -22,6 +22,15 @@ const error = ref(null);
 // Hvor længe cachedata er gyldige (5 minutter)
 const CACHE_DURATION_MS = 5 * 60 * 1000;
 
+function trimHoldData(holdListe) {
+  return holdListe.map(hold => ({
+    id: hold.id,
+    Titel: hold.Titel,
+    Tidspunkter: hold.Tidspunkter,
+    Traenings_kategorier: hold.Traenings_kategorier,
+    Lokation: hold.Lokation
+  }));
+}
 
 
 
@@ -81,11 +90,14 @@ onMounted(async () => {
     // Gem data i vores reaktive variabler
     forsideData.value = forsideJson.data;
      // Sammensæt motions- og vands-hold i en variable
-    holdData.value = [...motionsJson.data, ...vandsJson.data];
+     const combinedHold = [...motionsJson.data, ...vandsJson.data];
+     holdData.value = combinedHold;
+
+// Gem kun det nødvendige i localStorage
+localStorage.setItem('holdData', JSON.stringify(trimHoldData(combinedHold)));
 
     // Gem data i localStorage for at kunne bruge cache næste gang
     localStorage.setItem('forsideData', JSON.stringify(forsideData.value));
-    localStorage.setItem('holdData', JSON.stringify(holdData.value));
     localStorage.setItem('cacheTimestamp', now.toString());
 
   } catch (err) {

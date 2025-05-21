@@ -19,7 +19,7 @@ const handleScroll = () => {
 };
 
 onMounted(() => {
-  handleScroll(); // initial check
+  handleScroll();
 });
 </script>
 
