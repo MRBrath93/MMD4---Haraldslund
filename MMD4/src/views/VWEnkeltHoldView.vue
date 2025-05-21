@@ -129,73 +129,71 @@ const visibleTeamCards = computed(() => {
   <main v-if="classesStore.isLoading || !vandogwellnessHoldData" class="loading-container">
     <TheSpinner></TheSpinner>
   </main>
-
+  
   <main v-else-if="selectedClass">
     <TheHero class="heroImage"
-        :title="vandogwellnessHoldData.Hero_sektion.Hero_titel_h5.Titel_H5"
-        :subtitle="vandogwellnessHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
-        :image="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
-        :alt="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
-        <TheBreadcrumb></TheBreadcrumb>
-
+    :title="vandogwellnessHoldData.Hero_sektion.Hero_titel_h5.Titel_H5"
+    :subtitle="vandogwellnessHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
+    :image="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
+    :alt="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
+    <TheBreadcrumb></TheBreadcrumb>
+    
     <section v-for="(tekstsektion,index) in selectedClass.indhold.afsnit" :key="tekstsektion.id">
-            <div class="textsection">
-                <article class="flex--column flex1">
-                    <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.overskrift }}</DynamicHeading>
-                    <div v-for="single_text in tekstsektion.tekst || []" :key="single_text.id">
-                        <h5 class="subtitle" v-if="single_text.underoverskrift">{{ single_text.underoverskrift }}</h5>
-                        <ul class="punkt" v-if="single_text.punktopstilles === true">
-                            <li> {{ single_text.brodtekst }}</li>
-                        </ul>
-                        <p v-else> {{ single_text.brodtekst }}</p>
-                    </div>
-                    <div v-if="Array.isArray(tekstsektion.knapper) && tekstsektion.knapper.length > 0" class="btn--container">
-                    <TheBtn
-                    v-for="btn in tekstsektion.knapper"
-                    :key="btn.id"
-                    :link="btn.link_to"
-                    :title="btn.titel"
-                    :text="btn.beskrivelse"
-                    :icon="btn.ikon"></TheBtn>
-                </div>
-            </article>
-            <div class="img--container flex1">
-                <ImageHolder v-for="billede in tekstsektion.billeder" :key="billede.id" class="img" :src="getArticleImage(billede)" :alt="billede.alternativeText" />
-            </div>
-            </div>
-        </section>
-        <section class="overviewGrid">
-          <QuickInfo class="quickinfo"  :time="selectedClass.varighed" :group="selectedClass.maalgruppe" :priser="selectedClass.priser" :praticalInfo="selectedClass.praktiskeOplysninger" :cancelBooking="selectedClass.aflysning" :type_af_hold="selectedClass.type_af_hold"></QuickInfo>
-          <BookingSquare title="Sådan tilmelder du dig" text="Du kan tilmelde dig gennem vores online booking system via. nedenstående link." btn_title="Booking" btn_text="Foretag din booking her" btn_path="Booking" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
-          <BookingSquare title="Til- & Afmeldingsfrister" text="Er du forhindret i at deltage på holdet? Sørg for at melde afbud i rette tid." btn_title="Til- & Afmeldingsfrister" btn_text="Få styr på diverse frister" btn_path="VW regler" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
-        </section>
-        <section>
-          <h3 class="heading">Måske du også kan lide</h3>
-          <div class="three--column-grid">
-            <TheTeamCard
-  v-for="relatedTeam in selectedClass.relateredeHold.slice(0, visibleTeamCards)"
-  :key="relatedTeam.id"
-  :labels="{ label: relatedTeam.name || 'Ukendt hold' }"
-  icon="arrow_forward"
-  :backgroundColor="relatedTeam.type_af_hold"
-  :teamCategorys="relatedTeam.kategorier"
-  :link="{ name: 'holdbeskrivelse-vandogwellness', params: { id: relatedTeam.id } }"
-  :teamImage="getCoverImage(relatedTeam)"
-  :alt="relatedTeam.coverbilledeAlt || ' Holdbillede'" 
-></TheTeamCard>
+      <div class="textsection">
+        <article class="flex--column flex1">
+          <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.overskrift }}</DynamicHeading>
+          <div v-for="single_text in tekstsektion.tekst || []" :key="single_text.id">
+            <h5 class="subtitle" v-if="single_text.underoverskrift">{{ single_text.underoverskrift }}</h5>
+            <ul class="punkt" v-if="single_text.punktopstilles === true">
+              <li> {{ single_text.brodtekst }}</li>
+            </ul>
+            <p v-else> {{ single_text.brodtekst }}</p>
           </div>
-        </section>
-        <Reklamekort v-if="selectedClass.reklamekort"
-        :src="getArticleImage(selectedClass.reklamekort)" 
-        :alt="selectedClass.reklamekort.billedeAlt" 
-        :title="selectedClass.reklamekort.titel" 
-        :text="selectedClass.reklamekort.tekst"
-        :Btn_title="selectedClass.reklamekort.knapper[0].titel" 
-        :Btn_text="selectedClass.reklamekort.knapper[0].beskrivelse" 
-        :kategori="selectedClass.reklamekort.kategori"
-        :Btn_icon="selectedClass.reklamekort.knapper[0].ikon"></Reklamekort>
-  </main>
+          <div v-if="Array.isArray(tekstsektion.knapper) && tekstsektion.knapper.length > 0" class="btn--container">
+            <TheBtn v-for="btn in tekstsektion.knapper"
+            :key="btn.id"
+            :link="btn.link_to"
+            :title="btn.titel"
+            :text="btn.beskrivelse"
+            :icon="btn.ikon"></TheBtn>
+          </div>
+        </article>
+        <div class="img--container flex1">
+          <ImageHolder v-for="billede in tekstsektion.billeder" :key="billede.id" class="img" :src="getArticleImage(billede)" :alt="billede.alternativeText" />
+        </div>
+      </div>
+    </section>
+    <section class="overviewGrid">
+      <QuickInfo class="quickinfo"  :time="selectedClass.varighed" :group="selectedClass.maalgruppe" :priser="selectedClass.priser" :praticalInfo="selectedClass.praktiskeOplysninger" :cancelBooking="selectedClass.aflysning" :type_af_hold="selectedClass.type_af_hold"></QuickInfo>
+      <BookingSquare title="Sådan tilmelder du dig" text="Du kan tilmelde dig gennem vores online booking system via. nedenstående link." btn_title="Booking" btn_text="Foretag din booking her" btn_path="Booking" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
+      <BookingSquare title="Til- & Afmeldingsfrister" text="Er du forhindret i at deltage på holdet? Sørg for at melde afbud i rette tid." btn_title="Til- & Afmeldingsfrister" btn_text="Få styr på diverse frister" btn_path="VW regler" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
+    </section>
 
+    <section>
+      <h3 class="heading">Måske du også kan lide</h3>
+      <div class="three--column-grid">
+        <TheTeamCard v-for="relatedTeam in selectedClass.relateredeHold.slice(0, visibleTeamCards)"
+        :key="relatedTeam.id"
+        :labels="{ label: relatedTeam.name || 'Ukendt hold' }"
+        icon="arrow_forward"
+        :backgroundColor="relatedTeam.type_af_hold"
+        :teamCategorys="relatedTeam.kategorier"
+        :link="{ name: 'holdbeskrivelse-vandogwellness', params: { id: relatedTeam.id } }"
+        :teamImage="getCoverImage(relatedTeam)"
+        :alt="relatedTeam.coverbilledeAlt || ' Holdbillede'" ></TheTeamCard>
+      </div>
+    </section>
+    <Reklamekort v-if="selectedClass.reklamekort"
+    :src="getArticleImage(selectedClass.reklamekort)" 
+    :alt="selectedClass.reklamekort.billedeAlt" 
+    :title="selectedClass.reklamekort.titel" 
+    :text="selectedClass.reklamekort.tekst"
+    :Btn_title="selectedClass.reklamekort.knapper[0].titel" 
+    :Btn_text="selectedClass.reklamekort.knapper[0].beskrivelse" 
+    :kategori="selectedClass.reklamekort.kategori"
+    :Btn_icon="selectedClass.reklamekort.knapper[0].ikon"></Reklamekort>
+  </main>
+  
   <main v-else>
     <p>Holdet med ID {{ $route.params.id }} blev ikke fundet.</p>
   </main>
