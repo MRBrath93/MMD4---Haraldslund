@@ -29,6 +29,7 @@ defineProps({
     height: 100%;
     object-fit: cover;
     display: block;
+    border-radius: var(--border-radius);
   }
   
   .overlay-border {

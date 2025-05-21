@@ -7,6 +7,7 @@ const props = defineProps({
   btn_title: String,
   btn_text: String,
   btn_path: String,
+  btn_target: String,
   btn_icon: String,
   type_af_hold: String,
 });
@@ -14,14 +15,36 @@ const props = defineProps({
 const backgroundClass = computed(() => {
   switch (props.type_af_hold) {
     case 'Om Haraldslund':
+    case 'Historien':
+    case 'Praktisk information':
+    case 'Cafe':
+    case 'Bibliotek':
+    case 'Brugerråd':
+    case 'Booking':
+    case 'Personale':
+    case 'Cafe':
+    case 'Firmaaftaler':
+    case 'Samlet priser':
       return 'bg-haraldslund';
     case 'Møder & Konferencer':
       return 'bg-meeting';
     case 'Wellness':
       return 'bg-wellness';
+    case 'Motion hold':
     case 'Motion':
+    case 'Leje af sal og instruktør':
+    case 'Om motionscenteret':
+    case 'Personlig træning':
+    case 'Motion priser':
+    case 'Motion regler':
+    case 'Sundhed i bevægelse':
       return 'bg-motion';
+    case 'Svømmehal':
     case 'Svømning':
+    case 'Vand og wellness':
+    case 'VW hold':
+    case 'VW priser':
+    case 'VW regler':
       return 'bg-svommehal';
     default:
       return 'bg-default';
@@ -41,7 +64,7 @@ const backgroundClass = computed(() => {
       <div>
         <p>{{ text }}</p>
       </div>
-      <TheBtn :title="btn_title" :text="btn_text" :link="btn_path" :icon="btn_icon"></TheBtn>
+      <TheBtn :title="btn_title" :text="btn_text" :link="btn_path" :target="btn_target" :icon="btn_icon"></TheBtn>
     </div>
   </template>
   
@@ -78,7 +101,7 @@ const backgroundClass = computed(() => {
 }
 
 .bg-default {
-  background-color: #eecdad;
+  background-color: var(--color-activity-viewer);
 }
 
 

@@ -95,7 +95,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <main v-if="isLoading">
+    <main class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
@@ -466,6 +466,13 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 /* TEKST SECTION STYLE */
 
