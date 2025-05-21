@@ -103,6 +103,7 @@ const computedBtnLink = computed(() => {
 });
 
 
+
 const computedTarget = computed(() => {
   return props.Btn_target ? props.Btn_target : '_self';
 });
@@ -112,6 +113,14 @@ const kategoriColor = computed(() => {
     case 'Om Haraldslund':
     case 'Historien':
     case 'Praktisk information':
+    case 'Cafe':
+    case 'Bibliotek':
+    case 'Brugerråd':
+    case 'Booking':
+    case 'Personale':
+    case 'Cafe':
+    case 'Firmaaftaler':
+    case 'Samlet priser':
       return 'bg-haraldslund';
     case 'Møder & Konferencer':
       return 'bg-meeting';
@@ -119,10 +128,18 @@ const kategoriColor = computed(() => {
       return 'bg-wellness';
     case 'Motion hold':
     case 'Motion':
-      return 'bg-motion';
+    case 'Leje af sal og instruktør':
+    case 'Om motionscenteret':
     case 'Personlig træning':
+    case 'Motion priser':
+    case 'Motion regler':
+    case 'Sundhed i bevægelse':
       return 'bg-motion';
     case 'Svømmehal':
+    case 'Vand og wellness':
+    case 'VW hold':
+    case 'VW priser':
+    case 'VW regler':
       return 'bg-svommehal';
     default:
       return 'bg-default';

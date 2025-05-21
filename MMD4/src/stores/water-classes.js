@@ -67,7 +67,7 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
     };
     const CACHE_KEY = 'WaterClasses';
     const CACHE_TIMESTAMP_KEY = 'WaterClassesCacheTimestamp';
-    const CACHE_DURATION_MS = 1 * 60 * 1000; // 5 minutter cache tid
+    const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter cache tid
 
     const fetchClasses = () => {
         isLoading.value = true;

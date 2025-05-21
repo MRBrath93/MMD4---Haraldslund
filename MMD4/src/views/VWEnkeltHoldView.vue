@@ -17,7 +17,7 @@ const route = useRoute();
 const classesStore = useClassesStoreWater();
 const CACHE_KEY = "vandogwellnessHoldData";
 const CACHE_TIMESTAMP_KEY = "vandogwellnessHoldTimestamp";
-const CACHE_DURATION_MS = 1000 * 60 * 60 * 12;
+const CACHE_DURATION_MS = 5 * 60 * 60 * 12;
 const classId = Number(route.params.id);
 const selectedClass = ref(null);
 const isLoadingExtra = ref(false);
@@ -202,6 +202,13 @@ const visibleTeamCards = computed(() => {
 
 <style scoped>
 
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .three--column-grid{
   display: grid;
   grid-template-columns: 1fr;
@@ -332,11 +339,4 @@ section{
     }
 }
 /* TEKSTSTYLE SLUT */
-
-.loading-container {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 </style>
