@@ -109,34 +109,26 @@ function getImage(billede) {
         <TheInternNavHaraldslund
         :label="internNavLabels"
         />
-        <div class="tekst-container">
-            <div>
-                <h2>Adresse</h2>
-                <p>{{ praktiskData.Adresse }}</p>
-            </div>
-            <div>
-                <h2>Telefonnummer</h2>
-                <p>{{ praktiskData.Telefonnummer }}</p>
-            </div>
-            <div>
-                <h2>Åbningstider</h2>
-                <div v-for="aabningstider in praktiskData.Almene_aabningstider || []" :key="aabningstider.id" class="flex-row">
-                    <p v-if="aabningstider.Dag">{{ aabningstider.Dag }}</p>
-                    <span v-if="aabningstider.Har_Vi_Lukket  === true "> Lukket </span>
-                    <div v-else-if="aabningstider.Har_Vi_Lukket  === false ">
-                        <span v-if="aabningstider.Start_tidspunkt "> {{  aabningstider.Start_tidspunkt.split(':')[0] }}:{{ aabningstider.Start_tidspunkt.split(':')[1] }} - </span>
-                        <span v-if="aabningstider.Slut_tidspunkt "> {{  aabningstider.Slut_tidspunkt.split(':')[0] }}:{{ aabningstider.Slut_tidspunkt.split(':')[1] }}</span>
-                    </div>
-                    <!-- INSPIRATIONSKILDE SPLIT: W3Schools.JavaScript String split(). 2025. [Accessed 20/05/25] (online) URL: https://www.w3schools.com/jsref/jsref_split.asp -->
-                </div>
-            </div>
-            
-            <section v-for="afsnit in praktiskData?.Afsnit || []" :key="afsnit.id" class="afsnit-section">
-                <div class="flex-section">
+        <section v-for="(afsnit, index) in praktiskData?.Afsnit || []" :key="afsnit.id" class="afsnit-section">
+                <div v-if="index !== 1" class="flex-section">
                     <h2>{{ afsnit.Overskrift }}</h2>
                     <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
                         <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
                         <p>{{ tekst.Brodtekst }}</p>
+                        <div v-if="index === 0">
+                            <div>
+                                <h2>Adresse</h2>
+                                <p>{{ praktiskData.Adresse }}</p>
+                            </div>
+                            <div>
+                                <h2>Telefonnummer</h2>
+                                <p>{{ praktiskData.Telefonnummer }}</p>
+                            </div>
+                            <div>
+                                <h2>Mail</h2>
+                                <!-- !!INDSLÆT MAIL KNAP M.M. HER!! -->
+                            </div>
+                        </div>
                     </div>
                     <div v-if="afsnit.Knapper?.length > 0">
                         <TheBtn
@@ -158,9 +150,25 @@ function getImage(billede) {
                     :src="getImage(billede)"
                     :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
                 </aside>
+                <div v-if="index === 0" class="tekst-container">
+                    <div>
+                        <h2>Åbningstider</h2>
+                        <div v-for="aabningstider in praktiskData.Almene_aabningstider || []" :key="aabningstider.id" class="flex-row">
+                            <p v-if="aabningstider.Dag">{{ aabningstider.Dag }}</p>
+                            <span v-if="aabningstider.Har_Vi_Lukket  === true "> Lukket </span>
+                            <div v-else-if="aabningstider.Har_Vi_Lukket  === false ">
+                                <span v-if="aabningstider.Start_tidspunkt "> {{  aabningstider.Start_tidspunkt.split(':')[0] }}:{{ aabningstider.Start_tidspunkt.split(':')[1] }} - </span>
+                                <span v-if="aabningstider.Slut_tidspunkt "> {{  aabningstider.Slut_tidspunkt.split(':')[0] }}:{{ aabningstider.Slut_tidspunkt.split(':')[1] }}</span>
+                            </div>
+                            <!-- INSPIRATIONSKILDE SPLIT: W3Schools.JavaScript String split(). 2025. [Accessed 20/05/25] (online) URL: https://www.w3schools.com/jsref/jsref_split.asp -->
+                        </div>
+                    </div>
+                    <div>
+                        <h2>{{ praktiskData?.Afsnit[1].Overskrift }}</h2>
+                        <p>{{ praktiskData?.Afsnit[1].Tekst[0].Brodtekst }}</p>
+                    </div>
+                </div>
             </section>
-           
-        </div>
     </main>
 </template>
 
