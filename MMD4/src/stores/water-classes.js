@@ -24,41 +24,57 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
     // FILTERING
     // Der anvendes en computed property til at filtrere holdene baseret på den valgte kategori. Det gør det muligt at opdatere listen af hold dynamisk, når brugeren vælger en kategori.
     const filteredClasses = computed(() => {
+        // Funktion til at normalisere strenge for bedre sortering
+        // // Konverterer til små bogstaver, fjerner bindestreger og diakritiske tegn (som é → e)
+        const normalize = (str) => str
+            .toLowerCase()
+            // Erstatter bindestreger med mellemrum
+            .replace(/-/g, ' ')
+            // Fjerner evt. mellemrum i starten/slutningen
+            .trim();
+
+        // Funktion til at sortere et array af objekter efter navn med dansk lokalitet
+        const sortClasses = (arr) =>
+            // Lav en kopi af vores array med en spread operator
+            [...arr].sort((a, b) =>
+                normalize(a.name).localeCompare(normalize(b.name), 'da', { sensitivity: 'base' }));
+
+        let relevantClasses = [];
         // Hvis ingen kategori er valgt, eller hvis "Alle Hold" er valgt, returneres alle klasser
         if (!selectedCategory.value || selectedCategory.value === "Alle Hold") {
-            numberOfClasses.value = classes.value.length; // Opdaterer antallet af klasser til det samlede antal
-            return classes.value;
+            relevantClasses = classes.value;
+        } else {
+            // Ellers filtreres klasserne baseret på den valgte kategori. Der anvendes en JS-metode til at filtrere klasserne, der matcher den valgte kategori.
+            // Her antages det, at hver klasse har en 'kategorier' egenskab, der er et array af kategorier.
+            // includes metoden bruges til at tjekke, om den valgte kategori findes i klassens kategorier.
+            relevantClasses = classes.value.filter(klasse =>
+                klasse.kategorier && klasse.kategorier.includes(selectedCategory.value)
+            );
         }
-        // Ellers filtreres klasserne baseret på den valgte kategori. Der anvendes en JS-metode til at filtrere klasserne, der matcher den valgte kategori.
-        // Her antages det, at hver klasse har en 'kategorier' egenskab, der er et array af kategorier.
-        // includes metoden bruges til at tjekke, om den valgte kategori findes i klassens kategorier.
 
-        let filteredClasses = classes.value.filter(klasse =>
-            klasse.kategorier && klasse.kategorier.includes(selectedCategory.value)
-        );
-        numberOfClasses.value = filteredClasses.length; // Opdaterer antallet af klasser baseret på filtreringen
-        return filteredClasses.sort((a, b) => a.name.localeCompare(b.name, 'da', { sensitivity: 'base' }));
+        // Opdaterer antallet af klasser til det samlede antal
+        numberOfClasses.value = relevantClasses.length;
+        return sortClasses(relevantClasses);
     });
 
     // Funktion til at ændre den valgte kategori. Denne funktion opdaterer den reaktive 'selectedCategory' værdi, når brugeren vælger en ny kategori.
     // Dette gør det muligt at opdatere den viste liste af klasser i UI'en.
     // Funktionen tager en kategori som parameter og opdaterer 'selectedCategory' værdien.
+
+    // Cache variabler
     const setCategory = (category) => {
         selectedCategory.value = category;
     };
-
     const CACHE_KEY = 'WaterClasses';
     const CACHE_TIMESTAMP_KEY = 'WaterClassesCacheTimestamp';
-    const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter cache tid
+    const CACHE_DURATION_MS = 1 * 60 * 1000; // 5 minutter cache tid
 
     const fetchClasses = () => {
         isLoading.value = true;
-
         // Tjek om data findes i localStorage og ikke er for gammel
         const cachedRaw = localStorage.getItem(CACHE_KEY);
         const cachedTimestampRaw = localStorage.getItem(CACHE_TIMESTAMP_KEY);
         const now = Date.now();
-
         if (cachedRaw && cachedTimestampRaw) {
             const cachedTimestamp = Number(cachedTimestampRaw);
             if (now - cachedTimestamp < CACHE_DURATION_MS) {
@@ -74,7 +90,6 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
                 }
             }
         }
-
         // Fetch data from Strapi using .then()
         fetch(
             "https://popular-gift-b355856076.strapiapp.com/api/hold-vands?pLevel"
@@ -98,10 +113,33 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
                     coverbilledeThumbnail: item.Cover_Billedet.formats.thumbnail ? item.Cover_Billedet.formats.thumbnail.url : null,
                     coverbilledeAlt: item.Cover_Billedet.alternativeText,
 
+
+                    reklamekort: item.reklame_kort ? {
+                        id: item.reklame_kort.id,
+                        titel: item.reklame_kort.Titel,
+                        tekst: item.reklame_kort.Tekst_afsnit,
+                        kategori: item.reklame_kort.Kategori,
+                        billedeLarge: item.reklame_kort.Billede.formats && item.reklame_kort.Billede.formats.large ? item.reklame_kort.Billede.formats.large.url : null,
+                        billedeMedium: item.reklame_kort.Billede.formats && item.reklame_kort.Billede.formats.medium ? item.reklame_kort.Billede.formats.medium.url : null,
+                        billedeSmall: item.reklame_kort.Billede.formats && item.reklame_kort.Billede.formats.small ? item.reklame_kort.Billede.formats.small.url : null,
+                        billedeThumbnail: item.reklame_kort.Billede.formats && item.reklame_kort.Billede.formats.thumbnail ? item.reklame_kort.Billede.formats.thumbnail.url : null,
+                        billedeAlt: item.reklame_kort.Billede.alternativeText ? item.reklame_kort.Billede.alternativeText : null,
+                        knapper: item.reklame_kort.Knapper ? item.reklame_kort.Knapper.map(button => ({
+                            id: button.id,
+                            titel: button.btn_titel,
+                            beskrivelse: button.btn_description,
+                            ikon: button.Ikon[0],
+                            link: button.link_to,
+                        })) : [], // Hvis "Knapper" er null, giv en tom array
+                    }
+                        : null,
+
                     // Tjek om "Relaterede_hold" eksisterer, før .map() bruges
                     relateredeHold: item.Relaterede_hold ? item.Relaterede_hold.map(related => ({
                         id: related.id,
                         name: related.Titel,
+                        kategorier: related.Traenings_kategorier,
+                        type_af_hold: related.Type_af_hold,
                         coverbilledeLarge: related.Cover_Billedet.formats.large ? related.Cover_Billedet.formats.large.url : null,
                         coverbilledeMedium: related.Cover_Billedet.formats.medium ? related.Cover_Billedet.formats.medium.url : null,
                         coverbilledeSmall: related.Cover_Billedet.formats.small ? related.Cover_Billedet.formats.small.url : null,
@@ -136,7 +174,6 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
                                 beskrivelse: button.btn_description,
                                 ikon: button.Ikon[0],
                                 link: button.link_to,
-
                             })) : [], // Hvis "Knapper" er null, giv en tom array
                         })) : [], // Hvis "Afsnit" er null, giv en tom array
                     } : {}, // Hvis "Indhold" er null, giv et tomt objekt
@@ -156,6 +193,7 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
             });
     };
 
+
     // Ny funktion: Find klasse efter ID
     const getClassById = (id) => {
         return classes.value.find(klasse => klasse.id === id);
@@ -171,8 +209,6 @@ export const useClassesStoreWater = defineStore("waterclasses", () => {
         setCategory,
         availableCategories,
         isLoading,
-
-        // Eksporterer den nye getter
         getClassById,
     };
 });

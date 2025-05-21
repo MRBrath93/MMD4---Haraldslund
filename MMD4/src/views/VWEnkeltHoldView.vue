@@ -1,12 +1,16 @@
 <script setup>
-import { ref, watchEffect, onMounted } from 'vue';
+import { ref, watchEffect, onMounted, watch, computed, onUnmounted } from 'vue';
 import { useRoute } from 'vue-router';
 import TheSpinner from '@/components/TheSpinner.vue';
 import TheHero from '@/components/TheHero.vue';
 import TheBtn from '@/components/TheBtn.vue';
 import DynamicHeading from '@/components/DynamicHeading.vue';
 import TheBreadcrumb from '@/components/TheBreadcrumb.vue';
+import TheTeamCard from '@/components/TheTeamCard.vue';
+import Reklamekort from '@/components/Reklamekort.vue';
 import ImageHolder from '@/components/ImageHolder.vue';
+import BookingSquare from '@/components/BookingSquare.vue';
+import QuickInfo from '@/components/QuickInfo.vue';
 import { useClassesStoreWater } from '@/stores/water-classes';
 
 const route = useRoute();
@@ -69,8 +73,14 @@ watchEffect(() => {
   }
 });
 
-
-
+// Opdater selectedClass ved ruteskift (når id ændres)
+watch(
+  () => route.params.id,
+  (newId) => {
+    const numericId = Number(newId);
+    selectedClass.value = classesStore.getClassById(numericId);
+  }
+);
 
 function getArticleImage(klasse) {
   if (klasse.billedeMedium) {
@@ -81,6 +91,38 @@ function getArticleImage(klasse) {
     return klasse.billedeThumbnail;
   }
 }
+
+function getCoverImage(klasse) {
+  if (klasse.coverbilledeMedium) {
+    return klasse.coverbilledeMedium;
+  } else if (klasse.coverbilledeSmall) {
+    return klasse.coverbilledeSmall;
+  } else {
+    return klasse.coverbilledeThumbnail;
+  }
+}
+
+
+const screenWidth = ref(window.innerWidth);
+
+function handleResize() {
+  screenWidth.value = window.innerWidth;
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+});
+
+const visibleTeamCards = computed(() => {
+  if (screenWidth.value < 600) return 1;
+  if (screenWidth.value < 900) return 2;
+  return 3;
+});
+
 </script>
 
 <template>
@@ -122,14 +164,36 @@ function getArticleImage(klasse) {
             </div>
             </div>
         </section>
-
-
-    <h3>Dette er holdet: {{ selectedClass.name }}</h3>
-    <p>ID: {{ selectedClass.id }}</p>
-    <p>Varighed: {{ selectedClass.varighed }}</p>
-    <p>Aflysning: {{ selectedClass.aflysning }}</p>
-    <p>Kategori: {{ selectedClass.type_af_hold }}</p>
-   
+        <section class="overviewGrid">
+          <QuickInfo class="quickinfo"  :time="selectedClass.varighed" :group="selectedClass.maalgruppe" :priser="selectedClass.priser" :praticalInfo="selectedClass.praktiskeOplysninger" :cancelBooking="selectedClass.aflysning" :type_af_hold="selectedClass.type_af_hold"></QuickInfo>
+          <BookingSquare title="Sådan tilmelder du dig" text="Du kan tilmelde dig gennem vores online booking system via. nedenstående link." btn_title="Booking" btn_text="Foretag din booking her" btn_path="Booking" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
+          <BookingSquare title="Til- & Afmeldingsfrister" text="Er du forhindret i at deltage på holdet? Sørg for at melde afbud i rette tid." btn_title="Til- & Afmeldingsfrister" btn_text="Få styr på diverse frister" btn_path="VW regler" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
+        </section>
+        <section>
+          <h3 class="heading">Måske du også kan lide</h3>
+          <div class="three--column-grid">
+            <TheTeamCard
+  v-for="relatedTeam in selectedClass.relateredeHold.slice(0, visibleTeamCards)"
+  :key="relatedTeam.id"
+  :labels="{ label: relatedTeam.name || 'Ukendt hold' }"
+  icon="arrow_forward"
+  :backgroundColor="relatedTeam.type_af_hold"
+  :teamCategorys="relatedTeam.kategorier"
+  :link="{ name: 'holdbeskrivelse-vandogwellness', params: { id: relatedTeam.id } }"
+  :teamImage="getCoverImage(relatedTeam)"
+  :alt="relatedTeam.coverbilledeAlt || ' Holdbillede'" 
+></TheTeamCard>
+          </div>
+        </section>
+        <Reklamekort v-if="selectedClass.reklamekort"
+        :src="getArticleImage(selectedClass.reklamekort)" 
+        :alt="selectedClass.reklamekort.billedeAlt" 
+        :title="selectedClass.reklamekort.titel" 
+        :text="selectedClass.reklamekort.tekst"
+        :Btn_title="selectedClass.reklamekort.knapper[0].titel" 
+        :Btn_text="selectedClass.reklamekort.knapper[0].beskrivelse" 
+        :kategori="selectedClass.reklamekort.kategori"
+        :Btn_icon="selectedClass.reklamekort.knapper[0].ikon"></Reklamekort>
   </main>
 
   <main v-else>
@@ -139,6 +203,42 @@ function getArticleImage(klasse) {
 
 
 <style scoped>
+
+.three--column-grid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacer-x1);
+  width: 100%;
+  margin-bottom: var(--spacer-Elements);
+}
+
+.heading{
+  text-align: center;
+  width: 100%;
+  margin-bottom: var(--spacer-x1);
+}
+
+.overviewGrid{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacer-x1);
+  max-width: var(--max-width);
+  margin-bottom: var(--spacer-Elements);
+}
+
+.quickinfo{
+  grid-row: 1/3;
+}
+
+.flexColumn{
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacer-x1);
+}
+
+section{
+  max-width: var(--max-width);
+}
 
 /* TEKST SECTION STYLE */
 
@@ -204,6 +304,17 @@ section{
     }
 }
 
+@media screen and (min-width: 600px) {
+    .overviewGrid{
+      grid-template-columns: repeat(2,1fr);
+    }
+
+    .three--column-grid{
+      grid-template-columns: repeat(2,1fr);
+    }
+
+}
+
 @media screen and (min-width: 900px) {
     .textsection{
         flex-direction: row;
@@ -212,6 +323,9 @@ section{
         flex-direction: column;
     }
 
+    .three--column-grid{
+      grid-template-columns: repeat(3,1fr);
+    }
 }
 @media screen and (min-width: 1000px) {
 
@@ -220,8 +334,6 @@ section{
     }
 }
 /* TEKSTSTYLE SLUT */
-
-
 
 .loading-container {
   min-height: 100vh;

@@ -38,7 +38,7 @@ const props = defineProps({
   },
   Btn_icon: {
     type: String,
-    default: 'arrow-right', // forudsat du bruger et ikon-bibliotek
+    default: 'arrow_right', // forudsat du bruger et ikon-bibliotek
   },
   Btn_target: {
     type: String,
@@ -72,7 +72,7 @@ const computedBtnLink = computed(() => {
     case 'Personale':
       return '/om-haraldslund/personale';
     case 'Praktisk information':
-      return '/om-haraldslund/personale';
+      return '/om-haraldslund/praktisk-info';
     case 'Samlet priser':
       return '/om-haraldslund/priser';
     case 'Motion hold':
@@ -111,12 +111,14 @@ const kategoriColor = computed(() => {
   switch (props.kategori) {
     case 'Om Haraldslund':
     case 'Historien':
+    case 'Praktisk information':
       return 'bg-haraldslund';
     case 'Møder & Konferencer':
       return 'bg-meeting';
     case 'Wellness':
       return 'bg-wellness';
     case 'Motion hold':
+    case 'Motion':
       return 'bg-motion';
     case 'Personlig træning':
       return 'bg-motion';
