@@ -4,8 +4,9 @@
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import TheInternNavHaraldslund from "../components/TheInternNavHaraldslund.vue";
 import TheHero from "../components/TheHero.vue";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 import TheSpinner from "../components/TheSpinner.vue";
+import Reklamekort from "@/components/Reklamekort.vue";
 
 // REAKTIVE VARIABLER
 const isLoading = ref(true);
@@ -16,51 +17,57 @@ const CACHE_DURATION_MS = 5 * 60 * 1000;
 
 // FETCH DATA
 onMounted(() => {
-  isLoading.value = true;
-  error.value = null;
+    window.addEventListener('resize', handleResize);
 
-  const cachedvwPriserRaw = localStorage.getItem('vwPrisData');
-  const cachedMotionPriserRaw = localStorage.getItem('motionPrisData');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
-  const now = Date.now();
+    isLoading.value = true;
+    error.value = null;
 
-  if (cachedvwPriserRaw && cachedMotionPriserRaw && cachedTimestampRaw) {
-    const cachedTimestamp = Number(cachedTimestampRaw);
+    const cachedvwPriserRaw = localStorage.getItem('vwPrisData');
+    const cachedMotionPriserRaw = localStorage.getItem('motionPrisData');
+    const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+    const now = Date.now();
 
-    if (now - cachedTimestamp < CACHE_DURATION_MS) {
-      try {
-        vwPrisData.value = JSON.parse(cachedvwPriserRaw);
-        motionPrisData.value = JSON.parse(cachedMotionPriserRaw);
-        isLoading.value = false;
-        return;
-      } catch (e) {
-        console.warn('Fejl ved parsing af cached data:', e);
-      }
+    if (cachedvwPriserRaw && cachedMotionPriserRaw && cachedTimestampRaw) {
+        const cachedTimestamp = Number(cachedTimestampRaw);
+
+        if (now - cachedTimestamp < CACHE_DURATION_MS) {
+        try {
+            vwPrisData.value = JSON.parse(cachedvwPriserRaw);
+            motionPrisData.value = JSON.parse(cachedMotionPriserRaw);
+            isLoading.value = false;
+            return;
+        } catch (e) {
+            console.warn('Fejl ved parsing af cached data:', e);
+        }
+        }
     }
-  }
 
-  Promise.all([
-    fetch('https://popular-gift-b355856076.strapiapp.com/api/priser-motion?pLevel'),
-    fetch('https://popular-gift-b355856076.strapiapp.com/api/priser?pLevel')
-  ])
-    .then(async ([resMotion, resVW]) => {
-      if (!resMotion.ok || !resVW.ok) {
-        throw new Error(`Fejl ved fetch: ${resMotion.status} / ${resVW.status}`);
-      }
-      const [motionJson, vwJson] = await Promise.all([resMotion.json(), resVW.json()]);
-      motionPrisData.value = motionJson.data;
-      vwPrisData.value = vwJson.data;
+    Promise.all([
+        fetch('https://popular-gift-b355856076.strapiapp.com/api/priser-motion?pLevel'),
+        fetch('https://popular-gift-b355856076.strapiapp.com/api/priser?pLevel')
+    ])
+        .then(async ([resMotion, resVW]) => {
+        if (!resMotion.ok || !resVW.ok) {
+            throw new Error(`Fejl ved fetch: ${resMotion.status} / ${resVW.status}`);
+        }
+        const [motionJson, vwJson] = await Promise.all([resMotion.json(), resVW.json()]);
+        motionPrisData.value = motionJson.data;
+        vwPrisData.value = vwJson.data;
 
-      localStorage.setItem('motionPrisData', JSON.stringify(motionPrisData.value));
-      localStorage.setItem('vwPrisData', JSON.stringify(vwPrisData.value));
-      localStorage.setItem('cacheTimestamp', now.toString());
-    })
-    .catch(err => {
-      error.value = err.message;
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
+        localStorage.setItem('motionPrisData', JSON.stringify(motionPrisData.value));
+        localStorage.setItem('vwPrisData', JSON.stringify(vwPrisData.value));
+        localStorage.setItem('cacheTimestamp', now.toString());
+        })
+        .catch(err => {
+        error.value = err.message;
+        })
+        .finally(() => {
+        isLoading.value = false;
+        });
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
 });
 
 const internNavLabels = [
@@ -83,6 +90,12 @@ function getImage(billede) {
   billede.formats.small?.url ||
   billede.formats.thumbnail?.url ||
   billede.url || '';
+}
+
+const isMobile = ref(window.innerWidth < 600);
+
+function handleResize() {
+  isMobile.value = window.innerWidth < 600;
 }
 
 </script>
