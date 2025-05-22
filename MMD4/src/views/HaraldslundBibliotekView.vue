@@ -35,7 +35,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedbibliotekRaw = localStorage.getItem('bibliotekData');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cachebibTimestamp');
   const now = Date.now();
 
   if (cachedbibliotekRaw && cachedTimestampRaw) {
@@ -62,7 +62,7 @@ onMounted(() => {
     .then(json => {
       bibliotekData.value = json.data;
       localStorage.setItem('bibliotekData', JSON.stringify(bibliotekData.value));
-      localStorage.setItem('cacheTimestamp', now.toString());
+      localStorage.setItem('cachebibTimestamp', now.toString());
     })
     .catch(err => {
       error.value = err.message;
@@ -106,8 +106,7 @@ function getImage(billede) {
             :label="internNavLabels"
         ></TheInternNavWater>
         
-        <section v-for="(tekstsektion,index) in bibliotekData.Indhold.Afsnit" :key="tekstsektion.id">
-            <div class="textsection" :class="['textsection', { 'small-margin': index === 1 }, { 'reverse-layout': index === 2 }]">
+        <section class="textsection" v-for="(tekstsektion,index) in bibliotekData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 6)">{{ tekstsektion.Overskrift }}</DynamicHeading>
                     <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
@@ -131,7 +130,6 @@ function getImage(billede) {
                     <ImageHolder class="img" :src="getImage(billede)" :alt="billede.alternativeText"></ImageHolder>
                     <BookingSquare title="Besøg vores hjemmeside" text="Læs mere om vores afdelinger og bestil bøger direkte til dit udvalgte servicepunkt" btn_title="Aalborg Bibliotek" btn_text="Gå til Aalborg Biblioteks hjemmeside" btn_path="https://www.aalborgbibliotekerne.dk/" btn_icon="open_in_new" btn_target="_blank" ></BookingSquare>
                 </div>
-            </div>
         </section>
         
         <Reklamekort v-if="bibliotekData.reklame_kort"

@@ -28,14 +28,14 @@ const cafeData = ref([]);
 const isLoading = ref(true);
 const error = ref(null);
 
-const CACHE_DURATION_MS = 1 * 60 * 1000;
+const CACHE_DURATION_MS = 5 * 60 * 1000;
 
 onMounted(() => {
   isLoading.value = true;
   error.value = null;
 
   const cachedcafeRaw = localStorage.getItem('cafeData');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cachecafeTimestamp');
   const now = Date.now();
 
   if (cachedcafeRaw && cachedTimestampRaw) {
@@ -62,7 +62,7 @@ onMounted(() => {
     .then(json => {
       cafeData.value = json.data;
       localStorage.setItem('cafeData', JSON.stringify(cafeData.value));
-      localStorage.setItem('cacheTimestamp', now.toString());
+      localStorage.setItem('cachecafeTimestamp', now.toString());
     })
     .catch(err => {
       error.value = err.message;
@@ -106,8 +106,7 @@ function getImage(billede) {
             :label="internNavLabels"
         ></TheInternNavWater>
         
-        <section v-for="(tekstsektion,index) in cafeData.Indhold.Afsnit" :key="tekstsektion.id">
-            <div class="textsection" :class="['textsection', { 'small-margin': index === 1 }, { 'reverse-layout': index === 2 }]">
+        <section class="textsection" v-for="(tekstsektion,index) in cafeData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 6)">{{ tekstsektion.Overskrift }}</DynamicHeading>
                     <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
@@ -131,7 +130,6 @@ function getImage(billede) {
                     <ImageHolder class="img" :src="getImage(billede)" :alt="billede.alternativeText"></ImageHolder>
                     <BookingSquare title="Fødevarestyrelsen" text="Vores café følger Fødevarestyrelsens regler for hygiejne og fødevarehåndtering." btn_title="Fødevarestyrelsen" btn_text="Se seneste smiley-rapport" btn_path="https://www.findsmiley.dk/22876" btn_icon="open_in_new" btn_target="_blank"></BookingSquare>
                 </div>
-            </div>
         </section>
         
         <Reklamekort v-if="cafeData.reklame_kort"
