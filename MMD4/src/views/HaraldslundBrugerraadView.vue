@@ -1,6 +1,7 @@
 <script setup>
 import TheInternNavHaraldslund from "../components/TheInternNavHaraldslund.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
+import LiveView from "@/components/LiveView.vue";
 
 const internNavLabels = [
 { id: 1, label: "Praktisk Information", name: "haraldslund-praktisk-info" },
@@ -24,6 +25,7 @@ const internNavLabels = [
         <TheInternNavHaraldslund
         :label="internNavLabels"
         />
+        <LiveView></LiveView>
     </main>
 </template>
 
