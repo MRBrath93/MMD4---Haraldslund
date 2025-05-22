@@ -13,6 +13,7 @@ const isLoading = ref(true);
 const error = ref(null);
 const motionPrisData = ref(null);
 const vwPrisData = ref(null);
+const kombiData = ref(null);
 const CACHE_DURATION_MS = 5 * 60 * 1000;
 
 // FETCH DATA
@@ -24,16 +25,19 @@ onMounted(() => {
 
     const cachedvwPriserRaw = localStorage.getItem('vwPrisData');
     const cachedMotionPriserRaw = localStorage.getItem('motionPrisData');
+    const cachedKombiPriserRaw = localStorage.getItem('kombiData');
     const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
     const now = Date.now();
-
-    if (cachedvwPriserRaw && cachedMotionPriserRaw && cachedTimestampRaw) {
+   
+    if (cachedvwPriserRaw && cachedMotionPriserRaw && cachedKombiPriserRaw && cachedTimestampRaw) {
         const cachedTimestamp = Number(cachedTimestampRaw);
 
         if (now - cachedTimestamp < CACHE_DURATION_MS) {
         try {
             vwPrisData.value = JSON.parse(cachedvwPriserRaw);
             motionPrisData.value = JSON.parse(cachedMotionPriserRaw);
+            kombiData.value = JSON.parse(cachedKombiPriserRaw);
+            // Hvis cached data er gyldig, brug det og sæt isLoading til false
             isLoading.value = false;
             return;
         } catch (e) {
@@ -43,19 +47,30 @@ onMounted(() => {
     }
 
     Promise.all([
+        // Fetch data fra Strapi
         fetch('https://popular-gift-b355856076.strapiapp.com/api/priser-motion?pLevel'),
-        fetch('https://popular-gift-b355856076.strapiapp.com/api/priser?pLevel')
+        fetch('https://popular-gift-b355856076.strapiapp.com/api/priser?pLevel'), 
+        fetch('https://popular-gift-b355856076.strapiapp.com/api/priser-kombi?pLevel'),
     ])
-        .then(async ([resMotion, resVW]) => {
-        if (!resMotion.ok || !resVW.ok) {
-            throw new Error(`Fejl ved fetch: ${resMotion.status} / ${resVW.status}`);
+        .then(async ([resMotion, resVW, resKombi]) => {
+        if (!resMotion.ok || !resVW.ok || !resKombi.ok) {
+            throw new Error(`Fejl ved fetch: ${resMotion.status} / ${resVW.status} / ${resKombi.status}`);
         }
-        const [motionJson, vwJson] = await Promise.all([resMotion.json(), resVW.json()]);
+        const [motionJson, vwJson, kombiJson] = await Promise.all([
+            resMotion.json(), 
+            resVW.json(),
+            resKombi.json(),
+        ]);
+        
         motionPrisData.value = motionJson.data;
         vwPrisData.value = vwJson.data;
+        kombiData.value = kombiJson.data;
 
+        // Gem data i localStorage
         localStorage.setItem('motionPrisData', JSON.stringify(motionPrisData.value));
         localStorage.setItem('vwPrisData', JSON.stringify(vwPrisData.value));
+        localStorage.setItem('kombiData', JSON.stringify(kombiData.value));
+        // Gem timestamp i localStorage for at holde styr på, hvornår data blev hentet sidst
         localStorage.setItem('cacheTimestamp', now.toString());
         })
         .catch(err => {
@@ -122,10 +137,53 @@ function handleResize() {
         :label="internNavLabels"
         />
 
-         <section v-if="!isMobile">
+        <section v-if="!isMobile">
+        <!-- Tilføjet role="table" for at hjælpe evt. skærmlæsere eller anden teknologi med at identificere tabellen -->
+            <h2 class="tabel-headline">Priser for kombinerede billetter</h2>
+            <table role="table">
+            <!-- KOMBINEREDE BILLETPRISER -->
+                <caption class="screenreaders-only">Priser for kombinerede billetter</caption>
+                <thead>
+                    <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
+                    <tr><th scope="col"><h5>Enkelt billetter</h5></th>
+                        <th scope="col">Voksen</th>
+                        <th scope="col">Barn<br>(3-14 år)</th>
+                        <th scope="col">Pensionist</th>
+                        <th scope="col">Studerende<br>(Studiekort skal forvises)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="kombiPris in kombiData.Enkeltbillet_kombi" :key="kombiPris.id">
+                        <td>{{ kombiPris.Ankomsttidspunkt }}</td>
+                        <td>{{ kombiPris.Pris_voksen ? kombiPris.Pris_voksen + ',-' : '' }}</td>
+                        <td>{{ kombiPris.Pris_barn ? kombiPris.Pris_barn + ',-' : '' }}</td>
+                        <td>{{ kombiPris.Pris_pensionist ? kombiPris.Pris_pensionist + ',-' : '' }}</td>
+                        <td>{{ kombiPris.Pris_studerende ? kombiPris.Pris_studerende + ',-' : '' }}</td>
+                    </tr>
+                </tbody>
+                <thead>
+                    <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
+                    <tr><th class="regular" scope="col"><h5>Klippekort</h5>Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</th>
+                        <th scope="col">Voksen</th>
+                        <th scope="col">Barn<br>(3-14 år)</th>
+                        <th scope="col">Pensionist</th>
+                        <th scope="col" aria-hidden="true"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="kombiKlip in kombiData.Klippekort_Kombi" :key="kombiKlip.id">
+                        <td>{{ kombiKlip.Antal_klip }} Klip</td>
+                        <td>{{ kombiKlip.voksen.Pris_for_1400 ? kombiKlip.voksen.Pris_for_1400 + ',-' : '' }} / {{ kombiKlip.voksen.Pris_efter_1400 ? kombiKlip.voksen.Pris_efter_1400 + ',-' : '' }}</td>
+                        <td>{{ kombiKlip.Barn.Pris_for_1400 ? kombiKlip.Barn.Pris_for_1400 + ',-' : '' }} / {{ kombiKlip.Barn.Pris_efter_1400 ? kombiKlip.Barn.Pris_efter_1400 + ',-' : '' }}</td>
+                        <td>{{ kombiKlip.Pensionist.Pris_for_1400 ? kombiKlip.Pensionist.Pris_for_1400 + ',-' : '' }} / {{ kombiKlip.Pensionist.Pris_efter_1400 ? kombiKlip.Pensionist.Pris_efter_1400 + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                </tbody>
+              </table>
+ 
             <!-- VAND OG WELLNESS PRISER -->
-            <!-- Tilføjet role="table" for at hjælpe evt. skærmlæsere eller anden teknologi med at identificere tabellen -->
-             <table role="table">
+                <h2 class="tabel-headline">Priser for Vand & Wellness</h2>
+                <table role="table">
                 <!-- Tilføjet caption for at give skærmlæsere en beskrivelse af, hvad tabellen handler om -->
                 <caption class="screenreaders-only">Priser på billetter i Vand og Wellness</caption>
                 <thead>
@@ -145,10 +203,6 @@ function handleResize() {
                         <td>{{ pris.Pris_pensionist ? pris.Pris_pensionist + ',-' : '' }}</td>
                         <td>{{ pris.Pris_studerende ? pris.Pris_studerende + ',-' : '' }}</td>
                     </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vwPrisData.Enkelt_Billetter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
-                    </tr>
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
@@ -166,10 +220,6 @@ function handleResize() {
                         <td>{{ pris.Pris_2_voksne ? pris.Pris_2_voksne + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                         <td aria-hidden="true"></td>
-                    </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vwPrisData.Familiebilletter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
                     </tr>
                 </tbody>
                 <thead>
@@ -189,10 +239,6 @@ function handleResize() {
                         <td>{{ pris.Pensionist.Pris_for_1400 ? pris.Pensionist.Pris_for_1400 + ',-' : '' }} / {{ pris.Pensionist.Pris_efter_1400 ? pris.Pensionist.Pris_efter_1400 + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                     </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vwPrisData.Klippekort.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
-                    </tr>
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
@@ -210,10 +256,6 @@ function handleResize() {
                         <td>{{ pris.pris_2_personer ? 'Entre + ' + pris.pris_2_personer + ',-' : '' }}</td>
                         <td>{{ pris.pris_3_personer ? 'Entre + ' + pris.pris_3_personer + ',-' : '' }}</td>
                         <td>{{ pris.pris_4_personer ? 'Entre + ' + pris.pris_4_personer + ',-' : '' }}</td>
-                    </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vwPrisData.Diverse_biletter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
                     </tr>
                 </tbody>
 
@@ -233,10 +275,6 @@ function handleResize() {
                         <td>{{ pris.pris_5x25_minutter ? 'Entre + ' + pris.pris_5x25_minutter + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                         <td aria-hidden="true"></td>
-                    </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vwPrisData.Familiebilletter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
                     </tr>
                 </tbody>
                 <thead>
@@ -266,16 +304,12 @@ function handleResize() {
                         <td aria-hidden="true"></td>
                         <td aria-hidden="true"></td>
                     </tr>
-
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vwPrisData.Klippekort.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
-                    </tr>
                 </tbody>
             </table>
         </section>
 
         <!-- MOTION PRISER -->
+        <h2 class="tabel-headline">Priser for Motionscenter</h2>
         <section v-if="!isMobile">
             <table>
             <caption class="screenreaders-only">Priser for Motioncenter</caption>
@@ -288,7 +322,7 @@ function handleResize() {
             </thead>
             <tbody>
                 <tr v-for="enkeltbillet in motionPrisData.Enkeltbilletter" :key="enkeltbillet.id">
-                <td>{{ enkeltbillet.Titel }} <span v-if="enkeltbillet.Note">({{ enkeltbillet.Note }})</span></td>
+                <td>{{ enkeltbillet.Titel }} <span v-if="enkeltbillet.Note">{{ enkeltbillet.Note }}</span></td>
                 <td>
                     {{ enkeltbillet.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ enkeltbillet.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}
                 </td>
@@ -296,8 +330,16 @@ function handleResize() {
                     {{ enkeltbillet.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ enkeltbillet.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}
                 </td>
                 </tr>
+                <!-- I ovenstående kode er der tilføjet en betingelse for at vise prisen kun hvis den findes. 
+                    "Priser" er et array, der indeholder objekter med "Genstand" og "Pris". Javascript: "find()" metoden bruges til at finde det objekt, der matcher den ønskede "Genstand".
+                 Javascript operatoren "?." bruges til at undgå fejl, hvis værdien ikke findes.
+                 "?.Pris" vil kun returnere prisen, hvis "Priser" arrayet indeholder en værdi for den givne "Genstand".
+                 Hvis prisen ikke findes, vil den returnere "undefined", og det vil ikke blive vist i tabellen.
+                INSPIRATIONSKILDE: 
+                MDN WEB DOCS. Array.prototype.find(). 2025 (online) Mozilla Foundation 2025. [Accessed 21/05/2025] URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
+                Evan You. List Rendering. (online) Vue.Js. 2025. [Accessed 22/05/2025] URL: https://vuejs.org/guide/essentials/list.html
+                 -->     
             </tbody>
-
 
             <!-- --- KLIPPEKORT ---  -->
             <thead>
@@ -332,7 +374,8 @@ function handleResize() {
                     <td>{{ maenedskort.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ maenedskort.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
                 </tr>
             </tbody>
-            <p class="small">Gælder 30 dage fra købsdato, med adgang til bad og omklædning (Kortet gælder ikke til  svømmehal).  Kan anvendes 1 gang dagligt. Kun til personligt brug. inkl. holdtræning</p>
+            <p class="small">Gælder 30 dage fra købsdato, med adgang til bad og omklædning (Kortet gælder ikke til  svømmehal).  
+                Kan anvendes 1 gang dagligt. Kun til personligt brug. Inkl. holdtræning</p>
             
             <!-- --- PERSONLIG TRÆNING --- -->
             <thead>
@@ -385,92 +428,9 @@ function handleResize() {
 
 <style scoped>
 
-/* TEKST SECTION STYLE */
-
-.textsection {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacer-x2);
-  margin: 0 auto;
-  margin-bottom: var(--spacer-Elements);
-  width: 100%;
-  max-width: var(--max-width);
-}
-
-.img--container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-.img{
-    height: 100%;
-}
-
-.subtitle{
-    margin-top: var(--spacer-x1);
-}
-
-.punkt{
-    margin-inline-start: var(--spacer-x1);
-    font-family: var(--font-text);
-    
-}
-
-.btn--container{
-    display: flex;
-    flex-direction: column;
-    justify-content: left;
-    gap: var(--spacer-x1);
-    width: 100%;
-    margin: var(--spacer-x1) 0;
-}
-
-.flex--column{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacer-x1);
-    height: fit-content;
-}
-
-.flex1{
-    flex: 1;
-}
-
-section{
-    width: 95%;
-    margin: 0 auto;
-}
-
-@media screen and (min-width: 500px) {
-    .btn--container{
-        flex-direction: row;
-    }
-}
-
-@media screen and (min-width: 900px) {
-    .textsection{
-        flex-direction: row;
-    }
-    .btn--container{
-        flex-direction: column;
-    }
-
-}
-@media screen and (min-width: 1000px) {
-
-    .btn--container{
-        flex-direction: row;
-    }
-}
-/* TEKSTSTYLE SLUT */
-
-
-.text-align-center{
+.tabel-headline{
     text-align: center;
 }
-
 .screenreaders-only {
   position: absolute;
   width: 1px;
@@ -478,10 +438,13 @@ section{
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+  clip-path: inset(100%);
 }
+/* Classen er tilføjet for at skjule elementer visuelt, men stadig gøre det tilgængeligt for skærmlæsere. Hertil anvendes "clip-path: inset(100%).
+INSPIRATIONSKILDE: Milne, Monty. Web Accessibility Tip: visually hidden text for screen-readers. 24/02/2020. Medium 2025. (online) [Accessed 21/05/2025] URL: https://medium.com/web-accessibility-tips-tricks-and-techniques-for/web-accessibility-tip-visually-hidden-text-for-screen-readers-a52d954d9711
+*/
 
 table {
     width: 95%;
@@ -512,7 +475,7 @@ td{
 }
 
 thead:not(:first-of-type) th {
-  padding-top: 2rem; /* eller hvad du ønsker */
+  padding-top: 2rem;
 }
 
 th{
