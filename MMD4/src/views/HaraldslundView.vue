@@ -131,9 +131,6 @@ function getImage(billede) {
                 </div>
             </div>
         </section>
-        <section>
-            <AboutEntry icon="restaurant" title="Praktisk Info" text="Find åbningstider mm."></AboutEntry>
-        </section>
         
         <Reklamekort v-if="aboutData.reklame_kort"
         :src="getImage(aboutData.reklame_kort.Billede)" 
