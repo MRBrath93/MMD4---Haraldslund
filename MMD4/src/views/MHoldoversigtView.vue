@@ -1,62 +1,60 @@
 <script setup>
-// IMPORTS
 import { ref, onMounted } from "vue";
-import { useClassesStoreMotion } from "@/stores/motion-classes.js";
-
 import TheHero from "@/components/TheHero.vue";
-import TheInternNavMotion from "@/components/TheInternNavMotion.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
-import Reklamekort from "@/components/Reklamekort.vue";
+import TheBtn from "@/components/TheBtn.vue";
+import DynamicHeading from "@/components/DynamicHeading.vue";
+import ImageHolder from "@/components/ImageHolder.vue";
 import TheTeamCard from "@/components/TheTeamCard.vue";
 import TheFilterBar from "@/components/TheFilterBar.vue";
+import { useClassesStoreMotion } from "@/stores/motion-classes";
+import TheInternNavMotion from "@/components/TheInternNavMotion.vue";
 
-
-
-// REAKTIVE VARIABLER
 const classesStore = useClassesStoreMotion();
-const holdData = ref(null);
-const isLoading = ref(true);
 const error = ref(null);
+const isLoading = ref(true);
+const motionHoldData = ref(null); // OBS: null er bedre end []
 
-const CACHE_DURATION_MS = 5 * 60 * 1000; 
+const CACHE_KEY = "motionHoldData";
+const CACHE_TIMESTAMP_KEY = "cacheTimestamp";
+const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
 
-// HENT DATA FRA STORE
-onMounted(() => {
+onMounted(async () => {
   isLoading.value = true;
   error.value = null;
 
-  classesStore.fetchClasses();
-  
-  const cachedClassesMotionRaw = localStorage.getItem('cachedClassesMotionRaw');
-  const cachedTimestampRaw = localStorage.getItem('cachedTimestampRaw');
+  await classesStore.fetchClasses();
+
+  const cachedMotionholdRaw = localStorage.getItem(CACHE_KEY);
+  const cachedTimestampRaw = localStorage.getItem(CACHE_TIMESTAMP_KEY);
   const now = Date.now();
-  if (cachedClassesMotionRaw && cachedTimestampRaw) {
+
+  if (cachedMotionholdRaw && cachedTimestampRaw) {
     const cachedTimestamp = Number(cachedTimestampRaw);
 
     if (now - cachedTimestamp < CACHE_DURATION_MS) {
       try {
-        holdData.value = JSON.parse(cachedClassesMotionRaw);
+        motionHoldData.value = JSON.parse(cachedMotionholdRaw);
         isLoading.value = false;
         return;
       } catch (e) {
-        console.warn('Fejl ved parsing af cached data:', e);
+        console.warn("Fejl ved parsing af cached data:", e);
       }
     }
   }
-  // Hvis cached data ikke findes eller er forældet, hent data fra Strapi
-  // og gem det i localStorage + opdater timestamp
-  fetch ('https://popular-gift-b355856076.strapiapp.com/api/holdoversigt-motionscenter?pLevel')
-  .then(response => {
+
+  fetch("https://popular-gift-b355856076.strapiapp.com/api/motion?pLevel")
+    .then(response => {
       if (!response.ok) {
-        throw new Error(`HTTP fejl! Status: ${response.status}`);
+        throw new Error(`Motion Hold - Regler fejl: ${response.status}`);
       }
       return response.json();
-    })    
+    })
     .then(json => {
-      holdData.value = json.data;
-      localStorage.setItem('cachedClassesMotionRaw', JSON.stringify(holdData.value));
-      localStorage.setItem('cachedTimestampRaw', now.toString());
+      motionHoldData.value = json.data;
+      localStorage.setItem(CACHE_KEY, JSON.stringify(motionHoldData.value));
+      localStorage.setItem(CACHE_TIMESTAMP_KEY, now.toString());
     })
     .catch(err => {
       error.value = err.message;
@@ -65,17 +63,6 @@ onMounted(() => {
       isLoading.value = false;
     });
 });
-
-
-// funktion til at hente den bedste tilgængelige billed-URL fra et billede-objekt
-function getImage(billede) {
-  if (!billede || !billede.formats) return '';
-  return billede.formats.large?.url ||
-      billede.formats.medium?.url ||
-      billede.formats.small?.url ||
-      billede.formats.thumbnail?.url ||
-      billede.url || '';
-}
 
 function getCoverImage(klasse) {
   if (klasse.coverbilledeMedium) {
@@ -87,54 +74,63 @@ function getCoverImage(klasse) {
   }
 }
 
-// Intern navigation labels (fra Strapi)
-const internNavLabels = [
-  { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
-  { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
-  { id: 3, label: "Priser", name: "priser-motionscenteret" },
-  { id: 4, label: "Regler", name: "regler-motionscenteret" },
-  { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
-  { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
-  { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
-];
-
+function getImage(billede) {
+    if (!billede || !billede.formats) return '';
+    return billede.formats.large?.url ||
+        billede.formats.medium?.url ||
+        billede.formats.small?.url ||
+        billede.formats.thumbnail?.url ||
+        billede.url || '';
+}
 </script>
 
+
 <template>
-    <main v-if="isLoading">    
-      <TheSpinner>
-            <span class="material-icons">sports_gymnastics</span>
-      </TheSpinner>
-    </main>
+    <main v-if="classesStore.isLoading || !motionHoldData" class="loading-container"><TheSpinner></TheSpinner></main>
     <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
     <main v-else>
-      <TheHero
-        :title="holdData.Hero_sektion.Hero_titel_h5?.Titel_H5"
-        :subtitle="holdData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
-        description="Læs om vores udvalg af motionshold i motionscenter Haraldslund."
-        :image="getImage(holdData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
-        :alt="holdData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
-  
-      <TheBreadcrumb/>
-      <TheInternNavMotion 
-        :labels="internNavLabels" />
-
-      <section v-for="afsnit in holdData.Tekst_afsnit.Afsnit || []" :key="afsnit.id" >
-        <h1>{{ afsnit.Titel }}</h1>
-        <p></p>
-      </section>
-      <section>
-        <div class="filter-container">
+      <TheHero class="heroImage"
+        :title="motionHoldData.Hero_sektion.Hero_titel_h5.Titel_H5"
+        :subtitle="motionHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
+        :image="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
+        :alt="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
+      <TheBreadcrumb></TheBreadcrumb>
+      <TheInternNavMotion></TheInternNavMotion>
+      <section v-for="(tekstsektion,index) in motionHoldData.Indhold.Afsnit" :key="tekstsektion.id">
+            <div class="textsection">
+                <article class="flex--column flex1">
+                    <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
+                    <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
+                        <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
+                        <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
+                            <li> {{ single_text.Brodtekst }}</li>
+                        </ul>
+                        <p v-else> {{ single_text.Brodtekst }}</p>
+                    </div>
+                    <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
+                    <TheBtn
+                    v-for="btn in tekstsektion.Knapper"
+                    :key="btn.id"
+                    :link="btn.link_to"
+                    :title="btn.btn_titel"
+                    :text="btn.btn_description"
+                    :icon="btn.Ikon[0]"></TheBtn>
+                </div>
+            </article>
+            <div class="img--container flex1">
+                <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
+            </div>
+            </div>
+        </section>
+      <section class="elementspacing">
           <TheFilterBar
             :labels="classesStore.availableCategories" :store="classesStore"
             :selectedCategory="classesStore.selectedCategory"
             @categorySelected="classesStore.setCategory"
-          />
+          ></TheFilterBar>
 
-        </div>
-        <section> 
-          <h4>Holdbeskrivelser</h4>
-          <div>
+        <article> 
+          <div class="teams--view">
             <p>Viser {{ classesStore.numberOfClasses }} ud af {{ classesStore.numberOfTeams }} hold</p>
             <div class="grid-container">
               <TheTeamCard
@@ -144,43 +140,121 @@ const internNavLabels = [
                 icon="arrow_forward"
                 :backgroundColor="klasse.type_af_hold"
                 :teamCategorys="klasse.kategorier"
-                :link="{ name: 'holdbeskrivelse-motion', params: { id: klasse.id } }"
+                :link="{ name: 'holdbeskrivelse-vandogwellness', params: { id: klasse.id } }"
                 :teamImage="getCoverImage(klasse)"
                 :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
-              />
-            </div>          
+              ></TheTeamCard>
+            </div>
           </div>
-        </section>
+        </article>
       </section>
-      <Reklamekort 
-        :src="getImage(holdData.reklame_kort?.Billede) || ''"
-        :alt="holdData.reklame_kort?.Billede?.alternativeText || ''"
-        :title="holdData.reklame_kort?.Titel || ''"
-        :text="holdData.reklame_kort?.Tekst_afsnit || ''"
-        :Btn_title="holdData.reklame_kort?.Knapper?.[0]?.btn_titel || ''"
-        :Btn_text="holdData.reklame_kort?.Knapper?.[0]?.btn_description || ''"
-        :kategori="holdData.reklame_kort?.Kategori || ''"
-        :Btn_icon="holdData.reklame_kort?.Knapper?.[0]?.Ikon?.[0] || ''">
-      </Reklamekort>
     </main>
 </template>
 
 <style scoped>
-main{
+
+/* TEKST SECTION STYLE */
+
+.textsection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacer-x2);
+  margin: 0 auto;
+  margin-bottom: var(--spacer-Elements);
+  width: 100%;
+  max-width: var(--max-width);
+}
+
+.img--container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.img{
+    height: 100%;
+}
+
+.subtitle{
+    margin-top: var(--spacer-x1);
+}
+
+.punkt{
+    margin-inline-start: var(--spacer-x1);
+    font-family: var(--font-text);
+    
+}
+
+.btn--container{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    justify-content: left;
+    gap: var(--spacer-x1);
+    width: 100%;
+    margin: var(--spacer-x1) 0;
+}
+
+.flex--column{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-x1);
+    height: fit-content;
+}
+
+.flex1{
+    flex: 1;
+}
+
+section{
+    width: 95%;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 500px) {
+    .btn--container{
+        flex-direction: row;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .textsection{
+        flex-direction: row;
+    }
+    .btn--container{
+        flex-direction: column;
+    }
+
+}
+@media screen and (min-width: 1000px) {
+
+    .btn--container{
+        flex-direction: row;
+    }
+}
+
+
+/* TEXT STYLEING SLUT */
+
+
+.elementspacing{
+  margin-bottom: var(--spacer-Elements);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .filter-container{
     display: flex;
     justify-content: center;
     gap: var(--spacer-x1);
-}
-
-.team-card {
-  background-color: var(--color-motion);
 }
 
 .grid-container{
@@ -191,17 +265,33 @@ main{
     margin: 0 auto;
 }
 
+section{
+  width: 95%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.teams--view{
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
 
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 700px) {
 
   .grid-container {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    max-width: 1432px;
-    margin: 0 auto;
+    grid-template-columns: repeat(2,1fr);
+    max-width: var(--max-width);
   }
-
-
 }
+
+@media screen and (min-width: 1000px) {
+
+  .grid-container {
+    grid-template-columns: repeat(3,1fr);
+  }
+}
+  
   
 </style>
