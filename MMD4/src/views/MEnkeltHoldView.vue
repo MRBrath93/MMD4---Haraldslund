@@ -178,7 +178,7 @@ const visibleTeamCards = computed(() => {
         icon="arrow_forward"
         :backgroundColor="relatedTeam.type_af_hold"
         :teamCategorys="relatedTeam.kategorier"
-        :link="{ name: 'holdbeskrivelse-vandogwellness', params: { id: relatedTeam.id } }"
+        :link="{ name: 'holdbeskrivelse-motion', params: { id: relatedTeam.id } }"
         :teamImage="getCoverImage(relatedTeam)"
         :alt="relatedTeam.coverbilledeAlt || ' Holdbillede'" ></TheTeamCard>
       </div>
