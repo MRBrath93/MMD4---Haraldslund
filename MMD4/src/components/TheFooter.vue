@@ -69,9 +69,6 @@ import { useRoute } from "vue-router";
                             <a href="https://was.digst.dk/haraldslund-com">Tilgængelighedserklæring</a>
                         </li>
                         <li>
-                            <button>Læs højt</button>
-                        </li>
-                        <li>
                             <button>Skift farvetema</button>
                         </li>
                     </ul>

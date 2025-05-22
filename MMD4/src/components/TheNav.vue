@@ -125,7 +125,7 @@ window.addEventListener("resize", handleNavBehavior);
                             <div class="row">
                                 <ul class="drop-links">
                                     <li><router-link :to="{ name: 'haraldslund-praktisk-info' }">Praktisk Information</router-link></li>
-                                    <li><router-link :to="{ name: 'haraldslund-priser' }">Priser</router-link></li>
+                                    <li><router-link :to="{ name: 'haraldslund-priser' }">Prisoversigt</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-cafe' }">Café Harald</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-personale' }">Personale</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-historie' }">Vores Historie</router-link></li>
@@ -133,6 +133,7 @@ window.addEventListener("resize", handleNavBehavior);
                                     <li><router-link :to="{ name: 'haraldslund-firmaaftaler' }">Firmaaftaler</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-brugerraad' }">Brugerråd</router-link></li>
                                     <li><router-link :to="{ name: 'haraldslund-events' }">Events</router-link></li>
+                                    <li><router-link :to="{ name: 'haraldslund-aktivitetsoversigt' }">Aktivitetsoversigt</router-link></li>
                                 </ul>
                             </div>
                         </div>
