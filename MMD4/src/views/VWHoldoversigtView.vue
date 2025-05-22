@@ -7,6 +7,7 @@ import TheBtn from "@/components/TheBtn.vue";
 import DynamicHeading from "@/components/DynamicHeading.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
 import TheTeamCard from "@/components/TheTeamCard.vue";
+import Reklamekort from "@/components/Reklamekort.vue";
 import TheFilterBar from "@/components/TheFilterBar.vue";
 import { useClassesStoreWater } from "@/stores/water-classes";
 import TheInternNavWater from "@/components/TheInternNavWater.vue";
@@ -148,6 +149,15 @@ function getImage(billede) {
           </div>
         </article>
       </section>
+      <Reklamekort
+        :src="getImage(vandogwellnessHoldData.reklame_kort.Billede)"
+        :alt="vandogwellnessHoldData.reklame_kort.Billede.alternativeText" 
+        :title="vandogwellnessHoldData.reklame_kort.Titel"
+        :text="vandogwellnessHoldData.reklame_kort.Tekst_afsnit" 
+        :Btn_title="vandogwellnessHoldData.reklame_kort.Knapper[0].btn_titel" 
+        :Btn_text="vandogwellnessHoldData.reklame_kort.Knapper[0].btn_description" 
+        :kategori="vandogwellnessHoldData.reklame_kort.Kategori" 
+        :Btn_icon="vandogwellnessHoldData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     </main>
 </template>
 
