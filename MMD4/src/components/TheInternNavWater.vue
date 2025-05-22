@@ -23,18 +23,7 @@ const isOpen = ref(false);
 const selectedLabel = ref(null);
 const dropdownRef = ref(null);
 
-// Variabel til sticky navigation
-const isSticky = ref(false);
-
 // --- FUNKTIONER ---
-// HÅNDTERING AF STICKY NAVIGATION
-const handleScroll = () => {
-  const nav = dropdownRef.value;
-  if (nav) {
-    const offset = nav.getBoundingClientRect().top;
-    isSticky.value = offset <= 0; 
-  }
-};
 
 // ÅBNE OG LUKKE DROPDOWN-MENU PÅ SMÅ SKÆRME
 const handleClickOutside = (event) => {
@@ -69,7 +58,6 @@ onBeforeUnmount(() => {
     <section 
     class="intern-nav" 
     ref="dropdownRef" 
-    :class="{ sticky: isSticky }"
     >
         <button @click="isOpen = !isOpen" 
         class="dropdown-toggle" 
@@ -103,16 +91,6 @@ onBeforeUnmount(() => {
     width: 100vw;
     background: var(--color-btn-primary);
   }
-
-.intern-nav.sticky {
-    position: fixed;
-    top: 0;
-    z-index: 100;
-    width: 100%;
-    background-color: var(--color-btn-primary);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-size: clamp(1rem, 2vw, 1.125rem);
-}
   
 .dropdown-toggle {
     background: var(--color-btn-primary);
@@ -123,6 +101,7 @@ onBeforeUnmount(() => {
     width: 100%;
     padding: var(--spacer-x1);
   }
+
 .intern-nav-container {
     display: flex;
     flex-direction: column;
@@ -143,7 +122,6 @@ span {
     font-weight: bold;
     padding-right: var(--spacer-x0-25);
 }
-
 
 @media screen and (min-width: 1200px) {
 .dropdown-toggle {
