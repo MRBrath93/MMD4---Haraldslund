@@ -28,6 +28,7 @@ import HaraldslundPraktiskInfo from '@/views/HaraldslundPraktiskInfo.vue';
 import MEnkeltHoldView from '@/views/MEnkeltHoldView.vue';
 import VWEnkeltHoldView from '@/views/VWEnkeltHoldView.vue';
 import EventsView from '@/views/EventsView.vue';
+import AktivitetsoversigtView from '@/views/AktivitetsoversigtView.vue';
 
 const router = createRouter({
   history: createWebHashHistory(), // Brug hash-baseret historik
@@ -298,9 +299,17 @@ const router = createRouter({
             breadcrumb: 'Events',
           }
         },
+        {
+          path: 'aktivitetsoversigt',
+          component: AktivitetsoversigtView,
+          name: 'haraldslund-aktivitetsoversigt',
+          meta: {
+            title: 'Aktivitetsoversigt - Haraldslund',
+            breadcrumb: 'Aktivitetsoversigt',
+          }
+        },
       ]
     },
-
     {
       path: '/moder-og-konferencer',
       component: ModerOgKonferencer,

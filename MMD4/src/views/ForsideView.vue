@@ -109,6 +109,10 @@ localStorage.setItem('holdData', JSON.stringify(trimHoldData(combinedHold)));
   }
 });
 
+// INSPIRATIONSKILDER LOCALSTORAGE + CACHE DATA + aync/await
+// Steve Griffith - Prof3ssorSt3v3. How to Cache Data with LocalStorage. (online). Youtube 2025. [Accessed 20/05/2025] URL: https://www.youtube.com/watch?v=fe6rCk7a6u0
+// Emma Delaney. Mastering JavaScript Caching: A Step-by-Step Guide to Efficiently Build and Optimize Your Cache. (online). Medium 2025. [Accessed 20/05/2025] URL: https://emma-delaney.medium.com/mastering-javascript-caching-a-step-by-step-guide-to-efficiently-build-and-optimize-your-cache-dee8fd96a34e
+// MDN Web Docs. How to use promises. Asynchronous JavaScript. (online). MDN Web Docs 2025. Mozilla Foundation. [Accessed 20/05/2025] URL: https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
 
 
 
