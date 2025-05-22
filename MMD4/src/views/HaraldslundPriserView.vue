@@ -14,6 +14,8 @@ const error = ref(null);
 const motionPrisData = ref(null);
 const vwPrisData = ref(null);
 const kombiData = ref(null);
+
+// CACHE VARIABLER
 const CACHE_DURATION_MS = 5 * 60 * 1000;
 
 // FETCH DATA
@@ -37,7 +39,6 @@ onMounted(() => {
             vwPrisData.value = JSON.parse(cachedvwPriserRaw);
             motionPrisData.value = JSON.parse(cachedMotionPriserRaw);
             kombiData.value = JSON.parse(cachedKombiPriserRaw);
-            // Hvis cached data er gyldig, brug det og sæt isLoading til false
             isLoading.value = false;
             return;
         } catch (e) {
@@ -83,6 +84,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize);
+  handleResize(); // Kaldes her for at sikre korrekt initialisering af isMobile
 });
 
 const internNavLabels = [
@@ -118,7 +120,7 @@ function handleResize() {
 
 
 <template>
-    <main v-if="isLoading">
+    <main class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
@@ -136,13 +138,13 @@ function handleResize() {
         <TheInternNavHaraldslund
         :label="internNavLabels"
         />
-
         <section v-if="!isMobile">
         <!-- Tilføjet role="table" for at hjælpe evt. skærmlæsere eller anden teknologi med at identificere tabellen -->
             <h2 class="tabel-headline">Priser for kombinerede billetter</h2>
             <table role="table">
             <!-- KOMBINEREDE BILLETPRISER -->
                 <caption class="screenreaders-only">Priser for kombinerede billetter</caption>
+                <!-- --- ENKELTBILLETTER --- -->
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr><th scope="col"><h5>Enkelt billetter</h5></th>
@@ -153,14 +155,19 @@ function handleResize() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="kombiPris in kombiData.Enkeltbillet_kombi" :key="kombiPris.id">
+                    <tr v-for="kombiPris in kombiData?.Enkeltbillet_kombi || []" :key="kombiPris.id">
                         <td>{{ kombiPris.Ankomsttidspunkt }}</td>
                         <td>{{ kombiPris.Pris_voksen ? kombiPris.Pris_voksen + ',-' : '' }}</td>
                         <td>{{ kombiPris.Pris_barn ? kombiPris.Pris_barn + ',-' : '' }}</td>
                         <td>{{ kombiPris.Pris_pensionist ? kombiPris.Pris_pensionist + ',-' : '' }}</td>
                         <td>{{ kombiPris.Pris_studerende ? kombiPris.Pris_studerende + ',-' : '' }}</td>
                     </tr>
+                    <!-- Der anvendes operatoren optional chaining (?.) for at undgå fejl, hvis værdien ikke findes og for at effektivisere.
+                    Fx. "?.Pris" vil kun returnere prisen, hvis "KombiPris" arrayet indeholder en værdi for den givne "Genstand".
+                    INSPIRATIONSKILDE: MDN Web Docs. Optional chaining (?.). (online) Mozilla Foundation. [Accessed 22/05/2025] URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
+                    -->
                 </tbody>
+                <!-- --- KLIPPEKORT --- -->
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr><th class="regular" scope="col"><h5>Klippekort</h5>Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</th>
@@ -171,7 +178,7 @@ function handleResize() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="kombiKlip in kombiData.Klippekort_Kombi" :key="kombiKlip.id">
+                    <tr v-for="kombiKlip in kombiData?.Klippekort_Kombi || []" :key="kombiKlip.id">
                         <td>{{ kombiKlip.Antal_klip }} Klip</td>
                         <td>{{ kombiKlip.voksen.Pris_for_1400 ? kombiKlip.voksen.Pris_for_1400 + ',-' : '' }} / {{ kombiKlip.voksen.Pris_efter_1400 ? kombiKlip.voksen.Pris_efter_1400 + ',-' : '' }}</td>
                         <td>{{ kombiKlip.Barn.Pris_for_1400 ? kombiKlip.Barn.Pris_for_1400 + ',-' : '' }} / {{ kombiKlip.Barn.Pris_efter_1400 ? kombiKlip.Barn.Pris_efter_1400 + ',-' : '' }}</td>
@@ -196,7 +203,7 @@ function handleResize() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="pris in vwPrisData.Enkelt_Billetter" :key="pris.id">
+                    <tr v-for="pris in vwPrisData?.Enkelt_Billetter || []" :key="pris.id">
                         <td>{{ pris.Ankomsttidspunkt }}</td>
                         <td>{{ pris.Pris_voksen ? pris.Pris_voksen + ',-' : '' }}</td>
                         <td>{{ pris.Pris_barn ? pris.Pris_barn + ',-' : '' }}</td>
@@ -214,7 +221,7 @@ function handleResize() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="pris in vwPrisData.Familiebilletter" :key="pris.id">
+                    <tr v-for="pris in vwPrisData?.Familiebilletter || []" :key="pris.id">
                         <td>{{ pris.Antal_born }} {{ Number(pris.Antal_born) === 1 ? 'barn' : 'børn' }}</td>
                         <td>{{ pris.Pris_1_voksen ? pris.Pris_1_voksen + ',-' : '' }}</td>
                         <td>{{ pris.Pris_2_voksne ? pris.Pris_2_voksne + ',-' : '' }}</td>
@@ -232,7 +239,7 @@ function handleResize() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="pris in vwPrisData.Klippekort" :key="pris.id">
+                    <tr v-for="pris in vwPrisData?.Klippekort || []" :key="pris.id">
                         <td>{{ pris.Antal_klip }} Klip</td>
                         <td>{{ pris.voksen.Pris_for_1400 ? pris.voksen.Pris_for_1400 + ',-' : '' }} / {{ pris.voksen.Pris_efter_1400 ? pris.voksen.Pris_efter_1400 + ',-' : '' }}</td>
                         <td>{{ pris.Barn.Pris_for_1400 ? pris.Barn.Pris_for_1400 + ',-' : '' }} / {{ pris.Barn.Pris_efter_1400 ? pris.Barn.Pris_efter_1400 + ',-' : '' }}</td>
@@ -250,7 +257,7 @@ function handleResize() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="pris in vwPrisData.Diverse_biletter" :key="pris.id">
+                    <tr v-for="pris in vwPrisData?.Diverse_biletter || []" :key="pris.id">
                         <td>{{ pris.Titel_paa_billettype }}</td>
                         <td>{{ pris.pris_1_person ? 'Entre + ' + pris.pris_1_person + ',-' : '' }}</td>
                         <td>{{ pris.pris_2_personer ? 'Entre + ' + pris.pris_2_personer + ',-' : '' }}</td>
@@ -280,9 +287,6 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr><th class="regular" scope="col"><h5>Massage</h5></th>
-                        <!-- <th scope="col">30 minutter</th>
-                        <th scope="col">45 minutter</th>
-                        <th scope="col">60 minutter</th> -->
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
@@ -290,7 +294,7 @@ function handleResize() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="pris in vwPrisData.Massage" :key="pris.id">
+                    <tr v-for="pris in vwPrisData?.Massage || []" :key="pris.id">
                         <td>{{ pris.Titel_paa_billettype }}</td>
                         <td><p class="time">30 minutter</p>{{ pris.pris_30_minutter ? pris.pris_30_minutter + ',-' : '' }}</td>
                         <td><p class="time">45 minutter</p>{{ pris.pris_45_minutter ? pris.pris_45_minutter + ',-' : '' }}</td>
@@ -299,18 +303,17 @@ function handleResize() {
                     </tr>
                     <tr>
                         <td>Cupping</td>
-                        <td><p class="time">Inkl. i massage</p>+{{ vwPrisData.Cupping.pris_inklusiv_massage ? vwPrisData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
-                        <td><p class="time">Ekskl. massage</p>{{vwPrisData.Cupping.pris_ekslusiv_massage ? vwPrisData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
+                        <td><p class="time">Inkl. i massage</p>+{{ vwPrisData.Cupping?.pris_inklusiv_massage ? vwPrisData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
+                        <td><p class="time">Ekskl. massage</p>{{vwPrisData.Cupping?.pris_ekslusiv_massage ? vwPrisData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                         <td aria-hidden="true"></td>
                     </tr>
                 </tbody>
             </table>
-        </section>
-
+      
         <!-- MOTION PRISER -->
         <h2 class="tabel-headline">Priser for Motionscenter</h2>
-        <section v-if="!isMobile">
+  
             <table>
             <caption class="screenreaders-only">Priser for Motioncenter</caption>
             <thead>
@@ -321,7 +324,7 @@ function handleResize() {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="enkeltbillet in motionPrisData.Enkeltbilletter" :key="enkeltbillet.id">
+                <tr v-for="enkeltbillet in motionPrisData?.Enkeltbilletter || []" :key="enkeltbillet.id">
                 <td>{{ enkeltbillet.Titel }} <span v-if="enkeltbillet.Note">{{ enkeltbillet.Note }}</span></td>
                 <td>
                     {{ enkeltbillet.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ enkeltbillet.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}
@@ -350,7 +353,7 @@ function handleResize() {
                 </tr>
             </thead>
             <tbody>
-                <template v-for="klip in motionPrisData.Klippekort" :key="klip.id">
+                <template v-for="klip in motionPrisData?.Klippekort || []" :key="klip.id">
                     <tr>
                         <td>{{ klip.Titel + ' ' + klip.Note }}</td>
                         <td>{{ klip.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ klip.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
@@ -368,7 +371,7 @@ function handleResize() {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="maenedskort in motionPrisData.Maenedskort" :key="maenedskort.id">
+                <tr v-for="maenedskort in motionPrisData?.Maenedskort || []" :key="maenedskort.id">
                     <td>{{ maenedskort.Titel }} {{ maenedskort.Note }}</td>
                     <td>{{ maenedskort.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ maenedskort.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
                     <td>{{ maenedskort.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ maenedskort.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
@@ -386,7 +389,7 @@ function handleResize() {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="ptraening in motionPrisData.Personlig_traening" :key="ptraening.id">
+                <tr v-for="ptraening in motionPrisData?.Personlig_traening || []" :key="ptraening.id">
                     <td>{{ ptraening.Titel }} {{ ptraening.Note }}</td>
                     <td>{{ ptraening.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ ptraening.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
                     <td>{{ ptraening.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ ptraening.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
@@ -402,14 +405,321 @@ function handleResize() {
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="programlaegning in motionPrisData.Programlaegning" :key="programlaegning.id">
+                <tr v-for="programlaegning in motionPrisData?.Programlaegning || []" :key="programlaegning.id">
                     <td>{{ programlaegning.Titel }} {{ programlaegning.Note }}</td>
                     <td>{{ programlaegning.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ programlaegning.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
                     <td>{{ programlaegning.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ programlaegning.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
                 </tr>
             </tbody>
         </table>
-    </section>
+        </section>
+        <section v-if="isMobile">
+            <h2 class="tabel-headline">Priser for kombinerede billetter</h2>
+            <table role="table">
+            <!-- KOMBINEREDE BILLETPRISER -->
+                <caption class="screenreaders-only">Priser for kombinerede billetter</caption>
+                <!-- --- ENKELTBILLETTER --- -->
+                <thead>
+                    <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
+                    <tr>
+                        <th scope="col"><h5>Enkelt billetter</h5></th>
+                        <th scope="col" v-for="kombiPris in kombiData?.Enkeltbillet_kombi || []" :key="kombiPris.id">{{ kombiPris.Ankomsttidspunkt }}</th>
+                        <th scope="col" aria-hidden="true"></th>
+                        <th scope="col" aria-hidden="true"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Voksen</td>
+                        <td v-for="kombiPris in kombiData?.Enkeltbillet_kombi || []" :key="kombiPris.id">{{ kombiPris.Pris_voksen ? kombiPris.Pris_voksen + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                    <tr>
+                        <td>Barn<br>(3-14 år)</td>
+                        <td v-for="kombiPris in kombiData?.Enkeltbillet_kombi || []" :key="kombiPris.id">{{ kombiPris.Pris_barn ? kombiPris.Pris_barn + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                    <tr>
+                        <td>Pensionist</td>
+                        <td v-for="kombiPris in kombiData?.Enkeltbillet_kombi || []" :key="kombiPris.id">{{ kombiPris.Pris_pensionist ? kombiPris.Pris_pensionist + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                    <tr>
+                        <td>Studerende<br>(Studiekort skal forvises)</td>
+                        <td v-for="kombiPris in kombiData?.Enkeltbillet_kombi || []" :key="kombiPris.id">{{ kombiPris.Pris_studerende ? kombiPris.Pris_studerende + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                </tbody>
+                <!-- --- KLIPPEKORT --- -->
+                <thead>
+                    <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
+                    <tr>
+                        <th class="regular" scope="col"><h5>Klippekort</h5></th>
+                        <th scope="col">Voksen</th>
+                        <th scope="col">Barn<br>(3-14 år)</th>
+                        <th scope="col">Pensionist</th>
+                        <th scope="col" aria-hidden="true"></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="kombiKlip in kombiData?.Klippekort_Kombi || []"  :key="kombiKlip.id">
+                        <td>{{ kombiKlip.Antal_klip }} Klip</td>
+                        <td>{{ kombiKlip.voksen.Pris_for_1400 ? kombiKlip.voksen.Pris_for_1400 + ',-' : '' }} / {{ kombiKlip.voksen.Pris_efter_1400 ? kombiKlip.voksen.Pris_efter_1400 + ',-' : '' }}</td>
+                        <td>{{ kombiKlip.Barn.Pris_for_1400 ? kombiKlip.Barn.Pris_for_1400 + ',-' : '' }} / {{ kombiKlip.Barn.Pris_efter_1400 ? kombiKlip.Barn.Pris_efter_1400 + ',-' : '' }}</td>
+                        <td>{{ kombiKlip.Pensionist.Pris_for_1400 ? kombiKlip.Pensionist.Pris_for_1400 + ',-' : '' }} / {{ kombiKlip.Pensionist.Pris_efter_1400 ? kombiKlip.Pensionist.Pris_efter_1400 + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"> *Ankomst før kl. 14:00 / Ankomst efter kl. 14:00</td>
+                    </tr>
+                    <!-- INSPIRATIONSKILDE- COLSPAN: W3Schools. HTML Table Colspan & Rowspan. (online) W3.CSS,  Refsnes Data. [Accessed 21/05/2025] URL: https://www.w3schools.com/html/html_table_colspan_rowspan.asp -->
+                </tbody>
+              </table>
+ 
+            <!-- VAND OG WELLNESS PRISER -->
+                <h2 class="tabel-headline">Priser for Vand & Wellness</h2>
+                <table role="table">
+                <!-- Tilføjet caption for at give skærmlæsere en beskrivelse af, hvad tabellen handler om -->
+                <caption class="screenreaders-only">Priser på billetter i Vand og Wellness</caption>
+                <thead>
+                    <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
+                    <tr>
+                        <th scope="col"><h5>Enkelt billetter</h5></th>
+                        <th scope="col" v-for="pris in vwPrisData?.Enkelt_Billetter || []" :key="pris.id">{{ pris.Ankomsttidspunkt }}</th>
+                        <th scope="col" aria-hidden="true"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                     <tr>
+                        <td>Voksen</td>
+                        <td v-for="pris in vwPrisData?.Enkelt_Billetter || []" :key="pris.id">{{ pris.Pris_voksen ? pris.Pris_voksen + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                    <tr>
+                        <td>Barn<br>(3-14 år)</td>
+                        <td v-for="pris in vwPrisData?.Enkelt_Billetter || []" :key="pris.id">{{ pris.Pris_barn ? pris.Pris_barn + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                    <tr>
+                        <td>Pensionist</td>
+                        <td v-for="pris in vwPrisData?.Enkelt_Billetter || []" :key="pris.id">{{ pris.Pris_pensionist ? pris.Pris_pensionist + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                    <tr>
+                        <td>Studerende<br>(Studiekort skal forvises)</td>
+                        <td v-for="pris in vwPrisData?.Enkelt_Billetter || []" :key="pris.id">{{ pris.Pris_studerende ? pris.Pris_studerende + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                </tbody>
+                <thead>
+                    <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
+                    <tr><th scope="col"><h5>Familie billetter</h5></th>
+                        <th scope="col">1 Voksen</th>
+                        <th scope="col">2 Voksne</th>
+                        <th scope="col" aria-hidden="true"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="pris in vwPrisData?.Familiebilletter || []" :key="pris.id">
+                        <td>{{ pris.Antal_born }} {{ Number(pris.Antal_born) === 1 ? 'barn' : 'børn' }}</td>
+                        <td>{{ pris.Pris_1_voksen ? pris.Pris_1_voksen + ',-' : '' }}</td>
+                        <td>{{ pris.Pris_2_voksne ? pris.Pris_2_voksne + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                </tbody>
+                <thead>
+                    <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
+                    <tr>
+                        <th class="regular" scope="col"><h5>Klippekort</h5>Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</th>
+                        <th scope="col">Voksen</th>
+                        <th scope="col">Barn<br>(3-14 år)</th>
+                        <th scope="col">Pensionist</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="pris in vwPrisData?.Klippekort || []" :key="pris.id">
+                        <td>{{ pris.Antal_klip }} Klip</td>
+                        <td>{{ pris.voksen.Pris_for_1400 ? pris.voksen.Pris_for_1400 + ',-' : '' }} / {{ pris.voksen.Pris_efter_1400 ? pris.voksen.Pris_efter_1400 + ',-' : '' }}</td>
+                        <td>{{ pris.Barn.Pris_for_1400 ? pris.Barn.Pris_for_1400 + ',-' : '' }} / {{ pris.Barn.Pris_efter_1400 ? pris.Barn.Pris_efter_1400 + ',-' : '' }}</td>
+                        <td>{{ pris.Pensionist.Pris_for_1400 ? pris.Pensionist.Pris_for_1400 + ',-' : '' }} / {{ pris.Pensionist.Pris_efter_1400 ? pris.Pensionist.Pris_efter_1400 + ',-' : '' }}</td>
+                    </tr>
+                    <tr v-if="vwPrisData.Klippekort">
+                        <td colspan="4"> *Ankomst før kl. 14:00 / Ankomst efter kl. 14:00</td>
+                    </tr>
+                </tbody>
+                <thead>
+                    <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
+                    <tr>
+                        <th scope="col"><h5>Diverse billetter</h5></th>
+                        <th scope="col" v-for="pris in vwPrisData?.Diverse_biletter || []" :key="pris.id">{{ pris.Titel_paa_billettype }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <tr>
+                        <td>1 Voksen</td>
+                        <td v-for="pris in vwPrisData?.Diverse_biletter || []" :key="pris.id">{{ pris.pris_1_person ? 'Entre + ' + pris.pris_1_person + ',-' : '' }}</td>
+                    </tr>
+                    <tr>
+                        <td>2 Voksne</td>
+                        <td v-for="pris in vwPrisData?.Diverse_biletter || []" :key="pris.id">{{ pris.pris_2_personer ? 'Entre + ' + pris.pris_2_personer + ',-' : '' }}</td>
+                    </tr>
+                    <tr>
+                        <td>3 Voksne</td>
+                        <td v-for="pris in vwPrisData?.Diverse_biletter || []" :key="pris.id">{{ pris.pris_3_personer ? 'Entre + ' + pris.pris_3_personer + ',-' : '' }}</td>
+                    </tr>
+                    <tr>
+                        <td>4 Voksne</td>
+                        <td v-for="pris in vwPrisData?.Diverse_biletter || []" :key="pris.id">{{ pris.pris_4_personer ? 'Entre + ' + pris.pris_4_personer + ',-' : '' }}</td>
+                    </tr>
+                </tbody>
+
+                <thead>
+                    <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
+                    <tr>
+                        <th scope="col"><h5>Personlig træner</h5></th>
+                        <th scope="col">25 minutter</th>
+                        <th scope="col">5 x 25 minutter</th>
+                        <th scope="col" aria-hidden="true"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="pris in vwPrisData?.personlig_svommetraening || []" :key="pris.id">
+                        <td>{{ pris.Titel_paa_billettype }}</td>
+                        <td>{{ pris.pris_25_minutter ? 'Entre + ' + pris.pris_25_minutter + ',-' : '' }}</td>
+                        <td>{{ pris.pris_5x25_minutter ? 'Entre + ' + pris.pris_5x25_minutter + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                </tbody>
+                <thead>
+                    <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
+                    <tr>
+                        <th class="regular" scope="col"><h5>Massage</h5></th>
+                        <th scope="col" aria-hidden="true"></th>
+                        <th scope="col" aria-hidden="true"></th>
+                        <th scope="col" aria-hidden="true"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="pris in vwPrisData?.Massage || []" :key="pris.id">
+                        <td>{{ pris.Titel_paa_billettype }}</td>
+                        <td><p class="time">30 minutter</p>{{ pris.pris_30_minutter ? pris.pris_30_minutter + ',-' : '' }}</td>
+                        <td><p class="time">45 minutter</p>{{ pris.pris_45_minutter ? pris.pris_45_minutter + ',-' : '' }}</td>
+                        <td><p class="time">60 minutter</p>{{ pris.pris_60_minutter ? pris.pris_60_minutter + ',-' : '' }}</td>
+                    </tr>
+                    <tr>
+                        <td>Cupping</td>
+                        <td><p class="time">Inkl. i massage</p>+{{ vwPrisData.Cupping.pris_inklusiv_massage ? vwPrisData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
+                        <td><p class="time">Ekskl. massage</p>{{vwPrisData.Cupping.pris_ekslusiv_massage ? vwPrisData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
+                    </tr>
+                </tbody>
+            </table>
+      
+        <!-- MOTION PRISER -->
+        <h2 class="tabel-headline">Priser for Motionscenter</h2>
+            <table>
+            <caption class="screenreaders-only">Priser for Motioncenter</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Enkelt billetter</th>
+                    <th scope="col">Voksen</th>
+                    <th scope="col">Studerende<br>(Studiekort skal forvises)</th>
+                    <th scope="col" aria-hidden="true"></th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td v-for="enkeltbillet in motionPrisData?.Enkeltbilletter || []" :key="enkeltbillet.id">{{ enkeltbillet.Titel }} <span v-if="enkeltbillet.Note">{{ enkeltbillet.Note }}</span></td>
+                    <td v-for="enkeltbillet in motionPrisData?.Enkeltbilletter || []" :key="enkeltbillet.id">{{ enkeltbillet.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ enkeltbillet.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
+                    <td v-for="enkeltbillet in motionPrisData?.Enkeltbilletter || []" :key="enkeltbillet.id">{{ enkeltbillet.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ enkeltbillet.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
+                    <td scope="col" aria-hidden="true"></td>
+                </tr>
+            </tbody>
+
+            <!-- --- KLIPPEKORT ---  -->
+            <thead>
+                <tr>
+                    <th class="regular" scope="col"><h5>Klippekort</h5></th>
+                    <th scope="col" aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td scope="col" v-for="klip in motionPrisData?.Klippekort || []" :key="klip.id">{{ klip.Titel + ' ' + klip.Note }}</td>
+                    <td v-for="klip in motionPrisData?.Klippekort || []" :key="klip.id">{{ klip.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ klip.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
+                    <td aria-hidden="true"></td>
+                    <td scope="col" aria-hidden="true"></td>
+                </tr>
+            </tbody>
+
+            <!-- --- MÅNEDSKORT --- -->
+            <thead>
+                <tr>
+                    <th class="regular" scope="col"><h5>Månedskort</h5></th>
+                    <th scope="col" aria-hidden="true"></th>
+                    <th scope="col" aria-hidden="true"></th>
+                    <th scope="col" aria-hidden="true"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="maenedskort in motionPrisData?.Maenedskort || []" :key="maenedskort.id">
+                    <td>{{ maenedskort.Titel }} {{ maenedskort.Note }}</td>
+                    <td>{{ maenedskort.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ maenedskort.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
+                    <td aria-hidden="true"></td>
+                    <td aria-hidden="true"></td>
+                </tr>
+                <tr>
+                    <td class="small" colspan="4">*Gælder 30 dage fra købsdato, med adgang til bad og omklædning (Kortet gælder ikke til  svømmehal).  
+                    Kan anvendes 1 gang dagligt. Kun til personligt brug. Inkl. holdtræning</td>
+                </tr>
+            </tbody>
+            
+            <!-- --- PERSONLIG TRÆNING --- -->
+            <thead>
+                <tr>
+                    <th class="regular" scope="col"><h5>Personlig træning</h5></th>
+                    <th scope="col" aria-hidden="true"></th>
+                    <th scope="col" aria-hidden="true"></th>
+                    <th scope="col" aria-hidden="true"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="ptraening in motionPrisData?.Personlig_traening || []" :key="ptraening.id">
+                    <td>{{ ptraening.Titel }} {{ ptraening.Note }}</td>
+                    <td>{{ ptraening.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ ptraening.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
+                    <td aria-hidden="true"></td>
+                    <td aria-hidden="true"></td>
+                </tr>
+            </tbody>
+
+            <!-- --- PROGRAMLÆGNING --- -->
+            <thead>
+                <tr>
+                    <th class="regular" scope="col"><h5>Programlægning</h5></th>
+                    <th scope="col" aria-hidden="true"></th>
+                    <th scope="col" aria-hidden="true"></th>
+                    <th scope="col" aria-hidden="true"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="programlaegning in motionPrisData?.Programlaegning || []" :key="programlaegning.id">
+                    <td>{{ programlaegning.Titel }} {{ programlaegning.Note }}</td>
+                    <td>{{ programlaegning.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ programlaegning.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
+                    <td scope="col" aria-hidden="true"></td>
+                    <td scope="col" aria-hidden="true"></td>
+
+                </tr>
+            </tbody>
+        </table>
+        </section>
 
     <Reklamekort 
     :src="getImage(vwPrisData .reklame_kort.Billede)" 
@@ -442,7 +752,7 @@ function handleResize() {
   border: 0;
   clip-path: inset(100%);
 }
-/* Classen er tilføjet for at skjule elementer visuelt, men stadig gøre det tilgængeligt for skærmlæsere. Hertil anvendes "clip-path: inset(100%).
+/* Klassen er tilføjet for at skjule elementer visuelt, men stadig gøre det tilgængeligt for skærmlæsere. Hertil anvendes "clip-path: inset(100%).
 INSPIRATIONSKILDE: Milne, Monty. Web Accessibility Tip: visually hidden text for screen-readers. 24/02/2020. Medium 2025. (online) [Accessed 21/05/2025] URL: https://medium.com/web-accessibility-tips-tricks-and-techniques-for/web-accessibility-tip-visually-hidden-text-for-screen-readers-a52d954d9711
 */
 

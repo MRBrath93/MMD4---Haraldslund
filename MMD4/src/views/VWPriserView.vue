@@ -121,7 +121,7 @@ onUnmounted(() => {
                     <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
                         <h3 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h3>
                         <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
-                            <li> {{ single_text.Brodtekst }}</li>
+                            <li>{{ single_text.Brodtekst }}</li>
                         </ul>
                         <p v-else> {{ single_text.Brodtekst }}</p>
                     </div>
@@ -161,10 +161,6 @@ onUnmounted(() => {
                         <td>{{ pris.Pris_pensionist ? pris.Pris_pensionist + ',-' : '' }}</td>
                         <td>{{ pris.Pris_studerende ? pris.Pris_studerende + ',-' : '' }}</td>
                     </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Enkelt_Billetter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
-                    </tr>
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
@@ -182,10 +178,6 @@ onUnmounted(() => {
                         <td>{{ pris.Pris_2_voksne ? pris.Pris_2_voksne + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                         <td aria-hidden="true"></td>
-                    </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Familiebilletter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
                     </tr>
                 </tbody>
                 <thead>
@@ -205,10 +197,6 @@ onUnmounted(() => {
                         <td>{{ pris.Pensionist.Pris_for_1400 ? pris.Pensionist.Pris_for_1400 + ',-' : '' }} / {{ pris.Pensionist.Pris_efter_1400 ? pris.Pensionist.Pris_efter_1400 + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                     </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Klippekort.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
-                    </tr>
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
@@ -226,10 +214,6 @@ onUnmounted(() => {
                         <td>{{ pris.pris_2_personer ? 'Entre + ' + pris.pris_2_personer + ',-' : '' }}</td>
                         <td>{{ pris.pris_3_personer ? 'Entre + ' + pris.pris_3_personer + ',-' : '' }}</td>
                         <td>{{ pris.pris_4_personer ? 'Entre + ' + pris.pris_4_personer + ',-' : '' }}</td>
-                    </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Diverse_biletter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
                     </tr>
                 </tbody>
 
@@ -249,10 +233,6 @@ onUnmounted(() => {
                         <td>{{ pris.pris_5x25_minutter ? 'Entre + ' + pris.pris_5x25_minutter + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                         <td aria-hidden="true"></td>
-                    </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Familiebilletter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
                     </tr>
                 </tbody>
                 <thead>
@@ -282,11 +262,6 @@ onUnmounted(() => {
                         <td aria-hidden="true"></td>
                         <td aria-hidden="true"></td>
                     </tr>
-
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Klippekort.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
-                    </tr>
                 </tbody>
             </table>
         </section>
@@ -299,38 +274,35 @@ onUnmounted(() => {
                     <tr>
                         <th scope="col"><h5>Enkelt billetter</h5></th>
                         <th scope="col" v-for="pris in vandogwellnessPriserData.Enkelt_Billetter" :key="pris.id">{{ pris.Ankomsttidspunkt }}</th>
-                        <th scope="col"></th>
+                        <th scope="col" aria-hidden="true"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td>Voksen</td>
                         <td v-for="pris in vandogwellnessPriserData.Enkelt_Billetter" :key="pris.id">{{ pris.Pris_voksen ? pris.Pris_voksen + ',-' : '' }}</td>
-                        <td></td>
+                        <td aria-hidden="true"></td>
                     </tr>
                     <tr>
                         <td>Barn<br>(3-14 år)</td>
                         <td v-for="pris in vandogwellnessPriserData.Enkelt_Billetter" :key="pris.id">{{ pris.Pris_barn ? pris.Pris_barn + ',-' : '' }}</td>
-                        <td></td>
+                        <td aria-hidden="true"></td>
                     </tr>
                     <tr>
                         <td>Pensionist</td>
-                        <td v-for="pris in vandogwellnessPriserData.Enkelt_Billetter" :key="pris.id">{{ pris.Pris_barn ? pris.Pris_barn + ',-' : '' }}</td>
-                        <td></td>
+                        <td v-for="pris in vandogwellnessPriserData.Enkelt_Billetter" :key="pris.id">{{ pris.Pris_pensionist ? pris.Pris_pensionist + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
                     </tr>
                     <tr>
                         <td>Studerende<br>(Studiekort skal forvises)</td>
-                        <td v-for="pris in vandogwellnessPriserData.Enkelt_Billetter" :key="pris.id">{{ pris.Pris_barn ? pris.Pris_barn + ',-' : '' }}</td>
-                        <td></td>
-                    </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Enkelt_Billetter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
+                        <td v-for="pris in vandogwellnessPriserData.Enkelt_Billetter" :key="pris.id">{{ pris.Pris_studerende ? pris.Pris_studerende + ',-' : '' }}</td>
+                        <td aria-hidden="true"></td>
                     </tr>
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Familie billetter</h5></th>
+                    <tr>
+                        <th scope="col"><h5>Familie billetter</h5></th>
                         <th scope="col">1 Voksen</th>
                         <th scope="col">2 Voksne</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -343,14 +315,11 @@ onUnmounted(() => {
                         <td>{{ pris.Pris_2_voksne ? pris.Pris_2_voksne + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                     </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Familiebilletter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
-                    </tr>
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th class="regular" scope="col"><h5>Klippekort*</h5></th>
+                    <tr>
+                        <th class="regular" scope="col"><h5>Klippekort*</h5></th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -365,10 +334,6 @@ onUnmounted(() => {
                     </tr>
                     <tr v-if="vandogwellnessPriserData.Klippekort">
                         <td colspan="4"> *Ankomst før kl. 14:00 / Ankomst efter kl. 14:00</td>
-                    </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Klippekort.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
                     </tr>
                 </tbody>
 
@@ -396,14 +361,11 @@ onUnmounted(() => {
                         <td>4 Voksne</td>
                         <td v-for="pris in vandogwellnessPriserData.Diverse_biletter" :key="pris.id">{{ pris.pris_4_personer ? 'Entre + ' + pris.pris_4_personer + ',-' : '' }}</td>
                     </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Enkelt_Billetter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
-                    </tr>
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Personlig træner</h5></th>
+                    <tr>
+                        <th scope="col"><h5>Personlig træner</h5></th>
                         <th scope="col">25 minutter</th>
                         <th scope="col">5 x 25 minutter</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -415,10 +377,6 @@ onUnmounted(() => {
                         <td>{{ pris.pris_25_minutter ? 'Entre + ' + pris.pris_25_minutter + ',-' : '' }}</td>
                         <td>{{ pris.pris_5x25_minutter ? 'Entre + ' + pris.pris_5x25_minutter + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
-                    </tr>
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Familiebilletter.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
                     </tr>
                 </tbody>
                 <thead>
@@ -442,11 +400,6 @@ onUnmounted(() => {
                         <td><p class="time">Inkl. i massage</p>+{{ vandogwellnessPriserData.Cupping.pris_inklusiv_massage ? vandogwellnessPriserData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
                         <td><p class="time">Ekskl. massage</p>{{vandogwellnessPriserData.Cupping.pris_ekslusiv_massage ? vandogwellnessPriserData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
-                    </tr>
-
-                    <!-- Tilføjet fallback-række hvis der ingen data er, med korrekt colspan="5" -->
-                    <tr v-if="vandogwellnessPriserData.Klippekort.length === 0">
-                        <td colspan="5" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
                     </tr>
                 </tbody>
             </table>
