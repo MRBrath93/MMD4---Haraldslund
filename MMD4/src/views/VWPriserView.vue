@@ -567,9 +567,9 @@ section{
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+  clip-path: inset(100%);
 }
 
 table {
@@ -601,7 +601,7 @@ td{
 }
 
 thead:not(:first-of-type) th {
-  padding-top: 2rem; /* eller hvad du ønsker */
+  padding-top: 2rem; 
 }
 
 th{
