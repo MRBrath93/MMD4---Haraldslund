@@ -101,7 +101,7 @@ const backgroundClass = computed(() => {
 }
 
 .bg-default {
-  background-color: var(--color-activity-viewer);
+  background-color: var(--color-haraldslund-light);
 }
 
 
