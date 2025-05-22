@@ -29,6 +29,8 @@ import MEnkeltHoldView from '@/views/MEnkeltHoldView.vue';
 import VWEnkeltHoldView from '@/views/VWEnkeltHoldView.vue';
 import EventsView from '@/views/EventsView.vue';
 import AktivitetsoversigtView from '@/views/AktivitetsoversigtView.vue';
+import { useClassesStoreMotion } from '@/stores/motion-classes';
+import { useClassesStoreWater } from '@/stores/water-classes';
 
 const router = createRouter({
   history: createWebHashHistory(), // Brug hash-baseret historik
@@ -72,8 +74,8 @@ const router = createRouter({
               name: 'holdbeskrivelse-vandogwellness',
               meta: {
                 title: 'Holdbeskrivelse - Vand & Wellness - Haraldslund',
-                breadcrumb: 'Holdbeskrivelse - Vand',
-              }
+                breadcrumb: 'Holdbeskrivelse',
+              },
             },
           ]
         },
