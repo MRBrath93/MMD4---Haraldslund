@@ -34,7 +34,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedaboutRaw = localStorage.getItem('aboutData');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cacheharaldslundTimestamp');
   const now = Date.now();
 
   if (cachedaboutRaw && cachedTimestampRaw) {
@@ -105,8 +105,7 @@ function getImage(billede) {
             :label="internNavLabels"
         ></TheInternNavWater>
         
-        <section v-for="(tekstsektion,index) in aboutData.Indhold.Afsnit" :key="tekstsektion.id">
-            <div class="textsection" :class="['textsection', { 'small-margin': index === 1 }, { 'reverse-layout': index === 2 }]">
+        <section class="textsection" v-for="(tekstsektion,index) in aboutData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 6)">{{ tekstsektion.Overskrift }}</DynamicHeading>
                     <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
@@ -129,7 +128,6 @@ function getImage(billede) {
                 <div class="img--container flex1" v-for="billede in tekstsektion.Billede" :key="billede.id">
                     <ImageHolder class="img" :src="getImage(billede)" :alt="billede.alternativeText"></ImageHolder>
                 </div>
-            </div>
         </section>
         
         <Reklamekort v-if="aboutData.reklame_kort"

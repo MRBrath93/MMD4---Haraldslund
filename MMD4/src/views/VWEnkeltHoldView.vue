@@ -138,12 +138,11 @@ const visibleTeamCards = computed(() => {
     :alt="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
     <TheBreadcrumb></TheBreadcrumb>
     
-    <section v-for="(tekstsektion,index) in selectedClass.indhold.afsnit" :key="tekstsektion.id">
-      <div class="textsection">
+    <section class="textsection" v-for="(tekstsektion,index) in selectedClass.indhold.afsnit" :key="tekstsektion.id">
         <article class="flex--column flex1">
           <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.overskrift }}</DynamicHeading>
-          <div v-for="single_text in tekstsektion.tekst || []" :key="single_text.id">
-            <h5 class="subtitle" v-if="single_text.underoverskrift">{{ single_text.underoverskrift }}</h5>
+          <div v-for="(single_text,i) in tekstsektion.tekst || []" :key="single_text.id">
+            <DynamicHeading :level="Math.min(index+i+2, 5)">{{ single_text.underoverskrift}}</DynamicHeading>
             <ul class="punkt" v-if="single_text.punktopstilles === true">
               <li> {{ single_text.brodtekst }}</li>
             </ul>
@@ -161,7 +160,6 @@ const visibleTeamCards = computed(() => {
         <div class="img--container flex1">
           <ImageHolder v-for="billede in tekstsektion.billeder" :key="billede.id" class="img" :src="getArticleImage(billede)" :alt="billede.alternativeText" />
         </div>
-      </div>
     </section>
     <section class="overviewGrid">
       <QuickInfo class="quickinfo"  :time="selectedClass.varighed" :group="selectedClass.maalgruppe" :priser="selectedClass.priser" :praticalInfo="selectedClass.praktiskeOplysninger" :cancelBooking="selectedClass.aflysning" :type_af_hold="selectedClass.type_af_hold"></QuickInfo>

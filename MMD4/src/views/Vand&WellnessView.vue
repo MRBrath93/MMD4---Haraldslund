@@ -101,11 +101,10 @@ function getImage(billede) {
             :label="internNavLabels"
         ></TheInternNavWater>
         
-        <section v-for="(tekstsektion,index) in vandogwellnessData.Indhold.Afsnit" :key="tekstsektion.id">
-            <div class="textsection">
+        <section class="textsection" v-for="(tekstsektion,index) in vandogwellnessData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
-                    <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
+                    <div v-for="single_text, in tekstsektion.Tekst || []" :key="single_text.id">
                         <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
                         <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
                             <li> {{ single_text.Brodtekst }}</li>
@@ -124,7 +123,6 @@ function getImage(billede) {
             </article>
             <div class="img--container flex1">
                 <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
-            </div>
             </div>
         </section>
         <section class="entrypoints">

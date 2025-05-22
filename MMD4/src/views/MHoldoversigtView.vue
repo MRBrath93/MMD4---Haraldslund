@@ -18,7 +18,7 @@ const isLoading = ref(true);
 const motionHoldData = ref(null); // OBS: null er bedre end []
 
 const CACHE_KEY = "motionHoldData";
-const CACHE_TIMESTAMP_KEY = "cacheTimestamp";
+const CACHE_TIMESTAMP_KEY = "motionsHoldTimestamp";
 const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
 
 onMounted(async () => {
@@ -97,8 +97,7 @@ function getImage(billede) {
         :alt="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
       <TheBreadcrumb></TheBreadcrumb>
       <TheInternNavMotion></TheInternNavMotion>
-      <section v-for="(tekstsektion,index) in motionHoldData.Indhold.Afsnit" :key="tekstsektion.id">
-            <div class="textsection">
+      <section class="textsection" v-for="(tekstsektion,index) in motionHoldData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
                     <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
@@ -120,7 +119,6 @@ function getImage(billede) {
             </article>
             <div class="img--container flex1">
                 <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
-            </div>
             </div>
         </section>
       <section class="elementspacing">

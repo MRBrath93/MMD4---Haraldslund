@@ -30,7 +30,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedvwReglerRaw = localStorage.getItem('vwReglerData ');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cachereglerTimestamp');
   const now = Date.now();
 
   if (cachedvwReglerRaw && cachedTimestampRaw) {
@@ -57,7 +57,7 @@ onMounted(() => {
     .then(json => {
       vwReglerData .value = json.data;
       localStorage.setItem('vwReglerData ', JSON.stringify(vwReglerData .value));
-      localStorage.setItem('cacheTimestamp', now.toString());
+      localStorage.setItem('cachereglerTimestamp', now.toString());
     })
     .catch(err => {
       error.value = err.message;
@@ -100,8 +100,7 @@ function getImage(billede) {
             :label="internNavLabels"
         ></TheInternNavWater>
         
-        <section v-for="(tekstsektion,index) in vwReglerData .Indhold.Afsnit" :key="tekstsektion.id">
-            <div class="textsection">
+        <section class="textsection" v-for="(tekstsektion,index) in vwReglerData .Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
                     <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
@@ -123,7 +122,6 @@ function getImage(billede) {
             </article>
             <div class="img--container flex1">
                 <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
-            </div>
             </div>
         </section>
         
