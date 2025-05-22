@@ -54,18 +54,16 @@ onMounted(() => {
   
 
   <style scoped>
-
 .category-wrapper {
   position: relative;
-  overflow: hidden;
 }
 
 .category-wrapper::before {
   content: "";
   position: absolute;
-  left: 0;
+  left: -10px;
   top: 0;
-  width: 3rem;
+  width: 10rem;
   height: 100%;
   pointer-events: none;
   background: linear-gradient(to right, var(--color-body-background), transparent);
@@ -76,9 +74,9 @@ onMounted(() => {
 .category-wrapper::after {
   content: "";
   position: absolute;
-  right: 0;
+  right: -10px;
   top: 0;
-  width: 3rem;
+  width: 10rem;
   height: 100%;
   pointer-events: none;
   background: linear-gradient(to left, var(--color-body-background), transparent);
@@ -152,8 +150,8 @@ onMounted(() => {
   position: absolute;
   top: 40%;
   transform: translateY(-50%);
-  font-size: 1.2rem;
-  color: gray;
+  font-size: 1.6rem;
+  color: var(--color-navigation);
   animation: bounce 1s infinite;
   pointer-events: none;
   z-index: 40;

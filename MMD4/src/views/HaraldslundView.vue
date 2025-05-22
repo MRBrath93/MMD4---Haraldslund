@@ -5,7 +5,6 @@ import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 import TheBtn from '@/components/TheBtn.vue';
 import Reklamekort from '@/components/Reklamekort.vue';
-import AboutEntry from "@/components/AboutEntry.vue";
 import ImageHolder from '@/components/ImageHolder.vue';
 import DynamicHeading from '@/components/DynamicHeading.vue';
 import { ref, onMounted } from 'vue';
