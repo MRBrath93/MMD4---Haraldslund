@@ -67,7 +67,7 @@ const router = createRouter({
               }
             },
             {
-              path: 'holdbeskrivelse/:id?',
+              path: ':id',
               component: VWEnkeltHoldView,
               name: 'holdbeskrivelse-vandogwellness',
               meta: {

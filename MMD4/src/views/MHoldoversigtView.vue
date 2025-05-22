@@ -7,6 +7,7 @@ import TheBtn from "@/components/TheBtn.vue";
 import DynamicHeading from "@/components/DynamicHeading.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
 import TheTeamCard from "@/components/TheTeamCard.vue";
+import Reklamekort from "@/components/Reklamekort.vue";
 import TheFilterBar from "@/components/TheFilterBar.vue";
 import { useClassesStoreMotion } from "@/stores/motion-classes";
 import TheInternNavMotion from "@/components/TheInternNavMotion.vue";
@@ -44,7 +45,7 @@ onMounted(async () => {
     }
   }
 
-  fetch("https://popular-gift-b355856076.strapiapp.com/api/motion?pLevel")
+  fetch("https://popular-gift-b355856076.strapiapp.com/api/holdoversigt-motionscenter?pLevel")
     .then(response => {
       if (!response.ok) {
         throw new Error(`Motion Hold - Regler fejl: ${response.status}`);
@@ -140,7 +141,7 @@ function getImage(billede) {
                 icon="arrow_forward"
                 :backgroundColor="klasse.type_af_hold"
                 :teamCategorys="klasse.kategorier"
-                :link="{ name: 'holdbeskrivelse-vandogwellness', params: { id: klasse.id } }"
+                :link="{ name: 'holdbeskrivelse-motion', params: { id: klasse.id } }"
                 :teamImage="getCoverImage(klasse)"
                 :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
               ></TheTeamCard>
@@ -148,6 +149,15 @@ function getImage(billede) {
           </div>
         </article>
       </section>
+      <Reklamekort
+        :src="getImage(motionHoldData.reklame_kort.Billede)"
+        :alt="motionHoldData.reklame_kort.Billede.alternativeText" 
+        :title="motionHoldData.reklame_kort.Titel"
+        :text="motionHoldData.reklame_kort.Tekst_afsnit" 
+        :Btn_title="motionHoldData.reklame_kort.Knapper[0].btn_titel" 
+        :Btn_text="motionHoldData.reklame_kort.Knapper[0].btn_description" 
+        :kategori="motionHoldData.reklame_kort.Kategori" 
+        :Btn_icon="motionHoldData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     </main>
 </template>
 
