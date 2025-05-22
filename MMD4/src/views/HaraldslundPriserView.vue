@@ -322,7 +322,7 @@ function handleResize() {
             </thead>
             <tbody>
                 <tr v-for="enkeltbillet in motionPrisData.Enkeltbilletter" :key="enkeltbillet.id">
-                <td>{{ enkeltbillet.Titel }} <span v-if="enkeltbillet.Note">({{ enkeltbillet.Note }})</span></td>
+                <td>{{ enkeltbillet.Titel }} <span v-if="enkeltbillet.Note">{{ enkeltbillet.Note }}</span></td>
                 <td>
                     {{ enkeltbillet.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ enkeltbillet.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}
                 </td>
