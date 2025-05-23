@@ -99,24 +99,26 @@ function getImage(billede) {
       <TheInternNavMotion 
       :labels="internNavLabels" />
       <section class="section-wrapper">
-        <h1>{{ motionData.Titel }}</h1>
-        <div v-for="afsnit in motionData.Indhold.Afsnit || []" :key="afsnit.id" class="section-grid">
-          <div class="text-wrapper">
-            <h2>{{ afsnit.Overskrift }}</h2>
-            <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-              <p class="fat-text" v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</p>
-              <p>{{ tekst.Brodtekst }}</p>
+        <div class="section-grid">
+          <h1>{{ motionData.Titel }}</h1>
+          <template v-for="afsnit in motionData.Indhold.Afsnit || []" :key="afsnit.id">
+            <aside v-if="afsnit.Billede" class="image-wrapper">
+              <ImageHolder
+              v-for="billede in [].concat(afsnit.Billede)"
+              :key="billede.id"
+              class="side-img"
+              :src="getImage(billede)"
+              :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
+            </aside>
+            <div class="text-wrapper">
+              <h2>{{ afsnit.Overskrift }}</h2>
+              <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+                <p class="fat-text" v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</p>
+                <p>{{ tekst.Brodtekst }}</p>
+              </div>
             </div>
-          </div>
+          </template>
         </div>
-        <aside v-if="afsnit.Billede" class="image-wrapper">
-          <ImageHolder
-            v-for="billede in [].concat(afsnit.Billede)"
-            :key="billede.id"
-            class="side-img"
-            :src="getImage(billede)"
-            :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-        </aside>
       </section>
       <article>
         <h2>Udforsk vores faciliteter i motionscentret</h2>
@@ -129,19 +131,16 @@ function getImage(billede) {
             :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
         </div>
       </article>
- 
-
-
-        <Reklamekort 
-          :src="getImage(motionData.reklame_kort.Billede) || '' " 
-          :alt="motionData.reklame_kort.Billede.alternativeText" 
-          :title="motionData.reklame_kort.Titel" 
-          :text="motionData.reklame_kort.Tekst_afsnit" 
-          :Btn_title="motionData.reklame_kort.Knapper[0].btn_titel" 
-          :Btn_text="motionData.reklame_kort.Knapper[0].btn_description" 
-          :kategori="motionData.reklame_kort.Kategori" 
-          :Btn_icon="motionData.reklame_kort.Knapper[0].Ikon[0]">
-        </Reklamekort>
+      <Reklamekort 
+        :src="getImage(motionData.reklame_kort.Billede) || '' " 
+        :alt="motionData.reklame_kort.Billede.alternativeText" 
+        :title="motionData.reklame_kort.Titel" 
+        :text="motionData.reklame_kort.Tekst_afsnit" 
+        :Btn_title="motionData.reklame_kort.Knapper[0].btn_titel" 
+        :Btn_text="motionData.reklame_kort.Knapper[0].btn_description" 
+        :kategori="motionData.reklame_kort.Kategori" 
+        :Btn_icon="motionData.reklame_kort.Knapper[0].Ikon[0]">
+      </Reklamekort>
     </main>
   </template>
   
@@ -149,35 +148,33 @@ function getImage(billede) {
 <style scoped>
 
 main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.breadcrumb-container {
+  max-width: var(--max-width);
+  width: 95%;
+  margin: auto var(--spacer-x2);
 }
 
 .section-wrapper {
   max-width: var(--max-width);
+  width: 95%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: var(--spacer-x1);
 }
 
-.section-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacer-x1);
-  align-items: start;
-}
-
-
 .text-wrapper {
   grid-column: 1;
 }
 
 .image-wrapper {
-  grid-column: 2;
-  max-width: 700px;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -185,40 +182,23 @@ main{
 
 .side-img {
   max-width: 100%;
-  max-height: 100%;
-  height: auto;
-  }
-
-/* .flex-container{
-    display: flex;
-    flex-direction: column;
-} */
+  height: 300px;
+}
 
 article h2 {
     margin: var(--spacer-x1) 0;
     text-align: center;
 }
 
-
-.gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-    gap: var(--spacer-x1);
-    max-width: 1545px;
-    margin: 0 auto;
-    padding: var(--spacer-x1);
-}
-
-
 .gallery-img {
-    max-width: 495px;
-    max-height: 333px;
-    object-fit: cover;
+  max-width: 495px;
+  max-height: 333px;
+  object-fit: cover;
 }
 
 .gallery-img:nth-child(3) {
-    grid-row: span 2;
-    max-height: 674px;
+  grid-row: span 2;
+  max-height: 674px;
 }
 
 .fat-text {
@@ -226,11 +206,55 @@ article h2 {
   padding: var(--spacer-x0-5) 0;
 }
 
-@media screen and (min-width: 768px) {
-    /* .container {
-        flex-direction: column;
-    } */
+.section-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacer-x1);
+  column-gap: var(--spacer-x4);
+  margin-bottom: var(--spacer-Elements);
+}
 
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 300px;
+  width: 100%;
+  max-width: var(--max-width);
+  gap: var(--spacer-x1);
+  margin: 0 auto;
+  padding: var(--spacer-x1);
+}
+
+/* --- MEDIA QUERIES --- */
+
+@media screen and (min-width: 768px) {
+  .gallery-grid {
+  grid-template-columns: repeat(2, 1fr);
+  }
+
+  .section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.image-wrapper {
+  grid-row-start: span 2;
+  grid-column: 2;
+  max-width: 700px;
+}
+
+.side-img {
+  height: 500px;
+}
+  
+}
+
+@media screen and (min-width: 1200px) {
+.gallery-grid {
+  grid-template-columns: repeat(3, 1fr);
+
+}
+  
 
 }
 

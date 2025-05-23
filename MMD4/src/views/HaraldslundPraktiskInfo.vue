@@ -8,8 +8,6 @@ import TheHero from "../components/TheHero.vue";
 import TheSpinner from "../components/TheSpinner.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
 
-
-
 // FETCH DATA
 onMounted(() => {
   isLoading.value = true;

@@ -234,10 +234,6 @@ main{
 }
 
 @media screen and (min-width: 1200px) {
-    .entrypoint {
-        max-height: 23.5rem;
-    }
-    
     .flex-row-container{
         display: flex;
         flex-direction: row;

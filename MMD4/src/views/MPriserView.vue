@@ -7,7 +7,6 @@ import TheSpinner from "@/components/TheSpinner.vue";
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 
-
 // FETCH DATA FRA STRAPI
 const internNavLabels = [
   { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
@@ -19,8 +18,29 @@ const internNavLabels = [
   { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
 ];
 
-
+// FETCH DATA OG CACHE
 onMounted(() => {
+  isLoading.value = true;
+  error.value = null;
+
+  const cachedMotionPriserkRaw = localStorage.getItem('motionPriser');
+  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const now = Date.now();
+
+  if (cachedMotionPriserkRaw && cachedTimestampRaw) {
+    const cachedTimestamp = Number(cachedTimestampRaw);
+
+    if (now - cachedTimestamp < CACHE_DURATION_MS) {
+      try {
+        motionPriser.value = JSON.parse(cachedMotionPriserkRaw);
+        isLoading.value = false;
+        return;
+      } catch (e) {
+        console.warn('Fejl ved parsing af cached data:', e);
+      }
+    }
+  }
+
   fetch('https://popular-gift-b355856076.strapiapp.com/api/priser-motion?pLevel')
   .then(response => {
       if (!response.ok) {
@@ -28,8 +48,10 @@ onMounted(() => {
       }
       return response.json();
     })    
-    .then(data => {
-        motionPriser.value = data.data;
+    .then(json => {
+        motionPriser.value = json.data;
+        localStorage.setItem('motionPriser', JSON.stringify(motionPriser.value));
+        localStorage.setItem('cacheTimestamp', now.toString());   
     })
     .catch(err => {
       error.value = err.message;
@@ -39,12 +61,13 @@ onMounted(() => {
     });
 });
 
-
 // REAKTIVE VARIABLER
 const motionPriser = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
 
+// CACHE VARIABLER
+const CACHE_DURATION_MS = 5 * 60 * 1000;
 
 // FUNKTIONER
 function getImage(billede) {
@@ -55,7 +78,6 @@ function getImage(billede) {
   billede.formats.thumbnail?.url ||
   billede.url || '';
 }
-
 
 </script>
 
@@ -77,7 +99,6 @@ function getImage(billede) {
       <TheInternNavMotion :labels="internNavLabels" />
       <h1>Priser - Motion</h1>
       <section class="container-priser">
-       
         <article class="pris-article" v-for="enkeltPris in motionPriser.Enkeltbilletter || []" :key="enkeltPris.id" >
             <h3>{{ enkeltPris.Titel }}</h3>
             <ul>
@@ -126,11 +147,10 @@ function getImage(billede) {
             </ul>
             <h4 class="small" v-for="pris in maanedsPris.Priser">Pris fra {{ pris.Pris }},-</h4>
         </article>
-
-
-            <article>
-                <h3>Personlig Træning</h3>
-                <div class="pris-article" v-for="personligPris in motionPriser.Personlig_traening || []" :key="personligPris.id">
+        <article class="pris-article">
+            <div v-for="(personligPris, index) in motionPriser.Personlig_traening || []" :key="personligPris.id">
+                <template v-if="index === 0">
+                    <h3>Personlig Træning</h3>
                     <ul>
                         <li v-for="fordel in personligPris.Fordele || []" :key="'fordel-' + index">
                             <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
@@ -139,13 +159,11 @@ function getImage(billede) {
                             <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
                         </li>
                     </ul>
-                    <h4 class="small" v-for="pris in personligPris.Priser">{{ pris.Genstand }}: {{ pris.Pris }},-</h4>
-                </div>
-            </article>
-
-        </section>
-
-
+                </template>
+                <h4 class="small" v-for="pris in personligPris.Priser">{{ personligPris.Titel }}: {{ pris.Pris }},-</h4>
+            </div>
+        </article>
+    </section>
     <section class="white-bg" v-for="indhold in motionPriser.Indhold.Afsnit || []" :key="indhold.id">
         <h3>{{ indhold.Overskrift }}</h3>
         <div v-for="tekst in indhold.Tekst || []" :key="tekst.id">
@@ -156,7 +174,6 @@ function getImage(billede) {
             <p v-else> {{ tekst.Brodtekst }}</p>
         </div>
     </section>
-  
     <Reklamekort 
         :src="getImage(motionPriser.reklame_kort.Billede) || '' " 
         :alt="motionPriser.reklame_kort.Billede.alternativeText" 
@@ -166,21 +183,23 @@ function getImage(billede) {
         :Btn_text="motionPriser.reklame_kort.Knapper[0].btn_description" 
         :kategori="motionPriser.reklame_kort.Kategori" 
         :Btn_icon="motionPriser.reklame_kort.Knapper[0].Ikon[0]">
-      </Reklamekort>
-
-           
-    
+    </Reklamekort>
     </main>
-
 </template>
 
 <style scoped>
 
 .container-priser {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: var(--spacer-x1);
     max-width: 1000px;
+}
+
+.breadcrumb-container {
+    max-width: var(--max-width);
+    width: 95%;
+    margin: auto var(--spacer-x2);
 }
 
 .pris-article {
@@ -189,10 +208,12 @@ function getImage(billede) {
     display: flex;
     flex-direction: column;
     width: 18rem;
+    border-radius: var(--border-radius);
 }
 
 .pris-article ul {
     list-style: none;
+    padding: 0;
 }
 
 .pris-article li {
@@ -208,9 +229,13 @@ li {
     padding-right: var(--spacer-x0-5);
 }
 
-h4 {
+article h3 {
+    padding-bottom: var(--spacer-x0-5);
+}
+
+.pris-article h4 {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start
 }
 
 main {
@@ -220,11 +245,18 @@ main {
     justify-content: center;
 }
 
+.white-bg {
+    width: 95%;
+    max-width: var(--max-width);
+}
+
 .white-bg:nth-of-type(2n) {
     background-color: var(--color-activity-viewer);
     padding: var(--spacer-x3) var(--spacer-x5);
     max-width: 1043px;
+    width: 95%;
     margin: var(--spacer-x4) auto;
+
 }
 
 .fatText {
@@ -237,8 +269,15 @@ main {
         width: 30.75rem;
         margin: 0 auto;
     }
+
+    .pris-article h4 {
+        justify-content: flex-end;
+    }
+
+    .container-priser {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 }
-
-
 
 </style>
