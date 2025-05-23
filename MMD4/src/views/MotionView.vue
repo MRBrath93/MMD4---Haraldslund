@@ -115,43 +115,45 @@ function checkScreenSize() {
         description="Læs om vores forskellige motionstilbud i Haraldslund."
         :image="getImage(motionViewData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
         :alt="motionViewData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
-        <TheBreadcrumb />  
-        <TheInternNavMotion 
-        :labels="internNavLabels" />
-        <section>
-            <article v-for="afsnit in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">
-            <div class="flex-column-container">
-                <h1>{{ afsnit.Overskrift }}</h1>
-                <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                    <h2 v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</h2>
-                    <p>{{ tekst.Brodtekst }}</p>
+        <div class="page-wrapper">
+            <TheBreadcrumb />  
+            <TheInternNavMotion 
+            :labels="internNavLabels" />
+            <section>
+                <article v-for="afsnit in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">
+                    <div class="flex-column-container">
+                        <h1>{{ afsnit.Overskrift }}</h1>
+                        <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+                            <h2 v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</h2>
+                            <p>{{ tekst.Brodtekst }}</p>
+                        </div>
+                    </div>
+                    <aside v-if="afsnit.Billede" class="aside-image">
+                        <ImageHolder
+                        v-for="image in afsnit.Billede"
+                        :key="image.id"
+                        :src="getImage(image)"
+                        :alt="image.alternativeText || 'Motionscenter billede'"
+                        />
+                    </aside>
+                </article>
+            </section> 
+            
+            <section class="entrypoints">
+                <h2>Din tid, din træning - vælg det tilbud der passer dig</h2>
+                <div class="card-container">
+                    <EntryPoint v-for="card in motionViewData.Entrypoints" :key="card.id"
+                        class="entrypoint" 
+                        icon="arrow_forward" 
+                        :color="card.Kategori" 
+                        :title="card.label" 
+                        :bgimage=" isScreenLarge ? getImage(card.billede) : '' "
+                        :name="card.link_to">
+                    </EntryPoint>
                 </div>
-            </div>
-            <aside v-if="afsnit.Billede" class="aside-image">
-                <ImageHolder
-                v-for="image in afsnit.Billede"
-                :key="image.id"
-                :src="getImage(image)"
-                :alt="image.alternativeText || 'Motionscenter billede'"
-                />
-            </aside>
-            </article>
-        </section> 
-        
-        <section class="entrypoints">
-            <h2>Din tid, din træning - vælg det tilbud der passer dig</h2>
-            <div class="card-container">
-                <EntryPoint v-for="card in motionViewData.Entrypoints" :key="card.id"
-                    class="entrypoint" 
-                    icon="arrow_forward" 
-                    :color="card.Kategori" 
-                    :title="card.label" 
-                    :bgimage=" isScreenLarge ? getImage(card.billede) : '' "
-                    :name="card.link_to">
-                </EntryPoint>
-            </div>
-           
+            
         </section>  
+        </div>
     </main>
 </template>
 
@@ -162,6 +164,14 @@ main{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--max-width);
+    width: 95%;
+    margin: 0 auto;
 }
 
 .flex-row-container {
@@ -175,44 +185,54 @@ main{
     gap: var(--spacer-x2);
 }
 
+.breadcrumb-container {
+   margin: 0;
+}
+
 .aside-image{
-    width: 100%;
-    max-width: 40rem;
-    height: auto;
-}
-
-.img-container {
-    padding: var(--spacer-x2);
-    flex: 2;
-}
-
-
-.text-align-center{
-    text-align: center;
+    margin: 0 auto;
+    padding-top: var(--spacer-x2);
+    max-height: 35rem;
+    min-height: 20rem;
 }
 
 .card-container{
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: var(--spacer-x2);
-    width: 100vw;
- 
+    width: 100%;
     margin: 0 auto;
-    padding-bottom: var(--spacer-x6-5);
-}
-
-.card-container a .wrapper{
-    background-color: var(--color-motion);
 }
 
 .entrypoints {
     text-align: center;
     margin-bottom: var(--spacer-Elements);
+    width: 95%;
 }
 
+/* --- MEDIA QUERIES --- */
 
 @media screen and (min-width: 768px) {
-    .flex-row-container{
+
+.card-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    height: auto;
+}
+
+.entrypoint {
+    max-height: 20.6rem;
+    aspect-ratio: 1 / 1;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+.entrypoint {
+    max-height: 25rem;
+    aspect-ratio: 1 / 1;
+}
+
+.flex-row-container{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -221,20 +241,6 @@ main{
     max-height: 800px;
     gap: var(--spacer-x4);
 }
- 
-.card-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-    max-width: 1432px;
-    height: auto;
-    padding: var(--spacer-x2);
-}
-
-.entrypoint {
-    max-height: 20.6rem;
-    min-height: 12.5rem;
-    max-width: 27.5rem;
-  }
 }
 
 </style>
