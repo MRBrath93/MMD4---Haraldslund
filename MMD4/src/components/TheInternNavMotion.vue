@@ -25,22 +25,8 @@ const isOpen = ref(false);
 const selectedLabel = ref(null);
 const dropdownRef = ref(null);
 
-// Variabel til sticky navigation
-const isSticky = ref(false);
 
 // --- FUNKTIONER ---
-// HÅNDTERING AF STICKY NAVIGATION
-// Eventlistener til at lukke dropdown-menuen, når der klikkes udenfor
-// metoden getBoundingClientRect() bruges til at få positionen af elementet i forhold til viewporten. 
-// Konkret returnerer metoden et "DOMRect" objekt, der indeholder oplysninger om elementets størrelse og position.
-const handleScroll = () => {
-  const nav = dropdownRef.value;
-  if (nav) {
-    const offset = nav.getBoundingClientRect().top;
-    isSticky.value = offset <= 0; // Bliver true, når elementet når toppen af viewporten.
-  }
-};
-// KILDEREFERENCE GetBoundingClientRect: MDN - Mozilla Foundation. 2025. Element: getBoundingClientRect() method. (online) [Accessed 13/05/2025] URL: https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect
 
 // ÅBNE OG LUKKE DROPDOWN-MENU PÅ SMÅ SKÆRME
 // Eventlistener til at lukke dropdown-menuen, når der klikkes udenfor elementet
@@ -66,12 +52,10 @@ const selectItem = (item) => {
 // LIFECYCLE HOOKS
 // Lifecycle hooks til at tilføje og fjerne eventlistenere ved click og scroll
 onMounted(() => {
-    window.addEventListener("scroll", handleScroll);
   document.addEventListener('click', handleClickOutside);
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener("scroll", handleScroll);
   document.removeEventListener('click', handleClickOutside);
 });
 
@@ -80,35 +64,32 @@ onBeforeUnmount(() => {
 
 
 <template>
-    <main>
-    <section 
-    class="intern-nav" 
-    ref="dropdownRef" 
-    :class="{ sticky: isSticky }"
-    >
-        <button @click="isOpen = !isOpen" 
-        class="dropdown-toggle" 
-        label="Tryk for at åbne den interne navigation for siden"> 
-        <span class="button-label">Indhold:</span> {{ selectedLabel || "Vælg side" }}
-            <span class="material-symbols-rounded" aria-hidden="true">
-                {{ isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
-            </span>
-        </button>
-        <ul 
-        class="small intern-nav-container dropdown" 
-        v-show="isOpen"
-        >
-            <li v-for="(item, index) in label" :key="index">
-                <router-link 
-                :to="{ name: item.name }" 
-                @click="selectItem(item)"
-                >
-                    <span>{{ item.label }}</span>
-                </router-link>
-            </li>
-        </ul>
-    </section>
-</main>
+  <section 
+  class="intern-nav" 
+  ref="dropdownRef" 
+  >
+      <button @click="isOpen = !isOpen" 
+      class="dropdown-toggle" 
+      label="Tryk for at åbne den interne navigation for siden"> 
+      <span class="button-label">Indhold:</span> {{ selectedLabel || "Vælg side" }}
+          <span class="material-symbols-rounded" aria-hidden="true">
+              {{ isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+          </span>
+      </button>
+      <ul 
+      class="small intern-nav-container dropdown" 
+      v-show="isOpen"
+      >
+          <li v-for="(item, index) in label" :key="index">
+              <router-link 
+              :to="{ name: item.name }" 
+              @click="selectItem(item)"
+              >
+                  <span>{{ item.label }}</span>
+              </router-link>
+          </li>
+      </ul>
+  </section>
 </template>
   
 <style scoped>
@@ -118,16 +99,6 @@ onBeforeUnmount(() => {
     width: 100vw;
     background: var(--color-btn-primary);
   }
-
-.intern-nav.sticky {
-    position: fixed;
-    top: 0;
-    z-index: 100;
-    width: 100%;
-    background-color: var(--color-btn-primary);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-size: clamp(1rem, 2vw, 1.125rem);
-}
   
 .dropdown-toggle {
     background: var(--color-btn-primary);

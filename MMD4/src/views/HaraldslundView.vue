@@ -1,6 +1,6 @@
 <script setup>
+// IMPORTS
 import TheHero from "../components/TheHero.vue";
-import TheInternNavWater from "../components/TheInternNavWater.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 import TheBtn from '@/components/TheBtn.vue';
@@ -8,7 +8,9 @@ import Reklamekort from '@/components/Reklamekort.vue';
 import ImageHolder from '@/components/ImageHolder.vue';
 import DynamicHeading from '@/components/DynamicHeading.vue';
 import { ref, onMounted } from 'vue';
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 
+// --- VARIABLER ---
 const internNavLabels = [
 { id: 1, label: "Praktisk Information", name: "haraldslund-praktisk-info" },
 { id: 2, label: "Prisoversigt", name: "haraldslund-priser" },
@@ -23,12 +25,16 @@ const internNavLabels = [
 ];
 
 
+// REAKTIVE VARIABLER
 const aboutData = ref([]);
 const isLoading = ref(true);
 const error = ref(null);
 
+// CACHE VARIABLER
 const CACHE_DURATION_MS = 1 * 60 * 1000;
 
+// FETCH DATA
+// Henter data fra Strapi API og cacher det i localStorage
 onMounted(() => {
   isLoading.value = true;
   error.value = null;
@@ -71,6 +77,7 @@ onMounted(() => {
     });
 });
 
+// FUNKTIONER
 
 function getImage(billede) {
     if (!billede || !billede.formats) return '';
@@ -98,14 +105,15 @@ function getImage(billede) {
         :title="aboutData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="aboutData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
         :image="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
-        :alt="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
-
-        <TheBreadcrumb></TheBreadcrumb>
-        <TheInternNavWater
-            :label="internNavLabels"
-        ></TheInternNavWater>
-        
-        <section class="textsection" v-for="(tekstsektion,index) in aboutData.Indhold.Afsnit" :key="tekstsektion.id">
+        :alt="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"/>
+        <TheBreadcrumb/>
+        <TheInternNavHaraldslund
+        :label="internNavLabels"
+        />
+        <section v-for="(tekstsektion,index) in aboutData.Indhold.Afsnit" :key="tekstsektion.id">
+            <div 
+            class="textsection" 
+            :class="['textsection', { 'small-margin': index === 1 }, { 'reverse-layout': index === 2 }]">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 6)">{{ tekstsektion.Overskrift }}</DynamicHeading>
                     <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
@@ -122,12 +130,16 @@ function getImage(billede) {
                         :link="btn.link_to"
                         :title="btn.btn_titel"
                         :text="btn.btn_description"
-                        :icon="btn.Ikon[0]"></TheBtn>
+                        :icon="btn.Ikon[0]"/>
                     </div>
                 </article>
                 <div class="img--container flex1" v-for="billede in tekstsektion.Billede" :key="billede.id">
-                    <ImageHolder class="img" :src="getImage(billede)" :alt="billede.alternativeText"></ImageHolder>
+                    <ImageHolder 
+                    class="img" 
+                    :src="getImage(billede)" 
+                    :alt="billede.alternativeText"/>
                 </div>
+            </div>
         </section>
         
         <Reklamekort v-if="aboutData.reklame_kort"
@@ -138,7 +150,7 @@ function getImage(billede) {
         :Btn_title="aboutData.reklame_kort.Knapper[0].btn_titel" 
         :Btn_text="aboutData.reklame_kort.Knapper[0].btn_description" 
         :kategori="aboutData.reklame_kort.Kategori" 
-        :Btn_icon="aboutData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+        :Btn_icon="aboutData.reklame_kort.Knapper[0].Ikon[0]"/>
     </main>
 </span>
 </template>

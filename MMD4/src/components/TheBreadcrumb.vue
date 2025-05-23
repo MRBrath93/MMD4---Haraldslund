@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <section label="breadcrumb">
+  <section label="breadcrumb" class="breadcrumb-container">
     <ul class="breadcrumb">
         <li
             v-for="(crumb, index) in $breadcrumbs.value"
@@ -30,7 +30,6 @@
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
-  margin-bottom: var(--spacer-x2);
 }
 
 .breadcrumb-item + .breadcrumb-item::before {
