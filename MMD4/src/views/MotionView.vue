@@ -192,8 +192,9 @@ main{
 .aside-image{
     margin: 0 auto;
     padding-top: var(--spacer-x2);
-    max-height: 35rem;
-    min-height: 20rem;
+    height: 35rem;
+    display: flex;
+    align-items: stretch;
 }
 
 .card-container{
@@ -216,7 +217,7 @@ main{
 
 .card-container{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     height: auto;
 }
 
@@ -224,23 +225,32 @@ main{
     max-height: 20.6rem;
     aspect-ratio: 1 / 1;
   }
+
+    .aside-image {
+    height: 25rem;
+    }
+
+  
 }
 
 @media screen and (min-width: 1200px) {
-.entrypoint {
-    max-height: 25rem;
-    aspect-ratio: 1 / 1;
-}
+    .entrypoint {
+        max-height: 23.5rem;
+    }
+    
+    .flex-row-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1432px;
+        max-height: 800px;
+        gap: var(--spacer-x4);
+    }
 
-.flex-row-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1432px;
-    max-height: 800px;
-    gap: var(--spacer-x4);
-}
+    .aside-image {
+        height: 34rem;
+    }
 }
 
 </style>
