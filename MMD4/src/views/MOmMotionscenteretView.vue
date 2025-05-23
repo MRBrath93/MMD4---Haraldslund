@@ -95,42 +95,41 @@ function getImage(billede) {
         description="Læs om vores moderne motionscenter."
         :image="getImage(motionData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
         :alt="motionData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
-  
       <TheBreadcrumb />  
-  
       <TheInternNavMotion 
       :labels="internNavLabels" />
-      <h1>{{ motionData.Titel }}</h1>
-      <section v-for="afsnit in motionData.Indhold.Afsnit || []" :key="afsnit.id">
-        <h2>{{ afsnit.Overskrift }}</h2>
-          <div class="flex-column-container">
+      <section class="section-wrapper">
+        <h1>{{ motionData.Titel }}</h1>
+        <div v-for="afsnit in motionData.Indhold.Afsnit || []" :key="afsnit.id" class="section-grid">
+          <div class="text-wrapper">
+            <h2>{{ afsnit.Overskrift }}</h2>
             <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                <p class="fat-text" v-if="tekst.Underoverskift" :key="tekst.id"> 
-                  {{ tekst.Underoverskift }}</p>
-                <p>{{ tekst.Brodtekst }}</p>
+              <p class="fat-text" v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</p>
+              <p>{{ tekst.Brodtekst }}</p>
             </div>
           </div>
-    
-          <article>
-            <div class="gallery-grid">
-              <ImageHolder
-                 v-for="billede in afsnit.Billede"
-                :key="billede.id"
-                class="gallery-img"
-                :src="getImage(billede)"
-                :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-              </div>
-            </article>
-            
-          </section>
-        <aside class="containerB" v-if="motionData.Billeder?.length > 0">
+        </div>
+        <aside v-if="afsnit.Billede" class="image-wrapper">
           <ImageHolder
-          v-for="billede in motionData.Billeder"
-          :key="billede?.id"
-          class="side-img"
-          :src="getImage(billede)"
-          :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
+            v-for="billede in [].concat(afsnit.Billede)"
+            :key="billede.id"
+            class="side-img"
+            :src="getImage(billede)"
+            :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
         </aside>
+      </section>
+      <article>
+        <h2>Udforsk vores faciliteter i motionscentret</h2>
+        <div class="gallery-grid">
+          <ImageHolder
+            v-for="billede in motionData.Billeder"
+            :key="billede.id"
+            class="gallery-img"
+            :src="getImage(billede)"
+            :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
+        </div>
+      </article>
+ 
 
 
         <Reklamekort 
@@ -149,15 +148,6 @@ function getImage(billede) {
 
 <style scoped>
 
-.containerB {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: var(--spacer-x2);
-    max-width: 800px;
-}
-
-
 main{
     display: flex;
     flex-direction: column;
@@ -165,18 +155,50 @@ main{
     justify-content: center;
 }
 
-
-.flex-column-container{
-    display: flex;
-    flex-direction: column;
+.section-wrapper {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacer-x1);
 }
 
-.tekst-section {
+.section-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacer-x1);
+  align-items: start;
+}
+
+
+.text-wrapper {
+  grid-column: 1;
+}
+
+.image-wrapper {
+  grid-column: 2;
+  max-width: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+
+.side-img {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  }
+
+/* .flex-container{
     display: flex;
     flex-direction: column;
-    gap: var(--spacer-x1);
-    margin-bottom: var(--spacer-x2);
+} */
+
+article h2 {
+    margin: var(--spacer-x1) 0;
+    text-align: center;
 }
+
 
 .gallery-grid {
     display: grid;
@@ -187,10 +209,6 @@ main{
     padding: var(--spacer-x1);
 }
 
-aside {
-    max-width: 700px;
-    max-height: 845px;
-}
 
 .gallery-img {
     max-width: 495px;
@@ -198,7 +216,7 @@ aside {
     object-fit: cover;
 }
 
-.gallery-img:nth-child(5) {
+.gallery-img:nth-child(3) {
     grid-row: span 2;
     max-height: 674px;
 }
@@ -209,9 +227,9 @@ aside {
 }
 
 @media screen and (min-width: 768px) {
-    .container {
+    /* .container {
         flex-direction: column;
-    }
+    } */
 
 
 }

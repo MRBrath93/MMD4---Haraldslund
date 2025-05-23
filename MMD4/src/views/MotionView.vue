@@ -5,81 +5,86 @@ import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import EntryPoint from '@/components/EntryPoint.vue';
 import ImageHolder from '@/components/ImageHolder.vue';
-
- 
+import TheSpinner from "@/components/TheSpinner.vue";
 import { ref, onMounted, onUnmounted } from "vue";
 
 
-// FETCH DATA FRA STRAPI
-onMounted(() => {
-  Promise.all([
-    fetch('https://popular-gift-b355856076.strapiapp.com/api/upload/files/68')
-        .then(res => res.json())
-        .then(data => {
-            motionImage.value = data;
-        }),
-    fetch('https://popular-gift-b355856076.strapiapp.com/api/upload/files/36')
-        .then(res => res.json())
-        .then(data => {
-            motionHeroImg.value = data;
-        }),
-    fetch('https://popular-gift-b355856076.strapiapp.com/api/upload/files/56')
-        .then(res => res.json())
-        .then(data => {
-            motionscenterImg.value = data;
-        }),
-    fetch('https://popular-gift-b355856076.strapiapp.com/api/upload/files/132')
-        .then(res => res.json())
-        .then(data => {
-            teamCardImg.value = data;
-            console.log(data.data.attributes.coverbillede);
-        }),
-    fetch('https://popular-gift-b355856076.strapiapp.com/api/upload/files/133')
-        .then(res => res.json())
-        .then(data => {
-            sbImg.value = data;
-        }),
-    ])
-    .catch (err => {
-    error.value = "Beklager, der opstod en fejl under indlæsning af data.";
-  }) 
-  .finally (() =>{
-    isLoading.value = false;
-  });
+// REAKTIVE VARIABLER
+const motionViewData = ref(null);
+const isLoading = ref(true);
+const error = ref(null);
 
-  checkScreenSize();
-  window.addEventListener("resize", checkScreenSize);
+// Screen size check
+const isScreenLarge = ref(false);
+
+// CACHE VARIABLER
+const CACHE_DURATION_MS = 5 * 60 * 1000;
+
+checkScreenSize();
+
+
+// FETCH DATA FRA LOCAL STORAGE 
+onMounted(() => {
+    window.addEventListener("resize", checkScreenSize);
+
+    isLoading.value = true;
+    error.value = null;
+    const cachedMotionViewRaw = localStorage.getItem('motionViewData'); // Hent cached data
+    const cachedTimestampRaw = localStorage.getItem('cacheTimestamp'); // Hent cached timestamp
+    const now = Date.now();
+
+    // CHECK CACHE
+    if (cachedMotionViewRaw && cachedTimestampRaw) {
+    const cachedTimestamp = Number(cachedTimestampRaw);
+    if (now - cachedTimestamp < CACHE_DURATION_MS) {
+        try {
+        motionViewData.value = JSON.parse(cachedMotionViewRaw);
+        isLoading.value = false;
+        return;
+        } catch (e) {
+        console.warn('Fejl ved parsing af cached data:', e);
+        }
+    }
+    }
+    // FETCH DATA FRA STRAPI
+    fetch('https://popular-gift-b355856076.strapiapp.com/api/motion?pLevel')
+    .then(response => {
+        if (!response.ok) {
+        throw new Error(`HTTP fejl! Status: ${response.status}`);
+        }
+        return response.json();
+    })    
+    .then(json => {
+        motionViewData.value = json.data;
+        localStorage.setItem('motionViewData', JSON.stringify(motionViewData.value));
+        localStorage.setItem('cacheTimestamp', now.toString());
+    })
+    .catch(err => {
+        error.value = err.message;
+    })
+    .finally(() => {
+        isLoading.value = false;
+    });
 });
 
-
 onUnmounted(() => {
-window.removeEventListener("resize", checkScreenSize);
+    window.removeEventListener("resize", checkScreenSize);
 });
 
 // Intern navigation labels (fra Strapi)
 const internNavLabels = [
-  { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
-  { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
-  { id: 3, label: "Priser", name: "priser-motionscenteret" },
-  { id: 4, label: "Regler", name: "regler-motionscenteret" },
-  { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
-  { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
-  { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
+    { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
+    { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
+    { id: 3, label: "Priser", name: "priser-motionscenteret" },
+    { id: 4, label: "Regler", name: "regler-motionscenteret" },
+    { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
+    { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
+    { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
 ];
-
-// REAKTIVE VARIABLER
-const motionImage = ref ({});
-const motionHeroImg = ref ({});
-const motionscenterImg = ref ({});
-const teamCardImg = ref ({});
-const sbImg = ref ({});
-const isLoading = ref(true);
-const error = ref(null);
 
 
 // FUNKTIONER
-
-function getImage(billede) {
+function getImage(billede) {    
   if (!billede || !billede.formats) return '';
   return billede.formats.large?.url ||
   billede.formats.medium?.url ||
@@ -88,75 +93,61 @@ function getImage(billede) {
   billede.url || '';
 }
 
-const isScreenLarge = ref(false);
-
 function checkScreenSize() {
-isScreenLarge.value = window.innerWidth >= 768;
+    isScreenLarge.value = window.innerWidth >= 768;   
 }
+// Denne funktion tjekker skærmstørrelsen og opdaterer isScreenLarge variablen. Når skærmen er bredere end 768px, sættes isScreenLarge til true. Det bruges til at bestemme, om billeder skal vises i TheEntryPoints eller ej.      
+// INSPIRATIONSKILDE RESIZE: MDN Web Docs. Window: innerWidth property. Mozilla Foundation. 2025 (online). [Accessed 21/05/2025] URL: https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
 
 </script>
 
 <template>
-    <main>
+    <main v-if="isLoading">        
+        <TheSpinner>
+            <span class="material-icons">sports_gymnastics</span>
+        </TheSpinner>
+        </main>
+    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
+    <main v-else>
         <TheHero
-            title="HARALDSLUND"
-            subtitle="Motion"
-            description="Læs om vores motionstilbud og holdoversigt. Find praktisk information om motionscenteret, herunder faciliteter, priser og holdbeskrivelser."
-            :image="getImage(motionHeroImg)"
-            :alt="motionHeroImg.alternativeText || 'Motionscenter billede'"/>
-        <TheBreadcrumb/>
+        :title="motionViewData.Hero_sektion.Hero_titel_h5?.Titel_H5"
+        :subtitle="motionViewData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
+        description="Læs om vores forskellige motionstilbud i Haraldslund."
+        :image="getImage(motionViewData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
+        :alt="motionViewData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
+        <TheBreadcrumb />  
         <TheInternNavMotion 
         :labels="internNavLabels" />
-        <section class="flex-row-container">
-            <article class="flex-column-container">
-                <div>
-                    <h3>Haraldslund motionscenter - Gør noget godt for dig selv</h3>
-                    <p>Hos Haraldslund finder du et bredt udvalg af motionstilbud, der henvender sig til alle - uanset alder, niveau eller 
-                    forudsætninger. Vores motionscenter rummer alt hvad du behøver til din træning.</p>
+        <section>
+            <article v-for="afsnit in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">
+            <div class="flex-column-container">
+                <h1>{{ afsnit.Overskrift }}</h1>
+                <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+                    <h2 v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</h2>
+                    <p>{{ tekst.Brodtekst }}</p>
                 </div>
-                <div>
-                    <h3>Holdtræning - Fællesskab og bevægelse i ét hus</h3>
-                    <p>Vi tilbyder et bredt udvalg af holdtræninger, med noget for alle niveauer og interesser. 
-                    Fra puls og power til rolig bevægelse og balance - her er plads til din udvikling og dit tempo. </p>
-                </div>
-                <div>
-                    <h3>Sundhed og Bevægelse - Med plads til forskellighed</h3>
-                    <p>Vi tilbyder også sundheds- og bevægelsestilbud for borgere med særlige behov. Her er der fokus på tryghed, fællesskab og individuel tilpasning. 
-                    Vores dygtige instruktører sikrer, at alle får mulighed for at bevæge sig og tage del i et aktivt fællesskab.</p>
-                </div>
-            </article>
-            <aside class="img-container">
-                <ImageHolder class="aside-image" v-if="motionImage" :src="getImage(motionImage)" :alt="motionImage.alternativeText || 'Motionscenter billede'" ></ImageHolder>
+            </div>
+            <aside v-if="afsnit.Billede" class="aside-image">
+                <ImageHolder
+                v-for="image in afsnit.Billede"
+                :key="image.id"
+                :src="getImage(image)"
+                :alt="image.alternativeText || 'Motionscenter billede'"
+                />
             </aside>
+            </article>
         </section> 
         
-        <section>
-            <h2 class="text-align-center">Din tid, din træning - vælg det tilbud der passer dig</h2>
+        <section class="entrypoints">
+            <h2>Din tid, din træning - vælg det tilbud der passer dig</h2>
             <div class="card-container">
-                <EntryPoint 
+                <EntryPoint v-for="card in motionViewData.Entrypoints" :key="card.id"
                     class="entrypoint" 
                     icon="arrow_forward" 
-                    color="Motion" 
-                    title="Motionscenter" 
-                    :bgimage= "isScreenLarge ? getImage(motionscenterImg) : ''"
-                    name="om-motionscenteret">
-                </EntryPoint>
-                <EntryPoint 
-                    class="entrypoint" 
-                    id="teamImage" 
-                    icon="arrow_forward" 
-                    color="Motion" 
-                    title="Holdoversigt"
-                    :bgimage= "isScreenLarge ? getImage(teamCardImg) : ''"
-                    name="holdoversigt-motionscenteret">
-                </EntryPoint>
-                <EntryPoint 
-                    class="entrypoint" 
-                    icon="arrow_forward" 
-                    color="Motion" 
-                    title="Sundhed & Bevægelse" 
-                    :bgimage= "isScreenLarge ? getImage(sbImg) : ''"
-                    name="sib-motionscenteret">
+                    :color="card.Kategori" 
+                    :title="card.label" 
+                    :bgimage=" isScreenLarge ? getImage(card.billede) : '' "
+                    :name="card.link_to">
                 </EntryPoint>
             </div>
            
@@ -171,6 +162,10 @@ main{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+}
+
+.flex-row-container {
+    margin: 0 auto var(--spacer-Elements);
 }
 
 .flex-column-container{
@@ -188,6 +183,7 @@ main{
 
 .img-container {
     padding: var(--spacer-x2);
+    flex: 2;
 }
 
 
@@ -205,17 +201,15 @@ main{
     padding-bottom: var(--spacer-x6-5);
 }
 
-.entrypoint {
-    width: 100%;
-    height: 100%;
-    min-height: 5rem;
+.card-container a .wrapper{
     background-color: var(--color-motion);
 }
 
-
-#teamImage ::v-deep(.bg-layer)  {
-    background-position: top center;
+.entrypoints {
+    text-align: center;
+    margin-bottom: var(--spacer-Elements);
 }
+
 
 @media screen and (min-width: 768px) {
     .flex-row-container{
@@ -224,7 +218,7 @@ main{
     justify-content: space-between;
     align-items: center;
     max-width: 1432px;
-    margin: 0 auto;
+    max-height: 800px;
     gap: var(--spacer-x4);
 }
  
