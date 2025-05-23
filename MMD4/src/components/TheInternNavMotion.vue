@@ -64,34 +64,32 @@ onBeforeUnmount(() => {
 
 
 <template>
-    <main>
-    <section 
-    class="intern-nav" 
-    ref="dropdownRef" 
-    >
-        <button @click="isOpen = !isOpen" 
-        class="dropdown-toggle" 
-        label="Tryk for at åbne den interne navigation for siden"> 
-        <span class="button-label">Indhold:</span> {{ selectedLabel || "Vælg side" }}
-            <span class="material-symbols-rounded" aria-hidden="true">
-                {{ isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
-            </span>
-        </button>
-        <ul 
-        class="small intern-nav-container dropdown" 
-        v-show="isOpen"
-        >
-            <li v-for="(item, index) in label" :key="index">
-                <router-link 
-                :to="{ name: item.name }" 
-                @click="selectItem(item)"
-                >
-                    <span>{{ item.label }}</span>
-                </router-link>
-            </li>
-        </ul>
-    </section>
-</main>
+  <section 
+  class="intern-nav" 
+  ref="dropdownRef" 
+  >
+      <button @click="isOpen = !isOpen" 
+      class="dropdown-toggle" 
+      label="Tryk for at åbne den interne navigation for siden"> 
+      <span class="button-label">Indhold:</span> {{ selectedLabel || "Vælg side" }}
+          <span class="material-symbols-rounded" aria-hidden="true">
+              {{ isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+          </span>
+      </button>
+      <ul 
+      class="small intern-nav-container dropdown" 
+      v-show="isOpen"
+      >
+          <li v-for="(item, index) in label" :key="index">
+              <router-link 
+              :to="{ name: item.name }" 
+              @click="selectItem(item)"
+              >
+                  <span>{{ item.label }}</span>
+              </router-link>
+          </li>
+      </ul>
+  </section>
 </template>
   
 <style scoped>

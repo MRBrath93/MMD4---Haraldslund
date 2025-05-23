@@ -65,6 +65,7 @@ const praktiskData = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
 
+// CACHE VARIABLER
 const CACHE_DURATION_MS = 5 * 60 * 1000;
 
 
@@ -114,66 +115,215 @@ function getImage(billede) {
         <TheInternNavHaraldslund
         :label="internNavLabels"
         />
-        <section v-for="(afsnit, index) in praktiskData?.Afsnit || []" :key="afsnit.id" class="afsnit-section">
-                <div v-if="index !== 1" class="flex-section">
-                    <h2>{{ afsnit.Overskrift }}</h2>
-                    <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                        <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
-                        <p>{{ tekst.Brodtekst }}</p>
-                        <div v-if="index === 0">
-                            <div>
-                                <h2>Adresse</h2>
-                                <p>{{ praktiskData.Adresse }}</p>
-                            </div>
-                            <div>
-                                <h2>Telefonnummer</h2>
-                                <p>{{ praktiskData.Telefonnummer }}</p>
-                            </div>
-                            <div>
-                                <h2>Mail</h2>
-                                <!-- !!INDSLÆT MAIL KNAP M.M. HER!! -->
-                            </div>
+        <section class="section-container">
+          <div class="flex-column">
+            <div v-for="kontaktoplysning in praktiskData?.Kontaktoplysninger || []" 
+            :key="kontaktoplysning.id">
+              <h2>{{ kontaktoplysning.Overskrift }}</h2>
+              <div v-for="tekst in kontaktoplysning.Tekst || []" :key="tekst.id">
+                  <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
+                  <p>{{ tekst.Brodtekst }}</p>
+                  <div v-if="kontaktoplysning.Knapper?.length > 0">
+                    <TheBtn
+                    v-for="btn in kontaktoplysning.Knapper || []"
+                    :key="btn.id"
+                    :link="btn.link_to"
+                    :title="btn.btn_titel"
+                    :text="btn.btn_description"
+                    :icon="btn.Ikon[0]">
+                    </TheBtn>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="flex-column">
+            <div class="wrapper-content">
+              <h2>Åbningstider</h2>
+              <div v-for="aabningstider in praktiskData?.Almene_aabningstider || []" :key="aabningstider.id">
+                  <div class="time-container">
+                      <p v-if="aabningstider.Dag">{{ aabningstider.Dag }} :</p>
+                      <span v-if="aabningstider.Har_Vi_Lukket  === true "> Lukket </span>
+                      <div v-else-if="aabningstider.Har_Vi_Lukket  === false ">
+                          <span v-if="aabningstider.Start_tidspunkt "> {{  aabningstider.Start_tidspunkt.split(':')[0] }}:{{ aabningstider.Start_tidspunkt.split(':')[1] }} - </span>
+                          <span v-if="aabningstider.Slut_tidspunkt "> {{  aabningstider.Slut_tidspunkt.split(':')[0] }}:{{ aabningstider.Slut_tidspunkt.split(':')[1] }}</span>
+                      </div>
+                      <!-- Split() anvendes for at sortere i strengens længde, da der ikke er behov for visning af sekunder i grænsefladen.
+                      INSPIRATIONSKILDE SPLIT: W3Schools.JavaScript String split(). 2025. [Accessed 20/05/25] (online) URL: https://www.w3schools.com/jsref/jsref_split.asp -->
+                  </div>
+              </div>
+              <div v-if="praktiskData?.Specielle_aabningstider && praktiskData.Specielle_aabningstider.length > 0">
+                <div v-for="specielTid in praktiskData?.Specielle_aabningstider || []" :key="specielTid.id" id="specielTid">            
+                  <section>
+                    <div>
+                        <p v-if="specielTid.Dag">{{ specielTid.Dag }}</p>
+                        <span v-if="specielTid.Har_Vi_Lukket  === true "> Lukket </span>
+                        <div v-else-if="specielTid.Har_Vi_Lukket  === false ">
+                            <span v-if="specielTid.Start_tidspunkt "> {{  specielTid.Start_tidspunkt.split(':')[0] }}:{{ specielTid.Start_tidspunkt.split(':')[1] }} - </span>
+                            <span v-if="specielTid.Slut_tidspunkt "> {{  specielTid.Slut_tidspunkt.split(':')[0] }}:{{ specielTid.Slut_tidspunkt.split(':')[1] }}</span>
                         </div>
                     </div>
-                    <div v-if="afsnit.Knapper?.length > 0">
-                        <TheBtn
-                        v-for="btn in afsnit.Knapper || []"
-                        :key="btn.id"
-                        :link="btn.link_to"
-                        :title="btn.btn_titel"
-                        :text="btn.btn_description"
-                        :icon="btn.Ikon[0]">
-                        </TheBtn>
-                    </div>
+                  </section>
                 </div>
-                <aside v-if="afsnit.Billede?.length > 0">
-                    <ImageHolder
-                    v-for="billede in afsnit.Billede"
-                    :key="billede?.id"
-                    class="side-img"
-                    :class="{ 'small-img': afsnit.id === 288 }"
-                    :src="getImage(billede)"
-                    :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-                </aside>
-                <div v-if="index === 0" class="tekst-container">
-                    <div>
-                        <h2>Åbningstider</h2>
-                        <div v-for="aabningstider in praktiskData.Almene_aabningstider || []" :key="aabningstider.id" class="flex-row">
-                            <p v-if="aabningstider.Dag">{{ aabningstider.Dag }}</p>
-                            <span v-if="aabningstider.Har_Vi_Lukket  === true "> Lukket </span>
-                            <div v-else-if="aabningstider.Har_Vi_Lukket  === false ">
-                                <span v-if="aabningstider.Start_tidspunkt "> {{  aabningstider.Start_tidspunkt.split(':')[0] }}:{{ aabningstider.Start_tidspunkt.split(':')[1] }} - </span>
-                                <span v-if="aabningstider.Slut_tidspunkt "> {{  aabningstider.Slut_tidspunkt.split(':')[0] }}:{{ aabningstider.Slut_tidspunkt.split(':')[1] }}</span>
-                            </div>
-                            <!-- INSPIRATIONSKILDE SPLIT: W3Schools.JavaScript String split(). 2025. [Accessed 20/05/25] (online) URL: https://www.w3schools.com/jsref/jsref_split.asp -->
-                        </div>
-                    </div>
-                    <div>
-                        <h2>{{ praktiskData?.Afsnit[1].Overskrift }}</h2>
-                        <p>{{ praktiskData?.Afsnit[1].Tekst[0].Brodtekst }}</p>
-                    </div>
+              </div>
+            </div>
+            <div>
+              <h2>Klagemuligheder</h2>  
+              <p>{{ praktiskData.Klagemuligheder }}</p>
+            </div>
+          </div>
+        </section>
+
+        <section v-for="findVej in praktiskData?.Find_vej || []" 
+        :key="findVej.id"
+        class="section-container"
+        >
+          <div class="flex-column">
+            <h2>{{ findVej.Overskrift }}</h2>
+            <div v-for="tekst in findVej.Tekst || []" 
+            :key="tekst.id"
+            >
+                <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
+                <div v-if="tekst.Skal_det_punktopstilles">
+                  <ul>
+                    <li v-for="punkt in tekst.Brodtekst" :key="punkt.id"> {{ punkt }}</li>
+                  </ul>
                 </div>
-            </section>
+                <p v-else> {{ tekst.Brodtekst }}</p>
+            </div>
+            <div v-if="findVej.Knapper?.length > 0">
+              <TheBtn
+              v-for="btn in findVej.Knapper || []"
+              :key="btn.id"
+              :link="btn.link_to"
+              :title="btn.btn_titel"
+              :text="btn.btn_description"
+              :icon="btn.Ikon[0]">
+              </TheBtn>
+            </div>
+          </div>
+          <aside v-if="findVej.Billede?.length > 0">
+              <ImageHolder
+              v-for="billede in findVej.Billede"
+              :key="billede?.id"
+              class="side-img"
+              :src="getImage(billede)"
+              :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
+          </aside>
+        </section>
+
+        <section v-for="afsnit in praktiskData?.Udstilling || []" 
+        :key="afsnit.id"
+        class="section-container"
+        >
+          <div>
+            <div class="flex-column">
+              <h2>{{ afsnit.Overskrift }}</h2>
+              <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+                <h3 v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</h3>
+                <span>
+                  <div v-if="tekst.Skal_det_punktopstilles">
+                    <ul>
+                      <li v-for="punkt in tekst.Brodtekst" :key="punkt.id"> {{ punkt }}</li>
+                    </ul>
+                  </div>
+                  <p v-else> {{ tekst.Brodtekst }}</p>
+                </span>  
+              </div>
+              <div v-if="afsnit.Knapper?.length > 0">
+                <TheBtn
+                v-for="btn in afsnit.Knapper || []"
+                :key="btn.id"
+                :link="btn.link_to"
+                :title="btn.btn_titel"
+                :text="btn.btn_description"
+                :icon="btn.Ikon[0]">
+                </TheBtn>
+              </div>
+            </div>
+          </div>
+          <aside v-if="afsnit.Billede?.length > 0">
+              <ImageHolder
+              v-for="billede in afsnit.Billede"
+              :key="billede?.id"
+              class="side-img"
+              :src="getImage(billede)"
+              :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
+          </aside>
+        </section>
+
+          <section class="section-container" v-for="facilitet in praktiskData?.Faciliteter || []" 
+            :key="facilitet.id"
+            >
+              <div class="flex-column">
+                <h2>{{ facilitet.Overskrift }}</h2>
+                <div v-for="tekst in facilitet.Tekst || []" :key="tekst.id">
+                  <span>
+                  <h3 v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</h3>
+                    <div v-if="tekst.Skal_det_punktopstilles">
+                      <ul>
+                        <li v-for="punkt in tekst.Brodtekst" :key="punkt.id"> {{ punkt }}</li>
+                      </ul>
+                    </div>
+                    <p v-else> {{ tekst.Brodtekst }}</p>
+                  </span>  
+                </div>
+                <div v-if="facilitet.Knapper?.length > 0">
+                  <TheBtn
+                  v-for="btn in facilitet.Knapper || []"
+                  :key="btn.id"
+                  :link="btn.link_to"
+                  :title="btn.btn_titel"
+                  :text="btn.btn_description"
+                  :icon="btn.Ikon[0]">
+                  </TheBtn>
+                </div>
+              </div>
+              <aside v-if="facilitet.Billede?.length > 0">
+                  <ImageHolder
+                  v-for="billede in facilitet.Billede"
+                  :key="billede?.id"
+                  class="small-side-img"
+                  :src="getImage(billede)"
+                  :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
+              </aside>
+          </section>
+
+          <section class="section-container">
+            <div v-for="personData in praktiskData?.Persondata || []" :key="personData.id">
+              <div class="persondata-container"> 
+                <h2>{{ personData.Overskrift }}</h2>
+                  <div v-for="tekst in personData.Tekst || []" :key="tekst.id">
+                    <span>
+                    <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
+                      <div v-if="tekst.Skal_det_punktopstilles">
+                        <ul>
+                          <li v-for="punkt in tekst.Brodtekst" :key="punkt.id"> {{ punkt }}</li>
+                        </ul>
+                      </div>
+                      <p v-else> {{ tekst.Brodtekst }}</p>
+                    </span>  
+                  </div>
+                  <div v-if="personData.Knapper?.length > 0">
+                    <TheBtn
+                    v-for="btn in personData.Knapper || []"
+                    :key="btn.id"
+                    :link="btn.link_to"
+                    :title="btn.btn_titel"
+                    :text="btn.btn_description"
+                    :icon="btn.Ikon[0]">
+                    </TheBtn>
+                  </div>
+                  <aside v-if="personData.Billede?.length > 0">
+                      <ImageHolder
+                      v-for="billede in personData.Billede"
+                      :key="billede?.id"
+                      class="side-img"
+                      :src="getImage(billede)"
+                      :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
+                  </aside>
+              </div>
+            </div>
+          </section>
     </main>
 </template>
 
@@ -182,42 +332,53 @@ function getImage(billede) {
 main{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: var(--spacer-x2);
-    justify-content: center;
     margin: 0 auto;
-    max-width: 1432px;
+    align-items: center;
 }
 
-.flex-row {
+.section-container {
+    margin: 0 auto var(--spacer-Elements);
+    max-width: var(--max-width);
+    width: 95%;
     display: flex;
-    justify-content: space-between;
-    gap: var(--spacer-x1);
-    width: 45%;
+    gap: var(--spacer-x2);
 }
 
-.flex-section {
+.breadcrumb-container {
+    max-width: var(--max-width);
+    width: 95%;
+    margin: auto var(--spacer-x2);
+}
+
+h1 {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: auto var(--spacer-x2);
+}
+
+#specielTid {
+  border: 1px solid var(--color-font-1);
+  padding: var(--spacer-x1);
+  margin: var(--spacer-x1);
+  background-color: var(--color-pricetable);
+}
+
+.fat-text {
+    font-weight: 700;
+    min-width: fit-content;
+}
+
+/* .flex-row {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacer-x2);
+} */
+
+.flex-column {
     display: flex;
     flex-direction: column;
     gap: var(--spacer-x2);
-    flex: 1;
-}
-
-.afsnit-section {
-    display: flex;
-    flex-direction: row;
-    gap: var(--spacer-x3);
-}
-
-.flex-El{
-    flex: 1;
-}
-
-aside {
-    max-width: 43.75rem;
-    max-height: 29.5rem;
-    padding-bottom: var(--spacer-x1);
-    flex: 1;
+    width: 34rem;
 }
 
 span {
@@ -228,29 +389,48 @@ span {
   color: var(--color-font-1);
 }
 
-.button {
-  margin: var(--spacer-x1-5) 0;
-}
-
-.tekst-container {
-  display: flex;
-  flex-direction: column; 
-  gap: var(--spacer-x2);
-}
-
-.fat-text {
-    font-weight: 700;
-}
-
-:deep(.small-img) {
-    max-height: 20rem;
-}
-
-@media screen and (min-width: 768px) {
-  #wrapper-content {
+.time-container {
+    display: flex;
     flex-direction: row;
-    gap: var(--spacer-x3);
-  }
+    gap: var(--spacer-x1);
+    align-items: center;
+    justify-content: space-between;
+    max-width: 18.75rem;
 }
+
+.wrapper-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-x0-5);
+
+}
+aside {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: var(--spacer-x1);
+}
+
+aside .side-img {
+    max-width: 43.75rem;
+    max-height: 21.5rem;
+
+}
+aside .small-side-img {
+    max-width: 40rem;
+    max-height: 16rem;
+}
+
+.persondata-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-x1);
+    max-width: 34rem;
+
+}
+
+
+
+
 
 </style>
