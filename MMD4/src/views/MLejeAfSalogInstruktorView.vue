@@ -16,7 +16,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedLejeRaw = localStorage.getItem('lejeData');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cachelejeTimestamp');
   const now = Date.now();
 
   if (cachedLejeRaw && cachedTimestampRaw) {
@@ -45,7 +45,7 @@ onMounted(() => {
     .then(json => {
         lejeData.value = json.data;
         localStorage.setItem('lejeData', JSON.stringify(lejeData.value));
-        localStorage.setItem('cacheTimestamp', now.toString());   
+        localStorage.setItem('cachelejeTimestamp', now.toString());   
     })
     .catch(err => {
       error.value = err.message;

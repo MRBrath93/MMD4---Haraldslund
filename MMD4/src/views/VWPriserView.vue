@@ -31,7 +31,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedvwPriserRaw = localStorage.getItem('vandogwellnessPriserData ');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cachevwpriserTimestamp');
   const now = Date.now();
 
   if (cachedvwPriserRaw && cachedTimestampRaw) {
@@ -58,7 +58,7 @@ onMounted(() => {
     .then(json => {
       vandogwellnessPriserData.value = json.data;
       localStorage.setItem('vandogwellnessPriserData ', JSON.stringify(vandogwellnessPriserData .value));
-      localStorage.setItem('cacheTimestamp', now.toString());
+      localStorage.setItem('cachevwpriserTimestamp', now.toString());
     })
     .catch(err => {
       error.value = err.message;
@@ -115,12 +115,11 @@ onUnmounted(() => {
             :label="internNavLabels"
         ></TheInternNavWater>
         
-        <section v-for="(tekstsektion,index) in vandogwellnessPriserData .Indhold.Afsnit" :key="tekstsektion.id">
-            <div class="textsection">
+        <section class="textsection"  v-for="(tekstsektion,index) in vandogwellnessPriserData .Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
                     <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
-                        <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
+                        <h3 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h3>
                         <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
                             <li>{{ single_text.Brodtekst }}</li>
                         </ul>
@@ -139,7 +138,6 @@ onUnmounted(() => {
                 <div class="img--container flex1">
                     <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
                 </div>
-            </div>
         </section>
         <section v-if="!isMobile">
             <!-- Tilføjet role="table" for at hjælpe evt. skærmlæsere eller anden teknologi med at identificere tabellen -->

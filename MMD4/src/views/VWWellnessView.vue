@@ -30,7 +30,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedWellnessRaw = localStorage.getItem('wellnessData ');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cachewellnessTimestamp');
   const now = Date.now();
 
   if (cachedWellnessRaw && cachedTimestampRaw) {
@@ -57,7 +57,7 @@ onMounted(() => {
     .then(json => {
       wellnessData .value = json.data;
       localStorage.setItem('wellnessData ', JSON.stringify(wellnessData .value));
-      localStorage.setItem('cacheTimestamp', now.toString());
+      localStorage.setItem('cachewellnessTimestamp', now.toString());
     })
     .catch(err => {
       error.value = err.message;
@@ -105,8 +105,8 @@ function getImage(billede) {
             <div class="textsection" :class="['textsection', { 'small-margin': index === 1 }, { 'reverse-layout': index === 2 }]">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 6)">{{ tekstsektion.Overskrift }}</DynamicHeading>
-                    <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
-                        <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
+                    <div v-for="(single_text,i) in tekstsektion.Tekst || []" :key="single_text.id">
+                      <DynamicHeading :level="Math.min(index+i+2, 5)">{{ single_text.Underoverskift}}</DynamicHeading>
                         <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
                             <li> {{ single_text.Brodtekst }}</li>
                         </ul>

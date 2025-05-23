@@ -40,7 +40,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedaboutRaw = localStorage.getItem('aboutData');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cacheharaldslundTimestamp');
   const now = Date.now();
 
   if (cachedaboutRaw && cachedTimestampRaw) {

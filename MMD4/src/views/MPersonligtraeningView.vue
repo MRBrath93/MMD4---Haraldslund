@@ -24,7 +24,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedPersonligTraeningRaw = localStorage.getItem('personligTraeningData'); // Hent cached data
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp'); // Hent cached timestamp
+  const cachedTimestampRaw = localStorage.getItem('cachepersonligTimestamp'); // Hent cached timestamp
   const now = Date.now();   // CACHE VARIABLER
 
   // CHECK CACHE 
@@ -52,7 +52,7 @@ onMounted(() => {
     .then(json => {
       personligTraening.value = json.data;
       localStorage.setItem('personligTraeningData', JSON.stringify(personligTraening.value));
-      localStorage.setItem('cacheTimestamp', now.toString());
+      localStorage.setItem('cachepersonligTimestamp', now.toString());
     })
     .catch(err => {
       error.value = err.message;
