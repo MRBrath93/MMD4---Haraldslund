@@ -1,31 +1,92 @@
 <script setup>
-import { RouterView } from "vue-router";
+// --- IMPORTS ---
+import { RouterView, useRoute } from "vue-router";
+import { ref, watch } from "vue";
 import TheNav from "./components/TheNav.vue";
-import { watch } from "vue";
-import { useRoute } from "vue-router";
 import TheFooter from "./components/TheFooter.vue";
 
+// --- VARIABLER ---
 const route = useRoute();
+const backToTop = ref(null);
+const skipLink = ref<HTMLElement | null>(null);
 
-watch(() => route.meta.title, (title) => {
-  if (title) document.title = title;
-});
+
+// --- WATCHERS --- 
+watch(
+  () => route.path,
+  () => {
+		document.title = "Contact";
+		skipLink.value?.focus();
+	},
+	{ immediate: true }
+);
+
+
+// FOKUS MAIN CONTENT
+const focusMainContent = () => {
+  const mainEl = document.getElementById('main');
+  if (mainEl) {
+    mainEl.focus();
+  }
+};
+// INSPIRATIONSKILDE SKIP-LINK:  URL: Azubuko, Uchechukwu. How to Build Accessible Vue.js Applications. 21/12/2023. Vue Mastery. 2025. (online) [Accessed 24/05/2025] URL: https://www.vuemastery.com/blog/how-to-build-accessible-vuejs-applications/#setup-accessible-routing-and-a-page-title-for-each-page
 </script>
 
 <template>
-<body>
-    <header>
-        <TheNav></TheNav>
-    </header>
-    <main>
-        <router-view></router-view>
-    </main>
-    <footer>
-        <TheFooter></TheFooter>
-    </footer>
-</body>
+  <!-- Skiplink 
+   Hjælper keyboard-nav-brugere med hurtigt at komme frem til hovedindholdet på siden
+   Eventet @click.prevent forhindrer standard linkadfærd og kalder fokus-funktionen
+   -->
+    <a href="#" ref="skipLink" class="skip-link" @click.prevent="focusMainContent">Spring til hovedindhold</a>
+<!-- INSPIRATIONSKILDE CLICK.PREVENT: You, Evan. Essentials - Event Handling. (online) 2025. Vue.js. MIT-License. [Accessed 24/05/2025] URL: https://vuejs.org/guide/essentials/event-handling?utm_source=chatgpt.com -->
+
+  <!-- landmarks med aria-labels -->
+  <header aria-label="Primær navigation">
+    <TheNav />
+  </header>
+   
+  <main aria-label="Hovedindhold">
+    <RouterView />
+  </main>
+      <!-- aria-label="Hovedindhold" giver en beskrivelse til skærmlæsere om hvad dette område indeholder -->
+
+  <footer aria-label="Sidefod">
+    <TheFooter />
+  </footer>
 </template>
 
 <style scoped>
+ /* -- STYLE TIL SKIP-LINK (relevant for skærmoplæsere) --- */
+/* Skiplink – vises kun ved fokus */
+.skip-link {
+  position: absolute;
+  opacity: 0;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 
+.skip-link:focus {
+  position: static;
+  left: auto;
+  width: auto;
+  height: auto;
+  margin: var(--spacer-x1);
+  padding: var(--spacer-x0-5) var(--spacer-x1);
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+  z-index: 1000;
+  opacity: 1;
+}
+
+/* Visuelt skjult, men tilgængelig for skærmlæsere */
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 </style>

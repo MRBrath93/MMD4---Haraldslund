@@ -126,11 +126,11 @@ const visibleTeamCards = computed(() => {
 </script>
 
 <template>
-  <main v-if="classesStore.isLoading || !motionHoldData" class="loading-container">
+  <template v-if="classesStore.isLoading || !motionHoldData" class="loading-container">
     <TheSpinner></TheSpinner>
-  </main>
-  
-  <main v-else-if="selectedClass">
+  </template>
+
+  <template v-else-if="selectedClass">
     <TheHero class="heroImage"
     :title="motionHoldData.Hero_sektion.Hero_titel_h5.Titel_H5"
     :subtitle="motionHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -190,11 +190,11 @@ const visibleTeamCards = computed(() => {
     :Btn_text="selectedClass.reklamekort.knapper[0].beskrivelse" 
     :kategori="selectedClass.reklamekort.kategori"
     :Btn_icon="selectedClass.reklamekort.knapper[0].ikon"></Reklamekort>
-  </main>
+  </template>
   
-  <main v-else>
+  <template v-else>
     <p>Holdet med ID {{ $route.params.id }} blev ikke fundet.</p>
-  </main>
+  </template>
 </template>
 
 

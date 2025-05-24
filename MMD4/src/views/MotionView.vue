@@ -102,19 +102,20 @@ function checkScreenSize() {
 </script>
 
 <template>
-    <main v-if="isLoading">        
+    <template v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-        </main>
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
-    <main v-else>
+    </template>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <template v-else>
         <TheHero
         :title="motionViewData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="motionViewData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om vores forskellige motionstilbud i Haraldslund."
         :image="getImage(motionViewData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
         :alt="motionViewData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
+        <!-- KILDEREFERENCE BILLEDE: Seizinger, Corri. Fil #:745719113. Adobe Stock 2025. (online) [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/search/images?filters%5Bcontent_type%3Aphoto%5D=1&filters%5Bcontent_type%3Aimage%5D=1&filters%5Borientation%5D=panoramic&filters%5Bcopy_space%5D=all&filters%5Bcontent_type%3Aillustration%5D=0&filters%5Bcontent_type%3Azip_vector%5D=0&k=styrketr%C3%A6ning&order=relevance&search_type=filter-select&limit=100&search_page=1&acp=&aco=styrketr%C3%A6ning&color=%23427A40&get_facets=1&asset_id=745719113 -->
         <div class="page-wrapper">
             <TheBreadcrumb />  
             <TheInternNavMotion 
@@ -151,10 +152,10 @@ function checkScreenSize() {
                         :name="card.link_to">
                     </EntryPoint>
                 </div>
-            
+                <!-- KILDEREFERENCE BILLEDE SUNDHED & BEVÆGELSE: Trautmann, Arne. billede: #12878928. (online) Colourbox.dk. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.dk/billede/traening-senior-fysioterapi-billede-12878928 -->
         </section>  
         </div>
-    </main>
+    </template>
 </template>
 
 <style scoped>
@@ -229,8 +230,6 @@ main{
     .aside-image {
     height: 25rem;
     }
-
-  
 }
 
 @media screen and (min-width: 1200px) {

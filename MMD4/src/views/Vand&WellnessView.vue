@@ -1,4 +1,5 @@
 <script setup>
+
 import TheHero from "../components/TheHero.vue";
 import EntryPoint from "@/components/EntryPoint.vue";
 import TheInternNavWater from "../components/TheInternNavWater.vue";
@@ -80,16 +81,13 @@ function getImage(billede) {
 </script>
 
 <template>
-<span>
-    <main v-if="isLoading" class="loading-container">
-        <TheSpinner>
+    <template v-if="isLoading">
+        <TheSpinner class="loading-container">
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </main>
-    
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
-    
-    <main v-else>
+    </template>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <template v-else>
         <TheHero class="heroImage"
         :title="vandogwellnessData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="vandogwellnessData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -139,8 +137,7 @@ function getImage(billede) {
             </div>
            
         </section>  
-    </main>
-</span>
+    </template>
 </template>
 
 <style scoped>

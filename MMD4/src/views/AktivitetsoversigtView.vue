@@ -41,13 +41,13 @@ function getImage(billede) {
 
 </script>
 <template>
-    <main v-if="isLoading">        
+    <template v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </main>
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
-    <main v-else>        
+    </template>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <template v-else>        
         <!-- <TheHero
         :title="HARALDSLUND"
         :subtitle="Aktivitetsoversigt"
@@ -62,7 +62,7 @@ function getImage(billede) {
         <section>
 
         </section>
-    </main>
+    </template>
 
 </template>
 <style scoped>

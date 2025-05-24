@@ -120,13 +120,13 @@ function handleResize() {
 
 
 <template>
-    <main class="loading-container" v-if="isLoading">
+    <template class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </main>
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
-    <main v-else>
+    </template>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <template v-else>
         <TheHero
             title="HARALDSLUND"
             subtitle="Prisoversigt"
@@ -731,7 +731,7 @@ function handleResize() {
     :kategori="vwPrisData .reklame_kort.Kategori" 
     :Btn_icon="vwPrisData .reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     
-    </main>
+    </template>
 </template>
 
 <!-- INSPIRATIONSKILDE TABEL: MDN Web Docs. <table>: The Table element. 2025 (online) Mozilla Foundation 2025. [Accessed 21/05/2025] URL: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/table -->

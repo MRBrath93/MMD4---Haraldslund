@@ -40,7 +40,7 @@ onBeforeUnmount(() => {
 
 
 <template>
-  <div class="spinner-wrapper">
+  <div class="spinner-wrapper" aria-hidden="true">
     <div class="spinner">
         <!-- I :style oprettes der variabler som holder farve og index(plads) -->
       <div v-for="(color, index) in colors" :key="index" class="dots" :style="{'--segment-color': color, '--i': index}"

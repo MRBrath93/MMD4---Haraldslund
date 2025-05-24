@@ -82,13 +82,13 @@ function getImage(billede) {
 </script>
 
 <template>
-    <main v-if="isLoading">        
+    <template v-if="isLoading">        
       <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-      </main>
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
-    <main v-else>
+      </template>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <template v-else>
       <TheHero
         :title="motionData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="motionData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
@@ -141,10 +141,9 @@ function getImage(billede) {
         :kategori="motionData.reklame_kort.Kategori" 
         :Btn_icon="motionData.reklame_kort.Knapper[0].Ikon[0]">
       </Reklamekort>
-    </main>
+    </template>
   </template>
   
-
 <style scoped>
 
 main{
@@ -254,9 +253,6 @@ article h2 {
   grid-template-columns: repeat(3, 1fr);
 
 }
-  
-
 }
-
 
 </style>
