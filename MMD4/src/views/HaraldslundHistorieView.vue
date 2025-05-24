@@ -18,14 +18,11 @@ const internNavLabels = [
 </script>
 
 <template>
-    <main>
         <h1>Vores historie</h1>
         <TheBreadcrumb />
         <TheInternNavHaraldslund
         :label="internNavLabels"
         />        
-
-    </main>
 </template>
 
 <style scoped>

@@ -85,22 +85,20 @@ function getImage(billede) {
 </script>
 
 <template>
-<span>
-    <main class="loading-container" v-if="isLoading">
+    <template class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </main>
+    </template>
     
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
     
-    <main v-else>
+    <template v-else>
         <TheHero
         :title="cafeData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="cafeData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
         :image="cafeData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="cafeData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
-
         <TheBreadcrumb></TheBreadcrumb>
         <TheInternNavWater
             :label="internNavLabels"
@@ -141,8 +139,7 @@ function getImage(billede) {
         :Btn_text="cafeData.reklame_kort.Knapper[0].btn_description" 
         :kategori="cafeData.reklame_kort.Kategori" 
         :Btn_icon="cafeData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-    </main>
-</span>
+    </template>
 </template>
 
 <style scoped>

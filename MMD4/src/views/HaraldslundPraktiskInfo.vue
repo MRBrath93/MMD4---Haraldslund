@@ -94,13 +94,13 @@ function getImage(billede) {
 </script>
 
 <template>
-    <main v-if="isLoading">        
+    <template v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </main>
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
-    <main v-else>        
+    </template>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <template v-else>        
         <TheHero
         :title="praktiskData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="praktiskData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
@@ -322,7 +322,7 @@ function getImage(billede) {
               </div>
             </div>
           </section>
-    </main>
+    </template>
 </template>
 
 <style scoped>
@@ -365,12 +365,6 @@ h1 {
     font-weight: 700;
     min-width: fit-content;
 }
-
-/* .flex-row {
-    display: flex;
-    flex-direction: row;
-    gap: var(--spacer-x2);
-} */
 
 .flex-column {
     display: flex;

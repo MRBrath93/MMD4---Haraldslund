@@ -79,16 +79,15 @@ function getImage(billede) {
 </script>
 
 <template>
-<span>
-    <main class="loading-container" v-if="isLoading">
+    <template class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </main>
+    </template>
     
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
     
-    <main v-else>
+    <template v-else>
         <TheHero class="heroImage"
         :title="vwReglerData .Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="vwReglerData .Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -134,8 +133,7 @@ function getImage(billede) {
         :Btn_text="vwReglerData .reklame_kort.Knapper[0].btn_description" 
         :kategori="vwReglerData .reklame_kort.Kategori" 
         :Btn_icon="vwReglerData .reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-    </main>
-</span>
+    </template>
 </template>
 
 <style scoped>

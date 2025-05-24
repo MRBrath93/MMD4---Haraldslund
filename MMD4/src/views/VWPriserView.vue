@@ -95,15 +95,15 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <main class="loading-container" v-if="isLoading">
+    <template class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </main>
+    </template>
     
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
     
-    <main v-else>
+    <template v-else>
         <TheHero class="heroImage"
         :title="vandogwellnessPriserData .Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="vandogwellnessPriserData .Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -413,7 +413,7 @@ onUnmounted(() => {
         :Btn_text="vandogwellnessPriserData .reklame_kort.Knapper[0].btn_description" 
         :kategori="vandogwellnessPriserData .reklame_kort.Kategori" 
         :Btn_icon="vandogwellnessPriserData .reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-    </main>
+    </template>
 </template>
 
 <style scoped>

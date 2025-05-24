@@ -2,10 +2,7 @@
 </script>
 
 <template>
-    <main>
-        <h2>Booking</h2>
-        <img src="https://media.tenor.com/8e0K7Jxs7AkAAAAM/book-it-heather-mcmahan.gif" alt="" />
-    </main>
+        <h1>Booking</h1>
 </template>
 
 <style scoped>

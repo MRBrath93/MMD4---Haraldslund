@@ -87,9 +87,9 @@ function getImage(billede) {
 
 
 <template>
-    <main v-if="classesStore.isLoading || !vandogwellnessHoldData" class="loading-container"><TheSpinner></TheSpinner></main>
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
-    <main v-else>
+    <template v-if="classesStore.isLoading || !vandogwellnessHoldData" class="loading-container"><TheSpinner></TheSpinner></template>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <template v-else>
       <TheHero class="heroImage"
         :title="vandogwellnessHoldData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="vandogwellnessHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -156,7 +156,7 @@ function getImage(billede) {
         :Btn_text="vandogwellnessHoldData.reklame_kort.Knapper[0].btn_description" 
         :kategori="vandogwellnessHoldData.reklame_kort.Kategori" 
         :Btn_icon="vandogwellnessHoldData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-    </main>
+    </template>
 </template>
 
 <style scoped>

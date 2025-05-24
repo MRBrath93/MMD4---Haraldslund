@@ -56,21 +56,21 @@ onMounted(() => {
     .finally(() => {
       isLoading.value = false;
     });
+
+    
 });
 </script>
 
-
 <template>
-<span>
-    <main class="loading-container" v-if="isLoading">
-        <TheSpinner>
+    <template v-if="isLoading">
+        <TheSpinner class="loading-container">
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </main>
+    </template>
     
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
     
-    <main v-else>
+    <template v-else>
         <FrontpageTheHero
         :title="forsideData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="forsideData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -132,8 +132,7 @@ onMounted(() => {
         :Btn_text="forsideData.reklame_kort.Knapper[0].btn_description" 
         :kategori="forsideData.reklame_kort.Kategori" 
         :Btn_icon="forsideData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-    </main>
-</span>
+    </template>
 </template>
 
 

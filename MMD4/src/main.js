@@ -2,11 +2,16 @@ import './assets/main.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
+// KILDE PINIA: Pinia. Vue.js. 2020. NPM, Inc. 2014-2025. (online) [accessed 19/05/2025] URL: https://www.npmjs.com/package/pinia - MIT License Copyright (c) 2020 Eduardo San Martin Morote
 
 import App from './App.vue'
+// KILDE VUE APP: Vue.JS. Essentials: Creating A Vue Application. Vue.js. 2014-2025. (online) [accessed 19/05/2025] URL: https://vuejs.org/guide/introduction.html - MIT License Copyright (c) 2014 Evan You
+
 import router from './router'
+// KILDE ROUTER: Vue Router. Vue.js. 2016. NPM, Inc. 2014-2025. (online) [accessed 19/05/2025] URL: https://www.npmjs.com/package/vue-router - MIT License Copyright (c) 2016 Evan You
 
 import breadcrumbs from 'vue-3-breadcrumbs'
+// KILDE Breadcrumbs plugin: Merkusshin-AY. Vue-3-breadcrumbs. 2022. NPM, Inc. 2014-2025. (online) [accessed 19/05/2025] URL: https://www.npmjs.com/package/vue-3-breadcrumbs - MIT License Copyright (c) 2022 Merkushin-AY
 
 const app = createApp(App)
 

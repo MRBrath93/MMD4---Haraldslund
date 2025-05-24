@@ -54,13 +54,13 @@ function getImage(billede) {
 </script>
 
 <template>
-    <main v-if="isLoading">        
+    <template v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </main>
-    <main v-else-if="error">Der opstod en fejl: {{ error }}</main>
-    <main v-else>
+    </template>
+    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <template v-else>
         <TheHero
         :title="mReglerData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="mReglerData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
@@ -80,7 +80,6 @@ function getImage(billede) {
                     <p>{{ tekstafsnit.Brodtekst }}</p>
                 </div>
             </section>
-        
             <Reklamekort 
                 :src="getImage(mReglerData?.reklame_kort?.Billede) || '' " 
                 :alt="mReglerData.reklame_kort.Billede.alternativeText" 
@@ -92,7 +91,7 @@ function getImage(billede) {
                 :Btn_icon="mReglerData.reklame_kort.Knapper[0].Ikon[0]">
             </Reklamekort>
         </div>
-    </main>
+    </template>
 </template>
 
 <style scoped>
