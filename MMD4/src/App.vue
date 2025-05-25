@@ -7,7 +7,6 @@ import TheFooter from "./components/TheFooter.vue";
 
 // --- VARIABLER ---
 const route = useRoute();
-const backToTop = ref(null);
 const skipLink = ref<HTMLElement | null>(null);
 
 
