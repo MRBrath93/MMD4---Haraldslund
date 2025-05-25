@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import TheHero from "@/components/TheHero.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
@@ -15,11 +15,18 @@ import TheInternNavWater from "@/components/TheInternNavWater.vue";
 const classesStore = useClassesStoreWater();
 const error = ref(null);
 const isLoading = ref(true);
-const vandogwellnessHoldData = ref(null); // OBS: null er bedre end []
+const vandogwellnessHoldData = ref(null); 
+const loadingMessage = ref('Indhold indlæses...');
 
 const CACHE_KEY = "vandogwellnessHoldData";
 const CACHE_TIMESTAMP_KEY = "cachevandholdTimestamp";
 const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
+
+
+watch(isLoading, (newVal) => {
+  // loadingMessage.value = newVal ? 'Indhold indlæses...' : '';
+  loadingMessage.value = 'Indhold indlæses...';
+});
 
 onMounted(async () => {
   isLoading.value = true;
@@ -87,7 +94,14 @@ function getImage(billede) {
 
 
 <template>
-    <template v-if="classesStore.isLoading || !vandogwellnessHoldData" class="loading-container"><TheSpinner></TheSpinner></template>
+    <template v-if="classesStore.isLoading || isLoading" class="loading-container">
+        <main>
+            <div id="loading" aria-live="assertive" aria-atomic="true" role="status" class="visually-hidden">
+              <span> {{ loadingMessage }} </span>
+            </div>
+            <TheSpinner></TheSpinner>
+        </main>
+    </template>
     <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
     <template v-else>
       <TheHero class="heroImage"
