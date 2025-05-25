@@ -40,12 +40,12 @@ const selectItem = (item) => {
 
 // LIFECYCLE HOOKS
 onMounted(() => {
-    window.addEventListener("scroll", handleScroll);
+    // window.addEventListener("scroll", handleScroll);
   document.addEventListener('click', handleClickOutside);
 });
 
 onBeforeUnmount(() => {
-    window.removeEventListener("scroll", handleScroll);
+    // window.removeEventListener("scroll", handleScroll);
   document.removeEventListener('click', handleClickOutside);
 });
 
