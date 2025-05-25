@@ -95,7 +95,7 @@ const kategoriColor = computed(() => {
   <router-link 
   :to="link" 
   class="team-card team-card-image" 
-  aria-label="Tryk for at gå til holdbeskrivelse"
+  :aria-label="'Tryk for at gå til holdbeskrivelse for ' + labels.label"
   :style="{ backgroundImage: 'url(' + teamImage + ')' }"
   @mouseenter="handleMouseEnter"
   @mouseleave="handleMouseLeave"

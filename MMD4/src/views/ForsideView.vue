@@ -63,9 +63,6 @@ onMounted(() => {
 
 <template>
     <template v-if="isLoading">
-        <div aria-live="assertive" aria-atomic="true" class="visually-hidden">
-            {{ isLoading ? 'Indhold indlæses...' : '' }}
-        </div>
         <TheSpinner class="loading-container">
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
