@@ -14,7 +14,7 @@ import { ref, onMounted } from 'vue';
 const forsideData = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
-const CACHE_DURATION_MS = 1 * 60 * 1000;
+const CACHE_DURATION_MS = 60 * 60 * 1000;
 
 function getImage(billede) {
   if (!billede || !billede.formats) return '';
