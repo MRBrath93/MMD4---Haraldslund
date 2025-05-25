@@ -14,7 +14,7 @@ const skipLink = ref<HTMLElement | null>(null);
 watch(
   () => route.path,
   () => {
-		document.title = "Contact";
+		document.title = route.meta.title || "Forside - Haraldslund";
 		skipLink.value?.focus();
 	},
 	{ immediate: true }
