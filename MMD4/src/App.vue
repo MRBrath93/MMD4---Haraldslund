@@ -1,21 +1,18 @@
 <script setup>
 // --- IMPORTS ---
 import { RouterView, useRoute } from "vue-router";
-import { ref, watch } from "vue";
+import { watch } from "vue";
 import TheNav from "./components/TheNav.vue";
 import TheFooter from "./components/TheFooter.vue";
 
 // --- VARIABLER ---
 const route = useRoute();
-const skipLink = ref<HTMLElement | null>(null);
-
 
 // --- WATCHERS --- 
 watch(
   () => route.path,
   () => {
 		document.title = route.meta.title || "Forside - Haraldslund";
-		skipLink.value?.focus();
 	},
 	{ immediate: true }
 );
@@ -36,7 +33,7 @@ const focusMainContent = () => {
    Hjælper keyboard-nav-brugere med hurtigt at komme frem til hovedindholdet på siden
    Eventet @click.prevent forhindrer standard linkadfærd og kalder fokus-funktionen
    -->
-    <a href="#" ref="skipLink" class="skip-link" @click.prevent="focusMainContent">Spring til hovedindhold</a>
+    <a href="#" id="skipLink" class="skip-link" @click.prevent="focusMainContent">Spring til hovedindhold</a>
 <!-- INSPIRATIONSKILDE CLICK.PREVENT: You, Evan. Essentials - Event Handling. (online) 2025. Vue.js. MIT-License. [Accessed 24/05/2025] URL: https://vuejs.org/guide/essentials/event-handling?utm_source=chatgpt.com -->
 
   <!-- landmarks med aria-labels -->
@@ -44,10 +41,11 @@ const focusMainContent = () => {
     <TheNav />
   </header>
    
-  <main aria-label="Hovedindhold">
-    <RouterView />
+  <main aria-labelledby="main" tabindex="-1">
+    <RouterView />  
   </main>
-      <!-- aria-label="Hovedindhold" giver en beskrivelse til skærmlæsere om hvad dette område indeholder -->
+  <!-- aria-labelledby bruges til at forbinde hovedindholdet med dets overskrift, hvilket forbedrer tilgængeligheden for skærmlæsere. tabindex="-1" gør det muligt at fokusere på hovedindholdet ved hjælp af skip-linket. -->
+     
 
   <footer aria-label="Sidefod">
     <TheFooter />

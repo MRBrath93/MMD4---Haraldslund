@@ -1,10 +1,13 @@
 <script setup>
 import { RouterLink } from "vue-router";
-import { onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+
+const expanded = ref(false);
 
 onMounted(() => {
   const header = document.querySelector('.header');
   let lastScrollY = window.scrollY;
+
 
   window.addEventListener('scroll', () => {
     if (!header) return;
@@ -15,6 +18,12 @@ onMounted(() => {
       header.classList.add('hide');
     }
     lastScrollY = window.scrollY;
+  });
+
+  // ARIA-EXPANDERED ATTRIBUTE TOOGLE
+    const expanded = document.getElementById('menu-btn');
+    expanded?.addEventListener('change', () => {
+    expanded.value = expanded.true;
   });
 });
 
@@ -103,21 +112,24 @@ function handleNavBehavior() {
 document.addEventListener("DOMContentLoaded", handleNavBehavior);
 window.addEventListener("resize", handleNavBehavior);
 
+
+
+
 </script>
 <template>
-    <nav class="header">
+    <nav class="header" role="navigation" aria-label="Hovednavigation">
         <div class="wrapper">
             <div class="logo">
                 <router-link class="no-drop" :to="{ name: 'frontpage' }"><img src="../assets/images/image-removebg-preview.png" alt=""></router-link>
             </div>
             <input type="radio" name="slider" id="menu-btn">
             <input type="radio" name="slider" id="close-btn">
-            <ul class="nav-links">
+            <ul class="nav-links" id="nav-links">
                 <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
                 <li><router-link class="no-drop" :to="{ name: 'frontpage' }">Forside</router-link></li>
                 <li>
                     <router-link class="desktop-item" :to="{ name: 'om-haraldslund' }">  <span class="text">Om Haraldslund</span>
-                        <span class="material-symbols-rounded">keyboard_arrow_down</span></router-link>
+                        <i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></router-link>
                     <input type="checkbox" id="showMega1">
                     <label for="showMega1" class="mobile-item">Om Haraldslund</label>
                     <div class="dropbox">
@@ -141,7 +153,7 @@ window.addEventListener("resize", handleNavBehavior);
                 </li>
                 <li>
                     <router-link class="desktop-item" :to="{ name: 'motion' }"><span class="text">Motion</span>
-                        <span class="material-symbols-rounded">keyboard_arrow_down</span></router-link>
+                        <i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></router-link>
                     <input type="checkbox" id="showMega2">
                     <label for="showMega2" class="mobile-item">Motion</label>
                     <div class="dropbox">
@@ -154,7 +166,7 @@ window.addEventListener("resize", handleNavBehavior);
                                     <li><router-link :to="{ name: 'regler-motionscenteret' }">Regler</router-link></li>
                                     <li><router-link :to="{ name: 'personlig-traening-motionscenteret' }">Personlig træning</router-link></li>
                                     <li><router-link :to="{ name: 'leje-af-sal-og-instruktor-motionscenteret' }">Leje af sal & Instruktør</router-link></li>
-                                    <li><router-link :to="{ name: 'sib-motionscenteret' }">Sundhed i bevægelse</router-link></li>
+                                    <li><router-link :to="{ name: 'sib-motionscenteret' }">Sundhed & bevægelse</router-link></li>
                                 </ul>
                             </div>
                         </div>
@@ -162,7 +174,7 @@ window.addEventListener("resize", handleNavBehavior);
                 </li>
                 <li>
                     <router-link class="desktop-item" :to="{ name: 'vandogwellness' }"><span class="text">Vand & Wellness</span>
-                        <span class="material-symbols-rounded">keyboard_arrow_down</span></router-link>
+                        <i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></router-link>
                     <input type="checkbox" id="showMega3">
                     <label for="showMega3" class="mobile-item">Vand & Wellness</label>
                     <div class="dropbox">
@@ -182,7 +194,14 @@ window.addEventListener("resize", handleNavBehavior);
                 <li><router-link class="no-drop" :to="{ name: 'moder-og-konferencer' }">Møder & Konferencer</router-link></li>
                 <li><router-link class="no-drop booking-cta" :to="{ name: 'booking' }">Booking</router-link></li>
             </ul>
-            <label for="menu-btn" class="btn menu-btn"><i class="fas fa-bars"></i></label>
+            <label 
+            for="menu-btn" 
+            class="btn menu-btn" 
+            aria-label="Menu" 
+            :aria-expanded="expanded.toString()" 
+            aria-controls="nav-links" 
+            ><i class="fas fa-bars" aria-hidden="true"></i>
+            </label>
         </div>
     </nav>
 </template>

@@ -23,6 +23,8 @@ let intervalId
 
 // Når komponenten er monteret i DOM'en, starter vi et interval, der skifter til næste ikon hver 3. sekund (3000 ms)
 onMounted(() => {
+  document.getElementById('spinnerText').focus() // Sætter fokus på spinner-teksten for tilgængelighed
+
   intervalId = setInterval(() => {
     // Gå til næste ikon, loop tilbage til start hvis vi er nået til slutningen
     iconIndex = (iconIndex + 1) % icons.length
@@ -33,21 +35,22 @@ onMounted(() => {
 
 // Når komponenten fjernes fra DOM'en, rydder vi intervallet for at undgå fejl
 onBeforeUnmount(() => {
-  clearInterval(intervalId)
+  document.getElementById('skipLink').focus(); // Sætter fokus på skip-linket for at forbedre tilgængeligheden
+  clearInterval(intervalId);
 })
 </script>
 
 
 
 <template>
-  <div class="spinner-wrapper" aria-hidden="true">
-    <div class="spinner">
+  <div class="spinner-wrapper">
+    <div class="spinner" aria-hidden="true">
         <!-- I :style oprettes der variabler som holder farve og index(plads) -->
       <div v-for="(color, index) in colors" :key="index" class="dots" :style="{'--segment-color': color, '--i': index}"
       ></div>
       <span class="center-icon material-symbols-rounded">{{ currentIcon }}</span>
     </div>
-    <p class="loading-text">Vi er ved at indlæse data...</p>
+    <p tabindex="-1" id="spinnerText" role="alert" class="loading-text">Indlæser data...</p>
   </div>
 </template>
 
