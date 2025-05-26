@@ -81,13 +81,13 @@ function getImage(billede) {
 </script>
 
 <template>
-    <template v-if="isLoading">
+    <div v-if="isLoading">
         <TheSpinner class="loading-container">
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <tdiv v-else>
         <TheHero class="heroImage"
         :title="vandogwellnessData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="vandogwellnessData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -137,7 +137,7 @@ function getImage(billede) {
             </div>
            
         </section>  
-    </template>
+    </tdiv>
 </template>
 
 <style scoped>

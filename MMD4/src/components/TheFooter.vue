@@ -176,11 +176,8 @@ function toggleTema() {
             <div class="large-column">
                 <h4 class="footer-headline">Åbningstider</h4>
                     <div class="opening-hours-container">
-                        <template
-                        v-for="aabningstider in footerData?.Almene_aabningstider || []"
-                        :key="aabningstider.id"
-                        >
-                        <ul class="opening-hours">
+                        <ul class="opening-hours" v-for="aabningstider in footerData?.Almene_aabningstider || []"
+                        :key="aabningstider.id">
                             <li v-if="aabningstider.Dag">{{ aabningstider.Dag }}:</li>
                             <li v-if="aabningstider.Har_Vi_Lukket === true">Lukket</li>
                             <li v-else-if="aabningstider.Har_Vi_Lukket === false">
@@ -192,14 +189,13 @@ function toggleTema() {
                                 </span>
                             </li>
                         </ul>
-                        </template>
                     </div>
                     <div
                         v-if="footerData?.Specielle_aabningstider && footerData.Specielle_aabningstider.length > 0"
                         class="special-opening-hours"
                     >
                         <h4>Specielle åbningstider</h4>
-                        <template
+                        <div
                         v-for="specielTid in footerData.Specielle_aabningstider"
                         :key="specielTid.id"
                         class="special-opening-day"
@@ -214,7 +210,7 @@ function toggleTema() {
                                 {{ specielTid.Slut_tidspunkt.split(':')[0] }}:{{ specielTid.Slut_tidspunkt.split(':')[1] }}
                                 </span>
                             </span>
-                        </template>
+                        </div>
                     </div>
             </div>
             <div class="footer-column">

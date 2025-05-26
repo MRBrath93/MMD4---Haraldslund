@@ -89,24 +89,24 @@ function getImage(billede) {
 </script>
 
 <template>
-  <template v-if="isLoading">        
+  <div v-if="isLoading">        
       <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
       </TheSpinner>
-  </template>
-  <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-  <template v-else>
+  </div>
+  <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+  <div v-else>
     <TheHero
       :title="personligTraening.Hero_sektion.Hero_titel_h5?.Titel_H5"
       :subtitle="personligTraening.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
       description="Læs om personlig træning i motionscenter Haraldslund."
       :image="getImage(personligTraening.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
-      :alt="personligTraening.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
+      :alt="personligTraening.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
 
-    <TheBreadcrumb />  
+    <TheBreadcrumb></TheBreadcrumb>  
 
     <TheInternNavMotion 
-    :labels="internNavLabels" />
+    :labels="internNavLabels"></TheInternNavMotion>
     <div id="wrapper-content">
       <div class="tekst-container">
         <section v-for="(afsnit,index) in personligTraening?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section" >
@@ -127,14 +127,14 @@ function getImage(billede) {
           </div>
       </section>
     </div>
-    <aside class="billede-container" v-if="personligTraening?.Billede?.Billede_element">
+    <figure class="billede-container" v-if="personligTraening?.Billede?.Billede_element">
       <ImageHolder
         v-for="billede in personligTraening.Billede.Billede_element"
         :key="billede?.id"
         class="side-img"
         :src="getImage(billede)"
         :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-    </aside>
+    </figure>
   </div>
     <Reklamekort 
       :src="getImage(personligTraening.reklame_kort.Billede) || '' " 
@@ -146,19 +146,13 @@ function getImage(billede) {
       :kategori="personligTraening.reklame_kort.Kategori" 
       :Btn_icon="personligTraening.reklame_kort.Knapper[0].Ikon[0]">
     </Reklamekort>
-  </template>
+  </div>
 </template>
 
 <style scoped>
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
 
 
-aside {
+figure {
     max-width: 700px;
     max-height: 845px;
 }
@@ -198,7 +192,9 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 90vw;
+  width: 95%;
+  max-width: var(--max-width);
+  margin: 0 auto;
   gap: var(--spacer-x2);
 }
 

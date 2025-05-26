@@ -62,15 +62,15 @@ onMounted(() => {
 </script>
 
 <template>
-    <template v-if="isLoading">
+    <div v-if="isLoading">
         <TheSpinner class="loading-container">
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
+    </div>
     
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
     
-    <template v-else>
+    <div v-else>
         <FrontpageTheHero
         :title="forsideData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="forsideData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -132,7 +132,7 @@ onMounted(() => {
         :Btn_text="forsideData.reklame_kort.Knapper[0].btn_description" 
         :kategori="forsideData.reklame_kort.Kategori" 
         :Btn_icon="forsideData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-    </template>
+    </div>
 </template>
 
 

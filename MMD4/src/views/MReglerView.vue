@@ -55,23 +55,23 @@ function getImage(billede) {
 </script>
 
 <template>
-    <template v-if="isLoading">        
-        <TheSpinner>
+    <div v-if="isLoading">        
+        <TheSpinner class="loading-container">
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div class="first-wrapper" v-else>
         <TheHero
         :title="mReglerData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="mReglerData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om regler og retningslinjer for Haraldslunds motionscenter."
         :image="getImage(mReglerData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
-        :alt="mReglerData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
+        :alt="mReglerData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
 
-        <TheBreadcrumb />  
+        <TheBreadcrumb></TheBreadcrumb>  
 
-        <TheInternNavMotion :labels="internNavLabels" />
+        <TheInternNavMotion :labels="internNavLabels"></TheInternNavMotion>
         <div class="container-rules">
             <section v-for="(afsnit,index) in mReglerData.Indhold?.Afsnit || []" :key="afsnit.id" >
                 <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
@@ -80,28 +80,27 @@ function getImage(billede) {
                     <p>{{ tekstafsnit.Brodtekst }}</p>
                 </div>
             </section>
-            <Reklamekort 
-                :src="getImage(mReglerData?.reklame_kort?.Billede) || '' " 
-                :alt="mReglerData.reklame_kort.Billede.alternativeText" 
-                :title="mReglerData.reklame_kort.Titel" 
-                :text="mReglerData.reklame_kort.Tekst_afsnit" 
-                :Btn_title="mReglerData.reklame_kort.Knapper[0].btn_titel" 
-                :Btn_text="mReglerData.reklame_kort.Knapper[0].btn_description" 
-                :kategori="mReglerData.reklame_kort.Kategori" 
-                :Btn_icon="mReglerData.reklame_kort.Knapper[0].Ikon[0]">
-            </Reklamekort>
         </div>
-    </template>
+        <Reklamekort 
+            :src="getImage(mReglerData?.reklame_kort?.Billede) || '' " 
+            :alt="mReglerData.reklame_kort.Billede.alternativeText" 
+            :title="mReglerData.reklame_kort.Titel" 
+            :text="mReglerData.reklame_kort.Tekst_afsnit" 
+            :Btn_title="mReglerData.reklame_kort.Knapper[0].btn_titel" 
+            :Btn_text="mReglerData.reklame_kort.Knapper[0].btn_description" 
+            :kategori="mReglerData.reklame_kort.Kategori" 
+            :Btn_icon="mReglerData.reklame_kort.Knapper[0].Ikon[0]">
+        </Reklamekort>
+    </div>
 </template>
 
 <style scoped>
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacer-x3);
-    justify-content: center;
-    margin: 0 auto;
+
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container-rules {
@@ -109,7 +108,9 @@ main{
     flex-direction: column;
     justify-content: center;
     gap: var(--spacer-x2);
-    max-width: 800px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    width: 95%;
 }
 
 h4 {
