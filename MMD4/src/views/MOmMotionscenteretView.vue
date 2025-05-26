@@ -6,6 +6,7 @@ import TheHero from "@/components/TheHero.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
 import DynamicHeading from "@/components/DynamicHeading.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
+import TheBtn from "@/components/TheBtn.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 
 import { ref, onMounted } from "vue";

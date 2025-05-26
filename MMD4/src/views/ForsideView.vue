@@ -264,7 +264,6 @@ section{
     width: 100%;
     height: 100%;
     min-height: 10rem;
-    background-color: var(--color-motion);
 }
 
 @media screen and (min-width: 500px) {

@@ -119,9 +119,11 @@ function checkScreenSize() {
         <!-- KILDEREFERENCE BILLEDE: Seizinger, Corri. Fil #:745719113. Adobe Stock 2025. (online) [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/search/images?filters%5Bcontent_type%3Aphoto%5D=1&filters%5Bcontent_type%3Aimage%5D=1&filters%5Borientation%5D=panoramic&filters%5Bcopy_space%5D=all&filters%5Bcontent_type%3Aillustration%5D=0&filters%5Bcontent_type%3Azip_vector%5D=0&k=styrketr%C3%A6ning&order=relevance&search_type=filter-select&limit=100&search_page=1&acp=&aco=styrketr%C3%A6ning&color=%23427A40&get_facets=1&asset_id=745719113 -->
         <div class="page-wrapper">
             <TheBreadcrumb></TheBreadcrumb>  
-            <TheInternNavMotion 
-            :labels="internNavLabels"></TheInternNavMotion>
-            <section>
+        </div>
+        <TheInternNavMotion 
+        :labels="internNavLabels"></TheInternNavMotion>
+        <div class="page-wrapper">
+        <section>
                 <article v-for="(afsnit,index) in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">
                     <div class="flex-column-container">
                         <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
