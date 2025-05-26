@@ -4,6 +4,7 @@ import TheHero from "../components/TheHero.vue";
 import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import EntryPoint from '@/components/EntryPoint.vue';
+import DynamicHeading from '@/components/DynamicHeading.vue';
 import ImageHolder from '@/components/ImageHolder.vue';
 import TheSpinner from "@/components/TheSpinner.vue";
 import { ref, onMounted, onUnmounted } from "vue";
@@ -121,22 +122,22 @@ function checkScreenSize() {
             <TheInternNavMotion 
             :labels="internNavLabels" />
             <section>
-                <article v-for="afsnit in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">
+                <article v-for="(afsnit,index) in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">
                     <div class="flex-column-container">
-                        <h1>{{ afsnit.Overskrift }}</h1>
+                        <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
                         <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                            <h2 v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</h2>
+                            <h3 v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</h3>
                             <p>{{ tekst.Brodtekst }}</p>
                         </div>
                     </div>
-                    <aside v-if="afsnit.Billede" class="aside-image">
+                    <figure v-if="afsnit.Billede" class="aside-image">
                         <ImageHolder
                         v-for="image in afsnit.Billede"
                         :key="image.id"
                         :src="getImage(image)"
                         :alt="image.alternativeText || 'Motionscenter billede'"
                         />
-                    </aside>
+                    </figure>
                 </article>
             </section> 
             

@@ -6,6 +6,7 @@ import TheInternNavHaraldslund from "../components/TheInternNavHaraldslund.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import TheHero from "../components/TheHero.vue";
 import TheSpinner from "../components/TheSpinner.vue";
+import DynamicHeading from "@/components/DynamicHeading.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
 
 // FETCH DATA
@@ -107,20 +108,21 @@ function getImage(billede) {
         description="Læs praktisk information om Haraldslund Vand og Kulturhus"
         :image="getImage(praktiskData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
         :alt="praktiskData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
-  
-        <h1> {{ praktiskData.Titel }} </h1>
+
         <TheBreadcrumb />
         <TheInternNavHaraldslund
         :label="internNavLabels"
         />
+
+        <h1> {{ praktiskData.Titel }} </h1>
         <section class="section-container">
-          <div class="flex-column">
-            <div v-for="kontaktoplysning in praktiskData?.Kontaktoplysninger || []" 
+            <div v-for="(kontaktoplysning,index) in praktiskData?.Kontaktoplysninger || []" 
             :key="kontaktoplysning.id">
-              <h2>{{ kontaktoplysning.Overskrift }}</h2>
+            <DynamicHeading :level="index === 0 ? 2 : 2">{{ kontaktoplysning.Overskrift }}</DynamicHeading>
               <div v-for="tekst in kontaktoplysning.Tekst || []" :key="tekst.id">
                   <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
                   <p>{{ tekst.Brodtekst }}</p>
+                </div>
                   <div v-if="kontaktoplysning.Knapper?.length > 0">
                     <TheBtn
                     v-for="btn in kontaktoplysning.Knapper || []"
@@ -131,10 +133,7 @@ function getImage(billede) {
                     :icon="btn.Ikon[0]">
                     </TheBtn>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="flex-column">
             <div class="wrapper-content">
               <h2>Åbningstider</h2>
               <div v-for="aabningstider in praktiskData?.Almene_aabningstider || []" :key="aabningstider.id">
@@ -163,7 +162,7 @@ function getImage(billede) {
                   </section>
                 </div>
               </div>
-            </div>
+            
             <div>
               <h2>Klagemuligheder</h2>  
               <p>{{ praktiskData.Klagemuligheder }}</p>
@@ -199,14 +198,14 @@ function getImage(billede) {
               </TheBtn>
             </div>
           </div>
-          <aside v-if="findVej.Billede?.length > 0">
+          <figure v-if="findVej.Billede?.length > 0">
               <ImageHolder
               v-for="billede in findVej.Billede"
               :key="billede?.id"
               class="side-img"
               :src="getImage(billede)"
               :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
-          </aside>
+          </figure>
         </section>
 
         <section v-for="afsnit in praktiskData?.Udstilling || []" 
@@ -239,14 +238,14 @@ function getImage(billede) {
               </div>
             </div>
           </div>
-          <aside v-if="afsnit.Billede?.length > 0">
+          <figure v-if="afsnit.Billede?.length > 0">
               <ImageHolder
               v-for="billede in afsnit.Billede"
               :key="billede?.id"
               class="side-img"
               :src="getImage(billede)"
               :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
-          </aside>
+          </figure>
         </section>
 
           <section class="section-container" v-for="facilitet in praktiskData?.Faciliteter || []" 
@@ -276,14 +275,14 @@ function getImage(billede) {
                   </TheBtn>
                 </div>
               </div>
-              <aside v-if="facilitet.Billede?.length > 0">
+              <figure v-if="facilitet.Billede?.length > 0">
                   <ImageHolder
                   v-for="billede in facilitet.Billede"
                   :key="billede?.id"
                   class="small-side-img"
                   :src="getImage(billede)"
                   :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
-              </aside>
+              </figure>
           </section>
 
           <section class="section-container">
@@ -311,14 +310,14 @@ function getImage(billede) {
                     :icon="btn.Ikon[0]">
                     </TheBtn>
                   </div>
-                  <aside v-if="personData.Billede?.length > 0">
+                  <figure v-if="personData.Billede?.length > 0">
                       <ImageHolder
                       v-for="billede in personData.Billede"
                       :key="billede?.id"
                       class="side-img"
                       :src="getImage(billede)"
                       :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
-                  </aside>
+                  </figure>
               </div>
             </div>
           </section>
@@ -338,8 +337,9 @@ main{
     margin: 0 auto var(--spacer-Elements);
     max-width: var(--max-width);
     width: 95%;
-    display: flex;
-    gap: var(--spacer-x2);
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: var(--spacer-x1);
 }
 
 .breadcrumb-container {
@@ -369,7 +369,7 @@ h1 {
 .flex-column {
     display: flex;
     flex-direction: column;
-    gap: var(--spacer-x2);
+    gap: var(--spacer-x1);
     width: 34rem;
 }
 
@@ -393,22 +393,22 @@ span {
 .wrapper-content {
     display: flex;
     flex-direction: column;
-    gap: var(--spacer-x0-5);
+    gap: var(--spacer-x1);
 
 }
-aside {
+figure {
     display: flex;
     flex-direction: column;
     flex: 1;
     gap: var(--spacer-x1);
 }
 
-aside .side-img {
+figure .side-img {
     max-width: 43.75rem;
     max-height: 21.5rem;
 
 }
-aside .small-side-img {
+figure .small-side-img {
     max-width: 40rem;
     max-height: 16rem;
 }

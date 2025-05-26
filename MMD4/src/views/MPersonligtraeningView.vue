@@ -6,6 +6,7 @@ import TheHero from "@/components/TheHero.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
+import DynamicHeading from "@/components/DynamicHeading.vue";
 import TheBtn from "@/components/TheBtn.vue";
 
 import { ref, onMounted } from "vue";
@@ -106,11 +107,10 @@ function getImage(billede) {
 
     <TheInternNavMotion 
     :labels="internNavLabels" />
-    <!-- <h1>{{ personligTraening.Titel }}</h1> -->
     <div id="wrapper-content">
       <div class="tekst-container">
-        <section v-for="afsnit in personligTraening?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section" >
-          <h2>{{ afsnit.Overskrift }}</h2>
+        <section v-for="(afsnit,index) in personligTraening?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section" >
+          <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
           <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
             <span v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</span>
             <span :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</span>
