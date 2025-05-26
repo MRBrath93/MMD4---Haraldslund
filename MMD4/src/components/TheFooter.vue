@@ -51,6 +51,58 @@ const footerData = ref([]);
 // CACHE VARIABLER
 const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
 
+
+const mørktTemaAktivt = ref(false);
+
+function toggleTema() {
+  const root = document.documentElement;
+
+  if (!mørktTemaAktivt.value) {
+    // Mørkt tema
+    root.style.setProperty('--color-font-1', '#FFFFFF');
+    root.style.setProperty('--color-font-2', '#FFFFFF');
+    root.style.setProperty('--color-body-background', '#1F1F1F');
+    root.style.setProperty('--color-navigation', '#526054');
+    root.style.setProperty('--color-pricetable', '#333128');
+    root.style.setProperty('--color-svim', '#375A6B');
+    root.style.setProperty('--color-svim-light', '#6E8A94');
+    root.style.setProperty('--color-motion', '#3A5F37');
+    root.style.setProperty('--color-motion-light', '#9DA98C');
+    root.style.setProperty('--color-wellness', '#3E2C3E');
+    root.style.setProperty('--color-wellness-light', '#B5B0B9');
+    root.style.setProperty('--color-meetings', '#5E4D3D');
+    root.style.setProperty('--color-meetings-light', '#BFB6AE');
+    root.style.setProperty('--color-haraldslund-light', '#A9A097');
+    root.style.setProperty('--color-activity-viewer', '#323131');
+    root.style.setProperty('--color-activity-viewer-stroke', '#FFE4AA');
+    root.style.setProperty('--color-btn-primary', '#526054');
+    root.style.setProperty('--color-btn-primary-hover', '#103916');
+  } else {
+    // Oprindeligt lyst tema
+    root.style.setProperty('--color-font-1', '#1F1F1F');
+    root.style.setProperty('--color-font-2', '#FFFFFF');
+    root.style.setProperty('--color-body-background', '#F3F1E8');
+    root.style.setProperty('--color-navigation', '#526054');
+    root.style.setProperty('--color-pricetable', '#E4E2D8');
+    root.style.setProperty('--color-svim', '#477387');
+    root.style.setProperty('--color-svim-light', '#D1DEE2');
+    root.style.setProperty('--color-motion', '#4E7B45');
+    root.style.setProperty('--color-motion-light', '#D1D9C3');
+    root.style.setProperty('--color-wellness', '#583F55');
+    root.style.setProperty('--color-wellness-light', '#E7E5E8');
+    root.style.setProperty('--color-meetings', '#866C55');
+    root.style.setProperty('--color-meetings-light', '#ECE3D9');
+    root.style.setProperty('--color-haraldslund-light', '#DDD3C9');
+    root.style.setProperty('--color-activity-viewer', '#FEFBF4');
+    root.style.setProperty('--color-activity-viewer-stroke', '#58503F');
+    root.style.setProperty('--color-btn-primary', '#FBF8F4');
+    root.style.setProperty('--color-btn-primary-hover', '#526054');
+  }
+
+  mørktTemaAktivt.value = !mørktTemaAktivt.value;
+}
+
+
 </script>
 
 <template>
@@ -117,7 +169,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                         <a href="https://was.digst.dk/haraldslund-com">Tilgængelighedserklæring</a>
                     </li>
                     <li>
-                        <button>Skift farvetema</button>
+                        <button @click="toggleTema()">Skift farvetema</button>
                     </li>
                 </ul>
             </div>
