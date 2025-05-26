@@ -25,6 +25,22 @@ onMounted(() => {
     expanded?.addEventListener('change', () => {
     expanded.value = expanded.true;
   });
+
+  const navLinks = document.querySelectorAll(".nav-links a");
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      const menuBtn = document.getElementById("menu-btn");
+      if (menuBtn) {
+        menuBtn.checked = false;
+      }
+
+      const closeBtn = document.getElementById("close-btn");
+      if (closeBtn) {
+        closeBtn.checked = true;
+      }
+    });
+  });
+
 });
 
 document.addEventListener("DOMContentLoaded", () => {
