@@ -87,9 +87,9 @@ function getImage(billede) {
 
 
 <template>
-    <template v-if="classesStore.isLoading || !motionHoldData" class="loading-container"><TheSpinner></TheSpinner></template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+    <div v-if="classesStore.isLoading || !motionHoldData" class="loading-container"><TheSpinner></TheSpinner></div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>
       <TheHero class="heroImage"
         :title="motionHoldData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="motionHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -156,7 +156,7 @@ function getImage(billede) {
         :Btn_text="motionHoldData.reklame_kort.Knapper[0].btn_description" 
         :kategori="motionHoldData.reklame_kort.Kategori" 
         :Btn_icon="motionHoldData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-    </template>
+    </div>
 </template>
 
 <style scoped>

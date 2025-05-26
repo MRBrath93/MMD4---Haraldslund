@@ -79,15 +79,15 @@ function getImage(billede) {
 </script>
 
 <template>
-    <template class="loading-container" v-if="isLoading">
+    <div class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
+    </div>
     
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
     
-    <template v-else>
+    <div v-else>
         <TheHero class="heroImage"
         :title="vwReglerData .Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="vwReglerData .Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -133,7 +133,7 @@ function getImage(billede) {
         :Btn_text="vwReglerData .reklame_kort.Knapper[0].btn_description" 
         :kategori="vwReglerData .reklame_kort.Kategori" 
         :Btn_icon="vwReglerData .reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-    </template>
+    </div>
 </template>
 
 <style scoped>
@@ -149,10 +149,9 @@ function getImage(billede) {
 .textsection {
   display: flex;
   flex-direction: column;
-  gap: var(--spacer-x2);
+  gap: var(--spacer-x1);
   margin: 0 auto;
-  margin-bottom: var(--spacer-Elements);
-  width: 100%;
+  margin-bottom: var(--mobile-site-space);
   max-width: var(--max-width);
 }
 
@@ -205,6 +204,11 @@ section{
 @media screen and (min-width: 500px) {
     .btn--container{
         flex-direction: row;
+    }
+
+    .textsection {
+        gap: var(--spacer-x2);
+        margin-bottom: var(--spacer-Elements);
     }
 }
 

@@ -29,27 +29,25 @@ const focusMainContent = () => {
 </script>
 
 <template>
-  <!-- Skiplink 
+  <div>
+     <!-- Skiplink 
    Hjælper keyboard-nav-brugere med hurtigt at komme frem til hovedindholdet på siden
    Eventet @click.prevent forhindrer standard linkadfærd og kalder fokus-funktionen
    -->
-    <a href="#" id="skipLink" class="skip-link" @click.prevent="focusMainContent">Spring til hovedindhold</a>
+   <a href="#" id="skipLink" class="skip-link" @click.prevent="focusMainContent">Spring til hovedindhold</a>
 <!-- INSPIRATIONSKILDE CLICK.PREVENT: You, Evan. Essentials - Event Handling. (online) 2025. Vue.js. MIT-License. [Accessed 24/05/2025] URL: https://vuejs.org/guide/essentials/event-handling?utm_source=chatgpt.com -->
 
   <!-- landmarks med aria-labels -->
-  <header aria-label="Primær navigation">
-    <TheNav />
-  </header>
+  <TheNav aria-label="Primær navigation"/>
+
    
   <main aria-labelledby="main" tabindex="-1">
     <RouterView />  
   </main>
   <!-- aria-labelledby bruges til at forbinde hovedindholdet med dets overskrift, hvilket forbedrer tilgængeligheden for skærmlæsere. tabindex="-1" gør det muligt at fokusere på hovedindholdet ved hjælp af skip-linket. -->
      
-
-  <footer aria-label="Sidefod">
-    <TheFooter />
-  </footer>
+  <TheFooter aria-label="Sidefod"/>
+  </div>
 </template>
 
 <style scoped>

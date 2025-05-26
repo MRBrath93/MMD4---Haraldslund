@@ -41,13 +41,13 @@ function getImage(billede) {
 
 </script>
 <template>
-    <template v-if="isLoading">        
+    <div v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>        
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>        
         <!-- <TheHero
         :title="HARALDSLUND"
         :subtitle="Aktivitetsoversigt"
@@ -55,14 +55,13 @@ function getImage(billede) {
         :image="getImage(praktiskData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
         :alt="praktiskData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" /> -->
         <h1> Aktivitetsoversigt </h1>
-        <TheBreadcrumb />
+        <TheBreadcrumb></TheBreadcrumb>
         <TheInternNavHaraldslund
-        :label="internNavLabels"
-        />
+        :label="internNavLabels"></TheInternNavHaraldslund>
         <section>
 
         </section>
-    </template>
+    </div>
 
 </template>
 <style scoped>

@@ -89,25 +89,23 @@ function getImage(billede) {
 </script>
 
 <template>
-    <template v-if="isLoading">        
+    <div v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>
       <TheHero
         :title="lejeData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="lejeData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om leje af motionshal og instruktør."
         :image="getImage(lejeData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
-        :alt="lejeData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
+        :alt="lejeData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
   
-      <TheBreadcrumb />  
-  
-      <!-- <h1>{{ lejeData.Titel }}</h1> -->
+      <TheBreadcrumb></TheBreadcrumb>  
       <TheInternNavMotion 
-      :labels="internNavLabels" />
+      :labels="internNavLabels"></TheInternNavMotion>
       <div id="wrapper-content">
         <div class="tekst-container">
             <section v-for="(afsnit,index) in lejeData?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section">
@@ -147,22 +145,13 @@ function getImage(billede) {
         :kategori="lejeData.reklame_kort.Kategori" 
         :Btn_icon="lejeData.reklame_kort.Knapper[0].Ikon[0]">
       </Reklamekort>
-    </template>
+    </div>
 </template>
 
 <style scoped>
 .flex{
   display: flex;
   gap: var(--spacer-x1);
-}
-
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacer-x2);
-    justify-content: center;
-    margin: 0 auto;
 }
 
 figure {
@@ -205,8 +194,10 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 90vw;
+  max-width: var(--max-width);
+  width: 95%;
   gap: var(--spacer-x2);
+  margin: 0 auto;
 }
 
 @media screen and (min-width: 768px) {

@@ -95,26 +95,28 @@ function getImage(billede) {
 </script>
 
 <template>
-    <template v-if="isLoading">        
+    <div v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>        
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>        
         <TheHero
         :title="praktiskData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="praktiskData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs praktisk information om Haraldslund Vand og Kulturhus"
         :image="getImage(praktiskData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
-        :alt="praktiskData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
+        :alt="praktiskData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" ></TheHero>
 
-        <TheBreadcrumb />
-        <TheInternNavHaraldslund
-        :label="internNavLabels"
-        />
-
-        <h1> {{ praktiskData.Titel }} </h1>
+        <section class="content-container">
+          <TheBreadcrumb></TheBreadcrumb>
+          <TheInternNavHaraldslund
+          :label="internNavLabels"
+          ></TheInternNavHaraldslund>
+  
+          <h1> {{ praktiskData.Titel }} </h1>
+        </section>
         <section class="section-container">
             <div v-for="(kontaktoplysning,index) in praktiskData?.Kontaktoplysninger || []" 
             :key="kontaktoplysning.id">
@@ -321,16 +323,25 @@ function getImage(billede) {
               </div>
             </div>
           </section>
-    </template>
+    </div>
 </template>
 
 <style scoped>
 
-main{
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    align-items: center;
+.content-container{
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.content-container h1{
+  margin-bottom: var(--spacer-x2);
+}
+
+.heading{
+    max-width: var(--max-width);
+    width: 95%;
+    margin: var(--spacer-x1) auto;
 }
 
 .section-container {
@@ -342,16 +353,9 @@ main{
     gap: var(--spacer-x1);
 }
 
-.breadcrumb-container {
-    max-width: var(--max-width);
-    width: 95%;
-    margin: auto var(--spacer-x2);
-}
-
 h1 {
   width: 100%;
   max-width: var(--max-width);
-  margin: auto var(--spacer-x2);
 }
 
 #specielTid {

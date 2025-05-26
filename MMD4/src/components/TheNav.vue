@@ -1,6 +1,6 @@
 <script setup>
 import { RouterLink } from "vue-router";
-import { ref, computed, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 
 const expanded = ref(false);
 
@@ -25,6 +25,22 @@ onMounted(() => {
     expanded?.addEventListener('change', () => {
     expanded.value = expanded.true;
   });
+
+  const navLinks = document.querySelectorAll(".nav-links a");
+  navLinks.forEach(link => {
+    link.addEventListener("click", () => {
+      const menuBtn = document.getElementById("menu-btn");
+      if (menuBtn) {
+        menuBtn.checked = false;
+      }
+
+      const closeBtn = document.getElementById("close-btn");
+      if (closeBtn) {
+        closeBtn.checked = true;
+      }
+    });
+  });
+
 });
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -117,7 +133,8 @@ window.addEventListener("resize", handleNavBehavior);
 
 </script>
 <template>
-    <nav class="header" role="navigation" aria-label="Hovednavigation">
+    <header>
+        <nav class="header" role="navigation" aria-label="Hovednavigation">
         <div class="wrapper">
             <div class="logo">
                 <router-link class="no-drop" :to="{ name: 'frontpage' }"><img src="../assets/images/image-removebg-preview.png" alt=""></router-link>
@@ -204,6 +221,7 @@ window.addEventListener("resize", handleNavBehavior);
             </label>
         </div>
     </nav>
+    </header>
 </template>
 
 <style scoped>

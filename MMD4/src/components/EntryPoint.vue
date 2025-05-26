@@ -157,6 +157,7 @@ const kategoriColor = computed(() => {
 
 .text-wrapper h5 {
   font-weight: 500;
+  color: var(--color-font-2);
 }
 
 .link-wrapper {

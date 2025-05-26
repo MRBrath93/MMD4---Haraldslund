@@ -120,13 +120,13 @@ function handleResize() {
 
 
 <template>
-    <template class="loading-container" v-if="isLoading">
+    <div class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>
         <TheHero
             title="HARALDSLUND"
             subtitle="Prisoversigt"
@@ -353,13 +353,11 @@ function handleResize() {
                 </tr>
             </thead>
             <tbody>
-                <template v-for="klip in motionPrisData?.Klippekort || []" :key="klip.id">
-                    <tr>
+                    <tr v-for="klip in motionPrisData?.Klippekort || []" :key="klip.id">
                         <td>{{ klip.Titel + ' ' + klip.Note }}</td>
                         <td>{{ klip.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ klip.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
                         <td>{{ klip.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ klip.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
                     </tr>
-                </template>
             </tbody>
 
             <!-- --- MÅNEDSKORT --- -->
@@ -731,7 +729,7 @@ function handleResize() {
     :kategori="vwPrisData .reklame_kort.Kategori" 
     :Btn_icon="vwPrisData .reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     
-    </template>
+    </div>
 </template>
 
 <!-- INSPIRATIONSKILDE TABEL: MDN Web Docs. <table>: The Table element. 2025 (online) Mozilla Foundation 2025. [Accessed 21/05/2025] URL: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/table -->
@@ -763,6 +761,7 @@ table {
     margin: 0 auto;
     border-collapse: collapse;
     font-family: var(--font-text);
+    margin-bottom: var(--spacer-Elements);
 }
 
 th h5{

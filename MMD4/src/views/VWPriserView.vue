@@ -95,15 +95,15 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <template class="loading-container" v-if="isLoading">
+    <div class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
+    </div>
     
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
     
-    <template v-else>
+    <div v-else>
         <TheHero class="heroImage"
         :title="vandogwellnessPriserData .Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="vandogwellnessPriserData .Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -413,7 +413,7 @@ onUnmounted(() => {
         :Btn_text="vandogwellnessPriserData .reklame_kort.Knapper[0].btn_description" 
         :kategori="vandogwellnessPriserData .reklame_kort.Kategori" 
         :Btn_icon="vandogwellnessPriserData .reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-    </template>
+    </div>
 </template>
 
 <style scoped>
@@ -433,7 +433,7 @@ onUnmounted(() => {
   gap: var(--spacer-x2);
   margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
-  width: 100%;
+  width: 95%;
   max-width: var(--max-width);
 }
 
@@ -524,7 +524,7 @@ section{
 }
 
 table {
-    width: 95%;
+    width: 100%;
     max-width: var(--max-width);
     table-layout: fixed;
     margin: 0 auto;

@@ -94,16 +94,16 @@ function getImage(billede) {
 
 
 <template>
-    <template v-if="classesStore.isLoading || isLoading" class="loading-container">
+    <div v-if="classesStore.isLoading || isLoading" class="loading-container">
         <main>
             <div id="loading" aria-live="assertive" aria-atomic="true" role="status" class="visually-hidden">
               <span> {{ loadingMessage }} </span>
             </div>
             <TheSpinner></TheSpinner>
         </main>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>
       <TheHero class="heroImage"
         :title="vandogwellnessHoldData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="vandogwellnessHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -170,7 +170,7 @@ function getImage(billede) {
         :Btn_text="vandogwellnessHoldData.reklame_kort.Knapper[0].btn_description" 
         :kategori="vandogwellnessHoldData.reklame_kort.Kategori" 
         :Btn_icon="vandogwellnessHoldData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-    </template>
+    </div>
 </template>
 
 <style scoped>
@@ -183,7 +183,6 @@ function getImage(billede) {
   gap: var(--spacer-x2);
   margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
-  width: 100%;
   max-width: var(--max-width);
 }
 
