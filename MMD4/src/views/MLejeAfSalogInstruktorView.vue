@@ -7,6 +7,7 @@ import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 import TheSpinner from "../components/TheSpinner.vue";
+import DynamicHeading from "@/components/DynamicHeading.vue";
 import TheBtn from "@/components/TheBtn.vue";
 
 
@@ -109,11 +110,11 @@ function getImage(billede) {
       :labels="internNavLabels" />
       <div id="wrapper-content">
         <div class="tekst-container">
-            <section v-for="afsnit in lejeData?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section">
-              <h2>{{ afsnit.Overskrift }}</h2>
-              <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                <span v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</span>
-                <span :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</span>
+            <section v-for="(afsnit,index) in lejeData?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section">
+              <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
+              <div class="flex" v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+                <p v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</p>
+                <p :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</p>
               </div>
               <div v-if="afsnit.Knapper?.length > 0">
                 <TheBtn
@@ -127,14 +128,14 @@ function getImage(billede) {
               </div>
             </section>
         </div>
-        <aside class="billede-container" v-if="lejeData?.Billede?.Billede_element">
+        <figure class="billede-container" v-if="lejeData?.Billede?.Billede_element">
           <ImageHolder
             v-for="billede in lejeData.Billede.Billede_element"
             :key="billede?.id"
             class="side-img"
             :src="getImage(billede)"
             :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-        </aside>
+        </figure>
       </div>
       <Reklamekort 
         :src="getImage(lejeData.reklame_kort.Billede)" 
@@ -150,6 +151,11 @@ function getImage(billede) {
 </template>
 
 <style scoped>
+.flex{
+  display: flex;
+  gap: var(--spacer-x1);
+}
+
 main{
     display: flex;
     flex-direction: column;
@@ -159,7 +165,7 @@ main{
     margin: 0 auto;
 }
 
-aside {
+figure {
     max-width: 700px;
     max-height: 845px;
 }

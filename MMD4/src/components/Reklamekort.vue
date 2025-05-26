@@ -123,6 +123,7 @@ const kategoriColor = computed(() => {
     case 'Samlet priser':
       return 'bg-haraldslund';
     case 'Møder & Konferencer':
+    case 'Events':
       return 'bg-meeting';
     case 'Wellness':
       return 'bg-wellness';

@@ -3,6 +3,7 @@ import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 import TheHero from "@/components/TheHero.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
+import DynamicHeading from "@/components/DynamicHeading.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 
 import { ref, onMounted } from "vue";
@@ -72,9 +73,8 @@ function getImage(billede) {
 
         <TheInternNavMotion :labels="internNavLabels" />
         <div class="container-rules">
-            <h1>{{ mReglerData.Titel }}</h1>
-            <section v-for="afsnit in mReglerData.Indhold?.Afsnit || []" :key="afsnit.id" >
-                <h2>{{ afsnit.Overskrift }}</h2>
+            <section v-for="(afsnit,index) in mReglerData.Indhold?.Afsnit || []" :key="afsnit.id" >
+                <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
                 <div class="text-spacer" v-for="tekstafsnit in afsnit.Tekst || []" :key="tekstafsnit.id">
                     <h4 v-if="tekstafsnit.Underoverskift">{{ tekstafsnit.Underoverskift }}</h4>
                     <p>{{ tekstafsnit.Brodtekst }}</p>

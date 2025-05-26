@@ -109,7 +109,7 @@ function getImage(billede) {
                     <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
                 </li>
             </ul>
-            <h4 class="small" v-for="pris in enkeltPris.Priser"> Pris: {{ pris.Genstand }} {{ pris.Pris }},-</h4>
+            <h4 class="small" v-for="pris in enkeltPris.Priser" :key="pris-id"> Pris: {{ pris.Genstand }} {{ pris.Pris }},-</h4>
         </article>
         <article class="pris-article" v-for="klipPris in motionPriser.Klippekort || []" :key="klipPris.id" >
             <h3>{{ klipPris.Titel }}</h3>
@@ -121,7 +121,7 @@ function getImage(billede) {
                     <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
                 </li>
             </ul>
-            <h4 class="small" v-for="pris in klipPris.Priser"> Pris: {{ pris.Pris }},-</h4>
+            <h4 class="small" v-for="pris in klipPris.Priser" :key="pris-id"> Pris: {{ pris.Pris }},-</h4>
         </article>
         <article class="pris-article" v-for="programPris in motionPriser.Programlaegning || []" :key="programPris.id" >
             <h3>Programlægning</h3>
@@ -133,7 +133,7 @@ function getImage(billede) {
                     <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
                 </li>
             </ul>
-            <h4 class="small" v-for="pris in programPris.Priser">Pris pr. program: {{ pris.Pris }},-</h4>
+            <h4 class="small" v-for="pris in programPris.Priser" :key="pris-id">Pris pr. program: {{ pris.Pris }},-</h4>
         </article>
         <article class="pris-article" v-for="maanedsPris in motionPriser.Maanedskort || []" :key="maanedsPris.id" >
             <h3>{{ maanedsPris.Titel }}</h3>
@@ -145,14 +145,14 @@ function getImage(billede) {
                     <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
                 </li>
             </ul>
-            <h4 class="small" v-for="pris in maanedsPris.Priser">Pris fra {{ pris.Pris }},-</h4>
+            <h4 class="small" v-for="pris in maanedsPris.Priser" :key="pris-id">Pris fra {{ pris.Pris }},-</h4>
         </article>
         <article class="pris-article">
             <div v-for="(personligPris, index) in motionPriser.Personlig_traening || []" :key="personligPris.id">
                 <template v-if="index === 0">
                     <h3>Personlig Træning</h3>
                     <ul>
-                        <li v-for="fordel in personligPris.Fordele || []" :key="'fordel-' + index">
+                        <li v-for="fordel in personligPris.Fordele || []" :key="'fordel-' + fordel.index">
                             <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
                         </li>
                         <li v-for="(ulempe, index) in personligPris.Ulemper || []" :key="'ulempe-' + index">
@@ -160,7 +160,7 @@ function getImage(billede) {
                         </li>
                     </ul>
                 </template>
-                <h4 class="small" v-for="pris in personligPris.Priser">{{ personligPris.Titel }}: {{ pris.Pris }},-</h4>
+                <h4 class="small" v-for="pris in personligPris.Priser" :key="pris-id">{{ personligPris.Titel }}: {{ pris.Pris }},-</h4>
             </div>
         </article>
     </section>

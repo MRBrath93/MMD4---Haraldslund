@@ -4,6 +4,7 @@ import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 import TheHero from "@/components/TheHero.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
+import DynamicHeading from "@/components/DynamicHeading.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 
@@ -101,17 +102,17 @@ function getImage(billede) {
       <section class="section-wrapper">
         <div class="section-grid">
           <h1>{{ motionData.Titel }}</h1>
-          <template v-for="afsnit in motionData.Indhold.Afsnit || []" :key="afsnit.id">
-            <aside v-if="afsnit.Billede" class="image-wrapper">
+          <template v-for="(afsnit,index) in motionData.Indhold.Afsnit || []" :key="afsnit.id">
+            <figure v-if="afsnit.Billede" class="image-wrapper">
               <ImageHolder
               v-for="billede in [].concat(afsnit.Billede)"
               :key="billede.id"
               class="side-img"
               :src="getImage(billede)"
               :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-            </aside>
+            </figure>
             <div class="text-wrapper">
-              <h2>{{ afsnit.Overskrift }}</h2>
+              <DynamicHeading :level="index === 0 ? 2 : 3">{{ afsnit.Overskrift }}</DynamicHeading>
               <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
                 <p class="fat-text" v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</p>
                 <p>{{ tekst.Brodtekst }}</p>
