@@ -3,18 +3,20 @@ import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
 export const useThemeStore = defineStore('theme', () => {
-    const mørktTemaAktivt = ref(false);
+    // Tjekker om brugeren foretrækker mørkt tema via CSS media query
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const mørktTemaAktivt = ref(prefersDark);
 
-    function toggleTema() {
+    // Funktion til at sætte CSS variabler ud fra tema
+    function applyTheme(isDark) {
         const root = document.documentElement;
 
-        if (!mørktTemaAktivt.value) {
+        if (isDark) {
             root.style.setProperty('--color-font-1', '#FFFFFF');
             root.style.setProperty('--color-font-2', '#FFFFFF');
             root.style.setProperty('--color-body-background', '#1F1F1F');
             root.style.setProperty('--color-navigation', '#526054');
             root.style.setProperty('--color-pricetable', '#504944');
-            root.style.setProperty('--color-adds', '#1F1F1F');
             root.style.setProperty('--color-svim', '#477387');
             root.style.setProperty('--color-svim-light', '#477387');
             root.style.setProperty('--color-motion', '#4E7B45');
@@ -34,7 +36,6 @@ export const useThemeStore = defineStore('theme', () => {
             root.style.setProperty('--color-body-background', '#F3F1E8');
             root.style.setProperty('--color-navigation', '#526054');
             root.style.setProperty('--color-pricetable', '#E4E2D8');
-            root.style.setProperty('--color-adds', '#1F1F1F');
             root.style.setProperty('--color-svim', '#477387');
             root.style.setProperty('--color-svim-light', '#D1DEE2');
             root.style.setProperty('--color-motion', '#4E7B45');
@@ -49,8 +50,14 @@ export const useThemeStore = defineStore('theme', () => {
             root.style.setProperty('--color-btn-primary', '#FBF8F4');
             root.style.setProperty('--color-btn-primary-hover', '#526054');
         }
+    }
 
+    // Sætter tema ved opstart
+    applyTheme(mørktTemaAktivt.value);
+
+    function toggleTema() {
         mørktTemaAktivt.value = !mørktTemaAktivt.value;
+        applyTheme(mørktTemaAktivt.value);
     }
 
     return { mørktTemaAktivt, toggleTema };

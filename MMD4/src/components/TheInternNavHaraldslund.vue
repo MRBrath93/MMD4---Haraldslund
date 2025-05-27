@@ -101,13 +101,16 @@ onBeforeUnmount(() => {
     align-items: center;
     width: 100%;
     padding: var(--spacer-x1);
+    color: var(--color-font-1);
   }
+
 .intern-nav-container {
     display: flex;
     flex-direction: column;
     gap: var(--spacer-x1);
     padding: var(--spacer-x0-5) var(--spacer-x1);
     width: max-content;
+    color: var(--color-font-1);
 }
   
 li {
@@ -116,11 +119,17 @@ li {
   
 span {
     font-size: clamp(0.875rem, 1.5vw, 1rem);
+    color: var(--color-font-1);
 }
     
 .button-label {
     font-weight: bold;
     padding-right: var(--spacer-x0-25);
+    color: var(--color-font-1);
+}
+
+button{
+  color: var(--color-font-1);
 }
 
 

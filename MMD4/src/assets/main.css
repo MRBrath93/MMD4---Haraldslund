@@ -42,7 +42,6 @@
   --color-navigation: #526054;
   --color-body-background: #F3F1E8;
   --color-pricetable: #E4E2D8;
-  --color-adds: #1F1F1F;
 
   --color-activity-viewer: #FEFBF4;
   --color-activity-viewer-stroke: #58503F;
@@ -147,7 +146,8 @@ a:active {
 }
 
 p,
-a {
+a,
+li {
   /* 16–24px */
   font-size: 1rem;
   line-height: 1.5;

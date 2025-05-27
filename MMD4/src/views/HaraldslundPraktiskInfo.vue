@@ -357,6 +357,7 @@ function getImage(billede) {
 h1 {
   width: 100%;
   max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 #specielTid {
@@ -375,7 +376,7 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: var(--spacer-x1);
-    width: 34rem;
+    width: 100%;
 }
 
 span {

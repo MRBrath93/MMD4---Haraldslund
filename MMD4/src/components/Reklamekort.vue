@@ -176,7 +176,6 @@ const kategoriColor = computed(() => {
   max-width: var(--max-width);
   padding: 0 2rem;
   margin: var(--spacer-Elements) auto;
-  color: var(--color-adds);
 }
 
 .ads_cart p, .ads_cart h4{
