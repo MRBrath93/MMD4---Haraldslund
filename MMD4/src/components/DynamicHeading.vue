@@ -16,13 +16,12 @@ const tag = computed(() => `h${props.level}`);
 
 
 <template>
-    <component :is="tag" class="dynamic-heading" id="main" tabindex="-1">
+    <component :is="tag" class="dynamic-heading" tabindex="-1" id="main" >
       <slot />
     </component>
   </template>
 
-  <!-- ACCESSABILITY NOTE: SKIP-LINK FUNKTION: id="main" bruges til at kunne fokusere på hovedindholdet ved brug af "Skiplink"
-    tabindex="-1" gør main fokuserbart ved keyboard-nav -->
+
 
   <style scoped>
   .dynamic-heading {

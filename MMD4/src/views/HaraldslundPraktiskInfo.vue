@@ -163,6 +163,7 @@ function getImage(billede) {
                   </section>
                 </div>
               </div>
+             
             </div>
             <div>
               <h2>Klagemuligheder</h2>  
@@ -208,7 +209,8 @@ function getImage(billede) {
               :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
           </aside>
         </section>
-
+        <!-- BILLEDE REFERENCER:
+        Find vej dronebillede: Facebook: Haraldslund Vand og Kulturhus. 15/06/2023. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=851476806451500&set=pb.100047675655563.-2207520000&type=3 -->
         <section v-for="afsnit in praktiskData?.Udstilling || []" 
         :key="afsnit.id"
         class="section-container"
@@ -248,7 +250,9 @@ function getImage(billede) {
               :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
           </aside>
         </section>
-
+         <!-- BILLEDE REFERENCER:
+              Udstilling2: Facebook: Haraldslund Vand og Kulturhus. 05/11/2023. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=969880011277845&set=pb.100047675655563.-2207520000&type=3
+              Udstilling1: Facebook: Haraldslund Vand og Kulturhus. 05/11/2023. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=969880017944511&set=pb.100047675655563.-2207520000&type=3 -->
           <section class="section-container" v-for="facilitet in praktiskData?.Faciliteter || []" 
             :key="facilitet.id"
             >
@@ -285,7 +289,11 @@ function getImage(billede) {
                   :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
               </aside>
           </section>
-
+          <!-- BILLEDE REFERENCER:
+          Petrenko, Dasha. Fil#: 705048470. (online). Adobe Stock 2025. [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/images/beautiful-smiling-young-woman-taking-a-shower-in-gym/705048470
+          Daxenbichler, Patrick. Fil#: 204805082. (online). Adobe Stock 2025. [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/images/blaue-spinde-und-vorhangeschloss-in-der-schule-umkleide/204805082
+           Albers, Joachim B. Fil#: 31387757. (online). Adobe Stock 2025. [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/images/kleidungsstucke-hangen-im-umkleideraum/31387757
+            -->
           <section class="section-container">
             <div v-for="personData in praktiskData?.Persondata || []" :key="personData.id">
               <div class="persondata-container"> 

@@ -353,13 +353,11 @@ function handleResize() {
                 </tr>
             </thead>
             <tbody>
-                <template v-for="klip in motionPrisData?.Klippekort || []" :key="klip.id">
-                    <tr>
-                        <td>{{ klip.Titel + ' ' + klip.Note }}</td>
-                        <td>{{ klip.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ klip.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
-                        <td>{{ klip.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ klip.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
-                    </tr>
-                </template>
+                <tr v-for="klip in motionPrisData?.Klippekort || []" :key="klip.id">
+                    <td>{{ klip.Titel + ' ' + klip.Note }}</td>
+                    <td>{{ klip.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ klip.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
+                    <td>{{ klip.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ klip.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
+                </tr>
             </tbody>
 
             <!-- --- MÅNEDSKORT --- -->
@@ -375,11 +373,13 @@ function handleResize() {
                     <td>{{ maenedskort.Titel }} {{ maenedskort.Note }}</td>
                     <td>{{ maenedskort.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ maenedskort.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
                     <td>{{ maenedskort.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ maenedskort.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
+                </tr> 
+                <tr>
+                    <td colspan="3" class="note">* Gælder 30 dage fra købsdato, med adgang til bad og omklædning (Kortet gælder ikke til  svømmehal).  
+                    Kan anvendes 1 gang dagligt og er kun til personligt brug. Holdtræning Inkluderet.</td>
                 </tr>
+                
             </tbody>
-            <p class="small">Gælder 30 dage fra købsdato, med adgang til bad og omklædning (Kortet gælder ikke til  svømmehal).  
-                Kan anvendes 1 gang dagligt. Kun til personligt brug. Inkl. holdtræning</p>
-            
             <!-- --- PERSONLIG TRÆNING --- -->
             <thead>
                 <tr>
@@ -814,6 +814,11 @@ section{
     margin-bottom: 5px;
     font-weight: bold;
     font-size: 14px;
+}
+
+.note {
+    font-style: italic;
+    font-size: 0.85rem;
 }
 
 

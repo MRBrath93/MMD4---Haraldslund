@@ -136,6 +136,7 @@ function getImage(billede) {
                     :src="getImage(billede)" 
                     :alt="billede.alternativeText"/>
                 </div>
+                <!-- REFERENCE BILLEDE: Facebook: Haraldslund Vand og Kulturhus. 21/02/2022. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/4982792758445445/?type=3 -->
             </div>
         </section>
         

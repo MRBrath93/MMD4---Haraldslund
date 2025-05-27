@@ -53,6 +53,9 @@ onBeforeUnmount(() => {
     <p tabindex="-1" id="spinnerText" role="alert" class="loading-text">Indlæser data...</p>
   </div>
 </template>
+<!-- I <p> spinner-teksten bruges `tabindex="-1"` for at gøre den fokuserbar, og `role="alert"` for at informere skærmlæsere om, 
+ at der er en vigtig besked som skal speakes med det samme. Ved at gøre det sådan her, læser skærmoplæseren teksten med det samme der loades data, 
+ og siden bliver mere tilgængelig-->
 
 <style scoped>
 .spinner-wrapper {

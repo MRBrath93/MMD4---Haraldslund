@@ -136,6 +136,7 @@ const visibleTeamCards = computed(() => {
     :subtitle="motionHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
     :image="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
     :alt="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
+    <!-- REFERENCE BILLEDE: Seizinger, Corri. Fil #:745719113. (online) Adobe Stock. 2025. [Accessed 07/05/2025]. URL: https://stock.adobe.com/dk/search/images?filters%5Bcontent_type%3Aphoto%5D=1&filters%5Bcontent_type%3Aimage%5D=1&filters%5Borientation%5D=panoramic&filters%5Bcopy_space%5D=all&filters%5Bcontent_type%3Aillustration%5D=0&filters%5Bcontent_type%3Azip_vector%5D=0&k=styrketr%C3%A6ning&order=relevance&search_type=filter-select&limit=100&search_page=1&acp=&aco=styrketr%C3%A6ning&color=%23427A40&get_facets=1&asset_id=745719113 -->
     <TheBreadcrumb></TheBreadcrumb>
     
     <section class="textsection" v-for="(tekstsektion,index) in selectedClass.indhold.afsnit" :key="tekstsektion.id">
@@ -190,6 +191,8 @@ const visibleTeamCards = computed(() => {
     :Btn_text="selectedClass.reklamekort.knapper[0].beskrivelse" 
     :kategori="selectedClass.reklamekort.kategori"
     :Btn_icon="selectedClass.reklamekort.knapper[0].ikon"></Reklamekort>
+    <!-- REFERENCE BILLEDE: Facebook: Haraldslund Vand og Kulturhus. 24/05/2022. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/5234451549946230/?type=3 -->
+
   </template>
   
   <template v-else>

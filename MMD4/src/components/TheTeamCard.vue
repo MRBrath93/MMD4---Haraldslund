@@ -100,6 +100,7 @@ const kategoriColor = computed(() => {
   @mouseenter="handleMouseEnter"
   @mouseleave="handleMouseLeave"
 >
+<!-- NOTE: :aria-label bliver brugt til at give en beskrivelse af linket for skærmlæsere. Labels.label bruges til at give en beskrivelse af holdet, så brugere med skærmlæsere kan forstå, hvad linket handler om. -->
     <i class="icon material-symbols-rounded" :class="kategoriColor">{{ icon }}</i>
     <div class="team-card-overlay" :class="{ 'overlay-visible': overlayVisible }">
       <p class="overlay-text">{{ overlayText }}</p>

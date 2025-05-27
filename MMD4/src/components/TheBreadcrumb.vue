@@ -26,6 +26,7 @@
   display: flex;
   align-items: center;
   list-style: none;
+  flex-wrap: wrap;
   padding: var(--spacer-x1) 0;
   width: 100%;
   max-width: var(--max-width);
