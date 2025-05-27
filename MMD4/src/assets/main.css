@@ -59,33 +59,6 @@
   --max-width: 1236px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-font-1: red;
-    --color-font-2: #1F1F1F;
-
-    --color-svim: #D1DEE2;
-    --color-svim-light: #477387;
-    --color-motion: #D1D9C3;
-    --color-motion-light: #4E7B45;
-    --color-wellness: #E7E5E8;
-    --color-wellness-light: #583F55;
-    --color-meetings: #ECE3D9;
-    --color-meetings-light: #866C55;
-    --color-haraldslund-light: #DDD3C9;
-
-    --color-navigation: #A6B7A0;
-    --color-body-background: #1F1F1F;
-    --color-pricetable: #2B2B2B;
-
-    --color-activity-viewer: #262626;
-    --color-activity-viewer-stroke: #A6B7A0;
-
-    --color-btn-primary: #262626;
-    --color-btn-primary-hover: #A6B7A0;
-  }
-}
-
 *,
 *::before,
 *::after {
@@ -168,4 +141,8 @@ li {
   max-width: 75ch;
   font-family: var(--font-text);
   color: var(--color-font-1);
+}
+
+#app {
+  height: 100svh;
 }
