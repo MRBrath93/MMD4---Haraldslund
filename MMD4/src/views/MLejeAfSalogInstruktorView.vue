@@ -89,7 +89,7 @@ function getImage(billede) {
 </script>
 
 <template>
-    <div v-if="isLoading">        
+    <div class="loading-container" v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
@@ -149,6 +149,13 @@ function getImage(billede) {
 </template>
 
 <style scoped>
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .flex{
   display: flex;
   gap: var(--spacer-x1);

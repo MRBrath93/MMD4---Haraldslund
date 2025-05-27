@@ -12,13 +12,14 @@ const internNavLabels = [
 { id: 7, label: "Firmaaftaler", name: "haraldslund-firmaaftaler" },
 { id: 8, label: "Brugerråd", name: "haraldslund-brugerraad" },
 { id: 9, label: "Events", name: "haraldslund-events" },
+{ id: 10, label: "Aktivitetsoversigt", name: "haraldslund-aktivitetsoversigt" },
 ];
 </script>
 
 <template>
     <div>
         <TheBreadcrumb></TheBreadcrumb>  
-        <TheInternNavMotion :labels="internNavLabels"></TheInternNavMotion>
+        <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
         <section>
             <h1>Events</h1>
             <h2>... Maybe next time? </h2>

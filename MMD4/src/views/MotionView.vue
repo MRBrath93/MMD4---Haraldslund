@@ -103,7 +103,7 @@ function checkScreenSize() {
 </script>
 
 <template>
-    <div v-if="isLoading">        
+    <div class="loading-container" v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
@@ -162,6 +162,13 @@ function checkScreenSize() {
 </template>
 
 <style scoped>
+
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .page-wrapper {
     display: flex;

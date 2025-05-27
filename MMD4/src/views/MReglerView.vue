@@ -55,8 +55,8 @@ function getImage(billede) {
 </script>
 
 <template>
-    <div v-if="isLoading">        
-        <TheSpinner class="loading-container">
+    <div class="loading-container" v-if="isLoading">        
+        <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
     </div>
