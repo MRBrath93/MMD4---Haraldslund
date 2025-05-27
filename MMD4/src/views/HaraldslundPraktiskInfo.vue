@@ -132,7 +132,8 @@ function getImage(billede) {
                     :link="btn.link_to"
                     :title="btn.btn_titel"
                     :text="btn.btn_description"
-                    :icon="btn.Ikon[0]">
+                    :icon="btn.Ikon[0]"
+                    target="_blank">
                     </TheBtn>
                 </div>
             </div>
@@ -270,7 +271,7 @@ function getImage(billede) {
                   <TheBtn
                   v-for="btn in facilitet.Knapper || []"
                   :key="btn.id"
-                  :link="btn.link_to"
+                  link="https://was.digst.dk/haraldslund-com"
                   :title="btn.btn_titel"
                   :text="btn.btn_description"
                   :icon="btn.Ikon[0]">
@@ -306,7 +307,7 @@ function getImage(billede) {
                     <TheBtn
                     v-for="btn in personData.Knapper || []"
                     :key="btn.id"
-                    :link="btn.link_to"
+                    link="https://www.datatilsynet.dk/"
                     :title="btn.btn_titel"
                     :text="btn.btn_description"
                     :icon="btn.Ikon[0]">
@@ -356,6 +357,7 @@ function getImage(billede) {
 h1 {
   width: 100%;
   max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 #specielTid {
@@ -374,7 +376,7 @@ h1 {
     display: flex;
     flex-direction: column;
     gap: var(--spacer-x1);
-    width: 34rem;
+    width: 100%;
 }
 
 span {

@@ -163,6 +163,7 @@ function getImage(billede) {
   margin-bottom: var(--spacer-Elements);
   width: 100%;
   max-width: var(--max-width);
+  color: var(--color-font-1);
 }
 
 .img--container {

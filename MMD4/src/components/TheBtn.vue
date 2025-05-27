@@ -62,6 +62,10 @@ const computedBtnLink = computed(() => {
       return '/vand-og-wellness/priser';
     case 'VW regler':
       return '/vand-og-wellness/regler';
+    case 'Email':
+      return 'mailto:' + props.title; // Forventet at title er en emailadresse';
+    case 'Telefon':
+      return 'tel:' + props.title.replace(/\D/g, ''); // Fjerner ikke-numeriske tegn fra telefonnummeret
     default:
       return props.link || '#';
   }
@@ -86,7 +90,7 @@ const isExternalLink = computed(() => {
     <slot>
       <div class="flex">
         <div class="flex-column">
-          <h4 class="title">{{ title }}</h4>
+          <h5 class="title">{{ title }}</h5>
           <p class="small">{{ text }}</p>
         </div>
         <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
@@ -95,17 +99,23 @@ const isExternalLink = computed(() => {
   </button>
 
   <!-- Eksternt link -->
-  <a v-else-if="isExternalLink" :aria-label="text" :href="computedBtnLink" :target="target" class="button">
-    <slot>
-      <div class="flex">
-        <div class="flex-column">
-          <h5 class="title">{{ title }}</h5>
-          <p class="small">{{ text }}</p>
-        </div>
-        <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
+  <a
+  v-else-if="isExternalLink || computedBtnLink.startsWith('mailto:') || computedBtnLink.startsWith('tel:')"
+  :aria-label="text"
+  :href="computedBtnLink"
+  :target="target || (computedBtnLink.startsWith('http') ? '_blank' : null)"
+  class="button"
+>
+  <slot>
+    <div class="flex">
+      <div class="flex-column">
+        <h5 class="title">{{ title }}</h5>
+        <p class="small">{{ text }}</p>
       </div>
-    </slot>
-  </a>
+      <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
+    </div>
+  </slot>
+</a>
 
   <!-- Internt link via RouterLink -->
   <RouterLink v-else :to="computedBtnLink" :aria-label="text" class="button">
@@ -129,6 +139,7 @@ button{
 
 .icon{
     padding: var( --spacer-x0-25);
+    color: var(--color-font-1);
 }
 
 .flex{
@@ -162,7 +173,7 @@ button{
   color: var(--color-font-2);
 }
 
-.theButton:hover p, .button:hover p{
+.theButton:hover p, .button:hover p, .theButton:hover .icon, .button:hover .icon {
   color: var(--color-font-2);
 }
 

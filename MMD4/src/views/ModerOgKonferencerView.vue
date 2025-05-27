@@ -2,15 +2,24 @@
 </script>
 
 <template>
-        <h1>Møder og Konferencer</h1>
-        <img src="https://y.yarn.co/e89529fa-2345-49b0-962e-b81caee2fd03_text.gif" alt="" />
+    <div>
+        <section>
+            <h1>Personale</h1>
+            <h2>... Maybe next time? </h2>
+        </section>
+    </div>
 </template>
 
 <style scoped>
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+div{
+    height: 100vh;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding-top: 6rem;
+}
+
+section {
+    margin-bottom: var(--spacer-x5);
+    text-align: center;
 }
 </style>

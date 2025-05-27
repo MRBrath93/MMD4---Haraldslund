@@ -144,11 +144,6 @@ function getImage(billede) {
 
 <style scoped>
 
-section{
-    max-width: var(--max-width);
-    margin: 0 auto;
-}
-
 .loading-container {
   min-height: 100vh;
   display: flex;
@@ -164,7 +159,7 @@ section{
   gap: var(--spacer-x2);
   margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
-  width: 100%;
+  width: 95%;
   max-width: var(--max-width);
 }
 

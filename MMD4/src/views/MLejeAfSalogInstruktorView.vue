@@ -182,10 +182,6 @@ span {
   max-width: 650px;
 }
 
-p {
-    padding-bottom: var(--spacer-x1);
-}
-
 .fat-text {
     font-weight: 700;
 }

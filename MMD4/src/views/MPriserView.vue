@@ -205,6 +205,7 @@ function getImage(billede) {
     flex-direction: column;
     width: 18rem;
     border-radius: var(--border-radius);
+    color: var(--color-font-1);
 }
 
 .pris-article ul {
@@ -227,11 +228,13 @@ li {
 
 article h3 {
     padding-bottom: var(--spacer-x0-5);
+    color: var(--color-font-1);
 }
 
 .pris-article h4 {
   display: flex;
-  justify-content: flex-start
+  justify-content: flex-start;
+  color: var(--color-font-1);
 }
 
 main {
@@ -244,6 +247,10 @@ main {
 .white-bg {
     width: 95%;
     max-width: var(--max-width);
+}
+
+.white-bg li{
+    color: var(--color-font-1);
 }
 
 .white-bg:nth-of-type(2n) {
