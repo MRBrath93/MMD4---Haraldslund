@@ -75,21 +75,10 @@ onMounted(() => {
     });
 });
 
-// FUNKTIONER
-
-function getImage(billede) {
-    if (!billede || !billede.formats) return '';
-    return billede.formats.large?.url ||
-        billede.formats.medium?.url ||
-        billede.formats.small?.url ||
-        billede.formats.thumbnail?.url ||
-        billede.url || '';
-}
-
 
 </script>
 <template>
-    <div v-if="isLoading">        
+    <div class="loading-container" v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
@@ -117,5 +106,12 @@ section{
     max-width: var(--max-width);
     margin: 0 auto;
     text-align: center;
+}
+
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -85,7 +85,7 @@ function getImage(billede) {
 </script>
 
 <template>
-    <div eclass="loading-container" v-if="isLoading">
+    <div class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>

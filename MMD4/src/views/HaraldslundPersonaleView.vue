@@ -20,7 +20,7 @@ const internNavLabels = [
 <template>
     <div>
         <TheBreadcrumb></TheBreadcrumb>  
-        <TheInternNavMotion :labels="internNavLabels"></TheInternNavMotion>
+        <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
         <section>
             <h1>Personale</h1>
             <h2>... Maybe next time? </h2>
