@@ -58,6 +58,10 @@ onMounted(() => {
   position: relative;
 }
 
+i{
+  color: var(--color-font-1);
+}
+
 .category-wrapper::before {
   content: "";
   position: absolute;
@@ -123,13 +127,14 @@ onMounted(() => {
     border-radius: var(--border-radius);
     white-space: nowrap;
     flex: 0 0 auto;
+    color: var(--color-font-1);
   }
 
   button.active, button:hover {
     text-decoration: underline;
     text-underline-offset: 5px;
     font-weight: bold;
-    background-color: var(--color-navigation);
+    background-color: var(--color-btn-primary-hover);
     color: var(--color-font-2);
   }
 

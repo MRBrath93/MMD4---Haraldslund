@@ -75,6 +75,7 @@ const backgroundClass = computed(() => {
   gap: 1rem;
   width: 100%;
   height: 100%;
+  color: var(--color-font-1);
 }
 
 .bg-haraldslund {

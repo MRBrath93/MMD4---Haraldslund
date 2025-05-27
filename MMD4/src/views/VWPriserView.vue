@@ -530,6 +530,7 @@ table {
     margin: 0 auto;
     border-collapse: collapse;
     font-family: var(--font-text);
+    color: var(--color-font-1);
 }
 
 th h5{

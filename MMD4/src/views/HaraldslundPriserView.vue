@@ -762,6 +762,7 @@ table {
     border-collapse: collapse;
     font-family: var(--font-text);
     margin-bottom: var(--spacer-Elements);
+    color: var(--color-font-1);
 }
 
 th h5{
@@ -777,6 +778,7 @@ th, td{
 
 td{
     font-weight: 400;
+    border-bottom: 1px solid var(--color-activity-viewer-stroke);
 }
 
 .regular{
@@ -788,7 +790,7 @@ thead:not(:first-of-type) th {
 }
 
 th{
-    border-bottom: 1px solid var(--color-activity-viewer-stroke);
+    border-bottom: 2px solid var(--color-activity-viewer-stroke);
     background-color: var(--color-body-background);
 }
 

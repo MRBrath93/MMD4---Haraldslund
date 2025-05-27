@@ -227,11 +227,13 @@ li {
 
 article h3 {
     padding-bottom: var(--spacer-x0-5);
+    color: var(--color-adds);
 }
 
 .pris-article h4 {
   display: flex;
-  justify-content: flex-start
+  justify-content: flex-start;
+  color: var(--color-adds);
 }
 
 main {
@@ -244,6 +246,10 @@ main {
 .white-bg {
     width: 95%;
     max-width: var(--max-width);
+}
+
+.white-bg li{
+    color: var(--color-font-1);
 }
 
 .white-bg:nth-of-type(2n) {

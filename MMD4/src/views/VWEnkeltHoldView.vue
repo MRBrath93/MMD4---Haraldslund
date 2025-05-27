@@ -251,6 +251,7 @@ section{
   margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
   max-width: var(--max-width);
+  color: var(--color-font-1);
 }
 
 .img--container {

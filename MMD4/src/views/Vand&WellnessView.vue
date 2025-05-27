@@ -87,7 +87,7 @@ function getImage(billede) {
         </TheSpinner>
     </div>
     <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
-    <tdiv v-else>
+    <div v-else>
         <TheHero class="heroImage"
         :title="vandogwellnessData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="vandogwellnessData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -137,7 +137,7 @@ function getImage(billede) {
             </div>
            
         </section>  
-    </tdiv>
+    </div>
 </template>
 
 <style scoped>
@@ -159,6 +159,7 @@ function getImage(billede) {
   margin-bottom: var(--spacer-Elements);
   width: 100%;
   max-width: var(--max-width);
+  color: var(--color-font-1);
 }
 
 .img--container {

@@ -280,6 +280,7 @@ th, td{
     padding: 10px;
     text-align: left;
     font-size: 12px;
+    color: var(--color-font-1);
 }
 
 table a {
@@ -293,12 +294,14 @@ table a {
     display: none;
 }
 
-th{
+th, td{
     border-bottom: 1px solid var(--color-activity-viewer-stroke);
 }
 
 th {
-    background-color: var(--color-haraldslund-light);
+    background-color: var(--color-pricetable);
+    border-bottom: 2px solid var(--color-activity-viewer-stroke);
+
 }
 
 tr:nth-child(even){
