@@ -90,10 +90,9 @@ function getImage(billede) {
                 :kategori="mReglerData.reklame_kort.Kategori" 
                 :Btn_icon="mReglerData.reklame_kort.Knapper[0].Ikon[0]">
             </Reklamekort>
-            <!-- REFERENCE BILLEDE: 232319. billede: #37584142 (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/traening-gammeldags-personlig-billede-37584142   
- -->
+            <!-- REFERENCE BILLEDE: 232319. billede: #37584142 (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/traening-gammeldags-personlig-billede-37584142   -->
         </div>
-    </template>
+    </div>
 </template>
 
 <style scoped>

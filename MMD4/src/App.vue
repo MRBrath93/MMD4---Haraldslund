@@ -61,14 +61,15 @@ watch(
     tabindex="-1" gør main fokuserbart ved keyboard-nav .
     INSPIRATIONSKILDE: Vue Mastery. Content Loading That Isn't Broken by Maria Lamardo | VueConf US 2020. (online) Youtube. 2025. [Accessed 25/05/2025] URL: https://www.youtube.com/watch?app=desktop&v=ALmocFPhyr8 -->
 
-    <footer aria-label="Sidefod">
-        <TheFooter />
-    </footer>
+        <footer aria-label="Sidefod">
+            <TheFooter />
+        </footer>
     </div>
 </template>
 
 <style scoped>
  /* -- STYLE TIL SKIP-LINK (relevant for skærmoplæsere) --- */
+/* Skiplink – vises kun ved fokus */
 .skip-link {
     position: absolute;
     opacity: 0;
@@ -118,6 +119,8 @@ watch(
     transition: none !important;
     animation: none !important;
   }
+
+
 }
 
 </style>

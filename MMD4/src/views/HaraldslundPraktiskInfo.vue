@@ -120,21 +120,21 @@ function getImage(billede) {
         <section class="section-container">
             <div v-for="(kontaktoplysning,index) in praktiskData?.Kontaktoplysninger || []" 
             :key="kontaktoplysning.id">
-            <DynamicHeading :level="index === 0 ? 2 : 2">{{ kontaktoplysning.Overskrift }}</DynamicHeading>
-              <div v-for="tekst in kontaktoplysning.Tekst || []" :key="tekst.id">
-                  <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
-                  <p>{{ tekst.Brodtekst }}</p>
+              <DynamicHeading :level="index === 0 ? 2 : 2">{{ kontaktoplysning.Overskrift }}</DynamicHeading>
+                <div v-for="tekst in kontaktoplysning.Tekst || []" :key="tekst.id">
+                    <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
+                    <p>{{ tekst.Brodtekst }}</p>
                 </div>
-                  <div v-if="kontaktoplysning.Knapper?.length > 0">
-                    <TheBtn
-                    v-for="btn in kontaktoplysning.Knapper || []"
-                    :key="btn.id"
-                    :link="btn.link_to"
-                    :title="btn.btn_titel"
-                    :text="btn.btn_description"
-                    :icon="btn.Ikon[0]"
-                    target="_blank">
-                    </TheBtn>
+                <div v-if="kontaktoplysning.Knapper?.length > 0">
+                  <TheBtn
+                  v-for="btn in kontaktoplysning.Knapper || []"
+                  :key="btn.id"
+                  :link="btn.link_to"
+                  :title="btn.btn_titel"
+                  :text="btn.btn_description"
+                  :icon="btn.Ikon[0]"
+                  target="_blank">
+                  </TheBtn>
                 </div>
             </div>
             <div class="wrapper-content">
@@ -165,13 +165,11 @@ function getImage(billede) {
                   </section>
                 </div>
               </div>
-             
             </div>
             <div>
               <h2>Klagemuligheder</h2>  
               <p>{{ praktiskData.Klagemuligheder }}</p>
             </div>
-          </div>
         </section>
 
         <section v-for="findVej in praktiskData?.Find_vej || []" 
