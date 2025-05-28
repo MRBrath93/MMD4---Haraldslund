@@ -122,7 +122,8 @@ onUnmounted(() => {
 
 </script>
 <template>
-    <nav class="header" role="navigation" aria-label="Hovednavigation">
+    <header>
+        <nav class="header" role="navigation" aria-label="Hovednavigation">
         <div class="wrapper">
             <div class="logo" aria-label="Logo">
                 <router-link class="no-drop" 
@@ -261,6 +262,7 @@ onUnmounted(() => {
             </ul>
         </div>
     </nav>
+    </header>
 </template>
 
 <style scoped>

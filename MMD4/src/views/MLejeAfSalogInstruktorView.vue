@@ -7,6 +7,7 @@ import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 import TheSpinner from "../components/TheSpinner.vue";
+import DynamicHeading from "@/components/DynamicHeading.vue";
 import TheBtn from "@/components/TheBtn.vue";
 
 
@@ -88,32 +89,30 @@ function getImage(billede) {
 </script>
 
 <template>
-    <template v-if="isLoading">        
+    <div class="loading-container" v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>
       <TheHero
         :title="lejeData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="lejeData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om leje af motionshal og instruktør."
         :image="getImage(lejeData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
-        :alt="lejeData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
+        :alt="lejeData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
   
-      <TheBreadcrumb />  
-  
-      <!-- <h1>{{ lejeData.Titel }}</h1> -->
+      <TheBreadcrumb></TheBreadcrumb>  
       <TheInternNavMotion 
-      :labels="internNavLabels" />
+      :labels="internNavLabels"></TheInternNavMotion>
       <div id="wrapper-content">
         <div class="tekst-container">
-            <section v-for="afsnit in lejeData?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section">
-              <h2>{{ afsnit.Overskrift }}</h2>
-              <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                <span v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</span>
-                <span :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</span>
+            <section v-for="(afsnit,index) in lejeData?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section">
+              <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
+              <div class="flex" v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+                <p v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</p>
+                <p :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</p>
               </div>
               <div v-if="afsnit.Knapper?.length > 0">
                 <TheBtn
@@ -127,14 +126,14 @@ function getImage(billede) {
               </div>
             </section>
         </div>
-        <aside class="billede-container" v-if="lejeData?.Billede?.Billede_element">
+        <figure class="billede-container" v-if="lejeData?.Billede?.Billede_element">
           <ImageHolder
             v-for="billede in lejeData.Billede.Billede_element"
             :key="billede?.id"
             class="side-img"
             :src="getImage(billede)"
             :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-        </aside>
+        </figure>
       </div>
       <Reklamekort 
         :src="getImage(lejeData.reklame_kort.Billede)" 
@@ -147,20 +146,23 @@ function getImage(billede) {
         :Btn_icon="lejeData.reklame_kort.Knapper[0].Ikon[0]">
       </Reklamekort>
       <!-- REFERENCE BILLEDE: Facebook: Haraldslund Vand og Kulturhus. 02/07/2021. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/4220636521327743/?type=3-->
-    </template>
+    </div>
 </template>
 
 <style scoped>
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacer-x2);
-    justify-content: center;
-    margin: 0 auto;
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-aside {
+.flex{
+  display: flex;
+  gap: var(--spacer-x1);
+}
+
+figure {
     max-width: 700px;
     max-height: 845px;
 }
@@ -188,10 +190,6 @@ span {
   max-width: 650px;
 }
 
-p {
-    padding-bottom: var(--spacer-x1);
-}
-
 .fat-text {
     font-weight: 700;
 }
@@ -200,8 +198,10 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 90vw;
+  max-width: var(--max-width);
+  width: 95%;
   gap: var(--spacer-x2);
+  margin: 0 auto;
 }
 
 @media screen and (min-width: 768px) {

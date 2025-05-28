@@ -126,11 +126,11 @@ const visibleTeamCards = computed(() => {
 </script>
 
 <template>
-  <template v-if="classesStore.isLoading || !vandogwellnessHoldData" class="loading-container">
+  <div v-if="classesStore.isLoading || !vandogwellnessHoldData" class="loading-container">
     <TheSpinner></TheSpinner>
-  </template>
+  </div>
   
-  <template v-else-if="selectedClass">
+  <div v-else-if="selectedClass">
     <TheHero class="heroImage"
     :title="vandogwellnessHoldData.Hero_sektion.Hero_titel_h5.Titel_H5"
     :subtitle="vandogwellnessHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -158,7 +158,7 @@ const visibleTeamCards = computed(() => {
           </div>
         </article>
         <div class="img--container flex1">
-          <ImageHolder v-for="billede in tekstsektion.billeder" :key="billede.id" class="img" :src="getArticleImage(billede)" :alt="billede.alternativeText" />
+        <ImageHolder v-for="billede in tekstsektion.billeder" :key="billede.id" class="img" :src="getArticleImage(billede)" :alt="billede.alternativeText" />
         </div>
     </section>
     <section class="overviewGrid">
@@ -190,11 +190,11 @@ const visibleTeamCards = computed(() => {
     :Btn_text="selectedClass.reklamekort.knapper[0].beskrivelse" 
     :kategori="selectedClass.reklamekort.kategori"
     :Btn_icon="selectedClass.reklamekort.knapper[0].ikon"></Reklamekort>
-  </template>
+  </div>
   
-  <template v-else>
+  <div v-else>
     <p>Holdet med ID {{ $route.params.id }} blev ikke fundet.</p>
-  </template>
+  </div>
 </template>
 
 <style scoped>
@@ -250,8 +250,8 @@ section{
   gap: var(--spacer-x2);
   margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
-  width: 100%;
   max-width: var(--max-width);
+  color: var(--color-font-1);
 }
 
 .img--container {

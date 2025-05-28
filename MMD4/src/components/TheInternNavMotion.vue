@@ -108,6 +108,7 @@ onBeforeUnmount(() => {
     align-items: center;
     width: 100%;
     padding: var(--spacer-x1);
+    color: var(--color-font-1);
   }
 .intern-nav-container {
     display: flex;

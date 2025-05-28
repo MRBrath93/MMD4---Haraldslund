@@ -31,6 +31,7 @@
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
+  color: var(--color-font-1);
 }
 
 .breadcrumb-item + .breadcrumb-item::before {

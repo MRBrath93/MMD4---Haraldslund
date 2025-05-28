@@ -7,10 +7,6 @@ import TheHero from "../components/TheHero.vue";
 import TheSpinner from "../components/TheSpinner.vue";
 import RushHoursHaraldslund from '@/components/RushHoursHaraldslund.vue';
 
-// REAKTIVE VARIABLER
-const isLoading = ref(true);
-const error = ref(null);
-
 
 // Intern navigation labels (fra Strapi)
 const internNavLabels = [
@@ -27,44 +23,95 @@ const internNavLabels = [
 ];
 
 
-// FUNKTIONER 
-function getImage(billede) {
-  if (!billede || !billede.formats) return '';
-  return billede.formats.large?.url ||
-  billede.formats.medium?.url ||
-  billede.formats.small?.url ||
-  billede.formats.thumbnail?.url ||
-  billede.url || '';
-}
+// REAKTIVE VARIABLER
+const aboutData = ref([]);
+const isLoading = ref(true);
+const error = ref(null);
 
+// CACHE VARIABLER
+const CACHE_DURATION_MS = 1 * 60 * 1000;
+
+// FETCH DATA
+// Henter data fra Strapi API og cacher det i localStorage
+onMounted(() => {
+  isLoading.value = true;
+  error.value = null;
+
+  const cachedaboutRaw = localStorage.getItem('aboutData');
+  const cachedTimestampRaw = localStorage.getItem('cacheharaldslundTimestamp');
+  const now = Date.now();
+
+  if (cachedaboutRaw && cachedTimestampRaw) {
+    const cachedTimestamp = Number(cachedTimestampRaw);
+
+    if (now - cachedTimestamp < CACHE_DURATION_MS) {
+      try {
+        aboutData.value = JSON.parse(cachedaboutRaw);
+        isLoading.value = false;
+        return;
+      } catch (e) {
+        console.warn('Fejl ved parsing af cached data:', e);
+      }
+    }
+  }
+
+  fetch('https://popular-gift-b355856076.strapiapp.com/api/om-haraldslund?pLevel')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`About fejl: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(json => {
+      aboutData.value = json.data;
+      localStorage.setItem('aboutData', JSON.stringify(aboutData.value));
+      localStorage.setItem('cacheTimestamp', now.toString());
+    })
+    .catch(err => {
+      error.value = err.message;
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+});
 
 
 </script>
 <template>
-    <template v-if="isLoading">        
+    <div class="loading-container" v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>        
-        <!-- <TheHero
-        :title="HARALDSLUND"
-        :subtitle="Aktivitetsoversigt"
-        description="Læs praktisk information om Haraldslund Vand og Kulturhus"
-        :image="getImage(praktiskData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
-        :alt="praktiskData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" /> -->
-        <h1> Aktivitetsoversigt </h1>
-        <TheBreadcrumb />
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>        
+        <TheHero
+        :title="aboutData.Hero_sektion.Hero_titel_h5.Titel_H5"
+        :subtitle="aboutData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
+        :image="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
+        :alt="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
+        <TheBreadcrumb></TheBreadcrumb>
         <TheInternNavHaraldslund
-        :label="internNavLabels"
-        />
+        :label="internNavLabels"></TheInternNavHaraldslund>
         <section>
-
+            <h1> Aktivitetsoversigt </h1>
+            <RushHoursHaraldslund></RushHoursHaraldslund>
         </section>
-    </template>
+    </div>
 
 </template>
 <style scoped>
+section{
+    width: 95%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    text-align: center;
+}
 
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

@@ -123,6 +123,7 @@ const kategoriColor = computed(() => {
     case 'Samlet priser':
       return 'bg-haraldslund';
     case 'Møder & Konferencer':
+    case 'Events':
       return 'bg-meeting';
     case 'Wellness':
       return 'bg-wellness';
@@ -164,13 +165,6 @@ const kategoriColor = computed(() => {
   
   <style scoped>
 
-template{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
 .ads_cart {
   position: relative;
   display: flex;
@@ -182,6 +176,10 @@ template{
   max-width: var(--max-width);
   padding: 0 2rem;
   margin: var(--spacer-Elements) auto;
+}
+
+.ads_cart p, .ads_cart h4{
+  color: var(--color-font-1);
 }
 
 .billede{

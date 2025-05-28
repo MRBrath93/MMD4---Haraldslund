@@ -2,6 +2,9 @@
 // IMPORTS
 import { RouterLink } from "vue-router";
 import { ref, onMounted } from "vue";
+import { useThemeStore } from '@/stores/themeStore';
+
+const themeStore = useThemeStore(); // 🧠 Kobling til Pinia-store
 
 
 // FETCH DATA
@@ -50,6 +53,7 @@ const footerData = ref([]);
 
 // CACHE VARIABLER
 const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
+
 
 </script>
 
@@ -117,18 +121,15 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                         <a href="https://was.digst.dk/haraldslund-com">Tilgængelighedserklæring</a>
                     </li>
                     <li>
-                        <button>Skift farvetema</button>
+                        <button @click="themeStore.toggleTema()">Skift farvetema</button>
                     </li>
                 </ul>
             </div>
             <div class="large-column">
                 <h4 class="footer-headline">Åbningstider</h4>
                     <div class="opening-hours-container">
-                        <template
-                        v-for="aabningstider in footerData?.Almene_aabningstider || []"
-                        :key="aabningstider.id"
-                        >
-                        <ul class="opening-hours">
+                        <ul class="opening-hours" v-for="aabningstider in footerData?.Almene_aabningstider || []"
+                        :key="aabningstider.id">
                             <li v-if="aabningstider.Dag">{{ aabningstider.Dag }}:</li>
                             <li v-if="aabningstider.Har_Vi_Lukket === true">Lukket</li>
                             <li v-else-if="aabningstider.Har_Vi_Lukket === false">
@@ -140,14 +141,13 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                                 </span>
                             </li>
                         </ul>
-                        </template>
                     </div>
                     <div
                         v-if="footerData?.Specielle_aabningstider && footerData.Specielle_aabningstider.length > 0"
                         class="special-opening-hours"
                     >
                         <h4>Specielle åbningstider</h4>
-                        <template
+                        <div
                         v-for="specielTid in footerData.Specielle_aabningstider"
                         :key="specielTid.id"
                         class="special-opening-day"
@@ -162,7 +162,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                                 {{ specielTid.Slut_tidspunkt.split(':')[0] }}:{{ specielTid.Slut_tidspunkt.split(':')[1] }}
                                 </span>
                             </span>
-                        </template>
+                        </div>
                     </div>
             </div>
             <div class="footer-column">
@@ -205,6 +205,10 @@ footer {
     justify-content: center;
     align-items: flex-start;
     padding: var(--spacer-x1) var(--spacer-x3);
+}
+
+footer h4 {
+    color: var(--color-font-2);
 }
 
 footer ul {

@@ -1,4 +1,5 @@
 <script setup>
+import { useThemeStore } from '@/stores/themeStore';
 import { ref, computed, watch } from 'vue';
 // Importerer Bar-komponenten fra vue-chartjs
 import { Bar } from 'vue-chartjs';
@@ -11,6 +12,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+
+const themeStore = useThemeStore();
 
 // Registrerer de nødvendige Chart.js elementer
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
@@ -185,46 +188,40 @@ const chartData = computed(() => ({
 }));
 
 // Konfiguration af diagrammet https://www.chartjs.org/docs/latest/charts/bar.html
-const chartOptions = {
-// Responsivitet til tilpasning på forskellige skærmstørrelser
-  responsive: true,
-  plugins: {
-    // Skjuler legenden (Beskrivelses boks af data)
-    legend: { display: false },
-    tooltip: {
-      callbacks: {
-        // Vist tooltip med antal besøgende
-        label: context => `${context.raw} besøgende`,
-      },
-    },
-  },
-  scales: {
-    y: {
-    // Starter y-aksen ved 0
-      beginAtZero: true,
-       // Skjuler y-aksens grid
-      grid: { display: false },
-      // Gør y-aksens ticks hvide
-      ticks: { color: 'var(--color-font-1)' },
-    },
-    x: {
-      ticks: {
-        // Gør x-aksens ticks hvide
-        color: 'var(--color-font-1)',
-        callback: function(value) {
-            // Henter etiketten for hver værdi
-          const label = this.getLabelForValue(value);
-          // Vis kun hele timer på x-aksen
-          return label.endsWith(':00') ? label : '';
+const chartOptions = computed(() => {
+  const isDark = themeStore.mørktTemaAktivt;
+
+  return {
+    responsive: true,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: context => `${context.raw} besøgende`,
         },
-        // Sikrer, at alle etiketter vises
-        autoSkip: false,
       },
-      // Skjuler x-aksens grid
-      grid: { display: false },
     },
-  },
-};
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: { display: false },
+        ticks: { color: isDark ? '#ffffff' : '#000000' },  // Skift farve afhængigt af tema
+      },
+      x: {
+        ticks: {
+          color: isDark ? '#ffffff' : '#000000',          // Skift farve afhængigt af tema
+          callback: function(value) {
+            const label = this.getLabelForValue(value);
+            return label.endsWith(':00') ? label : '';
+          },
+          autoSkip: false,
+        },
+        grid: { display: false },
+      },
+    },
+  };
+});
+
 </script>
 
 <template>

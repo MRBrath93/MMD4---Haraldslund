@@ -3,6 +3,7 @@ import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 import TheHero from "@/components/TheHero.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
+import DynamicHeading from "@/components/DynamicHeading.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 
 import { ref, onMounted } from "vue";
@@ -54,27 +55,26 @@ function getImage(billede) {
 </script>
 
 <template>
-    <template v-if="isLoading">        
+    <div class="loading-container" v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div class="first-wrapper" v-else>
         <TheHero
         :title="mReglerData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="mReglerData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om regler og retningslinjer for Haraldslunds motionscenter."
         :image="getImage(mReglerData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
-        :alt="mReglerData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
+        :alt="mReglerData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
 
-        <TheBreadcrumb />  
+        <TheBreadcrumb></TheBreadcrumb>  
 
-        <TheInternNavMotion :labels="internNavLabels" />
+        <TheInternNavMotion :labels="internNavLabels"></TheInternNavMotion>
         <div class="container-rules">
-            <h1>{{ mReglerData.Titel }}</h1>
-            <section v-for="afsnit in mReglerData.Indhold?.Afsnit || []" :key="afsnit.id" >
-                <h2>{{ afsnit.Overskrift }}</h2>
+            <section v-for="(afsnit,index) in mReglerData.Indhold?.Afsnit || []" :key="afsnit.id" >
+                <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
                 <div class="text-spacer" v-for="tekstafsnit in afsnit.Tekst || []" :key="tekstafsnit.id">
                     <h4 v-if="tekstafsnit.Underoverskift">{{ tekstafsnit.Underoverskift }}</h4>
                     <p>{{ tekstafsnit.Brodtekst }}</p>
@@ -97,13 +97,12 @@ function getImage(billede) {
 </template>
 
 <style scoped>
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacer-x3);
-    justify-content: center;
-    margin: 0 auto;
+
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container-rules {
@@ -111,7 +110,9 @@ main{
     flex-direction: column;
     justify-content: center;
     gap: var(--spacer-x2);
-    max-width: 800px;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    width: 95%;
 }
 
 h4 {

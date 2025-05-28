@@ -6,6 +6,7 @@ import TheInternNavHaraldslund from "../components/TheInternNavHaraldslund.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import TheHero from "../components/TheHero.vue";
 import TheSpinner from "../components/TheSpinner.vue";
+import DynamicHeading from "@/components/DynamicHeading.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
 
 // FETCH DATA
@@ -94,33 +95,36 @@ function getImage(billede) {
 </script>
 
 <template>
-    <template v-if="isLoading">        
+    <div class="loading-container" v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>        
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>        
         <TheHero
         :title="praktiskData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="praktiskData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs praktisk information om Haraldslund Vand og Kulturhus"
         :image="getImage(praktiskData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
-        :alt="praktiskData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
+        :alt="praktiskData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" ></TheHero>
+
+        <section class="content-container">
+          <TheBreadcrumb></TheBreadcrumb>
+          <TheInternNavHaraldslund
+          :label="internNavLabels"
+          ></TheInternNavHaraldslund>
   
-        <h1> {{ praktiskData.Titel }} </h1>
-        <TheBreadcrumb />
-        <TheInternNavHaraldslund
-        :label="internNavLabels"
-        />
+          <h1> {{ praktiskData.Titel }} </h1>
+        </section>
         <section class="section-container">
-          <div class="flex-column">
-            <div v-for="kontaktoplysning in praktiskData?.Kontaktoplysninger || []" 
+            <div v-for="(kontaktoplysning,index) in praktiskData?.Kontaktoplysninger || []" 
             :key="kontaktoplysning.id">
-              <h2>{{ kontaktoplysning.Overskrift }}</h2>
+            <DynamicHeading :level="index === 0 ? 2 : 2">{{ kontaktoplysning.Overskrift }}</DynamicHeading>
               <div v-for="tekst in kontaktoplysning.Tekst || []" :key="tekst.id">
                   <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
                   <p>{{ tekst.Brodtekst }}</p>
+                </div>
                   <div v-if="kontaktoplysning.Knapper?.length > 0">
                     <TheBtn
                     v-for="btn in kontaktoplysning.Knapper || []"
@@ -128,13 +132,11 @@ function getImage(billede) {
                     :link="btn.link_to"
                     :title="btn.btn_titel"
                     :text="btn.btn_description"
-                    :icon="btn.Ikon[0]">
+                    :icon="btn.Ikon[0]"
+                    target="_blank">
                     </TheBtn>
                 </div>
-              </div>
             </div>
-          </div>
-          <div class="flex-column">
             <div class="wrapper-content">
               <h2>Åbningstider</h2>
               <div v-for="aabningstider in praktiskData?.Almene_aabningstider || []" :key="aabningstider.id">
@@ -200,14 +202,14 @@ function getImage(billede) {
               </TheBtn>
             </div>
           </div>
-          <aside v-if="findVej.Billede?.length > 0">
+          <figure v-if="findVej.Billede?.length > 0">
               <ImageHolder
               v-for="billede in findVej.Billede"
               :key="billede?.id"
               class="side-img"
               :src="getImage(billede)"
               :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
-          </aside>
+          </figure>
         </section>
         <!-- BILLEDE REFERENCER:
         Find vej dronebillede: Facebook: Haraldslund Vand og Kulturhus. 15/06/2023. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=851476806451500&set=pb.100047675655563.-2207520000&type=3 -->
@@ -241,14 +243,14 @@ function getImage(billede) {
               </div>
             </div>
           </div>
-          <aside v-if="afsnit.Billede?.length > 0">
+          <figure v-if="afsnit.Billede?.length > 0">
               <ImageHolder
               v-for="billede in afsnit.Billede"
               :key="billede?.id"
               class="side-img"
               :src="getImage(billede)"
               :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
-          </aside>
+          </figure>
         </section>
          <!-- BILLEDE REFERENCER:
               Udstilling2: Facebook: Haraldslund Vand og Kulturhus. 05/11/2023. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=969880011277845&set=pb.100047675655563.-2207520000&type=3
@@ -273,21 +275,21 @@ function getImage(billede) {
                   <TheBtn
                   v-for="btn in facilitet.Knapper || []"
                   :key="btn.id"
-                  :link="btn.link_to"
+                  link="https://was.digst.dk/haraldslund-com"
                   :title="btn.btn_titel"
                   :text="btn.btn_description"
                   :icon="btn.Ikon[0]">
                   </TheBtn>
                 </div>
               </div>
-              <aside v-if="facilitet.Billede?.length > 0">
+              <figure v-if="facilitet.Billede?.length > 0">
                   <ImageHolder
                   v-for="billede in facilitet.Billede"
                   :key="billede?.id"
                   class="small-side-img"
                   :src="getImage(billede)"
                   :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
-              </aside>
+              </figure>
           </section>
           <!-- BILLEDE REFERENCER:
           Petrenko, Dasha. Fil#: 705048470. (online). Adobe Stock 2025. [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/images/beautiful-smiling-young-woman-taking-a-shower-in-gym/705048470
@@ -313,53 +315,63 @@ function getImage(billede) {
                     <TheBtn
                     v-for="btn in personData.Knapper || []"
                     :key="btn.id"
-                    :link="btn.link_to"
+                    link="https://www.datatilsynet.dk/"
                     :title="btn.btn_titel"
                     :text="btn.btn_description"
                     :icon="btn.Ikon[0]">
                     </TheBtn>
                   </div>
-                  <aside v-if="personData.Billede?.length > 0">
+                  <figure v-if="personData.Billede?.length > 0">
                       <ImageHolder
                       v-for="billede in personData.Billede"
                       :key="billede?.id"
                       class="side-img"
                       :src="getImage(billede)"
                       :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
-                  </aside>
+                  </figure>
               </div>
             </div>
           </section>
-    </template>
+    </div>
 </template>
 
 <style scoped>
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-main{
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    align-items: center;
+.content-container{
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.content-container h1{
+  margin-bottom: var(--spacer-x2);
+}
+
+.heading{
+    max-width: var(--max-width);
+    width: 95%;
+    margin: var(--spacer-x1) auto;
 }
 
 .section-container {
     margin: 0 auto var(--spacer-Elements);
     max-width: var(--max-width);
     width: 95%;
-    display: flex;
-    gap: var(--spacer-x2);
-}
-
-.breadcrumb-container {
-    max-width: var(--max-width);
-    width: 95%;
-    margin: auto var(--spacer-x2);
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: var(--spacer-x1);
 }
 
 h1 {
   width: 100%;
   max-width: var(--max-width);
-  margin: auto var(--spacer-x2);
+  margin: 0 auto;
 }
 
 #specielTid {
@@ -377,8 +389,8 @@ h1 {
 .flex-column {
     display: flex;
     flex-direction: column;
-    gap: var(--spacer-x2);
-    width: 34rem;
+    gap: var(--spacer-x1);
+    width: 100%;
 }
 
 span {
@@ -401,22 +413,22 @@ span {
 .wrapper-content {
     display: flex;
     flex-direction: column;
-    gap: var(--spacer-x0-5);
+    gap: var(--spacer-x1);
 
 }
-aside {
+figure {
     display: flex;
     flex-direction: column;
     flex: 1;
     gap: var(--spacer-x1);
 }
 
-aside .side-img {
+figure .side-img {
     max-width: 43.75rem;
     max-height: 21.5rem;
 
 }
-aside .small-side-img {
+figure .small-side-img {
     max-width: 40rem;
     max-height: 16rem;
 }

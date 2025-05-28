@@ -120,13 +120,13 @@ function handleResize() {
 
 
 <template>
-    <template class="loading-container" v-if="isLoading">
+    <div class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>
         <TheHero
             title="HARALDSLUND"
             subtitle="Prisoversigt"
@@ -731,12 +731,19 @@ function handleResize() {
     :kategori="vwPrisData .reklame_kort.Kategori" 
     :Btn_icon="vwPrisData .reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     
-    </template>
+    </div>
 </template>
 
 <!-- INSPIRATIONSKILDE TABEL: MDN Web Docs. <table>: The Table element. 2025 (online) Mozilla Foundation 2025. [Accessed 21/05/2025] URL: https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/table -->
 
 <style scoped>
+
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .tabel-headline{
     text-align: center;
@@ -763,6 +770,8 @@ table {
     margin: 0 auto;
     border-collapse: collapse;
     font-family: var(--font-text);
+    margin-bottom: var(--spacer-Elements);
+    color: var(--color-font-1);
 }
 
 th h5{
@@ -778,6 +787,7 @@ th, td{
 
 td{
     font-weight: 400;
+    border-bottom: 1px solid var(--color-activity-viewer-stroke);
 }
 
 .regular{
@@ -789,7 +799,7 @@ thead:not(:first-of-type) th {
 }
 
 th{
-    border-bottom: 1px solid var(--color-activity-viewer-stroke);
+    border-bottom: 2px solid var(--color-activity-viewer-stroke);
     background-color: var(--color-body-background);
 }
 

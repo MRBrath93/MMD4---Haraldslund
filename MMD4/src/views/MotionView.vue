@@ -4,6 +4,7 @@ import TheHero from "../components/TheHero.vue";
 import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import EntryPoint from '@/components/EntryPoint.vue';
+import DynamicHeading from '@/components/DynamicHeading.vue';
 import ImageHolder from '@/components/ImageHolder.vue';
 import TheSpinner from "@/components/TheSpinner.vue";
 import { ref, onMounted, onUnmounted } from "vue";
@@ -102,41 +103,43 @@ function checkScreenSize() {
 </script>
 
 <template>
-    <template v-if="isLoading">        
+    <div class="loading-container" v-if="isLoading">        
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>
         <TheHero
         :title="motionViewData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="motionViewData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om vores forskellige motionstilbud i Haraldslund."
         :image="getImage(motionViewData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
-        :alt="motionViewData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
+        :alt="motionViewData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
         <!-- KILDEREFERENCE BILLEDE: Seizinger, Corri. Fil #:745719113. Adobe Stock 2025. (online) [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/search/images?filters%5Bcontent_type%3Aphoto%5D=1&filters%5Bcontent_type%3Aimage%5D=1&filters%5Borientation%5D=panoramic&filters%5Bcopy_space%5D=all&filters%5Bcontent_type%3Aillustration%5D=0&filters%5Bcontent_type%3Azip_vector%5D=0&k=styrketr%C3%A6ning&order=relevance&search_type=filter-select&limit=100&search_page=1&acp=&aco=styrketr%C3%A6ning&color=%23427A40&get_facets=1&asset_id=745719113 -->
         <div class="page-wrapper">
-            <TheBreadcrumb />  
-            <TheInternNavMotion 
-            :labels="internNavLabels" />
-            <section>
-                <article v-for="afsnit in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">
+            <TheBreadcrumb></TheBreadcrumb>  
+        </div>
+        <TheInternNavMotion 
+        :labels="internNavLabels"></TheInternNavMotion>
+        <div class="page-wrapper">
+        <section>
+                <article v-for="(afsnit,index) in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">
                     <div class="flex-column-container">
-                        <h1>{{ afsnit.Overskrift }}</h1>
+                        <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
                         <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                            <h2 v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</h2>
+                            <h3 v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</h3>
                             <p>{{ tekst.Brodtekst }}</p>
                         </div>
                     </div>
-                    <aside v-if="afsnit.Billede" class="aside-image">
+                    <figure v-if="afsnit.Billede" class="aside-image">
                         <ImageHolder
                         v-for="image in afsnit.Billede"
                         :key="image.id"
                         :src="getImage(image)"
                         :alt="image.alternativeText || 'Motionscenter billede'"
-                        />
-                    </aside>
+                        ></ImageHolder>
+                    </figure>
                 </article>
             </section> 
             
@@ -148,23 +151,23 @@ function checkScreenSize() {
                         icon="arrow_forward" 
                         :color="card.Kategori" 
                         :title="card.label" 
-                        :bgimage=" isScreenLarge ? getImage(card.billede) : '' "
+                        :bgimage= "getImage(card.billede)"
                         :name="card.link_to">
                     </EntryPoint>
                 </div>
                 <!-- KILDEREFERENCE BILLEDE SUNDHED & BEVÆGELSE: Trautmann, Arne. billede: #12878928. (online) Colourbox.dk. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.dk/billede/traening-senior-fysioterapi-billede-12878928 -->
         </section>  
         </div>
-    </template>
+    </div>
 </template>
 
 <style scoped>
 
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .page-wrapper {
@@ -198,37 +201,48 @@ main{
     align-items: stretch;
 }
 
-.card-container{
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacer-x2);
-    width: 100%;
-    margin: 0 auto;
-}
-
 .entrypoints {
     text-align: center;
-    margin-bottom: var(--spacer-Elements);
-    width: 95%;
+}
+
+.card-container{
+    display: grid;
+    grid-template-columns:1fr;
+    gap: var(--spacer-x1);
+    width: 100%;
+    max-width: var(--max-width);
+    margin: var(--spacer-x1) auto;
+    padding-bottom: var(--spacer-x6-5);
+}
+
+.entrypoint {
+    width: 100%;
+    height: 100%;
+    min-height: 10rem;
 }
 
 /* --- MEDIA QUERIES --- */
 
-@media screen and (min-width: 768px) {
-
-.card-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
-    height: auto;
+@media screen and (min-width: 500px) {
+    .card-container{
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.entrypoint {
-    max-height: 20.6rem;
-    aspect-ratio: 1 / 1;
-  }
+@media screen and (min-width: 768px) {
 
     .aside-image {
     height: 25rem;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .card-container{
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .entrypoint{
+        min-height: 300px;
     }
 }
 
@@ -247,5 +261,4 @@ main{
         height: 34rem;
     }
 }
-
 </style>

@@ -18,18 +18,25 @@ const internNavLabels = [
 </script>
 
 <template>
-        <h1>Vores historie</h1>
-        <TheBreadcrumb />
-        <TheInternNavHaraldslund
-        :label="internNavLabels"
-        />        
+    <div>
+        <TheBreadcrumb></TheBreadcrumb>  
+        <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
+        <section>
+            <h1>Vores historie</h1>
+            <h2>... Maybe next time? </h2>
+        </section>
+    </div>
 </template>
 
 <style scoped>
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+div{
+    height: 100vh;
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+section {
+    margin-bottom: var(--spacer-x5);
+    text-align: center;
 }
 </style>

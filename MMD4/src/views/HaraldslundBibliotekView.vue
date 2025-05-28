@@ -85,15 +85,15 @@ function getImage(billede) {
 </script>
 
 <template>
-    <template class="loading-container" v-if="isLoading">
+    <div class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
+    </div>
     
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
     
-    <template v-else>
+    <div v-else>
         <TheHero
         :title="bibliotekData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="bibliotekData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
@@ -140,15 +140,10 @@ function getImage(billede) {
         :Btn_text="bibliotekData.reklame_kort.Knapper[0].btn_description" 
         :kategori="bibliotekData.reklame_kort.Kategori" 
         :Btn_icon="bibliotekData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-    </template>
+    </div>
 </template>
 
 <style scoped>
-
-section{
-    max-width: var(--max-width);
-    margin: 0 auto;
-}
 
 .loading-container {
   min-height: 100vh;
@@ -165,8 +160,9 @@ section{
   gap: var(--spacer-x2);
   margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
-  width: 100%;
+  width: 95%;
   max-width: var(--max-width);
+  color: var(--color-font-1);
 }
 
 .small-margin{

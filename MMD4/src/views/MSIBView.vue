@@ -19,22 +19,25 @@ const internNavLabels = [
 </script>
 
 <template>
-    <h1>SUNDHED I BEVÆGELSE</h1>
-    <TheBreadcrumb />  
-    <TheInternNavMotion :labels="internNavLabels" />
-    <h2>... Maybe next time? </h2>
+    <div>
+        <TheBreadcrumb></TheBreadcrumb>  
+        <TheInternNavMotion :labels="internNavLabels"></TheInternNavMotion>
+        <section>
+            <h1>SUNDHED I BEVÆGELSE</h1>
+            <h2>... Maybe next time? </h2>
+        </section>
+    </div>
 </template>
 
 <style scoped>
-main{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+div{
+    height: 100vh;
+    max-width: var(--max-width);
+    margin: 0 auto;
 }
 
 section {
-    margin-top: var(--spacer-x5);
     margin-bottom: var(--spacer-x5);
+    text-align: center;
 }
 </style>

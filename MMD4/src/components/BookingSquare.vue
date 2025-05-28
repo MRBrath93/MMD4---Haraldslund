@@ -77,7 +77,11 @@ const backgroundClass = computed(() => {
     gap: 0.5rem;
     width: 100%;
     padding: 1rem 2rem;
-    background-color: rgb(245, 239, 230);
+    color: var(--color-font-1);
+}
+
+.bookingSquare h4, .bookingSquare p {
+  color: var(--color-font-1);
 }
 
 .bg-haraldslund {

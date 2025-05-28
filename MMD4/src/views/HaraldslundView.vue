@@ -91,22 +91,22 @@ function getImage(billede) {
 </script>
 
 <template>
-    <template class="loading-container" v-if="isLoading">
+    <div class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-    </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+    </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>
         <TheHero
         :title="aboutData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="aboutData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
         :image="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
-        :alt="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"/>
-        <TheBreadcrumb/>
+        :alt="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
+        <TheBreadcrumb></TheBreadcrumb>
         <TheInternNavHaraldslund
         :label="internNavLabels"
-        />
+        ></TheInternNavHaraldslund>
         <section v-for="(tekstsektion,index) in aboutData.Indhold.Afsnit" :key="tekstsektion.id">
             <div 
             class="textsection" 
@@ -149,7 +149,7 @@ function getImage(billede) {
         :Btn_text="aboutData.reklame_kort.Knapper[0].btn_description" 
         :kategori="aboutData.reklame_kort.Kategori" 
         :Btn_icon="aboutData.reklame_kort.Knapper[0].Ikon[0]"/>
-    </template>
+    </div>
 </template>
 
 <style scoped>

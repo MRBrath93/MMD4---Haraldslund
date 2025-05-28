@@ -4,7 +4,9 @@ import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import TheInternNavMotion from "../components/TheInternNavMotion.vue";
 import TheHero from "@/components/TheHero.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
+import DynamicHeading from "@/components/DynamicHeading.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
+import TheBtn from "@/components/TheBtn.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 
 import { ref, onMounted } from "vue";
@@ -82,44 +84,50 @@ function getImage(billede) {
 </script>
 
 <template>
-    <template v-if="isLoading">        
+    <div class="loading-container" v-if="isLoading">        
       <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
-      </template>
-    <template v-else-if="error">Der opstod en fejl: {{ error }}</template>
-    <template v-else>
+      </div>
+    <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
+    <div v-else>
       <TheHero
         :title="motionData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="motionData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om vores moderne motionscenter."
         :image="getImage(motionData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
-        :alt="motionData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" />
-      <TheBreadcrumb />  
-      <TheInternNavMotion 
-      :labels="internNavLabels" />
-      <section class="section-wrapper">
-        <div class="section-grid">
-          <h1>{{ motionData.Titel }}</h1>
-          <template v-for="afsnit in motionData.Indhold.Afsnit || []" :key="afsnit.id">
-            <aside v-if="afsnit.Billede" class="image-wrapper">
-              <ImageHolder
-              v-for="billede in [].concat(afsnit.Billede)"
-              :key="billede.id"
-              class="side-img"
-              :src="getImage(billede)"
-              :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-            </aside>
-            <div class="text-wrapper">
-              <h2>{{ afsnit.Overskrift }}</h2>
-              <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                <p class="fat-text" v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</p>
-                <p>{{ tekst.Brodtekst }}</p>
-              </div>
-            </div>
-          </template>
+        :alt="motionData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
+        <div class="breadcrumb-container">
+          <TheBreadcrumb></TheBreadcrumb>  
         </div>
-      </section>
+      <TheInternNavMotion 
+      :labels="internNavLabels"></TheInternNavMotion>
+
+
+      <section class="textsection" v-for="(afsnit,index) in motionData.Indhold.Afsnit || []" :key="afsnit.id">
+                <article class="flex--column flex1">
+                    <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
+                    <div v-for="single_text, in afsnit.Tekst || []" :key="single_text.id">
+                        <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
+                        <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
+                            <li> {{ single_text.Brodtekst }}</li>
+                        </ul>
+                        <p v-else> {{ single_text.Brodtekst }}</p>
+                    </div>
+                    <div v-if="Array.isArray(afsnit.Knapper) && afsnit.Knapper.length > 0" class="btn--container">
+                    <TheBtn
+                    v-for="btn in afsnit.Knapper"
+                    :key="btn.id"
+                    :link="btn.link_to"
+                    :title="btn.btn_titel"
+                    :text="btn.btn_description"
+                    :icon="btn.Ikon[0]"></TheBtn>
+                </div>
+            </article>
+            <div class="img--container flex1">
+                <ImageHolder v-for="billede in afsnit.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
+            </div>
+        </section>
       <article>
         <h2>Udforsk vores faciliteter i motionscentret</h2>
         <div class="gallery-grid">
@@ -128,7 +136,7 @@ function getImage(billede) {
             :key="billede.id"
             class="gallery-img"
             :src="getImage(billede)"
-            :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
+            :alt="billede?.data?.attributes?.alternativeText || 'Billede'"></ImageHolder>
         </div>
       </article>
       <Reklamekort 
@@ -141,22 +149,101 @@ function getImage(billede) {
         :kategori="motionData.reklame_kort.Kategori" 
         :Btn_icon="motionData.reklame_kort.Knapper[0].Ikon[0]">
       </Reklamekort>
-    </template>
+    </div>
   </template>
   
 <style scoped>
+.loading-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-main{
+.textsection {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  gap: var(--spacer-x2);
+  margin: 0 auto;
+  margin-bottom: var(--spacer-Elements);
+  width: 100%;
+  max-width: var(--max-width);
+  color: var(--color-font-1);
 }
+
+.img--container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.img{
+    height: 100%;
+}
+
+.subtitle{
+    margin-top: var(--spacer-x1);
+}
+
+.punkt{
+    margin-inline-start: var(--spacer-x1);
+    font-family: var(--font-text);
+    
+}
+
+.btn--container{
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    gap: var(--spacer-x1);
+    width: 100%;
+    margin: var(--spacer-x1) 0;
+}
+
+.flex--column{
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-x1);
+    height: fit-content;
+}
+
+.flex1{
+    flex: 1;
+}
+
+section{
+    width: 95%;
+    margin: 0 auto;
+}
+
+@media screen and (min-width: 500px) {
+    .btn--container{
+        flex-direction: row;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .textsection{
+        flex-direction: row;
+    }
+    .btn--container{
+        flex-direction: column;
+    }
+
+}
+@media screen and (min-width: 1000px) {
+
+    .btn--container{
+        flex-direction: row;
+    }
+}
+/* TEKSTSTYLE SLUT */
 
 .breadcrumb-container {
   max-width: var(--max-width);
-  width: 95%;
-  margin: auto var(--spacer-x2);
+  width: 100%;
+  margin: 0 auto;
 }
 
 .section-wrapper {

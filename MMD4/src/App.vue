@@ -38,7 +38,8 @@ watch(
 </script>
 
 <template>
-  <!-- Skiplink 
+  <div>
+     <!-- Skiplink 
    Hjælper keyboard-nav-brugere med hurtigt at komme frem til hovedindholdet på siden
    Eventet @click.prevent forhindrer standard linkadfærd og kalder fokus-funktionen
    -->
