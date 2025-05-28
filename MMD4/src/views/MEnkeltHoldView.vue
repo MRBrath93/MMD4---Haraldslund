@@ -193,7 +193,7 @@ const visibleTeamCards = computed(() => {
     :Btn_icon="selectedClass.reklamekort.knapper[0].ikon"></Reklamekort>
     <!-- REFERENCE BILLEDE: Facebook: Haraldslund Vand og Kulturhus. 24/05/2022. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/5234451549946230/?type=3 -->
 
-  </template>
+  </div>
   
   <div v-else>
     <p>Holdet med ID {{ $route.params.id }} blev ikke fundet.</p>
