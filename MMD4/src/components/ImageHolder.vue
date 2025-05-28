@@ -11,7 +11,7 @@ defineProps({
 
 <template>
     <div class="images-container">
-      <img :src="src" :alt="alt" class="image" />
+      <img :src="src" :alt="alt" class="image" loading="lazy" />
       <div class="overlay-border"></div>
     </div>
 </template>
