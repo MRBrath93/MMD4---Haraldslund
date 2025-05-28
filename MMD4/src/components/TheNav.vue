@@ -123,7 +123,7 @@ onUnmounted(() => {
 </script>
 <template>
     <header>
-        <nav class="header" role="navigation" aria-label="Hovednavigation">
+        <nav tabindex="0" class="header" role="navigation" aria-label="Hovednavigation">
         <div class="wrapper">
             <div class="logo" aria-label="Logo">
                 <router-link class="no-drop" 
@@ -149,8 +149,7 @@ onUnmounted(() => {
             <ul 
             class="nav-links"
             id="nav-links"
-            :class="{ open: menuOpen }"
-            :aria-hidden="(!menuOpen).toString()" 
+            :class="{ open: menuOpen }" 
             aria-label="Menu links"
             >
                 <li role="button link"><router-link class="no-drop text desktop-item" :to="{ name: 'frontpage' }">Forside</router-link></li>

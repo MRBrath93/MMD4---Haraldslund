@@ -16,7 +16,8 @@ const tag = computed(() => `h${props.level}`);
 
 
 <template>
-    <component :is="tag" class="dynamic-heading" tabindex="-1" id="main" >
+    <component :is="tag" class="dynamic-heading" tabindex="-1"
+     v-bind="props.level === 1 ? { id: 'page-title', tabindex: -1 } : {}" >
       <slot />
     </component>
   </template>

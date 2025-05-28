@@ -97,7 +97,7 @@ function getImage(billede) {
         :alt="motionPriser.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
       <TheBreadcrumb></TheBreadcrumb>  
       <TheInternNavMotion :labels="internNavLabels"></TheInternNavMotion>
-      <h1>Priser - Motion</h1>
+      <h1 tabindex="-1">Priser - Motion</h1>
       <section class="container-priser">
         <article class="pris-article" v-for="enkeltPris in motionPriser.Enkeltbilletter || []" :key="enkeltPris.id" >
             <h3>{{ enkeltPris.Titel }}</h3>

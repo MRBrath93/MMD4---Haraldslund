@@ -28,14 +28,25 @@ function getImage(billede) {
 </script>
 
 <template>
-  <section href="#" class="events-card">
-    <h3>Events i denne måned</h3>
+  <section 
+  href="#" 
+  class="events-card" 
+  role="region"
+  aria-describedby="events-headline"
+  >
+    <h3 id="events-headline">Events i denne måned</h3>
       <div class="flex">
-        <a href="#" class="container" v-for="event in events" :key="event.id">
+        <a href="#" 
+        class="container" 
+        v-for="event in events" 
+        :key="event.id"
+        role="link"
+        aria-label="Gå til eventbeskrivelse"
+        >
             <img class="image" :src="getImage(event.Cover)" :alt="event.Cover.alternativeText">
             <div class="label-container">
                 <p>Læs mere</p>
-                <span class="material-symbols-rounded">arrow_forward</span>
+                <i class="material-symbols-rounded" aria-hidden="true">arrow_forward</i>
             </div>
         </a>
     </div>

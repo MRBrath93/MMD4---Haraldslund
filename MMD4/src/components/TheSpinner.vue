@@ -37,7 +37,7 @@ onMounted(() => {
 onBeforeUnmount(() => {
   setTimeout(() => {
     document.getElementById('skipLink').focus(); // Sætter fokus på skip-linket for at forbedre tilgængeligheden
-  }, 1000) // Brug timeout for at sikre, at blur sker efter DOM-opdatering
+  }, 200) // Brug timeout for at sikre, at blur sker efter DOM-opdatering
   clearInterval(intervalId);
 })
 </script>
