@@ -17,7 +17,7 @@ import {
 const themeStore = useThemeStore();
 const dateTextRef = ref(null);
 
-
+// TABEL FUNKTIONALITET
 // Registrerer de nødvendige Chart.js elementer
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
@@ -144,6 +144,9 @@ const goToPreviousDay = () => {
   if (pickedDate.value > oneWeekAgo) {
      // Sæt datoen til forrige dag
     pickedDate.value = new Date(pickedDate.value.setDate(pickedDate.value.getDate() - 1));
+    nextTick(() => {
+      dateTextRef.value?.focus();
+    });
   }
 };
 
@@ -196,7 +199,9 @@ const chartData = computed(() => ({
   }],
 }));
 
-// Konfiguration af diagrammet https://www.chartjs.org/docs/latest/charts/bar.html
+// INSPIRATIONSKILDE TIL Konfiguration af diagrammet: Chart.js. Bar Chart. 2025. (online) www.chartjs.org/ [Accessed 28/05/2025] URL: https://www.chartjs.org/docs/latest/charts/bar.html
+
+// FARVETEMA / TOGGLE
 const chartOptions = computed(() => {
   const isDark = themeStore.mørktTemaAktivt;
 
@@ -232,18 +237,15 @@ const chartOptions = computed(() => {
 });
 
 
-
-
-
 </script>
 
 <template>
-  <div class="rush-hours">
+  <div class="rush-hours" aria-labelledby="rush-hours-title">
     <div class="intro">
-      <h4>Planlæg dit besøg - undgå myldretiden</h4>
+      <h4 id="rush-hours-title">Planlæg dit besøg - undgå myldretiden</h4>
       <p>Få et hurtigt overblik over, hvornår der typisk er flest besøgende i Haraldslund Kulturhus. Grafen viser det forventede aktivitetsniveau i løbet af dagen baseret på tidligere besøgstal.</p>
     </div>
-    <div class="date--picker">
+    <div class="date--picker" >
     <button 
       class="left"
       @click="goToPreviousDay" 
@@ -268,9 +270,31 @@ const chartOptions = computed(() => {
     <Bar 
     :data="chartData" 
     :options="chartOptions" 
-    aria-label="Søjlediagram der viser antal besøgende per kvarter i løbet af dagen"
     role="img"
+    aria-label="Søljediagram der viser antal besøgende i Haraldslund Kulturhus i løbet af dagen"
     />
+
+    <div class="sr-only" id="rush-hours-table" tabindex="0" >
+      <table 
+      aria-live="polite"
+      tabindex="0"
+      >
+      <caption id="rush-hours-caption">Besøgsdata for Haraldslund Kulturhus</caption>
+        <thead>
+          <tr>
+            <th scope="col">Tidspunkt</th>
+            <th scope="col">Antal besøgende</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in visitorData" :key="item.time">
+            <td>{{ item.time }}</td>
+            <td>{{ item.amount }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </template>
 
@@ -356,6 +380,17 @@ text-align: center;
     border-radius: var(--border-radius);
     border: 1px solid var(--color-font-1);
     margin: 0 auto;
+}
+
+.sr-only {
+  position: absolute;
+  left: -9999px;
+  bottom: auto;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 700px) {
