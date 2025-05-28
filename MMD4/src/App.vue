@@ -39,39 +39,36 @@ watch(
 
 <template>
   <div>
-     <!-- Skiplink 
-   Hjælper keyboard-nav-brugere med hurtigt at komme frem til hovedindholdet på siden
-   Eventet @click.prevent forhindrer standard linkadfærd og kalder fokus-funktionen
-   -->
+    <!-- Skiplink 
+    Hjælper keyboard-nav-brugere med hurtigt at komme frem til hovedindholdet på siden
+    Eventet @click.prevent forhindrer standard linkadfærd og kalder fokus-funktionen -->
     <a aria-live="polite" href="#" id="skipLink" class="skip-link" @click.prevent="focusMainContent">Spring til hovedindhold</a>
     <!-- 
     INSPIRATIONSKILDE CLICK.PREVENT: You, Evan. Essentials - Event Handling. (online) 2025. Vue.js. MIT-License. [Accessed 24/05/2025] URL: https://vuejs.org/guide/essentials/event-handling?utm_source=chatgpt.com 
     INSPIRATIONSKILDE SKIP-LINK: Vue Mastery. Content Loading That Isn't Broken by Maria Lamardo | VueConf US 2020. (online). Youtube.com. 2025. [Accessed 25/05/2025] URL: https://www.youtube.com/watch?app=desktop&v=ALmocFPhyr8 -->
 
-
-  <!-- landmarks med aria-labels -->
-  <header aria-label="Primær navigation">
-    <TheNav />
-  </header>
-  <p id="route-announcement" role="status" aria-live="polite">{{ routeAnnouncement }}</p>
-   
-  <main aria-labelledby="main">
-    <RouterView />  
-  </main>
-  <!-- aria-labelledby bruges til at forbinde hovedindholdet med dets overskrift, hvilket forbedrer tilgængeligheden for skærmlæsere. tabindex="-1" gør det muligt at fokusere på hovedindholdet ved hjælp af skip-linket.
-   ACCESSABILITY NOTE: SKIP-LINK FUNKTION: id="main" bruges til at kunne fokusere på hovedindholdet ved brug af "Skiplink"
+    <!-- landmarks med aria-labels -->
+    <header aria-label="Primær navigation">
+        <TheNav />
+    </header>
+    <p id="route-announcement" role="status" aria-live="polite">{{ routeAnnouncement }}</p>
+    
+    <main aria-labelledby="main">
+        <RouterView />  
+    </main>
+    <!-- aria-labelledby bruges til at forbinde hovedindholdet med dets overskrift, hvilket forbedrer tilgængeligheden for skærmlæsere. tabindex="-1" gør det muligt at fokusere på hovedindholdet ved hjælp af skip-linket.
+    ACCESSABILITY NOTE: SKIP-LINK FUNKTION: id="main" bruges til at kunne fokusere på hovedindholdet ved brug af "Skiplink"
     tabindex="-1" gør main fokuserbart ved keyboard-nav .
-    INSPIRATIONSKILDE: Vue Mastery. Content Loading That Isn't Broken by Maria Lamardo | VueConf US 2020. (online) Youtube. 2025. [Accessed 25/05/2025] URL: https://www.youtube.com/watch?app=desktop&v=ALmocFPhyr8
-    -->
+    INSPIRATIONSKILDE: Vue Mastery. Content Loading That Isn't Broken by Maria Lamardo | VueConf US 2020. (online) Youtube. 2025. [Accessed 25/05/2025] URL: https://www.youtube.com/watch?app=desktop&v=ALmocFPhyr8 -->
 
-  <footer aria-label="Sidefod">
-    <TheFooter />
-  </footer>
+    <footer aria-label="Sidefod">
+        <TheFooter />
+    </footer>
+    </div>
 </template>
 
 <style scoped>
  /* -- STYLE TIL SKIP-LINK (relevant for skærmoplæsere) --- */
-/* Skiplink – vises kun ved fokus */
 .skip-link {
     position: absolute;
     opacity: 0;
@@ -121,8 +118,6 @@ watch(
     transition: none !important;
     animation: none !important;
   }
-
-
 }
 
 </style>
