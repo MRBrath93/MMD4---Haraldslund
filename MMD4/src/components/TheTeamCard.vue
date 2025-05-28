@@ -51,9 +51,12 @@ const overlayVisible = ref(false);
 // FUNKTIONER
 
   // Metode til at håndtere hover-effekt
-  const handleMouseEnter = () => {
+  // Denne metode aktiverer overlayet, når brugeren holder musen over kortet, hvis
+const handleMouseEnter = () => {
+  if (!isReduced) {
     overlayVisible.value = true;
-  };
+  }
+};
 
   const handleMouseLeave = () => {
     overlayVisible.value = false;
@@ -76,6 +79,9 @@ const overlayVisible = ref(false);
 function checkScreenSize() {
   isScreenLarge.value = window.innerWidth >= 768;
 }
+
+// REDUCERET BEVÆGELSE
+const isReduced = window.matchMedia(`(prefers-reduced-motion: reduce)`) === true || window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true;
 
 const kategoriColor = computed(() => {
   switch (props.backgroundColor) {
@@ -101,7 +107,7 @@ const kategoriColor = computed(() => {
   @mouseleave="handleMouseLeave"
 >
 <!-- NOTE: :aria-label bliver brugt til at give en beskrivelse af linket for skærmlæsere. Labels.label bruges til at give en beskrivelse af holdet, så brugere med skærmlæsere kan forstå, hvad linket handler om. -->
-    <i class="icon material-symbols-rounded" :class="kategoriColor">{{ icon }}</i>
+    <i class="icon material-symbols-rounded" :class="kategoriColor" aria-hidden="true">{{ icon }}</i>
     <div class="team-card-overlay" :class="{ 'overlay-visible': overlayVisible }">
       <p class="overlay-text">{{ overlayText }}</p>
     </div>
@@ -211,6 +217,7 @@ const kategoriColor = computed(() => {
     transition: opacity 0.3s ease;
     width: 100%;
 }
+
 .overlay-visible .icon {
   display: block;
 }
@@ -239,6 +246,22 @@ const kategoriColor = computed(() => {
   .overlay-visible .overlay-text {
     padding-top: var(--spacer-x5);
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .team-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .overlay-visible {
+    transition: none;
+  }
+
+  .overlay-visible .overlay-text {
+    transition: none;
+  }
+
 }
 
 </style>

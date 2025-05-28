@@ -10,15 +10,15 @@ const route = useRoute();
 
 // FOKUS MAIN CONTENT
 const focusMainContent = () => {
-    setTimeout(() => {
-        // Timeout for at sikre, at skip-linket fungerer korrekt
-    }, 200);
   // Fokuserer på main-elementet for at sikre, at brugeren kommer direkte til hovedindholdet
   const mainEl = document.getElementById('main');
   if (mainEl) {
     mainEl.focus();
   }
 };
+
+
+
 // INSPIRATIONSKILDE SKIP-LINK:  URL: Azubuko, Uchechukwu. How to Build Accessible Vue.js Applications. 21/12/2023. Vue Mastery. 2025. (online) [Accessed 24/05/2025] URL: https://www.vuemastery.com/blog/how-to-build-accessible-vuejs-applications/#setup-accessible-routing-and-a-page-title-for-each-page
 
 // --- WATCHERS --- 
@@ -30,9 +30,6 @@ watch(
   () => {
         document.title = route.meta.title || "Forside - Haraldslund";
         routeAnnouncement.value = (route.meta.title ? route.meta.title + " er indlæst" : "Side indlæst");
-        setTimeout(() => {
-            focusMainContent();
-        }, 200);
 	},
 	{ immediate: true }
 );
@@ -45,7 +42,7 @@ watch(
    Hjælper keyboard-nav-brugere med hurtigt at komme frem til hovedindholdet på siden
    Eventet @click.prevent forhindrer standard linkadfærd og kalder fokus-funktionen
    -->
-    <a href="#" id="skipLink" class="skip-link" @click.prevent="focusMainContent">Spring til hovedindhold</a>
+    <a aria-live="polite" href="#" id="skipLink" class="skip-link" @click.prevent="focusMainContent">Spring til hovedindhold</a>
     <!-- 
     INSPIRATIONSKILDE CLICK.PREVENT: You, Evan. Essentials - Event Handling. (online) 2025. Vue.js. MIT-License. [Accessed 24/05/2025] URL: https://vuejs.org/guide/essentials/event-handling?utm_source=chatgpt.com 
     INSPIRATIONSKILDE SKIP-LINK: Vue Mastery. Content Loading That Isn't Broken by Maria Lamardo | VueConf US 2020. (online). Youtube.com. 2025. [Accessed 25/05/2025] URL: https://www.youtube.com/watch?app=desktop&v=ALmocFPhyr8 -->
@@ -75,18 +72,17 @@ watch(
  /* -- STYLE TIL SKIP-LINK (relevant for skærmoplæsere) --- */
 /* Skiplink – vises kun ved fokus */
 .skip-link {
-  display: none;
-  opacity: 0;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
+    position: absolute;
+    opacity: 0;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
 }
 
 .skip-link:focus {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: static;
+    left: auto;
     width: auto;
     height: auto;
     margin: var(--spacer-x1);
@@ -94,7 +90,7 @@ watch(
     background-color: white;
     color: black;
     border: 2px solid black;
-    z-index: 2000;
+    z-index: 1000;
     opacity: 1;
 }
 
@@ -117,4 +113,15 @@ watch(
   height: 1px;
   overflow: hidden;
 }
+
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+
+
+}
+
 </style>

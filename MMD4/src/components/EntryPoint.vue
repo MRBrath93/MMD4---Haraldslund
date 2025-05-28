@@ -232,6 +232,25 @@ const kategoriColor = computed(() => {
   background-color: #040404;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .link-wrapper:hover .overlay{
+    opacity: 0;
+  }
+  .link-wrapper:hover .bg-layer {
+    filter: none;
+  }
+  .link-wrapper:hover .icon-wrapper {
+    transform: none;
+  }
+  .link-wrapper:hover .text-wrapper {
+    transform: none;
+  }
+  .link-wrapper:hover .wrapper {
+    transform: none;
+  }
+  
+}
+
 
 @media screen and (max-width: 700px) {
    .overlay{

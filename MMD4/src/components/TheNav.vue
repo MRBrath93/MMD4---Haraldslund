@@ -475,12 +475,6 @@ nav .wrapper {
     
 }
 
-@media (prefers-reduced-motion: reduce) {
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
-}
 
 
 @media screen and (min-width: 1200px) {
