@@ -123,7 +123,7 @@ onUnmounted(() => {
 </script>
 <template>
     <header>
-        <nav class="header" role="navigation" aria-label="Hovednavigation">
+        <nav tabindex="0" class="header" role="navigation" aria-label="Hovednavigation">
         <div class="wrapper">
             <div class="logo" aria-label="Logo">
                 <router-link class="no-drop" 

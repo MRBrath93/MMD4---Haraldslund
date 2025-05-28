@@ -115,7 +115,7 @@ function getImage(billede) {
           :label="internNavLabels"
           ></TheInternNavHaraldslund>
   
-          <h1> {{ praktiskData.Titel }} </h1>
+          <h1 tabindex="-1"> {{ praktiskData.Titel }} </h1>
         </section>
         <section class="section-container">
             <div v-for="(kontaktoplysning,index) in praktiskData?.Kontaktoplysninger || []" 

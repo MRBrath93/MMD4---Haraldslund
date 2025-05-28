@@ -94,7 +94,7 @@ onMounted(() => {
         <TheInternNavHaraldslund
         :label="internNavLabels"></TheInternNavHaraldslund>
         <section>
-            <h1> Aktivitetsoversigt </h1>
+            <h1 tabindex="-1"> Aktivitetsoversigt </h1>
             <RushHoursHaraldslund></RushHoursHaraldslund>
         </section>
     </div>

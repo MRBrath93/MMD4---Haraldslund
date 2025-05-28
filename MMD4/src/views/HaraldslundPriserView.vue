@@ -133,7 +133,7 @@ function handleResize() {
             description="Find priser for billetter og abonnementer til Haraldslund."
             image="@/assets/images/haraldslund.jpg"
             alt="Haraldslund Vand og kulturhus"/>
-        <h1>Prisoversigt</h1>
+        <h1 tabindex="-1">Prisoversigt</h1>
         <TheBreadcrumb />
         <TheInternNavHaraldslund
         :label="internNavLabels"
@@ -147,7 +147,7 @@ function handleResize() {
                 <!-- --- ENKELTBILLETTER --- -->
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Enkelt billetter</h5></th>
+                    <tr><th scope="col">Enkelt billetter</th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -170,7 +170,7 @@ function handleResize() {
                 <!-- --- KLIPPEKORT --- -->
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th class="regular" scope="col"><h5>Klippekort</h5>Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</th>
+                    <tr><th class="regular" scope="col">Klippekort. <span class="th-small"> Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</span></th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -179,7 +179,7 @@ function handleResize() {
                 </thead>
                 <tbody>
                     <tr v-for="kombiKlip in kombiData?.Klippekort_Kombi || []" :key="kombiKlip.id">
-                        <td>{{ kombiKlip.Antal_klip }} Klip</td>
+                        <td>{{ kombiKlip.Antal_klip }} </td>
                         <td>{{ kombiKlip.voksen.Pris_for_1400 ? kombiKlip.voksen.Pris_for_1400 + ',-' : '' }} / {{ kombiKlip.voksen.Pris_efter_1400 ? kombiKlip.voksen.Pris_efter_1400 + ',-' : '' }}</td>
                         <td>{{ kombiKlip.Barn.Pris_for_1400 ? kombiKlip.Barn.Pris_for_1400 + ',-' : '' }} / {{ kombiKlip.Barn.Pris_efter_1400 ? kombiKlip.Barn.Pris_efter_1400 + ',-' : '' }}</td>
                         <td>{{ kombiKlip.Pensionist.Pris_for_1400 ? kombiKlip.Pensionist.Pris_for_1400 + ',-' : '' }} / {{ kombiKlip.Pensionist.Pris_efter_1400 ? kombiKlip.Pensionist.Pris_efter_1400 + ',-' : '' }}</td>
@@ -195,7 +195,7 @@ function handleResize() {
                 <caption class="screenreaders-only">Priser på billetter i Vand og Wellness</caption>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Enkelt billetter</h5></th>
+                    <tr><th scope="col">Enkelt billetter</th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -213,7 +213,7 @@ function handleResize() {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Familie billetter</h5></th>
+                    <tr><th scope="col">Familie billetter</th>
                         <th scope="col">1 Voksen</th>
                         <th scope="col">2 Voksne</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -231,7 +231,7 @@ function handleResize() {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th class="regular" scope="col"><h5>Klippekort</h5>Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</th>
+                    <tr><th class="regular" scope="col">Klippekort. <span class="th-small">Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00 </span></th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -249,7 +249,7 @@ function handleResize() {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Diverse billetter</h5></th>
+                    <tr><th scope="col">Diverse billetter</th>
                         <th scope="col">1 Person</th>
                         <th scope="col">2 Personer</th>
                         <th scope="col">3 Personer</th>
@@ -268,7 +268,7 @@ function handleResize() {
 
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Personlig træner</h5></th>
+                    <tr><th scope="col">Personlig træner</th>
                         <th scope="col">25 minutter</th>
                         <th scope="col">5 x 25 minutter</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -286,7 +286,7 @@ function handleResize() {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th class="regular" scope="col"><h5>Massage</h5></th>
+                    <tr><th class="regular" scope="col">Massage</th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
@@ -303,8 +303,8 @@ function handleResize() {
                     </tr>
                     <tr>
                         <td>Cupping</td>
-                        <td><p class="time">Inkl. i massage</p>+{{ vwPrisData.Cupping?.pris_inklusiv_massage ? vwPrisData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
-                        <td><p class="time">Ekskl. massage</p>{{vwPrisData.Cupping?.pris_ekslusiv_massage ? vwPrisData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
+                        <td><p class="time"><abbr title="Inklusiv">Inkl.</abbr> i massage</p>+{{ vwPrisData.Cupping?.pris_inklusiv_massage ? vwPrisData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
+                        <td><p class="time"><abbr title="Eksklusiv">Ekskl.</abbr> massage</p>{{vwPrisData.Cupping?.pris_ekslusiv_massage ? vwPrisData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                         <td aria-hidden="true"></td>
                     </tr>
@@ -347,7 +347,7 @@ function handleResize() {
             <!-- --- KLIPPEKORT ---  -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col"><h5>Klippekort</h5></th>
+                    <th class="regular" scope="col">Klippekort</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -363,7 +363,7 @@ function handleResize() {
             <!-- --- MÅNEDSKORT --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col"><h5>Månedskort</h5></th>
+                    <th class="regular" scope="col">Månedskort</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -383,7 +383,7 @@ function handleResize() {
             <!-- --- PERSONLIG TRÆNING --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col"><h5>Personlig træning</h5></th>
+                    <th class="regular" scope="col">Personlig træning</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -399,7 +399,7 @@ function handleResize() {
             <!-- --- PROGRAMLÆGNING --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col"><h5>Programlægning</h5></th>
+                    <th class="regular" scope="col">Programlægning</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -422,7 +422,7 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th scope="col"><h5>Enkelt billetter</h5></th>
+                        <th scope="col">Enkelt billetter</th>
                         <th scope="col" v-for="kombiPris in kombiData?.Enkeltbillet_kombi || []" :key="kombiPris.id">{{ kombiPris.Ankomsttidspunkt }}</th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
@@ -458,7 +458,7 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular" scope="col"><h5>Klippekort</h5></th>
+                        <th class="regular" scope="col">Klippekort</th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -489,7 +489,7 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th scope="col"><h5>Enkelt billetter</h5></th>
+                        <th scope="col">Enkelt billetter</th>
                         <th scope="col" v-for="pris in vwPrisData?.Enkelt_Billetter || []" :key="pris.id">{{ pris.Ankomsttidspunkt }}</th>
                         <th scope="col" aria-hidden="true"></th>
                     </tr>
@@ -518,7 +518,7 @@ function handleResize() {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Familie billetter</h5></th>
+                    <tr><th scope="col">Familie billetter</th>
                         <th scope="col">1 Voksen</th>
                         <th scope="col">2 Voksne</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -535,7 +535,7 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular" scope="col"><h5>Klippekort</h5>Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</th>
+                        <th class="regular" scope="col">Klippekort <span class="th-small"> Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</span></th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -555,7 +555,7 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th scope="col"><h5>Diverse billetter</h5></th>
+                        <th scope="col">Diverse billetter</th>
                         <th scope="col" v-for="pris in vwPrisData?.Diverse_biletter || []" :key="pris.id">{{ pris.Titel_paa_billettype }}</th>
                     </tr>
                 </thead>
@@ -581,7 +581,7 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th scope="col"><h5>Personlig træner</h5></th>
+                        <th scope="col">Personlig træner</th>
                         <th scope="col">25 minutter</th>
                         <th scope="col">5 x 25 minutter</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -598,7 +598,7 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular" scope="col"><h5>Massage</h5></th>
+                        <th class="regular" scope="col">Massage</th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
@@ -613,8 +613,8 @@ function handleResize() {
                     </tr>
                     <tr>
                         <td>Cupping</td>
-                        <td><p class="time">Inkl. i massage</p>+{{ vwPrisData.Cupping.pris_inklusiv_massage ? vwPrisData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
-                        <td><p class="time">Ekskl. massage</p>{{vwPrisData.Cupping.pris_ekslusiv_massage ? vwPrisData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
+                        <td><p class="time"><abbr title="Inklusiv">Inkl.</abbr> i massage</p>+{{ vwPrisData.Cupping.pris_inklusiv_massage ? vwPrisData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
+                        <td><p class="time"><abbr title="Eksklusiv">Ekskl.</abbr> massage</p>{{vwPrisData.Cupping.pris_ekslusiv_massage ? vwPrisData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                     </tr>
                 </tbody>
@@ -645,7 +645,7 @@ function handleResize() {
             <!-- --- KLIPPEKORT ---  -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col"><h5>Klippekort</h5></th>
+                    <th class="regular" scope="col">Klippekort</th>
                     <th scope="col" aria-hidden="true"></th>
                     <th aria-hidden="true"></th>
                     <th aria-hidden="true"></th>
@@ -663,7 +663,7 @@ function handleResize() {
             <!-- --- MÅNEDSKORT --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col"><h5>Månedskort</h5></th>
+                    <th class="regular" scope="col">Månedskort</th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
@@ -678,14 +678,14 @@ function handleResize() {
                 </tr>
                 <tr>
                     <td class="small" colspan="4">*Gælder 30 dage fra købsdato, med adgang til bad og omklædning (Kortet gælder ikke til  svømmehal).  
-                    Kan anvendes 1 gang dagligt. Kun til personligt brug. Inkl. holdtræning</td>
+                    Kan anvendes 1 gang dagligt. Kun til personligt brug. <abbr title="Inklusiv">Inkl.</abbr> holdtræning</td>
                 </tr>
             </tbody>
             
             <!-- --- PERSONLIG TRÆNING --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col"><h5>Personlig træning</h5></th>
+                    <th class="regular" scope="col">Personlig træning</th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
@@ -703,7 +703,7 @@ function handleResize() {
             <!-- --- PROGRAMLÆGNING --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col"><h5>Programlægning</h5></th>
+                    <th class="regular" scope="col">Programlægning</th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
@@ -774,15 +774,20 @@ table {
     color: var(--color-font-1);
 }
 
-th h5{
-    font-size: 14px;
+th {
+    font-size: clamp(0.85rem, 1.5vw, 1.25rem);
+    font-family: var(--font-heading);
+}
+
+.th-small {
+    font-size: 0.85rem;
+    display: inline-block;
 }
 
 th, td{
     width: auto;
     padding: 10px;
     text-align: left;
-    font-size: 14px;
 }
 
 td{
@@ -829,6 +834,10 @@ section{
 .note {
     font-style: italic;
     font-size: 0.85rem;
+}
+
+abbr {
+    text-decoration: none;
 }
 
 

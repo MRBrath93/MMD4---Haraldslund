@@ -11,10 +11,14 @@ const route = useRoute();
 // FOKUS MAIN CONTENT
 const focusMainContent = () => {
   // Fokuserer på main-elementet for at sikre, at brugeren kommer direkte til hovedindholdet
-  const mainEl = document.getElementById('main');
-  if (mainEl) {
-    mainEl.focus();
-  }
+  const mainEl = document.getElementById('page-title');
+  const h1El = document.querySelector('h1');
+  // Hvis der ikke er et main-element, fokuseres der på det første h1-element
+if (mainEl) {
+  mainEl.focus();
+} else if (h1El) {
+  h1El.focus();
+}
 };
 
 
@@ -53,7 +57,7 @@ watch(
     </header>
     <p id="route-announcement" role="status" aria-live="polite">{{ routeAnnouncement }}</p>
     
-    <main aria-labelledby="main">
+    <main aria-labelledby="page-title">
         <RouterView />  
     </main>
     <!-- aria-labelledby bruges til at forbinde hovedindholdet med dets overskrift, hvilket forbedrer tilgængeligheden for skærmlæsere. tabindex="-1" gør det muligt at fokusere på hovedindholdet ved hjælp af skip-linket.
