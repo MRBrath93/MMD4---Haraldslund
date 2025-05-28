@@ -218,15 +218,17 @@ footer ul {
 
 footer li a {
     color: var(--color-font-2);
-    font-size: 1.25rem;
-    padding-bottom: var(--spacer-x0-5);
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    padding: var(--spacer-x0-5);
+    padding-left: 0;
+
 }
 
 footer li button {
     background-color: transparent;
     border: none;
     color: var(--color-font-2);
-    font-size: 1.25rem;
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
     padding-bottom: var(--spacer-x0-5);
     padding-left: 1px;
     padding-top: 0.2rem;
@@ -236,7 +238,7 @@ footer li button {
 
 footer p, footer li {
     font-family: var(--font-heading);
-    font-size: 1.25rem;
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
     color: var(--color-font-2);
 }
 
@@ -246,8 +248,8 @@ footer li a:hover, footer li button:hover {
 }
 
 .footer-logo {
-    width: 17rem;
-    height: 5rem;
+    width: 12rem;
+    height: 3.5rem;
 }
 
 footer div {
@@ -342,6 +344,11 @@ footer h4 {
         align-items: center;
         width: 100%;
     }
+
+    .footer-logo {
+        width: 17rem;
+        height: 5rem;
+    }
 }
 
 @media screen and (min-width: 1024px) {
@@ -365,4 +372,6 @@ footer h4 {
         width: 69rem;
     }
 }
+
+
 </style>

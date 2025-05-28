@@ -1,133 +1,122 @@
 <script setup>
+// IMPORTS
 import { RouterLink } from "vue-router";
-import { ref, onMounted } from 'vue';
-
-const expanded = ref(false);
-
-onMounted(() => {
-  const header = document.querySelector('.header');
-  let lastScrollY = window.scrollY;
+import { ref, onMounted, onUnmounted } from 'vue';
 
 
-  window.addEventListener('scroll', () => {
-    if (!header) return;
+// REAKTIVE VARIABLER
+const menuOpen = ref(false);
 
-    if (window.scrollY < lastScrollY) {
-      header.classList.remove('hide');
+const dropdownOpen = ref({
+  omHaraldslund: false,
+  motion: false,
+  vandogwellness: false
+});
+
+
+// -- FUNKTIONER --
+
+// FUNKTION TIL AT DETEKTERE MOBIL- OG TOUCH-DISPLAY
+// Funktionen tjekker, om enheden har touch support ved at se efter 'ontouchstart' i window-objektet eller ved at tjekke navigator.maxTouchPoints. 
+// 'ontouchstart' er en javascript event, der indikerer, at enheden understøtter touch input. Konkret tjekker den, om 'ontouchstart' er en del af window-objektet, eller om navigator.maxTouchPoints er større end 0.
+// Hvis enheden har touch support, returnerer funktionen true, ellers false. Dette bruges til at bestemme, om dropdown-menuer skal være åbne som standard på mobile enheder.
+function hasTouchSupport() {
+  return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+}
+// INSPIRATIONSKILDE: Zhan, Stephanie. Detecting Mobile vs. Desktop Browsers in JavaScript. 13/04/2023. Medium, 2025. (online) [Accessed 27/05/2025] URL:  https://medium.com/geekculture/detecting-mobile-vs-desktop-browsers-in-javascript-ad46e8d23ce5
+// INSPIRATIONSKILDE: W3School. touchstart Event. (online) [Accessed 27/05/2025] W3School, By Refsnes Data. 2025. URL: https://www.w3schools.com/jsref/event_touchstart.asp
+
+
+const isMobile = hasTouchSupport();
+
+const isSmallScreen = ref(window.innerWidth <= 1050);
+
+if (isSmallScreen.value) {
+  // Hvis det er en mobil enhed, skal dropdowns være åbne som standard
+  Object.keys(dropdownOpen.value).forEach(key => {
+    dropdownOpen.value[key] = true;
+  });
+}
+
+// REDUCERET BEVÆGELSE
+// Denne variabel tjekker, om brugeren har indstillet deres præference for reduceret bevægelse i deres enheds indstillinger.
+// Det gøres ved at bruge `window.matchMedia` med `(prefers-reduced-motion: reduce)`, som returnerer et MediaQueryList-objekt.
+// Den returnerer true, hvis brugeren har valgt at reducere bevægelse, og anvendes til at bestemme, om visse animationer skal  fjernes for at forbedre tilgængeligheden.
+const isReduced = window.matchMedia(`(prefers-reduced-motion: reduce)`) === true || window.matchMedia(`(prefers-reduced-motion: reduce)`).matches === true;
+// INSPIRATIONSKILDE: Clark, Nat "Nathan". Checking for reduced motion preference in JavaScript. 13/09/2021. DEV Community © 2016 - 2025. (online) [Accessed 27/05/2025] URL: https://dev.to/natclark/checking-for-reduced-motion-preference-in-javascript-4lp9
+
+
+function toggleMenu() {
+  menuOpen.value = !menuOpen.value;
+}
+
+// Dropdowns (til mobilvisning). 
+function toggleDropdown(name) {
+    if (isMobile && !isSmallScreen.value) {
+        dropdownOpen.value[name] = !dropdownOpen.value[name];
+        // Lukker alle andre dropdowns, når en ny åbnes
+        Object.keys(dropdownOpen.value).forEach(key => {
+        if (key !== name) {
+            dropdownOpen.value[key] = false;
+        }
+        });
+    }
+}
+
+// Håndterer klik uden for dropdown-menuen for at lukke den
+function handleOutsideClick(event) {
+  if (!isMobile) {
+    const target = event.target;  if (
+    !target.closest('.dropbox') && 
+    !target.closest('.desktop-item') && 
+    !target.closest('.hover-wrapper')) {
+    Object.keys(dropdownOpen.value).forEach(key => {
+      dropdownOpen.value[key] = false;
+    });
+  }
+}
+}
+
+// Funktion for at håndtere dropdown-tilstand 
+function handleDropdown(name, state) {
+    if (!isMobile) {
+        setTimeout(() => {
+            dropdownOpen.value[name] = state;
+        }, 100);
+    }
+}
+
+// Scroll-funktionalitet 
+// headeren skjules, når brugeren scroller nedad, og vises igen, når brugeren scroller opad.
+// Dette gøres for at give mere plads til indholdet, når brugeren interagerer med siden.
+// 
+let lastScrollY = window.scrollY;
+
+const onScroll = () => {
+    const currentScrollY = window.scrollY;
+
+    // Hvis der er reduceret bevægelse, skal headeren altid være synlig.
+    // Hvis ikke, skjules headeren ved scroll nedad efter 60px (for at undgå utilsigtet skjul ved små scrolls).
+    if (currentScrollY > lastScrollY && currentScrollY > 60 && !isReduced) {
+        document.querySelector('.header').classList.add('hide');
     } else {
-      header.classList.add('hide');
+        document.querySelector('.header').classList.remove('hide');
     }
-    lastScrollY = window.scrollY;
-  });
+  
+    lastScrollY = currentScrollY;
+};
 
-  // ARIA-EXPANDERED ATTRIBUTE TOOGLE
-    const expanded = document.getElementById('menu-btn');
-    expanded?.addEventListener('change', () => {
-    expanded.value = expanded.true;
-  });
 
-  const navLinks = document.querySelectorAll(".nav-links a");
-  navLinks.forEach(link => {
-    link.addEventListener("click", () => {
-      const menuBtn = document.getElementById("menu-btn");
-      if (menuBtn) {
-        menuBtn.checked = false;
-      }
-
-      const closeBtn = document.getElementById("close-btn");
-      if (closeBtn) {
-        closeBtn.checked = true;
-      }
-    });
-  });
-
+// ONMOUNTED
+onMounted(() => {
+  window.addEventListener('scroll', onScroll);
+  document.addEventListener('click', handleOutsideClick);
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  if (window.innerWidth > 1050) {
-    const nav = document.querySelector("nav");
-    const desktopItems = document.querySelectorAll(".desktop-item");
-    const noDropElements = document.querySelectorAll(".no-drop");
-
-    // Hover-funktion
-    desktopItems.forEach(item => {
-  item.addEventListener("mouseenter", () => {
-    desktopItems.forEach(i => {
-      i.classList.remove("active-hover");
-
-      const icon = i.querySelector(".material-symbols-rounded");
-      if (icon) {
-        icon.textContent = "keyboard_arrow_down";
-      }
-    });
-
-    item.classList.add("active-hover");
-
-    const activeIcon = item.querySelector(".material-symbols-rounded");
-    if (activeIcon) {
-      activeIcon.textContent = "keyboard_arrow_up";
-    }
-  });
+onUnmounted(() => {
+  window.removeEventListener('scroll', onScroll);
+  document.removeEventListener('click', handleOutsideClick);
 });
-
-    // Når musen forlader hele navigationen
-    nav.addEventListener("mouseleave", () => {
-  desktopItems.forEach(i => {
-    i.classList.remove("active-hover");
-    const icon = i.querySelector(".material-symbols-rounded");
-    if (icon) {
-      icon.textContent = "keyboard_arrow_down";
-    }
-  });
-});
-
-    // Når man hover over et no-drop-element
-    noDropElements.forEach(el => {
-      el.addEventListener("mouseenter", () => {
-        desktopItems.forEach(i => {
-    i.classList.remove("active-hover");
-    const icon = i.querySelector(".material-symbols-rounded");
-    if (icon) {
-      icon.textContent = "keyboard_arrow_down";
-    }
-  });
-      });
-    });
-  }
-});
-
-function initDesktopHoverNav() {
-  const nav = document.querySelector("nav");
-  const desktopItems = document.querySelectorAll(".desktop-item");
-  const noDropElements = document.querySelectorAll(".no-drop");
-
-  desktopItems.forEach(item => {
-    item.addEventListener("mouseenter", () => {
-      desktopItems.forEach(i => i.classList.remove("active-hover"));
-      item.classList.add("active-hover");
-    });
-  });
-
-  nav.addEventListener("mouseleave", () => {
-    desktopItems.forEach(i => i.classList.remove("active-hover"));
-  });
-
-  noDropElements.forEach(el => {
-    el.addEventListener("mouseenter", () => {
-      desktopItems.forEach(i => i.classList.remove("active-hover"));
-    });
-  });
-}
-
-function handleNavBehavior() {
-  if (window.innerWidth > 1050) {
-    initDesktopHoverNav();
-  }
-}
-
-document.addEventListener("DOMContentLoaded", handleNavBehavior);
-window.addEventListener("resize", handleNavBehavior);
-
 
 
 
@@ -136,89 +125,141 @@ window.addEventListener("resize", handleNavBehavior);
     <header>
         <nav class="header" role="navigation" aria-label="Hovednavigation">
         <div class="wrapper">
-            <div class="logo">
-                <router-link class="no-drop" :to="{ name: 'frontpage' }"><img src="../assets/images/image-removebg-preview.png" alt=""></router-link>
+            <div class="logo" aria-label="Logo">
+                <router-link class="no-drop" 
+                :to="{ name: 'frontpage' }">
+                <img src="../assets/images/image-removebg-preview.png" alt="Logo til Haraldslund Vand og Kulturhus">
+            </router-link>
             </div>
-            <input type="radio" name="slider" id="menu-btn">
-            <input type="radio" name="slider" id="close-btn">
-            <ul class="nav-links" id="nav-links">
-                <label for="close-btn" class="btn close-btn"><i class="fas fa-times"></i></label>
-                <li><router-link class="no-drop" :to="{ name: 'frontpage' }">Forside</router-link></li>
-                <li>
-                    <router-link class="desktop-item" :to="{ name: 'om-haraldslund' }">  <span class="text">Om Haraldslund</span>
-                        <i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></router-link>
-                    <input type="checkbox" id="showMega1">
-                    <label for="showMega1" class="mobile-item">Om Haraldslund</label>
-                    <div class="dropbox">
-                        <div class="content">
+            <button
+            class="btn menu-main-btn"
+            :aria-expanded="menuOpen.toString()"
+            aria-controls="nav-links"
+            @click="toggleMenu"
+            >
+                <span>
+                    <i class="material-symbols-rounded" aria-hidden="true"> 
+                        {{ menuOpen ? 'close' : 'menu'  }}
+                    </i>
+                    <p>{{ menuOpen ? 'Luk menu' : 'Menu' }}</p>
+                </span>
+                <!-- Her anvendes Vue's dynamiske binding til at ændre ikonet og teksten baseret på menuens tilstand.
+                     Hvis menuen er åben, vises 'close' ikonet og teksten 'Luk menu', ellers vises 'menu' ikonet og teksten 'Menu'. -->
+            </button>
+            <ul 
+            class="nav-links"
+            id="nav-links"
+            :class="{ open: menuOpen }"
+            :aria-hidden="(!menuOpen).toString()" 
+            aria-label="Menu links"
+            >
+                <li role="button link"><router-link class="no-drop text desktop-item" :to="{ name: 'frontpage' }">Forside</router-link></li>
+                <li
+                @mouseenter="handleDropdown('omHaraldslund', true)"
+                @mouseleave="handleDropdown('omHaraldslund', false)"
+                @click="toggleDropdown('omHaraldslund')"
+                :aria-expanded="dropdownOpen.omHaraldslund.toString()"
+                aria-controls="dropbox-omHaraldslund"
+                role="button link"
+                >
+                    <router-link 
+                    :to="{ name: 'om-haraldslund' }" >
+                        <span class="hover-wrapper"
+                        :class ="{'hover-wrapper-active': dropdownOpen.omHaraldslund }">
+                            <p class="text desktop-item">Om Haraldslund </p>
+                            <i class="material-symbols-rounded" aria-hidden="true">{{ isSmallScreen ? '' : dropdownOpen.omHaraldslund ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
+                            </i>
+                            <!-- Vha. ternary operator vises et ikon, der indikerer om dropdown-menuen er åben eller lukket. Derudover tjekker den om "isSmallScreen" er true, og hvis det er tilfældet, vises intet ikon. -->
+                        </span>
+                    </router-link>
+                    <div class="dropbox"
+                    id="dropbox-omHaraldslund"
+                    v-show="dropdownOpen.omHaraldslund"
+                    :aria-hidden="(!dropdownOpen.omHaraldslund).toString()"
+                    >
                             <div class="row">
                                 <ul class="drop-links">
-                                    <li><router-link :to="{ name: 'haraldslund-praktisk-info' }">Praktisk Information</router-link></li>
-                                    <li><router-link :to="{ name: 'haraldslund-priser' }">Prisoversigt</router-link></li>
-                                    <li><router-link :to="{ name: 'haraldslund-cafe' }">Café Harald</router-link></li>
-                                    <li><router-link :to="{ name: 'haraldslund-personale' }">Personale</router-link></li>
-                                    <li><router-link :to="{ name: 'haraldslund-historie' }">Vores Historie</router-link></li>
-                                    <li><router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link></li>
-                                    <li><router-link :to="{ name: 'haraldslund-firmaaftaler' }">Firmaaftaler</router-link></li>
-                                    <li><router-link :to="{ name: 'haraldslund-brugerraad' }">Brugerråd</router-link></li>
-                                    <li><router-link :to="{ name: 'haraldslund-events' }">Events</router-link></li>
-                                    <li><router-link :to="{ name: 'haraldslund-aktivitetsoversigt' }">Aktivitetsoversigt</router-link></li>
+                                    <li role="button link"><router-link :to="{ name: 'haraldslund-praktisk-info' }">Praktisk Information</router-link></li>
+                                    <li role="button link"><router-link :to="{ name: 'haraldslund-priser' }">Prisoversigt</router-link></li>
+                                    <li role="button link"><router-link :to="{ name: 'haraldslund-cafe' }">Café Harald</router-link></li>
+                                    <li role="button link"><router-link :to="{ name: 'haraldslund-personale' }">Personale</router-link></li>
+                                    <li role="button link"><router-link :to="{ name: 'haraldslund-historie' }">Vores Historie</router-link></li>
+                                    <li role="button link"><router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link></li>
+                                    <li role="button link"><router-link :to="{ name: 'haraldslund-firmaaftaler' }">Firmaaftaler</router-link></li>
+                                    <li role="button link"><router-link :to="{ name: 'haraldslund-brugerraad' }">Brugerråd</router-link></li>
+                                    <li role="button link"><router-link :to="{ name: 'haraldslund-events' }">Events</router-link></li>
+                                    <li role="button link"><router-link :to="{ name: 'haraldslund-aktivitetsoversigt' }">Aktivitetsoversigt</router-link></li>
                                 </ul>
                             </div>
+                    </div>
+                </li>
+                <li
+                @mouseenter="handleDropdown('motion', true)"
+                @mouseleave="handleDropdown('motion', false)"
+                @click="toggleDropdown('motion')"
+                :aria-expanded="dropdownOpen.motion.toString()"
+                aria-controls="dropbox-motion"
+                role="button link"
+                >
+                    <router-link :to="{ name: 'motion' }">
+                        <span class="hover-wrapper"
+                        :class ="{ 'hover-wrapper-active': dropdownOpen.motion }">
+                            <p class="text desktop-item">Motion</p>
+                            <i class="material-symbols-rounded" aria-hidden="true"> {{ isSmallScreen ? '' : dropdownOpen.motion ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }} </i>
+                        </span>
+                    </router-link>
+                    <div class="dropbox"
+                    id="dropbox-motion"
+                    v-show="dropdownOpen.motion"
+                    :aria-hidden="(!dropdownOpen.omHaraldslund).toString()"
+                    >
+                        <div class="row">
+                            <ul class="drop-links">
+                                <li role="button link"><router-link :to="{ name: 'om-motionscenteret' }">Motionscenteret</router-link></li>
+                                <li role="button link"><router-link :to="{ name: 'priser-motionscenteret' }">Priser</router-link></li>
+                                <li role="button link"><router-link :to="{ name: 'holdoversigt-motionscenteret' }">Holdoversigt</router-link></li>
+                                <li role="button link"><router-link :to="{ name: 'regler-motionscenteret' }">Regler</router-link></li>
+                                <li role="button link"><router-link :to="{ name: 'personlig-traening-motionscenteret' }">Personlig træning</router-link></li>
+                                <li role="button link"><router-link :to="{ name: 'leje-af-sal-og-instruktor-motionscenteret' }">Leje af sal & Instruktør</router-link></li>
+                                <li role="button link"><router-link :to="{ name: 'sib-motionscenteret' }">Sundhed & bevægelse</router-link></li>
+                            </ul>
                         </div>
                     </div>
                 </li>
-                <li>
-                    <router-link class="desktop-item" :to="{ name: 'motion' }"><span class="text">Motion</span>
-                        <i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></router-link>
-                    <input type="checkbox" id="showMega2">
-                    <label for="showMega2" class="mobile-item">Motion</label>
-                    <div class="dropbox">
-                        <div class="content">
-                            <div class="row">
-                                <ul class="drop-links">
-                                    <li><router-link :to="{ name: 'om-motionscenteret' }">Motionscenteret</router-link></li>
-                                    <li><router-link :to="{ name: 'priser-motionscenteret' }">Priser</router-link></li>
-                                    <li><router-link :to="{ name: 'holdoversigt-motionscenteret' }">Holdoversigt</router-link></li>
-                                    <li><router-link :to="{ name: 'regler-motionscenteret' }">Regler</router-link></li>
-                                    <li><router-link :to="{ name: 'personlig-traening-motionscenteret' }">Personlig træning</router-link></li>
-                                    <li><router-link :to="{ name: 'leje-af-sal-og-instruktor-motionscenteret' }">Leje af sal & Instruktør</router-link></li>
-                                    <li><router-link :to="{ name: 'sib-motionscenteret' }">Sundhed & bevægelse</router-link></li>
-                                </ul>
-                            </div>
+                <li
+                @mouseenter="handleDropdown('vandogwellness', true)"
+                @mouseleave="handleDropdown('vandogwellness', false)"
+                @click="toggleDropdown('vandogwellness')"
+                :aria-expanded="dropdownOpen.vandogwellness.toString()"
+                role="button link"
+                >
+                    <router-link :to="{ name: 'vandogwellness' }">
+                    <span class="hover-wrapper"
+                    :class ="{ 'hover-wrapper-active': dropdownOpen.vandogwellness }"
+                    >
+                        <p class="text desktop-item">Vand & Wellness</p>
+                        <i class="material-symbols-rounded" aria-hidden="true"> {{ isSmallScreen ? '' : dropdownOpen.vandogwellness ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }} </i>
+                    </span>
+                    </router-link>
+                    <div class="dropbox"
+                    id="dropbox-vandogwellness"
+                    v-show="dropdownOpen.vandogwellness"
+                    :aria-hidden="(!dropdownOpen.omHaraldslund).toString()"              
+                    >
+                        <div class="row">
+                            <ul class="drop-links">
+                                <li role="button link"><router-link :to="{ name: 'svommehallen-vandogwellness' }">Svømmehallen</router-link></li>
+                                <li role="button link"><router-link :to="{ name: 'wellness-vandogwellness' }">Wellness</router-link></li>
+                                <li role="button link"><router-link :to="{ name: 'holdoversigt-vandogwellness' }">Holdoversigt</router-link></li>
+                                <li role="button link"><router-link :to="{ name: 'priser-vandogwellness' }">Priser</router-link></li>
+                                <li role="button link"><router-link :to="{ name: 'regler-vandogwellness' }">Regler</router-link></li>
+                            </ul>
                         </div>
                     </div>
                 </li>
-                <li>
-                    <router-link class="desktop-item" :to="{ name: 'vandogwellness' }"><span class="text">Vand & Wellness</span>
-                        <i class="material-symbols-rounded" aria-hidden="true">keyboard_arrow_down</i></router-link>
-                    <input type="checkbox" id="showMega3">
-                    <label for="showMega3" class="mobile-item">Vand & Wellness</label>
-                    <div class="dropbox">
-                        <div class="content">
-                            <div class="row">
-                                <ul class="drop-links">
-                                    <li><router-link :to="{ name: 'svommehallen-vandogwellness' }">Svømmehallen</router-link></li>
-                                    <li><router-link :to="{ name: 'wellness-vandogwellness' }">Wellness</router-link></li>
-                                    <li><router-link :to="{ name: 'holdoversigt-vandogwellness' }">Holdoversigt</router-link></li>
-                                    <li><router-link :to="{ name: 'priser-vandogwellness' }">Priser</router-link></li>
-                                    <li><router-link :to="{ name: 'regler-vandogwellness' }">Regler</router-link></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li><router-link class="no-drop" :to="{ name: 'moder-og-konferencer' }">Møder & Konferencer</router-link></li>
-                <li><router-link class="no-drop booking-cta" :to="{ name: 'booking' }">Booking</router-link></li>
+                <li role="button link"><router-link class="no-drop text desktop-item" :to="{ name: 'moder-og-konferencer' }">Møder & Konferencer</router-link></li>
+                <li role="button link"><router-link class="no-drop text desktop-item" id="booking-cta" :to="{ name: 'booking' }">Booking</router-link></li>
             </ul>
-            <label 
-            for="menu-btn" 
-            class="btn menu-btn" 
-            aria-label="Menu" 
-            :aria-expanded="expanded.toString()" 
-            aria-controls="nav-links" 
-            ><i class="fas fa-bars" aria-hidden="true"></i>
-            </label>
         </div>
     </nav>
     </header>
@@ -230,24 +271,10 @@ ul{
     padding-inline-start: 0;
 }
 
-nav input {
-    display: none;
-}
-
-.desktop-item.active-hover {
-    background-color: #364038;
-}
-
-.desktop-item.active-hover .text {
-  text-decoration: underline 2px;
-}
-
-.desktop-item.active-hover span.material-symbols-rounded {
-  text-decoration: none;
-}
 
 .header {
     position: fixed;
+    top: 0;
     transition: transform 0.3s ease-in-out;
     z-index: 1000;
 }
@@ -260,8 +287,9 @@ nav input {
 nav {
     position: fixed;
     z-index: 99;
-    width: 100%;
+    width: 100vw;
     background: var(--color-navigation);
+    padding: 10px 0;
 }
 
 nav .wrapper {
@@ -273,7 +301,7 @@ nav .wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--spacer-x2);
+    gap: max(2px, 1vw);
 }
 
 .wrapper .logo {
@@ -291,12 +319,13 @@ nav .wrapper {
     height: 100%;
 }
 
+/* UL WRAPPER */
 .wrapper .nav-links {
     display: flex;
     height: 100%;
     align-items: center;
     justify-content: center;
-    gap: max(5px, 1.5vw);
+    gap: max(3px, 1vw);
 }
 
 .nav-links li {
@@ -307,30 +336,64 @@ nav .wrapper {
     justify-content: center;
 }
 
-.nav-links li a {
-    color: #f2f2f2;
-    text-decoration: none;
-    text-underline-offset: 0.5rem;
-    font-family: var(--font-heading);
-    padding: 9px 15px;
-    border-radius: var(--border-radius);
-    transition: all 0.3s ease;
-    margin: 10px 0px;
-}
+    /* MOBIL STØRRELSE */
+    .nav-links li a {
+        display: block;
+        color: var(--color-font-2);
+        /* padding-left: 20px; */
+        border-radius: 5px;
+        width: max-content;
+        transition: all 0.3s ease;
+    }
+    
+    .text {
+        font-family: var(--font-heading);
+        font-weight: 500;
+        text-decoration: none;
+        font-size: clamp(1rem, 1.2vw, 1.2rem);
+        padding: 9px 15px;
+        cursor: pointer;
+        height: min-content;
+        color: var(--color-font-2);
+        border-radius: 5px;
+    }
 
-.nav-links li a:hover {
+    .hover-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-right: 3px;
+        border-radius: 5px;
+    }
+
+.hover-wrapper p:hover, #booking-cta:hover, .drop-links li a:hover, .text:hover {
     text-decoration: underline 2px;
     text-underline-offset: var(--spacer-x0-5);
     background-color: #5f7062;
+    color: var(--color-font-2);
+    transition: all 0.3s ease;
 }
 
-.nav-links li .desktop-item:hover{
-    text-decoration: none;
+.hover-wrapper:hover {
+    background-color: #5f7062;
+    transition: all 0.3s ease;
 }
 
 .nav-links .mobile-item {
     display: none;
 }
+
+.nav-links li:hover .dropbox {
+    top: 60px;
+    opacity: 1;
+    visibility: visible;
+    max-height: 500px;
+    width: 100vw;
+}
+
+.nav-links p:hover i.material-symbols-rounded{
+  text-decoration: none;
+} 
 
 .dropbox {
     position: absolute;
@@ -343,51 +406,33 @@ nav .wrapper {
     max-height: 10px;
     overflow: hidden;
     transition: all 0.3s ease;
+    background-color: var(--color-navigation);
+    padding: 10px 0px;
+    display: flex;
+    justify-content: center;
 }
 
 .desktop-item{
     display: flex;
     align-items: center;
+    padding: 16px; /** Skubber baren nok ned i undermenuen til at onleave ikke bliver triggered */
 }
 
-.nav-links li:hover .dropbox {
-    top: 60px;
-    opacity: 1;
-    visibility: visible;
-    max-height: 500px;
-    width: 100vw;
-}
-
-.dropbox .content {
-    background-color: var(--color-navigation);
-    display: flex;
-    width: 100%;
-    padding: 5px 0px;
-    justify-content: center;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
-}
-
-.dropbox .content .row {
+.dropbox .row {
     line-height: 45px;
 }
 
-.content .row img {
+.dropbox .row img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.content .row header {
-    color: #f2f2f2;
-    font-size: 20px;
-    font-weight: 500;
-}
-
-.content .row .drop-links {
+.drop-links {
     display: flex;
     gap: min(max(10px, 2vw), 20px);
+    padding: 5px;
 }
-
 
 .row .drop-links li a {
     padding: 10px;
@@ -396,15 +441,27 @@ nav .wrapper {
     display: block;
 }
 
-.row .drop-links li a:hover {
-    color: #f2f2f2;
-}
-
 .wrapper .btn {
     color: #fff;
     font-size: 20px;
     cursor: pointer;
     display: none;
+    background-color: var(--color-navigation);
+    border: none;
+}
+
+.wrapper .btn p {
+    font-family: var(--font-heading);
+    font-weight: 300;
+    font-size: 0.85rem;
+    margin-left: 5px;
+    color: var(--color-font-2);
+}
+
+.wrapper span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .wrapper .btn.close-btn {
@@ -413,24 +470,38 @@ nav .wrapper {
     top: 10px;
 }
 
-.booking-cta{
-    border: 1px solid var(--color-font-2)
+#booking-cta{
+    border: 1px solid var(--color-font-2);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    
 }
 
-@media screen and (max-width: 1300px) {
+
+
+@media screen and (min-width: 1200px) {
     .wrapper .nav-links{
         padding-inline-start: 0;
-        gap: 5px;
+        gap: inherit; 
+        /* // Beholder gap fra wrapper */
     }
 
     nav .wrapper{
-        
         padding: 0 10px;
     }
 
-    .desktop-item, .no-drop, .row .drop-links li a{
-        font-size: var(--spacer-x1);
-        padding: 0 10px;
+
+    .drop-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    }
+
+
+@media screen and (min-width: 1051px) {
+    .hover-wrapper-active {
+    background-color: #414d43;
     }
 }
 
@@ -444,15 +515,29 @@ nav .wrapper {
         height: 100vh;
         width: 100%;
         max-width: 40vw;
-        top: 0;
-        left: -100%;
+        top: 50px;
+        right: -9999px;
         background: var(--color-navigation);
         display: block;
-        padding: 50px 10px;
+        padding: 20px 10px;
         overflow-y: auto;
         box-shadow: 0px 15px 15px rgba(179, 167, 167, 0.18);
         transition: all 0.3s ease;
     }
+
+      .wrapper .nav-links.open {
+        right: 0;
+  }
+
+  .row .drop-links li a {
+    padding: 5px 10px;
+    width: 100%;
+    font-size: 18px;
+  }
+
+  .desktop-item {
+    font-size: 20px;
+  }
 
     /* custom scroll bar */
     ::-webkit-scrollbar {
@@ -467,55 +552,10 @@ nav .wrapper {
         background: #364038;
     }
 
-    #menu-btn:checked~.nav-links {
-        left: 0%;
-    }
-
-    #menu-btn:checked~.btn.menu-btn {
-        display: none;
-    }
-
-    #close-btn:checked~.btn.menu-btn {
-        display: block;
-    }
-
-    .close-btn{
-        margin-top: 30px;
-    }
-
     .nav-links li {
-        margin: 15px 10px;
+        margin: 5px 10px;
         height: fit-content;
         display: block;
-    }
-
-    .nav-links li a {
-        padding: 0 20px;
-        display: block;
-        font-size: 20px;
-        margin: 0;
-
-    }
-
-    #showMega1:checked ~ .dropbox,
-    #showMega2:checked ~ .dropbox,
-    #showMega3:checked ~ .dropbox {
-        max-height: 100vh;
-    }
-
-    .nav-links .desktop-item {
-        display: none;
-    }
-
-    .nav-links .mobile-item {
-        display: block;
-        color: #f2f2f2;
-        font-size: 20px;
-        font-family: var(--font-heading);
-        padding-left: 20px;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: all 0.3s ease;
     }
 
     .nav-links .mobile-item:hover {
@@ -546,24 +586,16 @@ nav .wrapper {
         width: 100%;
     }
 
-
-    .dropbox .content {
+    .dropbox .row {
         box-shadow: none;
         flex-direction: column;
         padding: 0;
-    }
-
-    .dropbox .content .row {
         width: 100%;
         line-height: unset;
     }
 
-    .dropbox .content .row:nth-child(1),
-    .dropbox .content .row:nth-child(2) {
-        border-top: 0px;
-    }
 
-    .content .row .drop-links {
+    .dropbox .row .drop-links {
         border-left: 0px;
         flex-direction: column;
         margin: .5rem 0;
@@ -573,19 +605,11 @@ nav .wrapper {
         margin: 0;
     }
 
-    .content .row header {
-        font-size: 19px;
-    }
-
     nav .wrapper{
         justify-content: space-between;
     }
 
-    .no-drop, .mobile-item{
-        font-weight: 500;
-    }
-
-    .nav-links li .booking-cta{
+    .nav-links li #booking-cta{
     text-align: center;
     width: fit-content;
     margin-left: 20px;
@@ -596,7 +620,12 @@ nav .wrapper {
 @media screen and (max-width: 600px) {
 
     .wrapper .nav-links {
-        max-width: 100%;
+        max-width: 100vw;
+    }
+
+    .wrapper .nav-links.open {
+        left: 0;
     }
 }
+
 </style>

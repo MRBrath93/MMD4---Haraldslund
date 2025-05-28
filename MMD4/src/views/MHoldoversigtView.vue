@@ -95,6 +95,7 @@ function getImage(billede) {
         :subtitle="motionHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
         :image="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
+        <!-- REFERENCE BILLEDE: serebryannikov. Fil:#446475458. (online). Adobe Stock 2025. [Accessed 07/05/2025]. URL: https://stock.adobe.com/dk/images/web-banner-with-fitness-equipment-on-the-floor-in-the-sports-gym-mat-dumbbell-bottle-for-water-healthy-lifestyle-and-sport-exercises/446475458 -->
       <TheBreadcrumb></TheBreadcrumb>
       <TheInternNavMotion></TheInternNavMotion>
       <section class="textsection" v-for="(tekstsektion,index) in motionHoldData.Indhold.Afsnit" :key="tekstsektion.id">
@@ -146,6 +147,20 @@ function getImage(billede) {
             </div>
           </div>
         </article>
+        <!-- REFERENCER TIL BILLEDER:
+        Specialhold: #221789. billede: #20815361. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/senior-motion-aeldre-billede-20815361
+        Core, Stabilitet og Styrke: #232319. billede: #37584145 (online). Colourbox.dk 2025 . [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/fitness-gruppe-aeldre-billede-37584145
+        Core & Stabilitet: #232319. billede: #36864606. (online).Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/traening-aeldre-gruppe-billede-36864606
+        Grith Strength: Syda Productions. billede: #26909541. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/motionscenter-hold-kondi-billede-26909541
+        Yoga: Takoburito. billede: #46950024. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/hold-yoga-aktiv-billede-46950024
+        Morgen Yoga Flow: Takoburito. billede: #46950001. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/hold-yoga-aktiv-billede-46950001
+        Yin Yoga: Takoburito. billede: #46950007. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/aktiv-sport-mediterende-billede-46950007
+        Yin Flow: Takoburito. billede: #46950014. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/yoga-aktiv-aktivitet-billede-46950014
+        Yin Yang Yoga: Takoburito. billede: #46950021. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/yoga-hold-aktiv-billede-46950021
+        Hatha Yoga: Takoburito. billede: #46949999. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/aktiv-sport-mediterende-billede-46949999
+        Grith Cardio: Takoburito. billede: #33870794. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL:https://www.colourbox.dk/billede/motionscenter-kondi-koncept-billede-33870794
+        Jumping Fitness: Facebook: Haraldslund Vand og kulturhus. 05/03/2018. (online). Facebook.com. Meta 2025. [Accessed 07/05/2025]. URL:https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/1715303271861093/?type=3
+        -->
       </section>
       <Reklamekort
         :src="getImage(motionHoldData.reklame_kort.Billede)"
