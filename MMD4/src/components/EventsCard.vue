@@ -1,13 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
-const events = ref([]); // Reaktiv variabel til at gemme event-data
+const events = ref([]);
 
 const fetchEvents = () => {
   fetch('https://popular-gift-b355856076.strapiapp.com/api/eventlistes?pLevel')
     .then((response) => response.json())
     .then((data) => {
-      events.value = data.data; // Gem data i den reaktive variabel
+      events.value = data.data;
     })
     .catch((error) => {
       console.error('Fejl ved hentning af events:', error);
