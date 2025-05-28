@@ -1,6 +1,7 @@
 <script setup>
 import { useThemeStore } from '@/stores/themeStore';
 import { ref, computed, watch } from 'vue';
+import { nextTick } from 'vue';
 // Importerer Bar-komponenten fra vue-chartjs
 import { Bar } from 'vue-chartjs';
 // Importerer nødvendige Chart.js komponenter
@@ -14,6 +15,8 @@ import {
 } from 'chart.js';
 
 const themeStore = useThemeStore();
+const dateTextRef = ref(null);
+
 
 // Registrerer de nødvendige Chart.js elementer
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
@@ -155,6 +158,12 @@ const goToNextDay = () => {
   if (pickedDate.value < yesterday) {
      // Sæt datoen til næste dag
     pickedDate.value = new Date(pickedDate.value.setDate(pickedDate.value.getDate() + 1));
+    // Efter at have opdateret datoen, sætter vi fokus på dato-teksten (dateTextRef)
+    // Dette sikrer, at brugeren kan se den opdaterede dato med det samme og er tilgængelig for skærmlæsere. 
+    // Vi bruger Vue's nextTick for at sikre, at DOM'en er opdateret før vi sætter fokus.
+    nextTick(() => {
+      dateTextRef.value?.focus();
+    });
   }
 };
 
@@ -222,6 +231,10 @@ const chartOptions = computed(() => {
   };
 });
 
+
+
+
+
 </script>
 
 <template>
@@ -231,22 +244,33 @@ const chartOptions = computed(() => {
       <p>Få et hurtigt overblik over, hvornår der typisk er flest besøgende i Haraldslund Kulturhus. Grafen viser det forventede aktivitetsniveau i løbet af dagen baseret på tidligere besøgstal.</p>
     </div>
     <div class="date--picker">
-      <button 
+    <button 
       class="left"
-        @click="goToPreviousDay" 
-        :disabled="isPreviousDisabled" 
-        :class="{ disabled: isPreviousDisabled }">
-        <span class="material-symbols-rounded">chevron_left</span>
-      </button>
-      <p class="bold">{{ formattedDate }}</p>
+      @click="goToPreviousDay" 
+      :disabled="isPreviousDisabled" 
+      :class="{ disabled: isPreviousDisabled }"
+      :aria-label="'Gå til dagen før: ' + formattedDate"
+      :aria-disabled="isPreviousDisabled.toString()"
+    >
+    <i class="material-symbols-rounded" aria-hidden="true">chevron_left</i>
+    </button>
+      <p class="bold" tabindex="-1" ref="dateTextRef">{{ formattedDate }}</p>
       <button class="right"
         @click="goToNextDay" 
         :disabled="isNextDisabled" 
-        :class="{ disabled: isNextDisabled }">
-        <span class="material-symbols-rounded">chevron_right</span>
+        :class="{ disabled: isNextDisabled }"
+        :aria-label="'Gå til dagen efter: ' + formattedDate"
+        :aria-disabled="isNextDisabled.toString()"
+        >
+        <i class="material-symbols-rounded" aria-hidden="true">chevron_right</i>
       </button>
     </div>
-    <Bar :data="chartData" :options="chartOptions" />
+    <Bar 
+    :data="chartData" 
+    :options="chartOptions" 
+    aria-label="Søjlediagram der viser antal besøgende per kvarter i løbet af dagen"
+    role="img"
+    />
   </div>
 </template>
 
@@ -308,7 +332,7 @@ button{
   justify-content: center;
   align-items: center;
   width: fit-content;
-  padding: 0;
+  padding: 10px 15px;
 }
 
 button:hover{
