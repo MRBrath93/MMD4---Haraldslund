@@ -29,35 +29,42 @@ const backgroundClass = computed(() => {
 </script>
 
 <template>
-    <div :class="['wrapper', backgroundClass]">
-      <h3>Det hurtige overblik</h3>
+    <article 
+    :class="['wrapper', backgroundClass]"
+    aria-labelledby="quick-info-heading">
+      <h3 id="quick-info-heading">Det hurtige overblik</h3>
   
-      <div v-if="group">
+      <div v-if="group" 
+      aria-label="Målgruppe">
         <p class="bold">Målgruppe:</p>
         <p>{{ group }}</p>
       </div>
-      <div v-if="time">
+      <div v-if="time"
+      aria-label="Varighed">
         <p class="bold">Varighed:</p>
         <p>{{ time }} minutter</p>
       </div>
-      <div v-if="priser.length > 0">
+      <div v-if="priser.length > 0"
+        aria-label="Priser">
         <p class="bold">Pris:</p>
         <div class="flexrow" v-for="pris in priser" :key="pris.id">
           <p>{{ pris.Genstand }}:</p>
           <p>{{ pris.Pris }},-</p>
         </div>
       </div>
-      <div v-if="praticalInfo.length > 0">
+      <div v-if="praticalInfo.length > 0"
+        aria-label="Praktisk information">
         <p class="bold">Det praktiske:</p>
         <ul>
           <li v-for=" info in praticalInfo" :key="info.id">{{ info.Oplysning }}</li>
         </ul>
       </div>
-      <div v-if="cancelBooking">
+      <div v-if="cancelBooking"
+        aria-label="Aflysning">
         <p class="bold">Aflysning:</p>
         <p>{{ cancelBooking }}</p>
       </div>
-    </div>
+    </article>
   </template>
   
 

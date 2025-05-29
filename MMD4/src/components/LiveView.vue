@@ -253,7 +253,7 @@ role="table"
             </div>
             
             <table>
-                <caption class="sr-only" tabindex="0">Holdoversigt for {{ dageNavne[selectedDate.getDay()] }} den {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}</caption>
+                <caption class="sr-only" tabindex="0">Aktivitetsoversigt for {{ dageNavne[selectedDate.getDay()] }} den {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}</caption>
                 <thead>
                     <tr>
                         <th scope="col">Tidspunkt</th>

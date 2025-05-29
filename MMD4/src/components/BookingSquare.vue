@@ -58,14 +58,14 @@ const backgroundClass = computed(() => {
         <p>Du kan tilmelde dig gennem vores online booking system via. nedenstående link.</p>
         <TheBtn title="Booking" text="Du kan booke dig ind lige her " link="/motion" icon="arrow_forward"></TheBtn>
     </div> -->
-    <div :class="['bookingSquare', backgroundClass]">
+    <article :class="['bookingSquare', backgroundClass]">
       <h4>{{ title }}</h4>
   
       <div>
         <p>{{ text }}</p>
       </div>
       <TheBtn :title="btn_title" :text="btn_text" :link="btn_path" :target="btn_target" :icon="btn_icon"></TheBtn>
-    </div>
+    </article>
   </template>
   
 
