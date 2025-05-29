@@ -1,7 +1,7 @@
 <script setup>
 // IMPORTS 
 import TheHero from "../components/TheHero.vue";
-import TheInternNavMotion from "../components/TheInternNavMotion.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import EntryPoint from '@/components/EntryPoint.vue';
 import DynamicHeading from '@/components/DynamicHeading.vue';
@@ -114,14 +114,14 @@ function checkScreenSize() {
         :title="motionViewData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="motionViewData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om vores forskellige motionstilbud i Haraldslund."
-        :image="getImage(motionViewData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
+        :image="motionViewData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="motionViewData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
         <!-- KILDEREFERENCE BILLEDE: Seizinger, Corri. Fil #:745719113. Adobe Stock 2025. (online) [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/search/images?filters%5Bcontent_type%3Aphoto%5D=1&filters%5Bcontent_type%3Aimage%5D=1&filters%5Borientation%5D=panoramic&filters%5Bcopy_space%5D=all&filters%5Bcontent_type%3Aillustration%5D=0&filters%5Bcontent_type%3Azip_vector%5D=0&k=styrketr%C3%A6ning&order=relevance&search_type=filter-select&limit=100&search_page=1&acp=&aco=styrketr%C3%A6ning&color=%23427A40&get_facets=1&asset_id=745719113 -->
         <div class="page-wrapper">
             <TheBreadcrumb></TheBreadcrumb>  
         </div>
-        <TheInternNavMotion 
-        :labels="internNavLabels"></TheInternNavMotion>
+        <TheInternNavHaraldslund 
+        :label="internNavLabels"></TheInternNavHaraldslund>
         <div class="page-wrapper">
         <section>
                 <article v-for="(afsnit,index) in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">
