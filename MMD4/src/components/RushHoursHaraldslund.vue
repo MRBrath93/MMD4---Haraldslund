@@ -1,4 +1,5 @@
 <script setup>
+// Importerer nødvendige funktioner og komponenter
 import { useThemeStore } from '@/stores/themeStore';
 import { ref, computed, watch } from 'vue';
 import { nextTick } from 'vue';
@@ -14,19 +15,25 @@ import {
   Legend,
 } from 'chart.js';
 
+// Tilgår tema-store (brugt til at ændre diagramfarver baseret på tema)
 const themeStore = useThemeStore();
 const dateTextRef = ref(null);
 
+
+// Registrerer de nødvendige komponenter i Chart.js (obligatorisk for brug af diagrammer)
+
 // TABEL FUNKTIONALITET
-// Registrerer de nødvendige Chart.js elementer
+
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
-// Funktion til at hente besøgsdata for en given dato
+
+/* --------- DATA SIMULERING --------- */
+// Funktion der returnerer fiktive besøgsdata baseret på ugedagen
 const fetchVisitorData = (date) => {
-  // Simulerer data baseret på en dato
   // Beregner hvilken dag på ugen det er (0 = søndag, 1 = mandag, osv.)
   const day = date.getDay();
-  // Simuleret besøgstal for forskellige tidspunkter på dagen, der ændrer sig afhængigt af ugedagen. Så tallet + ugendagens nr. 
+  // Returnerer et array af objekter, hvert med tidspunkt og antal besøgende
+  // Antallet af besøgende justeres med dagsnummeret for variation i data
   const baseData = [
   { time: "08:00", amount: 13 + day },
   { time: "08:15", amount: 15 + day },
@@ -85,37 +92,39 @@ const fetchVisitorData = (date) => {
   return baseData;
 };
 
-// Opretter en reaktiv variabel til den valgte dato
+
+
+/* --------- TILSTAND --------- */
+// Opretter en reaktiv dato-variabel og sætter den til i går
 const pickedDate = ref(new Date());
 // Sætter den valgte dato til i går (for at undgå at vise dagens data)
 pickedDate.value.setDate(pickedDate.value.getDate() - 1);
 
-// Henter data for den valgte dato
+// Initialiserer de besøgsdata, der vises i diagrammet
 const visitorData = ref(fetchVisitorData(pickedDate.value));
 
-// Lytter på ændringer af pickedDate og opdaterer visitorData
+// Når brugeren vælger en ny dato, opdateres data automatisk
 watch(pickedDate, (newDate) => {
   visitorData.value = fetchVisitorData(newDate);
 });
 
-// Formaterer den valgte dato til en læsbar streng som opstilles efter dansk format
-// og gør første bogstav stort
+
+/* --------- DATOFORMATTERING --------- */
+// Formaterer den valgte dato til en læsbar streng som opstilles efter dansk format og gør første bogstav stort
 const formattedDate = computed(() => {
-  return pickedDate.value.toLocaleDateString('da-DK', {
-    weekday: 'long', // Ugedag (langt format)
-    year: 'numeric', // Årstal
-    month: 'long', // Måned (langt format)
-    day: 'numeric', // Dag i måneden
-  }).charAt(0).toUpperCase() + 
-  pickedDate.value.toLocaleDateString('da-DK', {
+  const localeDate = pickedDate.value.toLocaleDateString('da-DK', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
-  }).slice(1);
+  });
+  return localeDate.charAt(0).toUpperCase() + localeDate.slice(1);
 });
 
+
+/* --------- NAVIGATIONSMULIGHEDER --------- */
 // Beregner om knappen til forrige dag skal være deaktiveret (brugeren kan ikke vælge en dato tidligere end 7 dage før altså en uge bagud)
+// Hvis datoen er 7 dage eller mere bagud, deaktiveres "forrige dag"-knappen
 const isPreviousDisabled = computed(() => {
   const oneWeekAgo = new Date();
   // En uge før i dag
@@ -124,7 +133,7 @@ const isPreviousDisabled = computed(() => {
   return pickedDate.value <= oneWeekAgo;
 });
 
-// Beregner om knappen til næste dag skal være deaktiveret (brugeren kan ikke vælge en dato senere end i går)
+// Hvis datoen er i går eller nyere, deaktiveres "næste dag"-knappen
 const isNextDisabled = computed(() => {
   const yesterday = new Date();
   // Sætter datoen til i går
@@ -135,7 +144,9 @@ const isNextDisabled = computed(() => {
   return pickedDate.value >= yesterday;
 });
 
-// Går til forrige dag, hvis muligt
+
+/* --------- FUNKTIONER TIL DATOVALG --------- */
+// Opdaterer pickedDate til forrige dag, hvis muligt
 const goToPreviousDay = () => {
   const oneWeekAgo = new Date();
   // En uge før i dag
@@ -150,7 +161,7 @@ const goToPreviousDay = () => {
   }
 };
 
-// Går til næste dag, hvis muligt
+// Opdaterer pickedDate til næste dag, hvis muligt
 const goToNextDay = () => {
   const yesterday = new Date();
   // Sætter datoen til i går
@@ -170,23 +181,25 @@ const goToNextDay = () => {
   }
 };
 
-// Funktion til at vælge farve baseret på antal besøgende
+
+/* --------- GRAFOPBYGNING --------- */
+// Returnerer farve til hver søjle baseret på antal besøgende
 const getColor = (amount) => {
   if (amount >= 40) return '#ef4444';
   if (amount >= 25) return '#eab308';
   return '#22c55e';
 };
 
-// Beregner data til diagrammet
+// Forbereder data til grafen: x-akse (tid) og y-akse (antal besøgende)
 const chartData = computed(() => ({
 // Tidspunkterne på x-aksen
-  labels: visitorData.value.map(v => v.time),
+  labels: visitorData.value.map(visit => visit.time),
   datasets: [{
     label: 'Antal besøgende',
     // Besøgstal til y-aksen
-    data: visitorData.value.map(v => v.amount),
-    // Farve baseret på antal besøgende
-    backgroundColor: visitorData.value.map(v => getColor(v.amount)),
+    data: visitorData.value.map(visit => visit.amount),
+    // Farve baseret på antal besøgende. Hver amount i vores array bliver vurderet om hvilken farve den skal have
+    backgroundColor: visitorData.value.map(visit => getColor(visit.amount)),
     hoverBorderColor: '#bcbcbc',
     hoverBorderWidth: .5,
     borderRadius: {
@@ -199,6 +212,10 @@ const chartData = computed(() => ({
   }],
 }));
 
+
+/* --------- GRAFKONFIGURATION --------- */
+// Konfiguration af diagrammet https://www.chartjs.org/docs/latest/charts/bar.html
+
 // INSPIRATIONSKILDE TIL Konfiguration af diagrammet: Chart.js. Bar Chart. 2025. (online) www.chartjs.org/ [Accessed 28/05/2025] URL: https://www.chartjs.org/docs/latest/charts/bar.html
 
 // FARVETEMA / TOGGLE
@@ -208,9 +225,11 @@ const chartOptions = computed(() => {
   return {
     responsive: true,
     plugins: {
+      // Skjuler legend (forklaring)
       legend: { display: false },
       tooltip: {
         callbacks: {
+          // Tilføjer tekst i tooltip
           label: context => `${context.raw} besøgende`,
         },
       },
@@ -219,14 +238,17 @@ const chartOptions = computed(() => {
       y: {
         beginAtZero: true,
         grid: { display: false },
-        ticks: { color: isDark ? '#ffffff' : '#000000' },  // Skift farve afhængigt af tema
+        // Skift farve afhængigt af tema
+        ticks: { color: isDark ? '#ffffff' : '#1F1F1F' },
       },
       x: {
         ticks: {
-          color: isDark ? '#ffffff' : '#000000',          // Skift farve afhængigt af tema
+          // Skift farve afhængigt af tema
+          color: isDark ? '#ffffff' : '#1F1F1F',
           callback: function(value) {
             const label = this.getLabelForValue(value);
-            return label.endsWith(':00') ? label : '';
+            // Viser kun hele tider (fx 08:00)
+            return label.endsWith(':00') ? label : ''; 
           },
           autoSkip: false,
         },
@@ -236,9 +258,7 @@ const chartOptions = computed(() => {
   };
 });
 
-
 </script>
-
 <template>
   <div class="rush-hours" aria-labelledby="rush-hours-title">
     <div class="intro">
@@ -297,7 +317,6 @@ const chartOptions = computed(() => {
 
   </div>
 </template>
-
 <style scoped>
 button.disabled {
   color: gray;

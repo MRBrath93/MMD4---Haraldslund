@@ -21,26 +21,34 @@ let iconIndex = 0
 // `intervalId` gemmer ID'et på setInterval-funktionen, så vi kan stoppe det igen ved behov
 let intervalId
 
+// `prefersReducedMotion` tjekker om brugeren har valgt reduceret bevægelse i sine systemindstillinger
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
 // Når komponenten er monteret i DOM'en, starter vi et interval, der skifter til næste ikon hver 3. sekund (3000 ms)
+// ...men kun hvis brugeren ikke har slået reduceret bevægelse til
 onMounted(() => {
   document.getElementById('spinnerText').focus() // Sætter fokus på spinner-teksten for tilgængelighed
 
-  intervalId = setInterval(() => {
-    // Gå til næste ikon, loop tilbage til start hvis vi er nået til slutningen
-    iconIndex = (iconIndex + 1) % icons.length
-    // Opdater reaktivt det viste ikon
-    currentIcon.value = icons[iconIndex]
-  }, 3000)
+  if (!prefersReducedMotion) {
+    intervalId = setInterval(() => {
+      // Gå til næste ikon, loop tilbage til start hvis vi er nået til slutningen
+      iconIndex = (iconIndex + 1) % icons.length
+      // Opdater reaktivt det viste ikon
+      currentIcon.value = icons[iconIndex]
+    }, 3000)
+  }
 })
 
 // Når komponenten fjernes fra DOM'en, rydder vi intervallet for at undgå fejl
 onBeforeUnmount(() => {
+
   setTimeout(() => {
     document.getElementById('skipLink').focus(); // Sætter fokus på skip-linket for at forbedre tilgængeligheden
   }, 200) // Brug timeout for at sikre, at blur sker efter DOM-opdatering
   clearInterval(intervalId);
 })
 </script>
+
 
 
 
@@ -128,6 +136,16 @@ onBeforeUnmount(() => {
   50% {
     opacity: 0.6;
     transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dots {
+    animation: none !important;
+  }
+
+  .center-icon {
+    animation: none !important;
   }
 }
 
