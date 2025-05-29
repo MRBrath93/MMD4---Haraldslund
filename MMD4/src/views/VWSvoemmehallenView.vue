@@ -105,7 +105,6 @@ function getImage(billede) {
                     <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 5)">{{ tekstsektion.Overskrift }}</DynamicHeading>
                     <div v-for="(single_text,i) in tekstsektion.Tekst || []" :key="single_text.id">
                       <DynamicHeading :level="Math.min(index+i+2, 5)">{{ single_text.Underoverskift}}</DynamicHeading>
-                        <!-- <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5> -->
                         <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
                             <li> {{ single_text.Brodtekst }}</li>
                         </ul>
@@ -279,6 +278,6 @@ section{
     }
 }
 
-
 /* TEKSTSTYLE SLUT */
+
 </style>
