@@ -1,7 +1,7 @@
 <script setup>
 // IMPORTS
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
-import TheInternNavMotion from "../components/TheInternNavMotion.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 import TheHero from "@/components/TheHero.vue";
 import ImageHolder from "@/components/ImageHolder.vue";
 import DynamicHeading from "@/components/DynamicHeading.vue";
@@ -100,8 +100,7 @@ function getImage(billede) {
         <div class="breadcrumb-container">
           <TheBreadcrumb></TheBreadcrumb>  
         </div>
-      <TheInternNavMotion 
-      :labels="internNavLabels"></TheInternNavMotion>
+      <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
 
 
       <section class="textsection" v-for="(afsnit,index) in motionData.Indhold.Afsnit || []" :key="afsnit.id">

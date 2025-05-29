@@ -1,7 +1,7 @@
 <script setup>
 // IMPORTS 
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
-import TheInternNavMotion from "../components/TheInternNavMotion.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 import TheHero from "@/components/TheHero.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
@@ -105,8 +105,8 @@ function getImage(billede) {
 
     <TheBreadcrumb></TheBreadcrumb>  
 
-    <TheInternNavMotion 
-    :labels="internNavLabels"></TheInternNavMotion>
+    <TheInternNavHaraldslund
+    :label="internNavLabels"></TheInternNavHaraldslund>
     <div id="wrapper-content">
       <div class="tekst-container">
         <section v-for="(afsnit,index) in personligTraening?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section" >

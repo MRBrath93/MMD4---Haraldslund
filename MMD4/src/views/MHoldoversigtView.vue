@@ -10,12 +10,12 @@ import TheTeamCard from "@/components/TheTeamCard.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 import TheFilterBar from "@/components/TheFilterBar.vue";
 import { useClassesStoreMotion } from "@/stores/motion-classes";
-import TheInternNavMotion from "@/components/TheInternNavMotion.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 
 const classesStore = useClassesStoreMotion();
 const error = ref(null);
 const isLoading = ref(true);
-const motionHoldData = ref(null); // OBS: null er bedre end []
+const motionHoldData = ref(null);
 
 const CACHE_KEY = "motionHoldData";
 const CACHE_TIMESTAMP_KEY = "motionsHoldTimestamp";
@@ -83,6 +83,16 @@ function getImage(billede) {
         billede.formats.thumbnail?.url ||
         billede.url || '';
 }
+
+const internNavLabels = [
+  { id: 1, label: "Om Motionscenteret", name: "om-motionscenteret" },
+  { id: 2, label: "Holdoversigt", name: "holdoversigt-motionscenteret" },
+  { id: 3, label: "Priser", name: "priser-motionscenteret" },
+  { id: 4, label: "Regler", name: "regler-motionscenteret" },
+  { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
+  { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
+  { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
+];
 </script>
 
 
@@ -97,7 +107,7 @@ function getImage(billede) {
         :alt="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
         <!-- REFERENCE BILLEDE: serebryannikov. Fil:#446475458. (online). Adobe Stock 2025. [Accessed 07/05/2025]. URL: https://stock.adobe.com/dk/images/web-banner-with-fitness-equipment-on-the-floor-in-the-sports-gym-mat-dumbbell-bottle-for-water-healthy-lifestyle-and-sport-exercises/446475458 -->
       <TheBreadcrumb></TheBreadcrumb>
-      <TheInternNavMotion></TheInternNavMotion>
+      <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
       <section class="textsection" v-for="(tekstsektion,index) in motionHoldData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
@@ -119,7 +129,7 @@ function getImage(billede) {
                 </div>
             </article>
             <div class="img--container flex1">
-                <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
+                <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText"></ImageHolder>
             </div>
         </section>
       <section class="elementspacing">

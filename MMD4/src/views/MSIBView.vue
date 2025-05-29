@@ -2,7 +2,7 @@
 
 // IMPORTS 
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
-import TheInternNavMotion from "../components/TheInternNavMotion.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 
 
 // INTERN NAVIGATION LABELS (FRA STRAPI)
@@ -21,7 +21,7 @@ const internNavLabels = [
 <template>
     <div>
         <TheBreadcrumb></TheBreadcrumb>  
-        <TheInternNavMotion :labels="internNavLabels"></TheInternNavMotion>
+        <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
         <section>
             <h1>SUNDHED I BEVÆGELSE</h1>
             <h2>... Maybe next time? </h2>

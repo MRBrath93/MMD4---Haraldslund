@@ -1,7 +1,7 @@
 <script setup>
 // IMPORTS 
 import TheHero from "../components/TheHero.vue";
-import TheInternNavMotion from "../components/TheInternNavMotion.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import EntryPoint from '@/components/EntryPoint.vue';
 import DynamicHeading from '@/components/DynamicHeading.vue';
@@ -120,8 +120,8 @@ function checkScreenSize() {
         <div class="page-wrapper">
             <TheBreadcrumb></TheBreadcrumb>  
         </div>
-        <TheInternNavMotion 
-        :labels="internNavLabels"></TheInternNavMotion>
+        <TheInternNavHaraldslund 
+        :label="internNavLabels"></TheInternNavHaraldslund>
         <div class="page-wrapper">
         <section>
                 <article v-for="(afsnit,index) in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">

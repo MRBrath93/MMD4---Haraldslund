@@ -2,7 +2,7 @@
 // IMPORTS 
 import { ref, onMounted } from "vue";
 import TheHero from "@/components/TheHero.vue";
-import TheInternNavMotion from "@/components/TheInternNavMotion.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
@@ -96,7 +96,7 @@ function getImage(billede) {
         :image="getImage(motionPriser.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
         :alt="motionPriser.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
       <TheBreadcrumb></TheBreadcrumb>  
-      <TheInternNavMotion :labels="internNavLabels"></TheInternNavMotion>
+      <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
       <h1 tabindex="-1">Priser - Motion</h1>
       <section class="container-priser">
         <article class="pris-article" v-for="enkeltPris in motionPriser.Enkeltbilletter || []" :key="enkeltPris.id" >

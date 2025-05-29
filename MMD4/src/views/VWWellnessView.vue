@@ -1,6 +1,6 @@
 <script setup>
 import TheHero from "../components/TheHero.vue";
-import TheInternNavWater from "../components/TheInternNavWater.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 import TheBtn from '@/components/TheBtn.vue';
@@ -94,9 +94,9 @@ function getImage(billede) {
         :alt="wellnessData .Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
 
         <TheBreadcrumb></TheBreadcrumb>
-        <TheInternNavWater
+        <TheInternNavHaraldslund
             :label="internNavLabels"
-        ></TheInternNavWater>
+        ></TheInternNavHaraldslund>
         
         <section v-for="(tekstsektion,index) in wellnessData .Indhold.Afsnit" :key="tekstsektion.id">
             <div class="textsection" :class="['textsection', { 'small-margin': index === 1 }, { 'reverse-layout': index === 2 }]">
