@@ -94,7 +94,7 @@ watch(
     height: auto;
     color: black;
     border: 2px solid black;
-    z-index: 1001;
+    z-index: 1000;
     opacity: 1;
 }
 
