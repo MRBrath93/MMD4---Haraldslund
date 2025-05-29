@@ -8,6 +8,9 @@ const isLoading = ref(true);
 const error = ref(null);
 // Hvor længe cachedata er gyldige (5 minutter)
 const CACHE_DURATION_MS = 5 * 60 * 1000;
+// Reference til dato-tekst i datovælgeren
+const dateTextRef = ref(null);
+
 
 function trimHoldData(holdListe) {
   return holdListe.map(hold => ({
@@ -177,7 +180,7 @@ function formatTime(timeString) {
 const selectedDate = ref(new Date());
 
 // Funktion der flytter valgt dato en dag tilbage, men ikke før i dagsdato. Vi ønsker ikke at vise de hold der var dagen forinden dagsdato. 
-function gåTilbage() {
+function gaaTilbage() {
   const iDag = new Date();
   // Sæt klokkeslæt til midnat for sammenligning
   iDag.setHours(0, 0, 0, 0);
@@ -187,15 +190,21 @@ function gåTilbage() {
   if (valgtDato > iDag) {
     // Flyt datoen en dag tilbage ved at trække en dag fra, med timer, minutter og det hele.
     selectedDate.value = new Date(selectedDate.value.getTime() - 24 * 60 * 60 * 1000);
+          nextTick(() => {
+      dateTextRef.value?.focus();
+    });
   }
 }
 
 // Funktion der flytter valgt dato en dag frem
-function gåFrem() {
+function gaaFrem() {
   selectedDate.value = new Date(selectedDate.value.getTime() + 24 * 60 * 60 * 1000);
+      nextTick(() => {
+      dateTextRef.value?.focus();
+    });
 }
 
-// Computed der fortæller, om den valgte dato er tidligere eller lig med i dag Bruges til at disable vores gåtilbage knap.
+// Computed der fortæller, om den valgte dato er tidligere eller lig med i dag Bruges til at disable vores gaaTilbage knap.
 const erTidligereEndIDag = computed(() => {
   const iDag = new Date();
   iDag.setHours(0, 0, 0, 0);
@@ -207,26 +216,50 @@ const erTidligereEndIDag = computed(() => {
 </script>
 
 <template>
-<span class="overview-wrapper">
+<span 
+class="overview-wrapper"
+aria-labelledby="live-view-heading"
+role="table"
+>
             <div class="btn--container">
                 <div class="date--picker">
-                    <button class="left" :class="{ disabled: erTidligereEndIDag }" @click="gåTilbage" :disabled="erTidligereEndIDag">
+                    <button 
+                    class="left" 
+                    :class="{ disabled: erTidligereEndIDag }" 
+                    @click="gaaTilbage" 
+                    :disabled="erTidligereEndIDag"
+                    role="button"
+                    :aria-label="'Gå til dagen før: ' + dageNavne[selectedDate.getDay()] + ' den ' + selectedDate.getDate() + '/' + (selectedDate.getMonth() + 1)"
+                    :aria-disabled="erTidligereEndIDag.toString()"
+                    >
                         <i class="material-symbols-rounded" aria-hidden="true">chevron_left</i>
                     </button>
-                    <p class="bold">{{ dageNavne[selectedDate.getDay()] }} d. {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}</p>
-                    <button class="right" @click="gåFrem">
+                    <p class="bold"
+                    ref="dateTextRef"
+                    tabindex="0"
+                    aria-live="polite"
+                    :aria-label="'Holdvisning for ' + dageNavne[selectedDate.getDay()] + ' den ' + selectedDate.getDate() + '/' + (selectedDate.getMonth() + 1)">
+                    
+                      {{ dageNavne[selectedDate.getDay()] }} d. {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}
+                    </p>
+                    <button class="right" 
+                    @click="gaaFrem"
+                    role="button"
+                    :aria-label="'Gå til dagen efter: ' + dageNavne[selectedDate.getDay()] + ' den ' + selectedDate.getDate() + '/' + (selectedDate.getMonth() + 1)"
+                    >
                         <i class="material-symbols-rounded" aria-hidden="true">chevron_right</i>
                     </button>
                 </div>
             </div>
             
             <table>
+                <caption class="sr-only" tabindex="0">Holdoversigt for {{ dageNavne[selectedDate.getDay()] }} den {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}</caption>
                 <thead>
                     <tr>
-                        <th>Tidspunkt</th>
-                        <th>Aktivitet</th>
-                        <th class="hide">Kategori</th>
-                        <th>Sted</th>
+                        <th scope="col">Tidspunkt</th>
+                        <th scope="col">Aktivitet</th>
+                        <th class="hide" scope="col">Kategori</th>
+                        <th scope="col">Sted</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -289,6 +322,16 @@ table a {
 
 .hide{
     display: none;
+}
+
+.sr-only {
+  position: absolute !important;
+  clip: rect(0, 0, 0, 0);
+  width: 1px; 
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
 }
 
 th, td{

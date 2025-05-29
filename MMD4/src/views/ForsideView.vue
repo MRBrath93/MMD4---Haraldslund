@@ -118,7 +118,7 @@ onMounted(() => {
         </section>  
         
         <section class="overview-container">
-            <h2>Det sker i Haraldslund</h2>
+            <h2 id="live-view-heading">Det sker i Haraldslund</h2>
             <LiveView></LiveView>
             <RushHoursHaraldslund></RushHoursHaraldslund>
             <EventsCard></EventsCard>

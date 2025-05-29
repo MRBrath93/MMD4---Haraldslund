@@ -149,7 +149,10 @@ const kategoriColor = computed(() => {
 </script>
 
 <template>
-    <article class="ads_cart" :class="kategoriColor" >
+    <article 
+    class="ads_cart" 
+    :class="kategoriColor" 
+    >
         <ImageHolder class="billede" :src="src" :alt="alt"></ImageHolder>
         <div class="text-wrapper">
           <div class="text-content">
