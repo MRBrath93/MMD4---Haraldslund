@@ -130,25 +130,39 @@ function getImage(billede) {
         </section>
       <section class="elementspacing">
           <TheFilterBar
-            :labels="classesStore.availableCategories" :store="classesStore"
+            :labels="classesStore.availableCategories" 
+            :store="classesStore"
             :selectedCategory="classesStore.selectedCategory"
             @categorySelected="classesStore.setCategory"
+            aria-labelledby="filter-headline"
+            role="search"
+            tabindex="0"
           ></TheFilterBar>
 
-        <article> 
+        <article
+        aria-labelledby="filtered-teams"
+        >
+          <h2 class="sr-only filtered-teams">Filtrerede holdresultater</h2>
           <div class="teams--view">
-            <p>Viser {{ classesStore.numberOfClasses }} ud af {{ classesStore.numberOfTeams }} hold</p>
-            <div class="grid-container">
-              <TheTeamCard
-                v-for="klasse in classesStore.filteredClasses"
-                :key="klasse.id"
-                :labels="{ label: klasse.name || 'Ukendt hold' }"
-                icon="arrow_forward"
-                :backgroundColor="klasse.type_af_hold"
-                :teamCategorys="klasse.kategorier"
-                :link="{ name: 'holdbeskrivelse-vandogwellness', params: { id: klasse.id } }"
-                :teamImage="getCoverImage(klasse)"
-                :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
+            <p
+            aria-live="polite"
+            role="status"
+            >Viser {{ classesStore.numberOfClasses }} ud af {{ classesStore.numberOfTeams }} hold</p>
+            <div 
+            class="grid-container"
+            >
+            <TheTeamCard
+            v-for="klasse in classesStore.filteredClasses"
+            :key="klasse.id"
+            :labels="{ label: klasse.name || 'Ukendt hold' }"
+            icon="arrow_forward"
+            :backgroundColor="klasse.type_af_hold"
+            :teamCategorys="klasse.kategorier"
+            :link="{ name: 'holdbeskrivelse-vandogwellness', params: { id: klasse.id } }"
+            :teamImage="getCoverImage(klasse)"
+            :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
+            aria-live="polite"
+            aria-busy="classesStore.isLoading" 
               ></TheTeamCard>
             </div>
           </div>
@@ -223,6 +237,17 @@ function getImage(billede) {
 section{
     width: 95%;
     margin: 0 auto;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 @media screen and (min-width: 500px) {

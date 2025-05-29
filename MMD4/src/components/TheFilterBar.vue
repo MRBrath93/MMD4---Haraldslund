@@ -26,11 +26,11 @@ onMounted(() => {
 <template>
   <div class="wrapper">
     <div class="flex-row-container"> 
-      <i class="material-symbols-rounded">filter_alt</i>
-      <p><strong>Filtrér efter kategori:</strong></p>
+      <i class="material-symbols-rounded" aria-hidden="true">filter_alt</i>
+      <p id="filter-headline"><strong>Filtrér efter kategori:</strong></p>
     </div>
     <div class="category-wrapper" :class="{ 'show-left-fade': showLeftArrow, 'show-right-fade': showRightArrow }">
-  <i v-if="showLeftArrow" class="scroll-hint left material-symbols-rounded">arrow_back_ios</i>
+  <i v-if="showLeftArrow" class="scroll-hint left material-symbols-rounded" aria-hidden="true">arrow_back_ios</i>
 
   <div
     ref="scrollContainer"
@@ -47,7 +47,7 @@ onMounted(() => {
     </button>
   </div>
 
-  <i v-if="showRightArrow" class="scroll-hint right material-symbols-rounded">arrow_forward_ios</i>
+  <i v-if="showRightArrow" class="scroll-hint right material-symbols-rounded" aria-hidden="true">arrow_forward_ios</i>
 </div>
   </div>
 </template>
