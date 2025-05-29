@@ -63,9 +63,11 @@ const computedBtnLink = computed(() => {
     case 'VW regler':
       return '/vand-og-wellness/regler';
     case 'Email':
-      return 'mailto:' + props.title; // Forventet at title er en emailadresse';
+      // Forventet at title er en emailadresse';
+      return 'mailto:' + props.title;
     case 'Telefon':
-      return 'tel:' + props.title.replace(/\D/g, ''); // Fjerner ikke-numeriske tegn fra telefonnummeret
+      // Fjerner ikke-numeriske tegn fra telefonnummeret
+      return 'tel:' + props.title.replace(/\D/g, '');
     default:
       return props.link || '#';
   }

@@ -1,4 +1,5 @@
 <script setup>
+// Import af genanvendelige komponenter
 import DynamicHeading from '@/components/DynamicHeading.vue';
 import EntryPoint from '@/components/EntryPoint.vue';
 import TheBtn from '@/components/TheBtn.vue';
@@ -9,13 +10,19 @@ import RushHoursHaraldslund from '@/components/RushHoursHaraldslund.vue';
 import ImageHolder from '@/components/ImageHolder.vue';
 import LiveView from '@/components/LiveView.vue';
 import EventsCard from '@/components/EventsCard.vue';
+
+// Import af Vue's reaktive funktioner
 import { ref, onMounted } from 'vue';
 
+// Reaktive referencer til data, loading state og fejl
 const forsideData = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
+
+// Definerer hvor længe cachede data skal være gyldige (1 time)
 const CACHE_DURATION_MS = 60 * 60 * 1000;
 
+// Funktion til at hente det mest passende billedformat
 function getImage(billede) {
   if (!billede || !billede.formats) return '';
   return billede.formats.large?.url ||
@@ -25,11 +32,15 @@ function getImage(billede) {
          billede.url || '';
 }
 
+// Når komponenten er monteret...
 onMounted(() => {
   const now = Date.now();
+
+  // Forsøg at hente cachede data og timestamp
   const cachedData = localStorage.getItem('forsideData');
   const cachedTime = Number(localStorage.getItem('cachefrontpageTimestamp'));
 
+  // Brug cache hvis den er valid/gældende
   if (cachedData && cachedTime && now - cachedTime < CACHE_DURATION_MS) {
     try {
       forsideData.value = JSON.parse(cachedData);
@@ -40,6 +51,7 @@ onMounted(() => {
     }
   }
 
+  // Hent data fra Strapi hvis der ikke findes valid cache
   fetch('https://popular-gift-b355856076.strapiapp.com/api/forside?pLevel')
     .then(res => {
       if (!res.ok) throw new Error(`Forside fejl: ${res.status}`);
@@ -47,6 +59,7 @@ onMounted(() => {
     })
     .then(json => {
       forsideData.value = json.data;
+      // Gem data og tidspunkt i localStorage
       localStorage.setItem('forsideData', JSON.stringify(json.data));
       localStorage.setItem('cachefrontpageTimestamp', now.toString());
     })
@@ -56,84 +69,102 @@ onMounted(() => {
     .finally(() => {
       isLoading.value = false;
     });
-
-    
 });
 </script>
 
+
 <template>
+    <!-- Vis spinner mens data hentes -->
     <div class="loading-container" v-if="isLoading">
         <TheSpinner>
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
     </div>
-    
+
+    <!-- Vis fejlbesked hvis datahentning fejler -->
     <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
-    
+
+    <!-- Når data er hentet vises forsiden -->
     <div v-else>
+        <!-- Hero-sektion med billede og tekst -->
         <FrontpageTheHero
-        :title="forsideData.Hero_sektion.Hero_titel_h5.Titel_H5"
-        :subtitle="forsideData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
-        :image="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
-        :alt="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></FrontpageTheHero>
-        
-        <section class="textsection" v-for="(tekstsektion,index) in forsideData.Indhold.Afsnit" :key="tekstsektion.id">
+            :title="forsideData.Hero_sektion.Hero_titel_h5.Titel_H5"
+            :subtitle="forsideData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
+            :image="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
+            :alt="forsideData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></FrontpageTheHero>
+
+        <!-- Dynamisk tekstindhold med overskrifter, brødtekst, knapper og billeder -->
+        <section class="textsection" v-for="(tekstsektion, index) in forsideData.Indhold.Afsnit" :key="tekstsektion.id">
             <article class="flex--column flex1">
-                <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 6)">{{ tekstsektion.Overskrift }}</DynamicHeading>
+                <!-- Dynamisk overskriftsniveau baseret på placering i listen. Hvis index er = 0 så skal den have en h1 ellers så skal den tage indexnr + 1. Men maks en 6 (h6) -->
+                <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 6)">
+                    {{ tekstsektion.Overskrift }}
+                </DynamicHeading>
+
+                <!-- Brødtekst med evt. underoverskrift og punktopstilling -->
                 <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
                     <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
                     <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
-                        <li> {{ single_text.Brodtekst }}</li>
+                        <li>{{ single_text.Brodtekst }}</li>
                     </ul>
-                    <p v-else> {{ single_text.Brodtekst }}</p>
+                    <p v-else>{{ single_text.Brodtekst }}</p>
                 </div>
+
+                <!-- Vis knapper hvis de findes og arraylængden er over 0 -->
                 <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
                     <TheBtn
-                    v-for="btn in tekstsektion.Knapper"
-                    :key="btn.id"
-                    :link="btn.link_to"
-                    :title="btn.btn_titel"
-                    :text="btn.btn_description"
-                    :icon="btn.Ikon[0]"></TheBtn>
+                        v-for="btn in tekstsektion.Knapper"
+                        :key="btn.id"
+                        :link="btn.link_to"
+                        :title="btn.btn_titel"
+                        :text="btn.btn_description"
+                        :icon="btn.Ikon[0]"></TheBtn>
                 </div>
             </article>
+
+            <!-- Vis tilhørende billede -->
             <div class="img--container flex1" v-for="billede in tekstsektion.Billede" :key="billede.id">
-                <ImageHolder class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
+                <ImageHolder class="img" :src="getImage(billede)" :alt="billede.alternativeText"></ImageHolder>
             </div>
         </section>
-        
+
+        <!-- Entrypoints: visuelle genveje til tilbud -->
         <section class="entrypoints">
             <h2 class="text-align-center">Udforsk vores tilbud</h2>
             <div class="card-container">
-                <EntryPoint v-for="card in forsideData.Entrypoints" :key="card.id"
-                    class="entrypoint" 
-                    icon="arrow_forward" 
-                    :color="card.Kategori" 
-                    :title="card.label" 
-                    :bgimage= "getImage(card.billede)"
-                    :name="card.link_to">
-                </EntryPoint>
+                <EntryPoint
+                    v-for="card in forsideData.Entrypoints"
+                    :key="card.id"
+                    class="entrypoint"
+                    icon="arrow_forward"
+                    :color="card.Kategori"
+                    :title="card.label"
+                    :bgimage="getImage(card.billede)"
+                    :name="card.link_to"></EntryPoint>
             </div>
-           
         </section>  
-        
+
+        <!-- Sektion med live-aktivitetsvisning og events -->
         <section class="overview-container">
             <h2 id="live-view-heading">Det sker i Haraldslund</h2>
             <LiveView></LiveView>
             <RushHoursHaraldslund></RushHoursHaraldslund>
             <EventsCard></EventsCard>
         </section>
+
+        <!-- Reklamekort nederst på siden -->
         <Reklamekort 
-        :src="getImage(forsideData.reklame_kort.Billede)" 
-        :alt="forsideData.reklame_kort.Billede.alternativeText" 
-        :title="forsideData.reklame_kort.Titel" 
-        :text="forsideData.reklame_kort.Tekst_afsnit" 
-        :Btn_title="forsideData.reklame_kort.Knapper[0].btn_titel" 
-        :Btn_text="forsideData.reklame_kort.Knapper[0].btn_description" 
-        :kategori="forsideData.reklame_kort.Kategori" 
-        :Btn_icon="forsideData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+            :src="getImage(forsideData.reklame_kort.Billede)" 
+            :alt="forsideData.reklame_kort.Billede.alternativeText" 
+            :title="forsideData.reklame_kort.Titel" 
+            :text="forsideData.reklame_kort.Tekst_afsnit" 
+            :Btn_title="forsideData.reklame_kort.Knapper[0].btn_titel" 
+            :Btn_text="forsideData.reklame_kort.Knapper[0].btn_description" 
+            :kategori="forsideData.reklame_kort.Kategori" 
+            :Btn_icon="forsideData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     </div>
 </template>
+
 
 
 

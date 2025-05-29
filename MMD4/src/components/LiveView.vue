@@ -71,16 +71,15 @@ onMounted(async () => {
     // Omform JSON-svar til JavaScript-objekter
     const motionsJson = await motionsRes.json();
     const vandsJson = await vandsRes.json();
-
-     // Sammensæt motions- og vands-hold i en variable
-     const combinedHold = [...motionsJson.data, ...vandsJson.data];
-     holdData.value = combinedHold;
-
-// Gem kun det nødvendige i localStorage
-localStorage.setItem('holdData', JSON.stringify(trimHoldData(combinedHold)));
-
+    
+    // Sammensæt motions- og vands-hold i en variable
+    const combinedHold = [...motionsJson.data, ...vandsJson.data];
+    holdData.value = combinedHold;
+     
+    // Gem kun det nødvendige i localStorage
+    localStorage.setItem('holdData', JSON.stringify(trimHoldData(combinedHold)));
     localStorage.setItem('cacheTimestamp', now.toString());
-
+  
   } catch (err) {
     // Hvis der opstår fejl ved hentning, gem fejlmeddelelsen så vi kan vise den
     error.value = err.message;

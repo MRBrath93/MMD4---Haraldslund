@@ -38,7 +38,7 @@ const props = defineProps({
   },
   Btn_icon: {
     type: String,
-    default: 'arrow_right', // forudsat du bruger et ikon-bibliotek
+    default: 'arrow_right',
   },
   Btn_target: {
     type: String,

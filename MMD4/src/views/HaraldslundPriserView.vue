@@ -14,6 +14,7 @@ const error = ref(null);
 const motionPrisData = ref(null);
 const vwPrisData = ref(null);
 const kombiData = ref(null);
+const aboutData = ref([]);
 
 // CACHE VARIABLER
 const CACHE_DURATION_MS = 5 * 60 * 1000;
@@ -28,10 +29,11 @@ onMounted(() => {
     const cachedvwPriserRaw = localStorage.getItem('vwPrisData');
     const cachedMotionPriserRaw = localStorage.getItem('motionPrisData');
     const cachedKombiPriserRaw = localStorage.getItem('kombiData');
+    const cachedaboutRaw = localStorage.getItem('aboutData');
     const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
     const now = Date.now();
    
-    if (cachedvwPriserRaw && cachedMotionPriserRaw && cachedKombiPriserRaw && cachedTimestampRaw) {
+    if (cachedvwPriserRaw && cachedMotionPriserRaw && cachedKombiPriserRaw && cachedaboutRaw && cachedTimestampRaw) {
         const cachedTimestamp = Number(cachedTimestampRaw);
 
         if (now - cachedTimestamp < CACHE_DURATION_MS) {
@@ -39,6 +41,7 @@ onMounted(() => {
             vwPrisData.value = JSON.parse(cachedvwPriserRaw);
             motionPrisData.value = JSON.parse(cachedMotionPriserRaw);
             kombiData.value = JSON.parse(cachedKombiPriserRaw);
+            aboutData.value = JSON.parse(cachedaboutRaw);
             isLoading.value = false;
             return;
         } catch (e) {
@@ -52,22 +55,26 @@ onMounted(() => {
         fetch('https://popular-gift-b355856076.strapiapp.com/api/priser-motion?pLevel'),
         fetch('https://popular-gift-b355856076.strapiapp.com/api/priser?pLevel'), 
         fetch('https://popular-gift-b355856076.strapiapp.com/api/priser-kombi?pLevel'),
+        fetch('https://popular-gift-b355856076.strapiapp.com/api/om-haraldslund?pLevel')
     ])
-        .then(async ([resMotion, resVW, resKombi]) => {
-        if (!resMotion.ok || !resVW.ok || !resKombi.ok) {
-            throw new Error(`Fejl ved fetch: ${resMotion.status} / ${resVW.status} / ${resKombi.status}`);
+        .then(async ([resMotion, resVW, resAbout, resKombi]) => {
+        if (!resMotion.ok || !resVW.ok || !resAbout || !resKombi.ok) {
+            throw new Error(`Fejl ved fetch: ${resMotion.status} / ${resVW.status} / ${resAbout.status} / ${resKombi.status}`);
         }
-        const [motionJson, vwJson, kombiJson] = await Promise.all([
+        const [motionJson, vwJson, aboutJson, kombiJson] = await Promise.all([
             resMotion.json(), 
             resVW.json(),
             resKombi.json(),
+            resAbout.json()
         ]);
         
         motionPrisData.value = motionJson.data;
         vwPrisData.value = vwJson.data;
         kombiData.value = kombiJson.data;
+        aboutData.value = aboutJson.data;
 
         // Gem data i localStorage
+        localStorage.setItem('aboutData', JSON.stringify(aboutData.value));
         localStorage.setItem('motionPrisData', JSON.stringify(motionPrisData.value));
         localStorage.setItem('vwPrisData', JSON.stringify(vwPrisData.value));
         localStorage.setItem('kombiData', JSON.stringify(kombiData.value));
@@ -128,16 +135,17 @@ function handleResize() {
     <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
     <div v-else>
         <TheHero
-            title="HARALDSLUND"
-            subtitle="Prisoversigt"
-            description="Find priser for billetter og abonnementer til Haraldslund."
-            image="@/assets/images/haraldslund.jpg"
-            alt="Haraldslund Vand og kulturhus"/>
-        <h1 tabindex="-1">Prisoversigt</h1>
-        <TheBreadcrumb />
+
+        :title="aboutData.Hero_sektion.Hero_titel_h5.Titel_H5"
+        :subtitle="aboutData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
+        :image="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
+        :alt="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
+        <TheBreadcrumb></TheBreadcrumb>
+
         <TheInternNavHaraldslund
         :label="internNavLabels"
-        />
+        ></TheInternNavHaraldslund>
+        <h1>Prisoversigt</h1>
         <section v-if="!isMobile">
         <!-- Tilføjet role="table" for at hjælpe evt. skærmlæsere eller anden teknologi med at identificere tabellen -->
             <h2 class="tabel-headline">Priser for kombinerede billetter</h2>
@@ -738,6 +746,12 @@ function handleResize() {
 
 <style scoped>
 
+h1{
+    width: 95%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
 .loading-container {
   min-height: 100vh;
   display: flex;
@@ -821,9 +835,6 @@ tr:nth-child(odd){
     background-color: var(--color-pricetable)
 }
 
-section{
-    margin-bottom: var(--spacer-Elements);
-}
 
 .time{
     margin-bottom: 5px;
