@@ -76,8 +76,10 @@ onBeforeUnmount(() => {
               <router-link 
               :to="{ name: item.name }" 
               @click="selectItem(item)"
-              role="menuitem"
+              role="button"
               :aria-current="$route.name === item.name ? 'page' : null"
+              class="menu-item"
+              :aria-label="`Gå til ${item.label}`"
               >
                 <span>{{ item.label }}</span>
               </router-link>
@@ -135,6 +137,12 @@ button{
   color: var(--color-font-1);
 }
 
+.menu-item {
+  padding: var(--spacer-x0-5) var(--spacer-x1);
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+}
+
 
 @media screen and (min-width: 1200px) {
 .dropdown-toggle {
@@ -148,7 +156,6 @@ button{
     background: none;
     padding: 0;
     margin-top: 0;
-    gap: var(--spacer-x2);
 }
   
 .intern-nav {
@@ -158,7 +165,7 @@ button{
     width: 100%;
     gap: var(--spacer-x3);
     background-color: var(--color-body-background);
-    padding: var(--spacer-x1);
+    padding: var(--spacer-x0-5) var(--spacer-x1);
 }
 
 .router-link-exact-active {
@@ -175,6 +182,9 @@ span:hover {
 .router-link-exact-active {
     font-weight: bold;
 }
+
+
+
 }
 </style> 
 <!-- INSPIRATIONSKILDER: SE REFERENCER TIL KODE I FILEN "src/components/TheInternNavMotion.vue" -->

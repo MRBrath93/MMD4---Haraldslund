@@ -293,7 +293,6 @@ nav {
     z-index: 99;
     width: 100vw;
     background: var(--color-navigation);
-    padding: 10px 0;
 }
 
 nav .wrapper {
@@ -388,7 +387,7 @@ nav .wrapper {
 }
 
 .nav-links li:hover .dropbox {
-    top: 60px;
+    top: 69px;
     opacity: 1;
     visibility: visible;
     max-height: 500px;
@@ -485,7 +484,7 @@ nav .wrapper {
 
 @media screen and (min-width: 1200px) {
     .wrapper .nav-links{
-        padding-inline-start: 0;
+        padding: var(--spacer-x0-5) 0;
         gap: inherit; 
         /* // Beholder gap fra wrapper */
     }

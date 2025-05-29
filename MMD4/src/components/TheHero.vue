@@ -10,10 +10,12 @@ defineProps({
 </script>
 
 <template>
-    <div class="hero">
+    <div 
+    class="hero"
+    role="presentation">
         <div class="hero-text">
-            <h5 class="hero-title">{{ title }}</h5>
-            <h6 class="hero-subtitle"> {{ subtitle }}</h6>
+            <p class="hero-title">{{ title }}</p>
+            <p class="hero-subtitle"> {{ subtitle }}</p>
         </div>
         <img :src="image" :alt="alt" id="hero-image" />
     </div>

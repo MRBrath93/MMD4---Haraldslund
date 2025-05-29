@@ -61,11 +61,6 @@ onBeforeUnmount(() => {
       <button @click="isOpen = !isOpen" 
       class="dropdown-toggle" 
       label="Tryk for at åbne den interne navigation for siden"
-      :aria-expanded="isOpen.toString()"
-      aria-haspopup="true"
-      :aria-controls="'intern-nav-menu'"
-      aria-label="Åbn eller luk intern navigation"
-      type="button"
       > 
       <span class="button-label">Indhold:</span> {{ selectedLabel || "Vælg side" }}
           <i class="material-symbols-rounded" aria-hidden="true">
