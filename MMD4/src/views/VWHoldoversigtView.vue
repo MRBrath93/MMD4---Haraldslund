@@ -94,14 +94,7 @@ function getImage(billede) {
 
 
 <template>
-    <div v-if="classesStore.isLoading || isLoading" class="loading-container">
-        <main>
-            <div id="loading" aria-live="assertive" aria-atomic="true" role="status" class="visually-hidden">
-              <span> {{ loadingMessage }} </span>
-            </div>
-            <TheSpinner></TheSpinner>
-        </main>
-    </div>
+    <div v-if="classesStore.isLoading || !vandogwellnessHoldData" class="loading-container"><TheSpinner></TheSpinner></div>
     <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
     <div v-else>
       <TheHero class="heroImage"

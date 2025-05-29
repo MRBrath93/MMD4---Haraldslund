@@ -62,29 +62,45 @@ onBeforeUnmount(() => {
   class="intern-nav" 
   ref="dropdownRef" 
   >
-      <button @click="isOpen = !isOpen" 
+  <!-- -- KNAP TIL AT ÅBNE OG LUKKE DROPDOWN-MENUEN -- -->
+      <button 
+      @click="isOpen = !isOpen" 
       class="dropdown-toggle" 
-      label="Tryk for at åbne den interne navigation for siden"> 
+      label="Tryk for at åbne den interne navigation for siden"
+      :aria-expanded="isOpen.toString()"
+      aria-haspopup="true"
+      :aria-controls="'intern-nav-menu'"
+      aria-label="Åbn eller luk intern navigation"
+      type="button"
+      > 
       <span class="button-label">Indhold:</span> {{ selectedLabel || "Vælg side" }}
-          <span class="material-symbols-rounded" aria-hidden="true">
+          <i class="material-symbols-rounded" aria-hidden="true">
               {{ isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
-          </span>
+          </i>
       </button>
+  <!-- -- MENU -- -->
       <ul 
       class="small intern-nav-container dropdown" 
       v-show="isOpen"
+      role="menu"
+      id="intern-nav-menu"
+      tabindex="0"
       >
           <li v-for="(item, index) in label" :key="index">
               <router-link 
               :to="{ name: item.name }" 
               @click="selectItem(item)"
+              role="menuitem"
+              :aria-current="$route.name === item.name ? 'page' : null"
               >
-                  <span>{{ item.label }}</span>
+                <span>{{ item.label }}</span>
               </router-link>
           </li>
       </ul>
   </section>
 </template>
+
+<!-- INSPIRATIONSKILDE ARIA: Schroiff, Florian. Practical Guide on Implementing ‘aria-expanded’ in Web Development. 11/07/2024. (online) A11Y collective 2025. Level Level. [Accessed 29/05/2025] URL: https://www.a11y-collective.com/blog/aria-expanded/ -->
   
 <style scoped>
 

@@ -70,20 +70,30 @@ onBeforeUnmount(() => {
   >
       <button @click="isOpen = !isOpen" 
       class="dropdown-toggle" 
-      label="Tryk for at åbne den interne navigation for siden"> 
+      label="Tryk for at åbne den interne navigation for siden"
+      :aria-expanded="isOpen.toString()"
+      aria-haspopup="true"
+      :aria-controls="'intern-nav-menu'"
+      aria-label="Åbn eller luk intern navigation"
+      type="button"
+      > 
       <span class="button-label">Indhold:</span> {{ selectedLabel || "Vælg side" }}
-          <span class="material-symbols-rounded" aria-hidden="true">
+          <i class="material-symbols-rounded" aria-hidden="true">
               {{ isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
-          </span>
+          </i>
       </button>
       <ul 
       class="small intern-nav-container dropdown" 
       v-show="isOpen"
+      id="intern-nav-menu"
+      tabindex="0"
       >
           <li v-for="(item, index) in label" :key="index">
               <router-link 
               :to="{ name: item.name }" 
               @click="selectItem(item)"
+              role="menuitem"
+              :aria-current="$route.name === item.name ? 'page' : null"
               >
                   <span>{{ item.label }}</span>
               </router-link>
