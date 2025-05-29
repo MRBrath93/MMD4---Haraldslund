@@ -86,14 +86,20 @@ const isExternalLink = computed(() => {
 
 <template>
    <!-- Knap uden link -->
-  <button v-if="!link" :aria-label="text" class="button" @click="handleClick">
+  <button 
+  v-if="!link" 
+  :aria-label="text" 
+  class="button" 
+  @click="handleClick"
+  role="button"
+  >
     <slot>
       <div class="flex">
         <div class="flex-column">
           <h5 class="title">{{ title }}</h5>
           <p class="small">{{ text }}</p>
         </div>
-        <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
+        <i v-if="icon" class="icon material-symbols-rounded" aria-hidden="true">{{ icon }}</i>
       </div>
     </slot>
   </button>
@@ -105,6 +111,9 @@ const isExternalLink = computed(() => {
   :href="computedBtnLink"
   :target="target || (computedBtnLink.startsWith('http') ? '_blank' : null)"
   class="button"
+  target="_blank" 
+  rel="noopener noreferrer"
+  role="button"
 >
   <slot>
     <div class="flex">
@@ -112,20 +121,25 @@ const isExternalLink = computed(() => {
         <h5 class="title">{{ title }}</h5>
         <p class="small">{{ text }}</p>
       </div>
-      <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
+      <i v-if="icon" class="icon material-symbols-rounded" aria-hidden="true">{{ icon }}</i>
     </div>
   </slot>
 </a>
 
   <!-- Internt link via RouterLink -->
-  <RouterLink v-else :to="computedBtnLink" :aria-label="text" class="button">
+  <RouterLink 
+  v-else :to="computedBtnLink" 
+  :aria-label="text" 
+  class="button"
+  role="button"
+  >
     <slot>
       <div class="flex">
         <div class="flex-column">
           <h5 class="title">{{ title }}</h5>
           <p class="small">{{ text }}</p>
         </div>
-        <span v-if="icon" class="icon material-symbols-rounded">{{ icon }}</span>
+        <i v-if="icon" class="icon material-symbols-rounded" aria-hidden="true">{{ icon }}</i>
       </div>
     </slot>
   </RouterLink>
