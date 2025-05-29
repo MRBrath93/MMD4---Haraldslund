@@ -106,7 +106,7 @@ function getImage(billede) {
         :title="praktiskData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="praktiskData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs praktisk information om Haraldslund Vand og Kulturhus"
-        :image="getImage(praktiskData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
+        :image="praktiskData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="praktiskData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" ></TheHero>
 
         <section class="content-container">

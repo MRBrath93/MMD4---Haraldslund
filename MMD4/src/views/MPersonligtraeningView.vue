@@ -1,7 +1,7 @@
 <script setup>
 // IMPORTS 
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
-import TheInternNavMotion from "../components/TheInternNavMotion.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 import TheHero from "@/components/TheHero.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
@@ -100,13 +100,13 @@ function getImage(billede) {
       :title="personligTraening.Hero_sektion.Hero_titel_h5?.Titel_H5"
       :subtitle="personligTraening.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
       description="Læs om personlig træning i motionscenter Haraldslund."
-      :image="getImage(personligTraening.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
+      :image="personligTraening.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
       :alt="personligTraening.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
 
     <TheBreadcrumb></TheBreadcrumb>  
 
-    <TheInternNavMotion 
-    :labels="internNavLabels"></TheInternNavMotion>
+    <TheInternNavHaraldslund
+    :label="internNavLabels"></TheInternNavHaraldslund>
     <div id="wrapper-content">
       <div class="tekst-container">
         <section v-for="(afsnit,index) in personligTraening?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section" >

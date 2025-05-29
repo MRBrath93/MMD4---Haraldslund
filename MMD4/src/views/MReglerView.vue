@@ -1,6 +1,6 @@
 <script setup>
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
-import TheInternNavMotion from "../components/TheInternNavMotion.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 import TheHero from "@/components/TheHero.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 import DynamicHeading from "@/components/DynamicHeading.vue";
@@ -66,12 +66,12 @@ function getImage(billede) {
         :title="mReglerData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="mReglerData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om regler og retningslinjer for Haraldslunds motionscenter."
-        :image="getImage(mReglerData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
+        :image="mReglerData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="mReglerData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
 
         <TheBreadcrumb></TheBreadcrumb>  
 
-        <TheInternNavMotion :labels="internNavLabels"></TheInternNavMotion>
+        <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
         <div class="container-rules">
             <section v-for="(afsnit,index) in mReglerData.Indhold?.Afsnit || []" :key="afsnit.id" >
                 <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>

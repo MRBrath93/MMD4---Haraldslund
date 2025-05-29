@@ -2,7 +2,7 @@
 // IMPORTS 
 import { ref, onMounted } from "vue";
 import TheHero from "@/components/TheHero.vue";
-import TheInternNavMotion from "@/components/TheInternNavMotion.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 import TheBreadcrumb from "@/components/TheBreadcrumb.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
@@ -93,10 +93,10 @@ function getImage(billede) {
         :title="motionPriser.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="motionPriser.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Prisoversigt for motionstilbud i Haraldslund Vand og Kulturhus."
-        :image="getImage(motionPriser.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
+        :image="motionPriser.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="motionPriser.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
       <TheBreadcrumb></TheBreadcrumb>  
-      <TheInternNavMotion :labels="internNavLabels"></TheInternNavMotion>
+      <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
       <h1 tabindex="-1">Priser - Motion</h1>
       <section class="container-priser">
         <article class="pris-article" v-for="enkeltPris in motionPriser.Enkeltbilletter || []" :key="enkeltPris.id" >

@@ -10,7 +10,7 @@ import TheTeamCard from "@/components/TheTeamCard.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 import TheFilterBar from "@/components/TheFilterBar.vue";
 import { useClassesStoreWater } from "@/stores/water-classes";
-import TheInternNavWater from "@/components/TheInternNavWater.vue";
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 
 const classesStore = useClassesStoreWater();
 const error = ref(null);
@@ -90,6 +90,14 @@ function getImage(billede) {
         billede.formats.thumbnail?.url ||
         billede.url || '';
 }
+
+const internNavLabels = [
+    { id: 1, label: "Svømmehallen", name: "svommehallen-vandogwellness" },
+    { id: 2, label: "Wellness", name: "wellness-vandogwellness" },
+    { id: 3, label: "Holdoversigt", name: "holdoversigt-vandogwellness" },
+    { id: 4, label: "Priser", name: "priser-vandogwellness" },
+    { id: 5, label: "Regler", name: "regler-vandogwellness" },
+];
 </script>
 
 
@@ -103,7 +111,7 @@ function getImage(billede) {
         :image="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
       <TheBreadcrumb></TheBreadcrumb>
-      <TheInternNavWater></TheInternNavWater>
+      <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
       <section class="textsection" v-for="(tekstsektion,index) in vandogwellnessHoldData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
