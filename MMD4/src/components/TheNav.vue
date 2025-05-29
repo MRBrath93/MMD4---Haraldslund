@@ -125,9 +125,14 @@ onUnmounted(() => {
     <header>
         <nav tabindex="0" class="header" role="navigation" aria-label="Hovednavigation">
         <div class="wrapper">
-            <div class="logo" aria-label="Logo">
-                <router-link class="no-drop" 
-                :to="{ name: 'frontpage' }">
+            <div class="logo" 
+            aria-label="Logo"
+            role="button"
+            >
+            <router-link 
+            class="no-drop" 
+            aria-label="Gå til forsiden"
+            :to="{ name: 'frontpage' }">
                 <img src="../assets/images/image-removebg-preview.png" alt="Logo til Haraldslund Vand og Kulturhus">
             </router-link>
             </div>

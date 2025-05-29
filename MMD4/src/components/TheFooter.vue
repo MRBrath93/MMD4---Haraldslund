@@ -228,6 +228,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                     href="https://www.instagram.com/haraldslundvandogkulturhus/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
+                    role="link"
                     aria-label="Åben Haraldslunds Instagram-side i ny fane"
                     >
                     <img src="../assets/images/instagram_Glyph_White.png" class="social-icon" alt="Instagram-logo" />
@@ -241,6 +242,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                     target="_blank" 
                     rel="noopener noreferrer" 
                     aria-label="Åben vores Facebook-side i ny fane"
+                    role="link"
                 >
                     <img src="../assets/images/Facebook_Logo_Secondary.png" class="social-icon" alt="Facebook-logo" />
                 </a>

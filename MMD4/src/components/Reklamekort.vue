@@ -164,9 +164,7 @@ const kategoriColor = computed(() => {
         ></ImageHolder>
         <div class="text-wrapper">
           <div class="text-content">
-            <div 
-            aria-label="Reklame tekst"
-            >
+            <div>
               <h4 class="title">{{ title }}</h4>
               <p>{{ text }}</p>
             </div>
