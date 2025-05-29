@@ -113,7 +113,6 @@ const isExternalLink = computed(() => {
   :href="computedBtnLink"
   :target="target || (computedBtnLink.startsWith('http') ? '_blank' : null)"
   class="button"
-  target="_blank" 
   rel="noopener noreferrer"
   role="button"
 >
@@ -195,5 +194,16 @@ button{
 
 .theButton:active, .button:active {
   box-shadow: inset 0 -2px 7px rgba(0, 0, 0, 0.25), inset 0 4px 7px rgba(0, 0, 0, 0.25);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .icon {
+    transition: transform 0.3s ease;
+  }
+
+  .button:hover .icon,
+  .theButton:hover .icon {
+    transform: translateX(5px);
+  }
 }
 </style>
