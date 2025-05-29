@@ -100,7 +100,7 @@ function getImage(billede) {
         :title="lejeData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="lejeData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om leje af motionshal og instruktør."
-        :image="getImage(lejeData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
+        :image="lejeData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="lejeData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
   
       <TheBreadcrumb></TheBreadcrumb>  

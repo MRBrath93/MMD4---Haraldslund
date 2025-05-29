@@ -66,7 +66,7 @@ function getImage(billede) {
         :title="mReglerData.Hero_sektion.Hero_titel_h5?.Titel_H5"
         :subtitle="mReglerData.Hero_sektion.Hero_undertitel_h6?.Undertitel_H6"
         description="Læs om regler og retningslinjer for Haraldslunds motionscenter."
-        :image="getImage(mReglerData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0])"
+        :image="mReglerData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="mReglerData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
 
         <TheBreadcrumb></TheBreadcrumb>  
