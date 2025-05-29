@@ -85,7 +85,12 @@ const kategoriColor = computed(() => {
 </script>
 
 <template>
-    <router-link :to="{ path: `${computedBtnLink}` }" class="link-wrapper" role="button" aria-label="Gå til kategori">
+    <router-link 
+    :to="{ path: `${computedBtnLink}` }" 
+    class="link-wrapper" 
+    role="button" 
+    :aria-label="`Tryk for at gå til ${title}`"
+    >
       <div class="wrapper" :class="kategoriColor">
         <div class="bg-layer" :style="{ backgroundImage: `url(${bgimage})` }"></div>
         

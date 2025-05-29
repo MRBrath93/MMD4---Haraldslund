@@ -103,7 +103,7 @@ function getImage(billede) {
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
                     <div v-for="single_text, in tekstsektion.Tekst || []" :key="single_text.id">
-                        <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
+                        <h2 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h2>
                         <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
                             <li> {{ single_text.Brodtekst }}</li>
                         </ul>

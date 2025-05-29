@@ -152,15 +152,28 @@ const kategoriColor = computed(() => {
     <article 
     class="ads_cart" 
     :class="kategoriColor" 
+    aria-label="Reklame for Haraldslund"
+    :aria-label="`Reklame for ${title}`"
+    tabindex="0"
     >
-        <ImageHolder class="billede" :src="src" :alt="alt"></ImageHolder>
+        <ImageHolder 
+        class="billede" 
+        :src="src" 
+        :alt="alt"
+        role="img"
+        ></ImageHolder>
         <div class="text-wrapper">
           <div class="text-content">
             <div>
               <h4 class="title">{{ title }}</h4>
               <p>{{ text }}</p>
             </div>
-              <TheBtn :link="computedBtnLink" :title="Btn_title" :target="computedTarget" :text="Btn_text" :icon="Btn_icon"></TheBtn>
+              <TheBtn 
+              :link="computedBtnLink" 
+              :title="Btn_title" 
+              :target="computedTarget" 
+              :text="Btn_text" 
+              :icon="Btn_icon"></TheBtn>
           </div>
         </div>
       </article>

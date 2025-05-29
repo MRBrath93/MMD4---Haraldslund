@@ -34,9 +34,15 @@
   color: var(--color-font-1);
 }
 
+.breadcrumb-item {
+  min-height: 1.5rem;
+  min-width: 1.5rem;
+}
+
 .breadcrumb-item + .breadcrumb-item::before {
   content: " / ";
   padding: 0 0.5rem;
+
 }
 
 .breadcrumb-item.active {
@@ -47,6 +53,8 @@ li, span {
   font-size: clamp(0.875rem, 1.5vw, 1rem);
   font-family: var(--font-text);
 }
+
+
 </style>
 
 <!-- KILDE: Merkushin-AY. Vue-3-breadcrumbs (online) NPM [Accessed 12/05/25] URL:https://www.npmjs.com/package/vue-3-breadcrumbs -->

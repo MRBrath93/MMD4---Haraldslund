@@ -32,16 +32,16 @@ function getImage(billede) {
   href="#" 
   class="events-card" 
   role="region"
-  aria-describedby="events-headline"
+  aria-label="Events i denne måned"
   >
-    <h3 id="events-headline">Events i denne måned</h3>
+    <h3>Events i denne måned</h3>
       <div class="flex">
         <a href="#" 
         class="container" 
         v-for="event in events" 
         :key="event.id"
         role="link"
-        aria-label="Gå til eventbeskrivelse"
+        aria-label="Læs mere"
         >
             <img class="image" :src="getImage(event.Cover)" :alt="event.Cover.alternativeText">
             <div class="label-container">

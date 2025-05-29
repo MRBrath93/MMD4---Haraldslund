@@ -58,10 +58,19 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
 </script>
 
 <template>
-    <footer class="footer">
+    <footer 
+    class="footer"
+    role="contentinfo"
+    aria-label="Sidefod med links til navigation, genveje, åbningstider og sociale medier"
+    >
         <div class=footer-container>
-            <div>
-                <h4 class="footer-headline">Navigation</h4>
+            <div role="region"
+            aria-labelledby="navigation-headline"
+            >
+                <h4 class="footer-headline"
+                id="navigation-headline">
+                    Navigation
+                </h4>
                 <ul>
                     <li>
                         <router-link :to="{ name: 'frontpage' }">Forside</router-link>
@@ -83,8 +92,13 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                     </li>
                 </ul>
             </div>
-            <div>
-            <h4 class="footer-headline">Genveje</h4>
+            <div role="region"
+            aria-labelledby="genveje-headline"
+            >
+            <h4 class="footer-headline"
+            id="genveje-headline">
+                Genveje
+            </h4>
             <ul>
                 <li>
                     <a href="#">Opret ny bruger</a>
@@ -96,15 +110,27 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                     <a href="#">Privatlivspolitik</a>
                 </li>
                 <li>
-                    <a href="https://www.findsmiley.dk/22876">Smiley-rapport</a>
+                    <a 
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    href="https://www.findsmiley.dk/22876">Smiley-rapport</a>
                 </li>
                 <li>
-                    <a href="http://www.aalborgkommune.dk/">Aalborg Kommune</a>
+                    <a
+                    rel="noopener noreferrer"
+                    target="_blank" 
+                    href="http://www.aalborgkommune.dk/">Aalborg Kommune</a>
                 </li>
             </ul>
             </div>
-            <div>
-                <h4 class="footer-headline">For medlemmer</h4>
+            <div role="region"
+            aria-labelledby="for-medlemmer-headline"
+            >
+                <h4 
+                class="footer-headline"
+                id="for-medlemmer-headline">
+                    For medlemmer
+                </h4>
                 <ul>
                     <li>
                         <router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link>
@@ -114,19 +140,41 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                     </li>
                 </ul>
             </div>
-            <div>
-                <h4 class="footer-headline">Tilgængelighed</h4>
+            <div role="region"
+            aria-labelledby="footer-accessibility-headline"
+            >
+                <h4 
+                class="footer-headline"
+                id="footer-accessibility-headline">
+                    Tilgængelighed
+                </h4>
                 <ul>
                     <li>
-                        <a href="https://was.digst.dk/haraldslund-com">Tilgængelighedserklæring</a>
+                        <a 
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        href="https://was.digst.dk/haraldslund-com">Tilgængelighedserklæring</a>
                     </li>
                     <li>
-                        <button @click="themeStore.toggleTema()">Skift farvetema</button>
+                        <button 
+                        role="button"
+                        aria-label="Skift farvetema mellem lys og mørk tilstand"
+                        :aria-pressed="themeStore.moerkTemaAktivt.toString()"
+                        @click="themeStore.toggleTema()">
+                        Skift farvetema
+                        </button>
+                        <p class="sr-only" aria-live="assertive">
+                            {{ themeStore.moerkTemaAktivt ? 'Mørkt tema aktiveret' : 'Lyst tema aktiveret' }}
+                        </p>
                     </li>
                 </ul>
             </div>
-            <div class="large-column">
-                <h4 class="footer-headline">Åbningstider</h4>
+            <div 
+            role="region"
+            class="large-column"
+            aria-labelledby="opening-hours-headline"
+            >
+                <h4 class="footer-headline" id="opening-hours-headline">Åbningstider</h4>
                     <div class="opening-hours-container">
                         <ul class="opening-hours" v-for="aabningstider in footerData?.Almene_aabningstider || []"
                         :key="aabningstider.id">
@@ -165,14 +213,24 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                         </div>
                     </div>
             </div>
-            <div class="footer-column">
-            <router-link :to="{ name: 'frontpage' }"><img src="../assets/images/image-removebg-preview.png" alt="Logo" class="footer-logo" aria-label="Gå til forsiden af Haraldslunds hjemmeside"></router-link>
+            <div 
+            role="region"
+            class="footer-column"
+            aria-label="links"
+            >
+                <router-link 
+                :to="{ name: 'frontpage' }"
+                aria-label="Gå til forsiden"
+                >
+                    <img src="../assets/images/image-removebg-preview.png" alt="Logo" class="footer-logo">
+                </router-link>
                 <div class="footer-icons">
                 <a 
                     href="https://www.instagram.com/haraldslundvandogkulturhus/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    aria-label="Besøg vores Instagram-side (åbner i ny fane)"
+                    role="link"
+                    aria-label="Åben Haraldslunds Instagram-side i ny fane"
                     >
                     <img src="../assets/images/instagram_Glyph_White.png" class="social-icon" alt="Instagram-logo" />
                 </a>
@@ -184,11 +242,15 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                     href="https://www.facebook.com/Haraldslund" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    aria-label="Besøg vores Facebook-side (åbner i ny fane)"
+                    aria-label="Åben vores Facebook-side i ny fane"
+                    role="link"
                 >
                     <img src="../assets/images/Facebook_Logo_Secondary.png" class="social-icon" alt="Facebook-logo" />
                 </a>
-                    <img src="../assets/images/DK_Logo.png" class="payment-icon" alt="Dankort-logo" aria-label="Du kan betale med Dankort i vores webshop"/>
+                    <img src="../assets/images/DK_Logo.png" 
+                    class="payment-icon" 
+                    alt="Dankort-logo" 
+                    aria-label="Du kan betale med Dankort i vores webshop"/>
                 
                 </div>
             </div>
@@ -323,6 +385,17 @@ footer h4 {
 
 .separator {
     display: none;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
 }
 
 @media screen and (min-width: 768px) {
