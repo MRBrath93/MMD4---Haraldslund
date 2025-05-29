@@ -72,6 +72,7 @@ onBeforeUnmount(() => {
       v-show="isOpen"
       id="intern-nav-menu"
       tabindex="0"
+      role="menu"
       >
           <li v-for="(item, index) in label" :key="index">
               <router-link 
@@ -79,6 +80,7 @@ onBeforeUnmount(() => {
               @click="selectItem(item)"
               role="menuitem"
               :aria-current="$route.name === item.name ? 'page' : null"
+              class="menu-item"
               >
                   <span>{{ item.label }}</span>
               </router-link>
@@ -125,6 +127,12 @@ span {
 .button-label {
     font-weight: bold;
     padding-right: var(--spacer-x0-25);
+}
+
+.menu-item {
+  padding: var(--spacer-x0-5) var(--spacer-x1);
+  min-width: 1.5rem;
+  min-height: 1.5rem;
 }
 
 @media screen and (min-width: 1200px) {

@@ -170,7 +170,7 @@ const internNavLabels = [
             :teamImage="getCoverImage(klasse)"
             :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
             aria-live="polite"
-            aria-busy="classesStore.isLoading" 
+            :aria-busy="classesStore.isLoading" 
               ></TheTeamCard>
             </div>
           </div>

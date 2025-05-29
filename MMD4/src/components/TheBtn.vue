@@ -120,7 +120,7 @@ const isExternalLink = computed(() => {
   <slot>
     <div class="flex">
       <div class="flex-column">
-        <h5 class="title">{{ title }}</h5>
+        <p class="title">{{ title }}</p>
         <p class="small">{{ text }}</p>
       </div>
       <i v-if="icon" class="icon material-symbols-rounded" aria-hidden="true">{{ icon }}</i>
@@ -138,7 +138,7 @@ const isExternalLink = computed(() => {
     <slot>
       <div class="flex">
         <div class="flex-column">
-          <h5 class="title">{{ title }}</h5>
+          <p class="title">{{ title }}</p>
           <p class="small">{{ text }}</p>
         </div>
         <i v-if="icon" class="icon material-symbols-rounded" aria-hidden="true">{{ icon }}</i>
@@ -148,6 +148,12 @@ const isExternalLink = computed(() => {
 </template>
 
 <style scoped>
+
+.title {
+    font-size: clamp(1.1rem, 2vw, 1.2rem);
+    font-family: var(--font-heading);
+    font-weight: 600;
+}
 
 button{
     text-align: start;

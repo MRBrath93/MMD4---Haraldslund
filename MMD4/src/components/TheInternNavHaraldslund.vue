@@ -76,7 +76,7 @@ onBeforeUnmount(() => {
               <router-link 
               :to="{ name: item.name }" 
               @click="selectItem(item)"
-              role="button"
+              role="menuitem"
               :aria-current="$route.name === item.name ? 'page' : null"
               class="menu-item"
               :aria-label="`Gå til ${item.label}`"

@@ -146,7 +146,8 @@ onUnmounted(() => {
                 <caption class="screenreaders-only">Priser på billetter i Vand og Wellness</caption>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Enkelt billetter</h5></th>
+                    <tr>
+                        <th scope="col" class="type">Enkelt billetter</th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -164,7 +165,7 @@ onUnmounted(() => {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Familie billetter</h5></th>
+                    <tr><th scope="col" class="type">Familie billetter</th>
                         <th scope="col">1 Voksen</th>
                         <th scope="col">2 Voksne</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -182,7 +183,7 @@ onUnmounted(() => {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th class="regular" scope="col"><h5>Klippekort</h5>Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</th>
+                    <tr><th class="regular type" scope="col">Klippekort. <span class="small">Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</span></th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -200,7 +201,7 @@ onUnmounted(() => {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Diverse billetter</h5></th>
+                    <tr><th scope="col" class="type">Diverse billetter</th>
                         <th scope="col">1 Person</th>
                         <th scope="col">2 Personer</th>
                         <th scope="col">3 Personer</th>
@@ -219,7 +220,7 @@ onUnmounted(() => {
 
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col"><h5>Personlig træner</h5></th>
+                    <tr><th scope="col" class="type">Personlig træner</th>
                         <th scope="col">25 minutter</th>
                         <th scope="col">5 x 25 minutter</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -237,7 +238,7 @@ onUnmounted(() => {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th class="regular" scope="col"><h5>Massage</h5></th>
+                    <tr><th class="regular type" scope="col">Massage</th>
                         <!-- <th scope="col">30 minutter</th>
                         <th scope="col">45 minutter</th>
                         <th scope="col">60 minutter</th> -->
@@ -256,7 +257,7 @@ onUnmounted(() => {
                         <td aria-hidden="true"></td>
                     </tr>
                     <tr>
-                        <td>Cupping</td>
+                        <td class="type">Cupping</td>
                         <td><p class="time">Inkl. i massage</p>+{{ vandogwellnessPriserData.Cupping.pris_inklusiv_massage ? vandogwellnessPriserData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
                         <td><p class="time">Ekskl. massage</p>{{vandogwellnessPriserData.Cupping.pris_ekslusiv_massage ? vandogwellnessPriserData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
@@ -272,7 +273,7 @@ onUnmounted(() => {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th scope="col"><h5>Enkelt billetter</h5></th>
+                        <th scope="col" class="type">Enkelt billetter</th>
                         <th scope="col" v-for="pris in vandogwellnessPriserData.Enkelt_Billetter" :key="pris.id">{{ pris.Ankomsttidspunkt }}</th>
                         <th scope="col" aria-hidden="true"></th>
                     </tr>
@@ -302,7 +303,7 @@ onUnmounted(() => {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th scope="col"><h5>Familie billetter</h5></th>
+                        <th scope="col" class="type">Familie billetter</th>
                         <th scope="col">1 Voksen</th>
                         <th scope="col">2 Voksne</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -319,7 +320,7 @@ onUnmounted(() => {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular" scope="col"><h5>Klippekort*</h5></th>
+                        <th class="regular type" scope="col">Klippekort*</th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -340,7 +341,7 @@ onUnmounted(() => {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th scope="col"><h5>Diverse billetter</h5></th>
+                        <th scope="col" class="type">Diverse billetter</th>
                         <th scope="col" v-for="pris in vandogwellnessPriserData.Diverse_biletter" :key="pris.id">{{ pris.Titel_paa_billettype }}</th>
                     </tr>
                 </thead>
@@ -365,7 +366,7 @@ onUnmounted(() => {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th scope="col"><h5>Personlig træner</h5></th>
+                        <th scope="col" class="type">Personlig træner</th>
                         <th scope="col">25 minutter</th>
                         <th scope="col">5 x 25 minutter</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -382,7 +383,7 @@ onUnmounted(() => {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular" scope="col"><h5>Massage</h5></th>
+                        <th class="regular type" scope="col">Massage</th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
@@ -396,7 +397,7 @@ onUnmounted(() => {
                         <td><p class="time">60 minutter</p>{{ pris.pris_60_minutter ? pris.pris_60_minutter + ',-' : '' }}</td>
                     </tr>
                     <tr>
-                        <td>Cupping</td>
+                        <td class="type">Cupping</td>
                         <td><p class="time">Inkl. i massage</p>+{{ vandogwellnessPriserData.Cupping.pris_inklusiv_massage ? vandogwellnessPriserData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
                         <td><p class="time">Ekskl. massage</p>{{vandogwellnessPriserData.Cupping.pris_ekslusiv_massage ? vandogwellnessPriserData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
@@ -435,6 +436,16 @@ onUnmounted(() => {
   margin-bottom: var(--spacer-Elements);
   width: 95%;
   max-width: var(--max-width);
+}
+
+.type {
+    font-weight: bold;
+    font-size: clamp(1.1rem, 2vw, 1.2rem);
+}
+
+.small {
+    font-size: 0.8rem;
+    font-family: var(--font-text);
 }
 
 .img--container {

@@ -156,15 +156,16 @@ onUnmounted(() => {
             id="nav-links"
             :class="{ open: menuOpen }" 
             aria-label="Menu links"
+            role="menubar"
             >
-                <li role="button link"><router-link class="no-drop text desktop-item" :to="{ name: 'frontpage' }">Forside</router-link></li>
+                <li role="menuitem"><router-link class="no-drop text desktop-item" :to="{ name: 'frontpage' }">Forside</router-link></li>
                 <li
                 @mouseenter="handleDropdown('omHaraldslund', true)"
                 @mouseleave="handleDropdown('omHaraldslund', false)"
                 @click="toggleDropdown('omHaraldslund')"
                 :aria-expanded="dropdownOpen.omHaraldslund.toString()"
                 aria-controls="dropbox-omHaraldslund"
-                role="button link"
+                role="menuitem"
                 >
                     <router-link 
                     :to="{ name: 'om-haraldslund' }" >
@@ -183,16 +184,16 @@ onUnmounted(() => {
                     >
                             <div class="row">
                                 <ul class="drop-links">
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-praktisk-info' }">Praktisk Information</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-priser' }">Prisoversigt</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-cafe' }">Café Harald</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-personale' }">Personale</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-historie' }">Vores Historie</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-firmaaftaler' }">Firmaaftaler</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-brugerraad' }">Brugerråd</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-events' }">Events</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-aktivitetsoversigt' }">Aktivitetsoversigt</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-praktisk-info' }">Praktisk Information</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-priser' }">Prisoversigt</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-cafe' }">Café Harald</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-personale' }">Personale</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-historie' }">Vores Historie</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-firmaaftaler' }">Firmaaftaler</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-brugerraad' }">Brugerråd</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-events' }">Events</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-aktivitetsoversigt' }">Aktivitetsoversigt</router-link></li>
                                 </ul>
                             </div>
                     </div>
@@ -203,7 +204,7 @@ onUnmounted(() => {
                 @click="toggleDropdown('motion')"
                 :aria-expanded="dropdownOpen.motion.toString()"
                 aria-controls="dropbox-motion"
-                role="button link"
+                role="menuitem"
                 >
                     <router-link :to="{ name: 'motion' }">
                         <span class="hover-wrapper"
@@ -219,13 +220,13 @@ onUnmounted(() => {
                     >
                         <div class="row">
                             <ul class="drop-links">
-                                <li role="button link"><router-link :to="{ name: 'om-motionscenteret' }">Motionscenteret</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'priser-motionscenteret' }">Priser</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'holdoversigt-motionscenteret' }">Holdoversigt</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'regler-motionscenteret' }">Regler</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'personlig-traening-motionscenteret' }">Personlig træning</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'leje-af-sal-og-instruktor-motionscenteret' }">Leje af sal & Instruktør</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'sib-motionscenteret' }">Sundhed & bevægelse</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'om-motionscenteret' }">Motionscenteret</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'priser-motionscenteret' }">Priser</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'holdoversigt-motionscenteret' }">Holdoversigt</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'regler-motionscenteret' }">Regler</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'personlig-traening-motionscenteret' }">Personlig træning</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'leje-af-sal-og-instruktor-motionscenteret' }">Leje af sal & Instruktør</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'sib-motionscenteret' }">Sundhed & bevægelse</router-link></li>
                             </ul>
                         </div>
                     </div>
@@ -235,7 +236,7 @@ onUnmounted(() => {
                 @mouseleave="handleDropdown('vandogwellness', false)"
                 @click="toggleDropdown('vandogwellness')"
                 :aria-expanded="dropdownOpen.vandogwellness.toString()"
-                role="button link"
+                role="menuitem"
                 >
                     <router-link :to="{ name: 'vandogwellness' }">
                     <span class="hover-wrapper"
@@ -252,17 +253,17 @@ onUnmounted(() => {
                     >
                         <div class="row">
                             <ul class="drop-links">
-                                <li role="button link"><router-link :to="{ name: 'svommehallen-vandogwellness' }">Svømmehallen</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'wellness-vandogwellness' }">Wellness</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'holdoversigt-vandogwellness' }">Holdoversigt</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'priser-vandogwellness' }">Priser</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'regler-vandogwellness' }">Regler</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'svommehallen-vandogwellness' }">Svømmehallen</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'wellness-vandogwellness' }">Wellness</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'holdoversigt-vandogwellness' }">Holdoversigt</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'priser-vandogwellness' }">Priser</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'regler-vandogwellness' }">Regler</router-link></li>
                             </ul>
                         </div>
                     </div>
                 </li>
-                <li role="button link"><router-link class="no-drop text desktop-item" :to="{ name: 'moder-og-konferencer' }">Møder & Konferencer</router-link></li>
-                <li role="button link"><router-link class="no-drop text desktop-item" id="booking-cta" :to="{ name: 'booking' }">Booking</router-link></li>
+                <li role="menuitem"><router-link class="no-drop text desktop-item" :to="{ name: 'moder-og-konferencer' }">Møder & Konferencer</router-link></li>
+                <li role="menuitem"><router-link class="no-drop text desktop-item" id="booking-cta" :to="{ name: 'booking' }">Booking</router-link></li>
             </ul>
         </div>
     </nav>

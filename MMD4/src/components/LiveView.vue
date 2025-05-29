@@ -259,14 +259,14 @@ class="overview-wrapper"
                     >
                         <i class="material-symbols-rounded" aria-hidden="true">chevron_left</i>
                     </button>
-                    <p class="bold"
+                    <div class="date-picker-status"
                     ref="dateTextRef"
                     tabindex="0"
-                    aria-live="polite"
+                    role="status"
                     :aria-label="'Holdvisning for ' + dageNavne[selectedDate.getDay()] + ' den ' + selectedDate.getDate() + '/' + (selectedDate.getMonth() + 1)">
                     
                       {{ dageNavne[selectedDate.getDay()] }} d. {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}
-                    </p>
+                    </div>
                     <button class="right" 
                     @click="gaaFrem"
                     role="button"
@@ -279,7 +279,7 @@ class="overview-wrapper"
             
             <table
             aria-live="polite"
-            aria-busy="isLoading"
+            :aria-busy="isLoading"
             aria-label="live-view-heading"
             >
                 <caption class="sr-only" tabindex="0">Aktivitetsoversigt for {{ dageNavne[selectedDate.getDay()] }} den {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}</caption>
@@ -505,12 +505,14 @@ tr:nth-child(even){
   border: 1px solid var(--color-btn-primary-hover);
 }
 
-.date--picker .bold {
+.date-picker-status {
   font-weight: bold;
   text-align: start;
   font-size: 0.8rem;
   color: var(--color-font-1);
+  font-family: var(--font-text);
 }
+
 
 
 @keyframes drip {
