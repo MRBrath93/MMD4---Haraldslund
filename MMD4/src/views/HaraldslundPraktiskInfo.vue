@@ -115,26 +115,26 @@ function getImage(billede) {
           :label="internNavLabels"
           ></TheInternNavHaraldslund>
   
-          <h1> {{ praktiskData.Titel }} </h1>
+          <h1 tabindex="-1"> {{ praktiskData.Titel }} </h1>
         </section>
         <section class="section-container">
             <div v-for="(kontaktoplysning,index) in praktiskData?.Kontaktoplysninger || []" 
             :key="kontaktoplysning.id">
-            <DynamicHeading :level="index === 0 ? 2 : 2">{{ kontaktoplysning.Overskrift }}</DynamicHeading>
-              <div v-for="tekst in kontaktoplysning.Tekst || []" :key="tekst.id">
-                  <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
-                  <p>{{ tekst.Brodtekst }}</p>
+              <DynamicHeading :level="index === 0 ? 2 : 2">{{ kontaktoplysning.Overskrift }}</DynamicHeading>
+                <div v-for="tekst in kontaktoplysning.Tekst || []" :key="tekst.id">
+                    <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
+                    <p>{{ tekst.Brodtekst }}</p>
                 </div>
-                  <div v-if="kontaktoplysning.Knapper?.length > 0">
-                    <TheBtn
-                    v-for="btn in kontaktoplysning.Knapper || []"
-                    :key="btn.id"
-                    :link="btn.link_to"
-                    :title="btn.btn_titel"
-                    :text="btn.btn_description"
-                    :icon="btn.Ikon[0]"
-                    target="_blank">
-                    </TheBtn>
+                <div v-if="kontaktoplysning.Knapper?.length > 0">
+                  <TheBtn
+                  v-for="btn in kontaktoplysning.Knapper || []"
+                  :key="btn.id"
+                  :link="btn.link_to"
+                  :title="btn.btn_titel"
+                  :text="btn.btn_description"
+                  :icon="btn.Ikon[0]"
+                  target="_blank">
+                  </TheBtn>
                 </div>
             </div>
             <div class="wrapper-content">
@@ -165,12 +165,11 @@ function getImage(billede) {
                   </section>
                 </div>
               </div>
-            
+            </div>
             <div>
               <h2>Klagemuligheder</h2>  
               <p>{{ praktiskData.Klagemuligheder }}</p>
             </div>
-          </div>
         </section>
 
         <section v-for="findVej in praktiskData?.Find_vej || []" 
@@ -210,7 +209,8 @@ function getImage(billede) {
               :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
           </figure>
         </section>
-
+        <!-- BILLEDE REFERENCER:
+        Find vej dronebillede: Facebook: Haraldslund Vand og Kulturhus. 15/06/2023. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=851476806451500&set=pb.100047675655563.-2207520000&type=3 -->
         <section v-for="afsnit in praktiskData?.Udstilling || []" 
         :key="afsnit.id"
         class="section-container"
@@ -250,7 +250,9 @@ function getImage(billede) {
               :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
           </figure>
         </section>
-
+         <!-- BILLEDE REFERENCER:
+              Udstilling2: Facebook: Haraldslund Vand og Kulturhus. 05/11/2023. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=969880011277845&set=pb.100047675655563.-2207520000&type=3
+              Udstilling1: Facebook: Haraldslund Vand og Kulturhus. 05/11/2023. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=969880017944511&set=pb.100047675655563.-2207520000&type=3 -->
           <section class="section-container" v-for="facilitet in praktiskData?.Faciliteter || []" 
             :key="facilitet.id"
             >
@@ -287,7 +289,11 @@ function getImage(billede) {
                   :alt="billede?.data?.attributes?.alternativeText || 'Billede' " />
               </figure>
           </section>
-
+          <!-- BILLEDE REFERENCER:
+          Petrenko, Dasha. Fil#: 705048470. (online). Adobe Stock 2025. [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/images/beautiful-smiling-young-woman-taking-a-shower-in-gym/705048470
+          Daxenbichler, Patrick. Fil#: 204805082. (online). Adobe Stock 2025. [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/images/blaue-spinde-und-vorhangeschloss-in-der-schule-umkleide/204805082
+           Albers, Joachim B. Fil#: 31387757. (online). Adobe Stock 2025. [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/images/kleidungsstucke-hangen-im-umkleideraum/31387757
+            -->
           <section class="section-container">
             <div v-for="personData in praktiskData?.Persondata || []" :key="personData.id">
               <div class="persondata-container"> 

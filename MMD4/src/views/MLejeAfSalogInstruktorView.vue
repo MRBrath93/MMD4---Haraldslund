@@ -145,6 +145,7 @@ function getImage(billede) {
         :kategori="lejeData.reklame_kort.Kategori" 
         :Btn_icon="lejeData.reklame_kort.Knapper[0].Ikon[0]">
       </Reklamekort>
+      <!-- REFERENCE BILLEDE: Facebook: Haraldslund Vand og Kulturhus. 02/07/2021. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/4220636521327743/?type=3-->
     </div>
 </template>
 

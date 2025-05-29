@@ -23,18 +23,6 @@ app.use(breadcrumbs, {
 
 app.mount('#app')
 
-let lastScrollY = window.scrollY;
-const header = document.querySelector('.header');
-
-window.addEventListener('scroll', () => {
-    if (window.scrollY < lastScrollY) {
-        header.classList.remove('hide');
-    } else {
-        header.classList.add('hide');
-    }
-    lastScrollY = window.scrollY;
-});
-
 document.addEventListener("DOMContentLoaded", () => {
     if (window.innerWidth > 970) {
         const nav = document.querySelector("nav");

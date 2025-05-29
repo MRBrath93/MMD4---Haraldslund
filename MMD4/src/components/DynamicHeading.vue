@@ -29,6 +29,11 @@ const tag = computed(() => `h${props.level}`);
     <!-- Slot til at indsætte overskriftstekst eller andet indhold -->
     <slot></slot>
   </component>
+  
+  <component :is="tag" class="dynamic-heading" tabindex="-1"
+     v-bind="props.level === 1 ? { id: 'page-title', tabindex: -1 } : {}" >
+      <slot />
+    </component>
 </template>
 
 <!-- 
@@ -41,5 +46,6 @@ const tag = computed(() => `h${props.level}`);
   font-family: var(--font-heading);
 }
 </style>
+
 
   

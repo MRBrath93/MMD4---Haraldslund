@@ -171,9 +171,6 @@ function formatTime(timeString) {
 
 
 
-
-
-
 // Funktion til vores datovælger:
 // Start med i dag som valgt dato
 const selectedDate = ref(new Date());
@@ -213,11 +210,11 @@ const erTidligereEndIDag = computed(() => {
             <div class="btn--container">
                 <div class="date--picker">
                     <button class="left" :class="{ disabled: erTidligereEndIDag }" @click="gåTilbage" :disabled="erTidligereEndIDag">
-                        <span class="material-symbols-rounded">chevron_left</span>
+                        <i class="material-symbols-rounded" aria-hidden="true">chevron_left</i>
                     </button>
                     <p class="bold">{{ dageNavne[selectedDate.getDay()] }} d. {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}</p>
                     <button class="right" @click="gåFrem">
-                        <span class="material-symbols-rounded">chevron_right</span>
+                        <i class="material-symbols-rounded" aria-hidden="true">chevron_right</i>
                     </button>
                 </div>
             </div>
@@ -331,7 +328,7 @@ tr:nth-child(even){
 }
 
 .date--picker button {
-    border: 1px solid transparent;
+  border: 1px solid transparent;
   background-color: transparent;
   color: var(--color-font-1);
   cursor: pointer;
@@ -339,7 +336,7 @@ tr:nth-child(even){
   justify-content: center;
   align-items: center;
   width: fit-content;
-  padding: 0;
+  padding: 10px 15px;
 }
 
 .date--picker button:hover {

@@ -80,17 +80,18 @@ function getImage(billede) {
                     <p>{{ tekstafsnit.Brodtekst }}</p>
                 </div>
             </section>
+            <Reklamekort 
+                :src="getImage(mReglerData?.reklame_kort?.Billede) || '' " 
+                :alt="mReglerData.reklame_kort.Billede.alternativeText" 
+                :title="mReglerData.reklame_kort.Titel" 
+                :text="mReglerData.reklame_kort.Tekst_afsnit" 
+                :Btn_title="mReglerData.reklame_kort.Knapper[0].btn_titel" 
+                :Btn_text="mReglerData.reklame_kort.Knapper[0].btn_description" 
+                :kategori="mReglerData.reklame_kort.Kategori" 
+                :Btn_icon="mReglerData.reklame_kort.Knapper[0].Ikon[0]">
+            </Reklamekort>
+            <!-- REFERENCE BILLEDE: 232319. billede: #37584142 (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/traening-gammeldags-personlig-billede-37584142   -->
         </div>
-        <Reklamekort 
-            :src="getImage(mReglerData?.reklame_kort?.Billede) || '' " 
-            :alt="mReglerData.reklame_kort.Billede.alternativeText" 
-            :title="mReglerData.reklame_kort.Titel" 
-            :text="mReglerData.reklame_kort.Tekst_afsnit" 
-            :Btn_title="mReglerData.reklame_kort.Knapper[0].btn_titel" 
-            :Btn_text="mReglerData.reklame_kort.Knapper[0].btn_description" 
-            :kategori="mReglerData.reklame_kort.Kategori" 
-            :Btn_icon="mReglerData.reklame_kort.Knapper[0].Ikon[0]">
-        </Reklamekort>
     </div>
 </template>
 

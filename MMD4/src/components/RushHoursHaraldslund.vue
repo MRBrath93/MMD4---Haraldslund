@@ -2,6 +2,7 @@
 // Importerer nødvendige funktioner og komponenter
 import { useThemeStore } from '@/stores/themeStore';
 import { ref, computed, watch } from 'vue';
+import { nextTick } from 'vue';
 // Importerer Bar-komponenten fra vue-chartjs
 import { Bar } from 'vue-chartjs';
 // Importerer nødvendige Chart.js komponenter
@@ -16,9 +17,13 @@ import {
 
 // Tilgår tema-store (brugt til at ændre diagramfarver baseret på tema)
 const themeStore = useThemeStore();
+const dateTextRef = ref(null);
 
 
 // Registrerer de nødvendige komponenter i Chart.js (obligatorisk for brug af diagrammer)
+
+// TABEL FUNKTIONALITET
+
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 
@@ -150,6 +155,9 @@ const goToPreviousDay = () => {
   if (pickedDate.value > oneWeekAgo) {
      // Sæt datoen til forrige dag
     pickedDate.value = new Date(pickedDate.value.setDate(pickedDate.value.getDate() - 1));
+    nextTick(() => {
+      dateTextRef.value?.focus();
+    });
   }
 };
 
@@ -164,6 +172,12 @@ const goToNextDay = () => {
   if (pickedDate.value < yesterday) {
      // Sæt datoen til næste dag
     pickedDate.value = new Date(pickedDate.value.setDate(pickedDate.value.getDate() + 1));
+    // Efter at have opdateret datoen, sætter vi fokus på dato-teksten (dateTextRef)
+    // Dette sikrer, at brugeren kan se den opdaterede dato med det samme og er tilgængelig for skærmlæsere. 
+    // Vi bruger Vue's nextTick for at sikre, at DOM'en er opdateret før vi sætter fokus.
+    nextTick(() => {
+      dateTextRef.value?.focus();
+    });
   }
 };
 
@@ -198,8 +212,13 @@ const chartData = computed(() => ({
   }],
 }));
 
+
 /* --------- GRAFKONFIGURATION --------- */
 // Konfiguration af diagrammet https://www.chartjs.org/docs/latest/charts/bar.html
+
+// INSPIRATIONSKILDE TIL Konfiguration af diagrammet: Chart.js. Bar Chart. 2025. (online) www.chartjs.org/ [Accessed 28/05/2025] URL: https://www.chartjs.org/docs/latest/charts/bar.html
+
+// FARVETEMA / TOGGLE
 const chartOptions = computed(() => {
   const isDark = themeStore.mørktTemaAktivt;
 
@@ -238,30 +257,64 @@ const chartOptions = computed(() => {
     },
   };
 });
+
 </script>
 <template>
-  <div class="rush-hours">
+  <div class="rush-hours" aria-labelledby="rush-hours-title">
     <div class="intro">
-      <h4>Planlæg dit besøg - undgå myldretiden</h4>
+      <h4 id="rush-hours-title">Planlæg dit besøg - undgå myldretiden</h4>
       <p>Få et hurtigt overblik over, hvornår der typisk er flest besøgende i Haraldslund Kulturhus. Grafen viser det forventede aktivitetsniveau i løbet af dagen baseret på tidligere besøgstal.</p>
     </div>
-    <div class="date--picker">
-      <button 
+    <div class="date--picker" >
+    <button 
       class="left"
-        @click="goToPreviousDay" 
-        :disabled="isPreviousDisabled" 
-        :class="{ disabled: isPreviousDisabled }">
-        <span class="material-symbols-rounded">chevron_left</span>
-      </button>
-      <p class="bold">{{ formattedDate }}</p>
+      @click="goToPreviousDay" 
+      :disabled="isPreviousDisabled" 
+      :class="{ disabled: isPreviousDisabled }"
+      :aria-label="'Gå til dagen før: ' + formattedDate"
+      :aria-disabled="isPreviousDisabled.toString()"
+    >
+    <i class="material-symbols-rounded" aria-hidden="true">chevron_left</i>
+    </button>
+      <p class="bold" tabindex="-1" ref="dateTextRef">{{ formattedDate }}</p>
       <button class="right"
         @click="goToNextDay" 
         :disabled="isNextDisabled" 
-        :class="{ disabled: isNextDisabled }">
-        <span class="material-symbols-rounded">chevron_right</span>
+        :class="{ disabled: isNextDisabled }"
+        :aria-label="'Gå til dagen efter: ' + formattedDate"
+        :aria-disabled="isNextDisabled.toString()"
+        >
+        <i class="material-symbols-rounded" aria-hidden="true">chevron_right</i>
       </button>
     </div>
-    <Bar :data="chartData" :options="chartOptions" />
+    <Bar 
+    :data="chartData" 
+    :options="chartOptions" 
+    role="img"
+    aria-label="Søljediagram der viser antal besøgende i Haraldslund Kulturhus i løbet af dagen"
+    />
+
+    <div class="sr-only" id="rush-hours-table" tabindex="0" >
+      <table 
+      aria-live="polite"
+      tabindex="0"
+      >
+      <caption id="rush-hours-caption">Besøgsdata for Haraldslund Kulturhus</caption>
+        <thead>
+          <tr>
+            <th scope="col">Tidspunkt</th>
+            <th scope="col">Antal besøgende</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in visitorData" :key="item.time">
+            <td>{{ item.time }}</td>
+            <td>{{ item.amount }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
   </div>
 </template>
 <style scoped>
@@ -322,7 +375,7 @@ button{
   justify-content: center;
   align-items: center;
   width: fit-content;
-  padding: 0;
+  padding: 10px 15px;
 }
 
 button:hover{
@@ -346,6 +399,17 @@ text-align: center;
     border-radius: var(--border-radius);
     border: 1px solid var(--color-font-1);
     margin: 0 auto;
+}
+
+.sr-only {
+  position: absolute;
+  left: -9999px;
+  bottom: auto;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 700px) {
