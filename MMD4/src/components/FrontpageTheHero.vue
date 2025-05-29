@@ -10,10 +10,13 @@ defineProps({
 </script>
 
 <template>
-    <div class="hero">
+    <div 
+    class="hero"
+    role="banner">
         <div class="hero-text">
-            <h5 class="hero-title">{{ title }}</h5>
-            <h6 class="hero-subtitle"> {{ subtitle }}</h6>
+            <h5 aria-label="Hero titel"
+            class="hero-title">{{ title }}</h5>
+            <h6 aria-label="Hero undertitel" class="hero-subtitle"> {{ subtitle }}</h6>
         </div>
         <img :src="image" :alt="alt" id="hero-image" />
     </div>
@@ -31,8 +34,6 @@ defineProps({
     width: 100%;
     margin-bottom: var(--spacer-x5);
 }
-
-
 
 .hero-title{
     font-size: clamp(2rem, 5vw, 4rem);
@@ -62,7 +63,7 @@ defineProps({
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 198, 84, 0.2);
+    background-color: rgba(76, 61, 31, 0.5);
     z-index: 1;
 }
 

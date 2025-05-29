@@ -53,14 +53,13 @@ const backgroundClass = computed(() => {
 </script>
 
 <template>
-    <div :class="['bookingSquare', backgroundClass]">
+    <article :class="['bookingSquare', backgroundClass]">
       <h4>{{ title }}</h4>
-  
       <div>
         <p>{{ text }}</p>
       </div>
       <TheBtn :title="btn_title" :text="btn_text" :link="btn_path" :target="btn_target" :icon="btn_icon"></TheBtn>
-    </div>
+    </article>
   </template>
   
 

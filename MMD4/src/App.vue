@@ -78,22 +78,23 @@ watch(
     position: absolute;
     opacity: 0;
     left: -9999px;
+    top: -9999px;
     width: 1px;
     height: 1px;
     overflow: hidden;
 }
 
 .skip-link:focus {
-    position: static;
-    left: auto;
-    width: auto;
-    height: auto;
     margin: var(--spacer-x1);
     padding: var(--spacer-x0-5) var(--spacer-x1);
     background-color: white;
+    left: 0;
+    top: 0;
+    width: auto;
+    height: auto;
     color: black;
     border: 2px solid black;
-    z-index: 1000;
+    z-index: 1001;
     opacity: 1;
 }
 
