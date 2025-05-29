@@ -98,7 +98,9 @@ const kategoriColor = computed(() => {
           <i v-if="icon" :class="kategoriColor" class="icon material-symbols-rounded" aria-hidden="true">{{ icon }}</i>
         </div>
         
-        <div class="text-wrapper" :class="kategoriColor"><h5>{{ title }}</h5></div>
+        <div class="text-wrapper" :class="kategoriColor">
+          <p>{{ title }}</p>
+        </div>
   
         <div class="overlay">
           <p>Tryk for at læse mere</p>
@@ -108,6 +110,15 @@ const kategoriColor = computed(() => {
 </template>
 
 <style scoped>
+
+.text-wrapper p {
+  font-size: clamp(1.1rem, 2vw, 1.2rem);
+  line-height: 1.4;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-align: center;
+}
+
 .wrapper {
   position: relative;
   display: flex;

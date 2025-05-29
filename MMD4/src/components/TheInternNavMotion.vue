@@ -87,6 +87,7 @@ onBeforeUnmount(() => {
       v-show="isOpen"
       id="intern-nav-menu"
       tabindex="0"
+      role="menu"
       >
           <li v-for="(item, index) in label" :key="index">
               <router-link 
@@ -94,6 +95,7 @@ onBeforeUnmount(() => {
               @click="selectItem(item)"
               role="menuitem"
               :aria-current="$route.name === item.name ? 'page' : null"
+              class="menu-item"
               >
                   <span>{{ item.label }}</span>
               </router-link>
@@ -110,6 +112,12 @@ onBeforeUnmount(() => {
     background: var(--color-btn-primary);
   }
   
+.menu-item {
+    padding: var(--spacer-x0-5) var(--spacer-x1);
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+}
+
 .dropdown-toggle {
     background: var(--color-btn-primary);
     border: none;
@@ -117,7 +125,6 @@ onBeforeUnmount(() => {
     display: flex;
     align-items: center;
     width: 100%;
-    padding: var(--spacer-x1);
     color: var(--color-font-1);
   }
 .intern-nav-container {

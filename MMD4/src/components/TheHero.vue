@@ -40,7 +40,6 @@ defineProps({
     font-size: clamp(2rem, 5vw, 4rem);
     font-weight: 700;
     font-family: var( --font-heading);
-    text-transform: uppercase;
     color: var(--color-font-2);
     text-shadow:
     -0.5px -0.5px 0 black,
