@@ -172,6 +172,14 @@ const internNavLabels = [
             aria-live="polite"
             :aria-busy="classesStore.isLoading" 
               ></TheTeamCard>
+              <!-- BILLEDEREFERENCER:
+               Plask og leg: URL Facebook: Haraldslund Vand og Kulturhus. 02/09/2019. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/2506492572742155/?type=3 -
+               Vandgymnastik: URL Facebook: Haraldslund Vand og Kulturhus. 06/06/2020. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/3117678114956928/?type=3 -
+               Babysvømning: Instagram. Haraldslund Vand og Kulturhus. 11/07/2024 (online) Meta 2025 [Accessed 08/05/2025] URL: https://www.instagram.com/haraldslundvandogkulturhus/p/C9R-yOZpLOi/
+              kurbadsaftener: Facebook: Haraldslund Vand og Kulturhus. 08/05/2020. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/3042800045778069/?type=3
+              Varmtvandstræning:  Angel Cortijo Nieto. billede: #41728130. (online) Colourbox.com. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.dk/billede/swimming-badning-aeldre-billede-41728130
+              Specialhold:  Angel Cortijo Nieto. billede: #40021547. (online) Colourbox.com. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.dk/billede/aeldre-pool-badning-billede-40021547
+              -->
             </div>
           </div>
         </article>

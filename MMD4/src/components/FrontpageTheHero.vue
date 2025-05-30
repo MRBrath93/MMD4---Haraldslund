@@ -31,7 +31,7 @@ defineProps({
     text-align: center;
     height: 50vh;
     width: 100%;
-    margin-bottom: var(--spacer-x5);
+    margin-bottom: var(--spacer-x4);
 }
 
 .hero-title{
