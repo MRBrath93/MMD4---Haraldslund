@@ -30,7 +30,6 @@
   padding: var(--spacer-x1) 0;
   width: 100%;
   max-width: var(--max-width);
-  margin: 0 auto;
   color: var(--color-font-1);
 }
 
