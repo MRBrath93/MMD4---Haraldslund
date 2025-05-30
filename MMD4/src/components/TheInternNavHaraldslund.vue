@@ -59,7 +59,7 @@ onBeforeUnmount(() => {
       aria-label="Åbn eller luk intern navigation"
       type="button"
       > 
-      <span class="button-label">Indhold:</span> {{ selectedLabel || "Vælg side" }}
+      <span class="button-label">Indhold:</span><span id="button-selected"> {{ selectedLabel || "Vælg side" }}</span>
           <i class="material-symbols-rounded" aria-hidden="true">
               {{ isOpen ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }}
           </i>
@@ -93,9 +93,11 @@ onBeforeUnmount(() => {
 <style scoped>
 
 .intern-nav {
-    margin: 0 auto var(--spacer-x1);
-    width: 100vw;
+    margin: 0 var(--mobile-site-space);
     background: var(--color-btn-primary);
+    position: absolute;
+    z-index: 2;
+    width: 80%;
   }
   
 .dropdown-toggle {
@@ -106,6 +108,7 @@ onBeforeUnmount(() => {
     align-items: center;
     width: 100%;
     padding: var(--spacer-x1);
+    margin-bottom: var(--spacer-x0-5);
     color: var(--color-font-1);
   }
 
@@ -114,8 +117,9 @@ onBeforeUnmount(() => {
     flex-direction: column;
     gap: var(--spacer-x1);
     padding: var(--spacer-x0-5) var(--spacer-x1);
-    width: max-content;
     color: var(--color-font-1);
+    width: 100%;
+    max-width: var(--max-width);
 }
   
 li {
@@ -130,7 +134,13 @@ span {
 .button-label {
     font-weight: bold;
     padding-right: var(--spacer-x0-25);
-    color: var(--color-font-1);
+    font-family: var(--font-heading);
+
+}
+
+.button-selected {
+    font-weight: 500;
+    font-family: var(--font-heading);
 }
 
 button{
@@ -138,13 +148,14 @@ button{
 }
 
 .menu-item {
-  padding: var(--spacer-x0-5) var(--spacer-x1);
+  padding: var(--spacer-x0-5) var(--spacer-x1) var(--spacer-x0-5) 0;
   min-width: 1.5rem;
   min-height: 1.5rem;
 }
 
 
-@media screen and (min-width: 1200px) {
+
+@media screen and (min-width: 1300px) {
 .dropdown-toggle {
     display: none; 
 }
@@ -156,16 +167,20 @@ button{
     background: none;
     padding: 0;
     margin-top: 0;
+    gap: var(--spacer-x1);
+}
+
+.menu-item  {
+    display: flex;
+    width: max-content;
 }
   
 .intern-nav {
-    display: flex;
-    flex-direction: column;
     align-items: center;
     width: 100%;
     gap: var(--spacer-x3);
     background-color: var(--color-body-background);
-    padding: var(--spacer-x0-5) var(--spacer-x1);
+    margin: 0 auto var(--spacer-Elements);
 }
 
 .router-link-exact-active {
@@ -183,8 +198,10 @@ span:hover {
     font-weight: bold;
 }
 
-
-
+.breadcrumb {
+  margin: 0;
 }
+}
+
 </style> 
 <!-- INSPIRATIONSKILDER: SE REFERENCER TIL KODE I FILEN "src/components/TheInternNavMotion.vue" -->

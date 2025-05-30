@@ -68,9 +68,7 @@ function getImage(billede) {
         description="Læs om regler og retningslinjer for Haraldslunds motionscenter."
         :image="mReglerData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="mReglerData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
-
         <TheBreadcrumb></TheBreadcrumb>  
-
         <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
         <div class="container-rules">
             <section v-for="(afsnit,index) in mReglerData.Indhold?.Afsnit || []" :key="afsnit.id" >

@@ -197,6 +197,10 @@ const visibleTeamCards = computed(() => {
   </div>
 </template>
 
+<!-- BILLEDEREFERENCER:
+ Massage: Facebook. Haraldslund Vand og Kulturhus. 10/01/2022. Meta. 2025 (online) [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/4346970298694364/?type=3
+  -->
+
 <style scoped>
 
 .loading-container {
