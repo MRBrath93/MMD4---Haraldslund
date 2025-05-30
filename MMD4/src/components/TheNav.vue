@@ -1,17 +1,33 @@
 <script setup>
 // IMPORTS
-import { RouterLink } from "vue-router";
-import { ref, onMounted, onUnmounted } from 'vue';
+import { RouterLink, useRoute } from "vue-router";
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 
+const route = useRoute();
 
-// REAKTIVE VARIABLER
+// VARIABLER
+
 const menuOpen = ref(false);
+
+const isMobile = hasTouchSupport();
+
+const isSmallScreen = ref(window.innerWidth <= 1050);
 
 const dropdownOpen = ref({
   omHaraldslund: false,
   motion: false,
   vandogwellness: false
 });
+
+// -- WATCHERS --
+// Arrow function der lytter efter ændringer i ruten og opdaterer menuOpen-variablen.
+watch(
+  () => route.path,
+  () => {
+        menuOpen.value = false; // Lukker menuen, når ruten ændres
+	},
+	{ immediate: true }
+);
 
 
 // -- FUNKTIONER --
@@ -25,11 +41,6 @@ function hasTouchSupport() {
 }
 // INSPIRATIONSKILDE: Zhan, Stephanie. Detecting Mobile vs. Desktop Browsers in JavaScript. 13/04/2023. Medium, 2025. (online) [Accessed 27/05/2025] URL:  https://medium.com/geekculture/detecting-mobile-vs-desktop-browsers-in-javascript-ad46e8d23ce5
 // INSPIRATIONSKILDE: W3School. touchstart Event. (online) [Accessed 27/05/2025] W3School, By Refsnes Data. 2025. URL: https://www.w3schools.com/jsref/event_touchstart.asp
-
-
-const isMobile = hasTouchSupport();
-
-const isSmallScreen = ref(window.innerWidth <= 1050);
 
 if (isSmallScreen.value) {
   // Hvis det er en mobil enhed, skal dropdowns være åbne som standard
@@ -46,15 +57,20 @@ const isReduced = window.matchMedia(`(prefers-reduced-motion: reduce)`) === true
 // INSPIRATIONSKILDE: Clark, Nat "Nathan". Checking for reduced motion preference in JavaScript. 13/09/2021. DEV Community © 2016 - 2025. (online) [Accessed 27/05/2025] URL: https://dev.to/natclark/checking-for-reduced-motion-preference-in-javascript-4lp9
 
 
+// FUNKTION TIL AT TOGGLE MENU ELEMENTET ML. ÅBEN OG LUKKET TILSTAND
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
 }
 
 // Dropdowns (til mobilvisning). 
+// Denne funktion toggler dropdown-menuer, når brugeren klikker på en menu-knap.
+// Hvis det er en lille skærm (mobil), toggler den dropdown-menuen for det valgte navn.
 function toggleDropdown(name) {
     if (isMobile && !isSmallScreen.value) {
         dropdownOpen.value[name] = !dropdownOpen.value[name];
-        // Lukker alle andre dropdowns, når en ny åbnes
+        // Object.keys dropdownOpen.value returnerer en liste over alle nøgler i dropdownOpen-objektet, som repræsenterer de forskellige dropdown-menuer.
+        // For hver nøgle i dropdownOpen-objektet, hvis nøglen ikke er den samme som det valgte navn, sættes dens værdi til false (lukket).
+        // Dette sikrer, at kun den dropdown, der er blevet klikket på, forbliver åben, mens alle andre lukkes.
         Object.keys(dropdownOpen.value).forEach(key => {
         if (key !== name) {
             dropdownOpen.value[key] = false;
@@ -64,20 +80,17 @@ function toggleDropdown(name) {
 }
 
 // Håndterer klik uden for dropdown-menuen for at lukke den
+// Vha. eventlistener lyttes der efter klik på dokumentet, og hvis klik ikke er på en menu-knap, nav-links eller dropbox, lukkes menuen.
 function handleOutsideClick(event) {
-  if (!isMobile) {
-    const target = event.target;  if (
-    !target.closest('.dropbox') && 
-    !target.closest('.desktop-item') && 
-    !target.closest('.hover-wrapper')) {
-    Object.keys(dropdownOpen.value).forEach(key => {
-      dropdownOpen.value[key] = false;
-    });
-  }
-}
+    const target = event.target;
+    if (isMobile && !target.closest('.menu-main-btn') && !target.closest('.nav-links') && !target.closest('.dropbox')) {
+        menuOpen.value = false;
+    }
 }
 
-// Funktion for at håndtere dropdown-tilstand 
+// Funktion for at håndtere dropdown-tilstand ved mouseenter og mouseleave events. 
+// Denne funktion åbner eller lukker dropdown-menuer baseret på musens bevægelse. name er navnet på dropdown-menuen, og state er den ønskede tilstand (åben eller lukket).
+// Der sættes en timeout på 100ms for at undgå utilsigtede klik, når brugeren interagerer med dropdown-menuen på desktop-enheder.
 function handleDropdown(name, state) {
     if (!isMobile) {
         setTimeout(() => {
@@ -88,8 +101,7 @@ function handleDropdown(name, state) {
 
 // Scroll-funktionalitet 
 // headeren skjules, når brugeren scroller nedad, og vises igen, når brugeren scroller opad.
-// Dette gøres for at give mere plads til indholdet, når brugeren interagerer med siden.
-// 
+// Dette gøres for at give mere plads til indholdet, når brugeren interagerer med siden. 
 let lastScrollY = window.scrollY;
 
 const onScroll = () => {
