@@ -102,50 +102,53 @@ function getImage(billede) {
         description="Læs om leje af motionshal og instruktør."
         :image="lejeData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="lejeData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
-  
-      <TheBreadcrumb></TheBreadcrumb>  
-      <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
-      <div id="wrapper-content">
-        <div class="tekst-container">
-            <section v-for="(afsnit,index) in lejeData?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section">
-              <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
-              <div class="flex" v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                <p v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</p>
-                <p :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</p>
-              </div>
-              <div v-if="afsnit.Knapper?.length > 0">
-                <TheBtn
-                  v-for="btn in afsnit.Knapper || []"
-                  :key="btn.id"
-                  :link="btn.link_to"
-                  :title="btn.btn_titel"
-                  :text="btn.btn_description"
-                  :icon="btn.Ikon[0]">
-                </TheBtn>
-              </div>
-            </section>
+      <div class="page-wrapper">
+        <TheBreadcrumb></TheBreadcrumb>  
+        <div class="content-container">
+          <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
         </div>
-        <figure class="billede-container" v-if="lejeData?.Billede?.Billede_element">
-          <ImageHolder
-            v-for="billede in lejeData.Billede.Billede_element"
-            :key="billede?.id"
-            class="side-img"
-            :src="getImage(billede)"
-            :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-        </figure>
+        <div id="wrapper-content">
+          <div class="tekst-container">
+              <section v-for="(afsnit,index) in lejeData?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section">
+                <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
+                <div class="flex" v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+                  <p v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</p>
+                  <p :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</p>
+                </div>
+                <div v-if="afsnit.Knapper?.length > 0">
+                  <TheBtn
+                    v-for="btn in afsnit.Knapper || []"
+                    :key="btn.id"
+                    :link="btn.link_to"
+                    :title="btn.btn_titel"
+                    :text="btn.btn_description"
+                    :icon="btn.Ikon[0]">
+                  </TheBtn>
+                </div>
+              </section>
+          </div>
+          <figure class="billede-container" v-if="lejeData?.Billede?.Billede_element">
+            <ImageHolder
+              v-for="billede in lejeData.Billede.Billede_element"
+              :key="billede?.id"
+              class="side-img"
+              :src="getImage(billede)"
+              :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
+          </figure>
+        </div>
+        <Reklamekort 
+          :src="getImage(lejeData.reklame_kort.Billede)" 
+          :alt="lejeData.reklame_kort.Billede.alternativeText" 
+          :title="lejeData.reklame_kort.Titel" 
+          :text="lejeData.reklame_kort.Tekst_afsnit" 
+          :Btn_title="lejeData.reklame_kort.Knapper[0].btn_titel" 
+          :Btn_text="lejeData.reklame_kort.Knapper[0].btn_description" 
+          :kategori="lejeData.reklame_kort.Kategori" 
+          :Btn_icon="lejeData.reklame_kort.Knapper[0].Ikon[0]">
+        </Reklamekort>
+        <!-- REFERENCE BILLEDE: Facebook: Haraldslund Vand og Kulturhus. 02/07/2021. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/4220636521327743/?type=3-->
       </div>
-      <Reklamekort 
-        :src="getImage(lejeData.reklame_kort.Billede)" 
-        :alt="lejeData.reklame_kort.Billede.alternativeText" 
-        :title="lejeData.reklame_kort.Titel" 
-        :text="lejeData.reklame_kort.Tekst_afsnit" 
-        :Btn_title="lejeData.reklame_kort.Knapper[0].btn_titel" 
-        :Btn_text="lejeData.reklame_kort.Knapper[0].btn_description" 
-        :kategori="lejeData.reklame_kort.Kategori" 
-        :Btn_icon="lejeData.reklame_kort.Knapper[0].Ikon[0]">
-      </Reklamekort>
-      <!-- REFERENCE BILLEDE: Facebook: Haraldslund Vand og Kulturhus. 02/07/2021. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/4220636521327743/?type=3-->
-    </div>
+  </div>
 </template>
 
 <style scoped>
@@ -202,6 +205,24 @@ span {
   gap: var(--spacer-x2);
   margin: 0 auto;
 }
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--max-width);
+    width: 95%;
+    margin: 0 auto;
+}
+
+.content-container {
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+    height: fit-content;
+    margin: 0 auto;
+}
+
 
 @media screen and (min-width: 768px) {
   #wrapper-content {

@@ -123,20 +123,18 @@ section{
     padding-bottom: var(--spacer-x5);
     position: relative;
     height: fit-content;
+    margin: 0 auto;
+}
+
+.breadcrumb-container {
+  margin: 0 auto;
+  width: 95%;
 }
 
 @media screen and (min-width: 1300px) {
-    .breadcrumb-container {
-        margin-left: var(--spacer-Elements);
-    }
-
-    .content-container {
-        padding-left: var(--spacer-Elements);
-    }
 
     .textsection {
-       margin-left: var(--spacer-Elements);
-       margin-right: var(--spacer-Elements);
+       margin-bottom: var(--spacer-Elements);
     }
 
 }
