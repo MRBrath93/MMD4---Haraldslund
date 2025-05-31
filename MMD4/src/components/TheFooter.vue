@@ -272,6 +272,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
 </template>
 <style scoped>
 
+
 .footer {
     background-color: var(--color-navigation);
     color: var(--color-font-2);
@@ -446,6 +447,10 @@ footer li a:hover, footer li button:hover {
     .footer-contact-info {
         padding-left: var(--spacer-x1);
     }
+
+    .footer {
+        align-items: center;
+    }
 }    
 
 @media screen and (min-width: 1024px) {
@@ -485,6 +490,14 @@ footer li a:hover, footer li button:hover {
         justify-content: space-between;
         gap: var(--spacer-x2-5);
     }
+}
+
+@media screen and (min-width: 1300px) {
+    .footer-container {
+        width: 100%;
+
+    }
+
 }
 
 

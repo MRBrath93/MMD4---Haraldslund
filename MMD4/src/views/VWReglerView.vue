@@ -93,50 +93,52 @@ function getImage(billede) {
         :subtitle="vwReglerData .Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
         :image="vwReglerData .Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="vwReglerData .Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
-
-        <TheBreadcrumb></TheBreadcrumb>
-        <TheInternNavHaraldslund
-            :label="internNavLabels"
-        ></TheInternNavHaraldslund>
-        
-        <section class="textsection" v-for="(tekstsektion,index) in vwReglerData .Indhold.Afsnit" :key="tekstsektion.id">
-                <article class="flex--column flex1">
-                    <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
-                    <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
-                        <h3 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h3>
-                        <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
-                            <li> {{ single_text.Brodtekst }}</li>
-                        </ul>
-                        <p v-else> {{ single_text.Brodtekst }}</p>
-                    </div>
-                    <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
-                    <TheBtn
-                    v-for="btn in tekstsektion.Knapper"
-                    :key="btn.id"
-                    :link="btn.link_to"
-                    :title="btn.btn_titel"
-                    :text="btn.btn_description"
-                    :icon="btn.Ikon[0]"></TheBtn>
-                </div>
-            </article>
-            <div class="img--container flex1">
-                <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
+        <div class="page-wrapper">
+            <TheBreadcrumb></TheBreadcrumb>
+            <div class="content-container">
+                <TheInternNavHaraldslund
+                    :label="internNavLabels"
+                ></TheInternNavHaraldslund>
             </div>
-        </section>
-        <!-- BILLEDEREFERENCER: 
-         Ordensregler: Facebook: Haraldslund Vand og Kulturhus. 02/05/2024. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=1100666694865842&set=pb.100047675655563.-2207520000&type=3
-         Hygiejneregler: KM, #1186689339. Adobe Stock 2025. (online) Adobe [Accessed 12/05/2025] URL: https://stock.adobe.com/dk/images/fresh-white-towels-hanging-on-chrome-rack-in-modern-gym-locker-room-illuminated-by-warm-sunlight-clean-and-inviting-atmosphere-enhances-relaxation-and-comfort/1186689339
-         -->
-        
-        <Reklamekort 
-        :src="getImage(vwReglerData .reklame_kort.Billede)" 
-        :alt="vwReglerData .reklame_kort.Billede.alternativeText" 
-        :title="vwReglerData .reklame_kort.Titel" 
-        :text="vwReglerData .reklame_kort.Tekst_afsnit" 
-        :Btn_title="vwReglerData .reklame_kort.Knapper[0].btn_titel" 
-        :Btn_text="vwReglerData .reklame_kort.Knapper[0].btn_description" 
-        :kategori="vwReglerData .reklame_kort.Kategori" 
-        :Btn_icon="vwReglerData .reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+            <section class="textsection" v-for="(tekstsektion,index) in vwReglerData .Indhold.Afsnit" :key="tekstsektion.id">
+                    <article class="flex--column flex1">
+                        <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
+                        <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
+                            <h3 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h3>
+                            <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
+                                <li> {{ single_text.Brodtekst }}</li>
+                            </ul>
+                            <p v-else> {{ single_text.Brodtekst }}</p>
+                        </div>
+                        <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
+                        <TheBtn
+                        v-for="btn in tekstsektion.Knapper"
+                        :key="btn.id"
+                        :link="btn.link_to"
+                        :title="btn.btn_titel"
+                        :text="btn.btn_description"
+                        :icon="btn.Ikon[0]"></TheBtn>
+                    </div>
+                </article>
+                <div class="img--container flex1">
+                    <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
+                </div>
+            </section>
+            <!-- BILLEDEREFERENCER: 
+            Ordensregler: Facebook: Haraldslund Vand og Kulturhus. 02/05/2024. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=1100666694865842&set=pb.100047675655563.-2207520000&type=3
+            Hygiejneregler: KM, #1186689339. Adobe Stock 2025. (online) Adobe [Accessed 12/05/2025] URL: https://stock.adobe.com/dk/images/fresh-white-towels-hanging-on-chrome-rack-in-modern-gym-locker-room-illuminated-by-warm-sunlight-clean-and-inviting-atmosphere-enhances-relaxation-and-comfort/1186689339
+            -->
+            
+            <Reklamekort 
+            :src="getImage(vwReglerData .reklame_kort.Billede)" 
+            :alt="vwReglerData .reklame_kort.Billede.alternativeText" 
+            :title="vwReglerData .reklame_kort.Titel" 
+            :text="vwReglerData .reklame_kort.Tekst_afsnit" 
+            :Btn_title="vwReglerData .reklame_kort.Knapper[0].btn_titel" 
+            :Btn_text="vwReglerData .reklame_kort.Knapper[0].btn_description" 
+            :kategori="vwReglerData .reklame_kort.Kategori" 
+            :Btn_icon="vwReglerData .reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+        </div>
     </div>
 </template>
 
@@ -154,9 +156,7 @@ function getImage(billede) {
   display: flex;
   flex-direction: column;
   gap: var(--spacer-x1);
-  margin: 0 auto;
   margin-bottom: var(--mobile-site-space);
-  max-width: var(--max-width);
 }
 
 .img--container {
@@ -200,8 +200,20 @@ function getImage(billede) {
     flex: 1;
 }
 
-section{
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--max-width);
     width: 95%;
+    margin: 0 auto;
+}
+
+.content-container {
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+    height: fit-content;
     margin: 0 auto;
 }
 

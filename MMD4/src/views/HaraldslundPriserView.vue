@@ -758,7 +758,7 @@ function handleResize() {
 h1, h2{
     width: 95%;
     max-width: var(--max-width);
-    margin: 0 var(--mobile-site-space);
+    margin: 0 auto var(--mobile-site-space);
 }
 
 .loading-container {
@@ -802,6 +802,7 @@ table {
     max-width: var(--max-width);
     padding-bottom: var(--spacer-x5);
     position: relative;
+    margin: 0 auto;
 }
 
 th {
@@ -839,7 +840,6 @@ th{
     background-color: var(--color-body-background);
 }
 
-
 td:not(:first-child), th:not(:first-child) {
   text-align: center;
 }
@@ -862,7 +862,14 @@ abbr {
 }
 
 .breadcrumb-container {
-    margin-left: var(--mobile-site-space);
+  margin: 0 auto;
+  width: 95%;
+}
+
+section {
+    width: 95%;
+    margin: 0 auto;
+    max-width: var(--max-width);
 }
 
 @media screen and (min-width: 700px) {
@@ -873,24 +880,12 @@ abbr {
 }
 
 @media screen and (min-width: 1300px) {
-    .content-container {
-        margin-left: var(--spacer-Elements);
-        margin-right: var(--spacer-Elements);
-    }
-    
-    .breadcrumb-container {
-        margin-left: var(--spacer-Elements);
-        margin-right: var(--spacer-Elements);
-    }
-
-    h1 {
-        margin-left: var(--spacer-Elements);
-    }
-
     section {
-        margin-left: var(--spacer-Elements);
-        margin-right: var(--spacer-Elements);
-        max-width: var(--max-width);
+        margin-bottom: var(--spacer-Elements);
+    }
+
+    h1, h2 {
+        margin-bottom: var(--spacer-Elements);
     }
 }
 

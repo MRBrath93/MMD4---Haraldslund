@@ -349,8 +349,10 @@ function getImage(billede) {
 }
 
 h1{
-  margin-bottom: var(--spacer-x2);
-  margin-left: var(--mobile-site-space);
+  margin-bottom: var(--mobile-site-space);
+  margin: 0 auto;
+  width: 95%;
+  max-width: var(--max-width);
 }
 
 h2 {
@@ -364,8 +366,8 @@ h2 {
 }
 
 .breadcrumb-container {
-  margin-left: var(--mobile-site-space);
-
+  margin: 0 auto;
+  width: 95%;
 }
 
 #specielTid {
@@ -437,14 +439,20 @@ figure .small-side-img {
 }
 
 .section-container {
-    margin-left: var(--mobile-site-space);
-    margin-right: var(--mobile-site-space);
-    margin-bottom: var(--spacer-x2);
+    margin: 0 auto;
+    margin-bottom: var(--mobile-site-space);
     max-width: var(--max-width);
     display: flex;
     flex-direction: column;
     gap: var(--spacer-x1);
 }
+
+section {
+    width: 95%;
+    margin: 0 auto;
+    max-width: var(--max-width);
+}
+
 
 @media screen and (min-width: 768px) {
  .section-container {
@@ -455,11 +463,7 @@ figure .small-side-img {
 
 @media screen and (min-width: 1300px) {
   h1 {
-    margin-left: var(--spacer-Elements);
-  }
-
-  .breadcrumb-container {
-    margin-left: var(--spacer-Elements);
+    margin-bottom: var(--spacer-Elements);
   }
 
   .breadcrumb {
@@ -467,7 +471,7 @@ figure .small-side-img {
   }
 
   .section-container {
-    margin-left: var(--spacer-Elements);
+    margin-bottom: var(--spacer-Elements);
   }
 
 .time-container {
@@ -477,9 +481,8 @@ figure .small-side-img {
     max-width: 18.75rem;
 }
 
-.content-container {
-  margin-left: var(--spacer-Elements);
-}
+
+
 }
 
 @media screen and (max-width: 400px) {
