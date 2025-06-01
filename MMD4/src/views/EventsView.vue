@@ -30,7 +30,6 @@ const internNavLabels = [
 <style scoped>
 div{
     height: 100vh;
-    max-width: var(--max-width);
     margin: var(--spacer-Elements) auto;
 }
 

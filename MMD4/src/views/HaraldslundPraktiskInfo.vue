@@ -343,7 +343,6 @@ function getImage(billede) {
 
 .content-container{
   width: 100%;
-  max-width: var(--max-width);
   margin: 0 auto;
 }
 

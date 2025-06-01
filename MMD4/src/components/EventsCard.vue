@@ -1,5 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
+import { RouterLink } from 'vue-router';
+
 
 const events = ref([]);
 
@@ -35,20 +37,25 @@ function getImage(billede) {
   aria-label="Events i denne måned"
   >
     <h3>Events i denne måned</h3>
-      <div class="flex">
-        <a href="#" 
-        class="container" 
+    <div class="flex">
+      <RouterLink 
         v-for="event in events" 
         :key="event.id"
+        class="container"
+        to="/om-haraldslund/events"
         role="link"
         aria-label="Læs mere"
-        >
-            <img class="image" :src="getImage(event.Cover)" :alt="event.Cover.alternativeText">
-            <div class="label-container">
-                <p>Læs mere</p>
-                <i class="material-symbols-rounded" aria-hidden="true">arrow_forward</i>
-            </div>
-        </a>
+      >
+        <img 
+          class="image" 
+          :src="getImage(event.Cover)" 
+          :alt="event.Cover?.alternativeText || 'Event billede'"
+        />
+        <div class="label-container">
+          <p>Læs mere</p>
+          <i class="material-symbols-rounded" aria-hidden="true">arrow_forward</i>
+        </div>
+      </RouterLink>
     </div>
 </section>
 </template>
