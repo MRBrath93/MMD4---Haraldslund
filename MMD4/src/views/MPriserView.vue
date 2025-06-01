@@ -109,7 +109,7 @@ function getImage(billede) {
                     <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
                 </li>
             </ul>
-            <p class="small" v-for="pris in enkeltPris.Priser" :key="pris.id"> Pris: {{ pris.Genstand }} {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
+            <h4 class="small" v-for="pris in enkeltPris.Priser" :key="pris.id"> Pris: {{ pris.Genstand }} {{ pris.Pris }},-</h4>
         </article>
         <article class="pris-article" v-for="klipPris in motionPriser.Klippekort || []" :key="klipPris.id" >
             <h3>{{ klipPris.Titel }}</h3>
@@ -121,7 +121,7 @@ function getImage(billede) {
                     <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
                 </li>
             </ul>
-            <p class="small" v-for="pris in klipPris.Priser" :key="pris.id"> Pris: {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
+            <h4 class="small" v-for="pris in klipPris.Priser" :key="pris.id"> Pris: {{ pris.Pris }},-</h4>
         </article>
         <article class="pris-article" v-for="programPris in motionPriser.Programlaegning || []" :key="programPris.id" >
             <h3>Programlægning</h3>
@@ -133,7 +133,7 @@ function getImage(billede) {
                     <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
                 </li>
             </ul>
-            <p class="small" v-for="pris in programPris.Priser" :key="pris.id">Pris <abbr titel="per"> pr.</abbr> program: {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
+            <h4 class="small" v-for="pris in programPris.Priser" :key="pris.id">Pris pr. program: {{ pris.Pris }},-</h4>
         </article>
         <article class="pris-article" v-for="maanedsPris in motionPriser.Maanedskort || []" :key="maanedsPris.id" >
             <h3>{{ maanedsPris.Titel }}</h3>
@@ -145,7 +145,7 @@ function getImage(billede) {
                     <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
                 </li>
             </ul>
-            <p class="small" v-for="pris in maanedsPris.Priser" :key="pris.id">Pris fra {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
+            <h4 class="small" v-for="pris in maanedsPris.Priser" :key="pris.id">Pris fra {{ pris.Pris }},-</h4>
         </article>
         <article class="pris-article">
             <div v-for="(personligPris, index) in motionPriser.Personlig_traening || []" :key="personligPris.id">
@@ -160,7 +160,7 @@ function getImage(billede) {
                         </li>
                     </ul>
                 </template>
-                <p class="small" v-for="pris in personligPris.Priser" :key="pris.id">{{ personligPris.Titel }}: {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
+                <h4 class="small" v-for="pris in personligPris.Priser" :key="pris.id">{{ personligPris.Titel }}: {{ pris.Pris }},-</h4>
             </div>
         </article>
     </section>
@@ -195,39 +195,22 @@ function getImage(billede) {
   align-items: center;
 }
 
-h1 {
-    max-width: var(--max-width);
-    margin: auto;
-    padding-bottom: var(--spacer-x2);
-}
-
-.pris-article .small {
-    font-weight: bold;
-    text-align: end;
-}
-
-abbr {
-    text-decoration: none;
-}
-
 .container-priser {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
-    gap: var(--spacer-x2-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-x1);
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 var(--spacer-x2);
 }
 
 .pris-article {
     background-color: var(--color-motion-light);
+    padding: var(--spacer-x2);
     display: flex;
     flex-direction: column;
-    padding: var(--spacer-x2);
-    width: 100%;
+    width: 18rem;
     border-radius: var(--border-radius);
     color: var(--color-font-1);
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
 }
 
 .pris-article ul {
@@ -277,13 +260,11 @@ main {
 
 .white-bg:nth-of-type(2n) {
     background-color: var(--color-activity-viewer);
-}
-
-.white-bg {
     padding: var(--spacer-x3) var(--spacer-x5);
     max-width: 1043px;
     width: 95%;
     margin: var(--spacer-x4) auto;
+
 }
 
 .fatText {
@@ -292,12 +273,18 @@ main {
 }
 
 @media screen and (min-width: 768px) {
+    .pris-article {
+        width: 30.75rem;
+        margin: 0 auto;
+    }
+
     .pris-article h4 {
         justify-content: flex-end;
     }
 
     .container-priser {
-        gap: var(--spacer-x2);
+        flex-direction: row;
+        flex-wrap: wrap;
     }
 }
 

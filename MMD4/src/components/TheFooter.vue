@@ -58,7 +58,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
 </script>
 
 <template>
-    <div 
+    <footer 
     class="footer"
     role="contentinfo"
     aria-label="Sidefod med links til navigation, genveje, åbningstider og sociale medier"
@@ -76,7 +76,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                         <router-link :to="{ name: 'frontpage' }">Forside</router-link>
                     </li>
                     <li>
-                        <router-link :to="{ name: 'om-haraldslund' }">Om Haraldslund</router-link>
+                        <router-link :to="{ name: 'om-haraldslund' }"> Om Haraldslund</router-link>
                     </li>
                     <li>
                         <router-link :to="{ name: 'motion' }">Motion</router-link>
@@ -85,7 +85,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                         <router-link :to="{ name: 'vandogwellness' }">Vand & Wellness</router-link>
                     </li>
                     <li>
-                        <router-link :to="{ name: 'moder-og-konferencer' }">Møder & Events</router-link>
+                        <router-link :to="{ name: 'moder-og-konferencer' }">Møder & Konferencer</router-link>
                     </li>
                     <li>
                         <a href="#">Booking</a>
@@ -215,7 +215,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
             </div>
             <div 
             role="region"
-            class="footer-column wide-column"
+            class="footer-column"
             aria-label="links"
             >
                 <router-link 
@@ -255,11 +255,11 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                 </div>
             </div>
         </div>
-    </div>
+    </footer>
 </template>
 <style scoped>
 
-.footer {
+footer {
     background-color: var(--color-navigation);
     color: var(--color-font-2);
     display: flex;
@@ -269,23 +269,24 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
     padding: var(--spacer-x1) var(--spacer-x3);
 }
 
-.footer h4 {
+footer h4 {
     color: var(--color-font-2);
 }
 
-.footer ul {
+footer ul {
     list-style-type: none;
-    padding: 0;
+
 }
 
-.footer ul li a {
+footer li a {
     color: var(--color-font-2);
     font-size: clamp(0.875rem, 1.5vw, 1rem);
-    min-width: 1.5rem;
-    min-height: 1.5rem;
+    padding: var(--spacer-x0-5);
+    padding-left: 0;
+
 }
 
-.footer li button {
+footer li button {
     background-color: transparent;
     border: none;
     color: var(--color-font-2);
@@ -297,7 +298,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
     cursor: pointer;
 }
 
-.footer p, .footer li {
+footer p, footer li {
     font-family: var(--font-heading);
     font-size: clamp(0.875rem, 1.5vw, 1rem);
     color: var(--color-font-2);
@@ -313,7 +314,7 @@ footer li a:hover, footer li button:hover {
     height: 3.5rem;
 }
 
-.footer div {
+footer div {
     width: fit-content;
 }
 
@@ -326,7 +327,7 @@ footer li a:hover, footer li button:hover {
     padding: var(--spacer-x1) 0;
 }
 
-.footer h4 {
+footer h4 {
     padding-bottom: var(--spacer-x0-5);
 }
 
@@ -400,12 +401,13 @@ footer li a:hover, footer li button:hover {
 @media screen and (min-width: 768px) {
     .footer-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        width: 100%;
     }
 
     .opening-hours {
-        flex-direction: row;
-        gap: var(--spacer-x1);
+    flex-direction: row;
+    width: 24rem;
     }
 
     .footer-column {
@@ -432,8 +434,7 @@ footer li a:hover, footer li button:hover {
     }
 
     .footer-container {
-        gap: var(--spacer-x2);
-        row-gap: var(--spacer-x1);
+        gap: var(--spacer-x3);
     }
 
     .separator {
@@ -442,11 +443,6 @@ footer li a:hover, footer li button:hover {
 
     .footer-info {
         width: 69rem;
-    }
-
-    .wide-column {
-        grid-column: span 6;
-        margin: 0 auto;    
     }
 }
 

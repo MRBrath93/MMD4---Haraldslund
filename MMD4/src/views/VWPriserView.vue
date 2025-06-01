@@ -138,9 +138,6 @@ onUnmounted(() => {
                 <div class="img--container flex1">
                     <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
                 </div>
-                <!-- BILLEDEREFERENCE: 
-                Haraldslund Vand og Kulturhus. Instagram 26/09/2022. Meta 2025 (online) [Accessed 07/05/2025] URL: https://www.instagram.com/p/Ci9hIi1sAgi/
-                  -->
         </section>
         <section v-if="!isMobile">
             <!-- Tilføjet role="table" for at hjælpe evt. skærmlæsere eller anden teknologi med at identificere tabellen -->

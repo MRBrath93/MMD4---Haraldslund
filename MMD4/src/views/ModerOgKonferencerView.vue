@@ -4,7 +4,7 @@
 <template>
     <div>
         <section>
-            <h1>Møder & Events</h1>
+            <h1>Møder & Konferencer</h1>
             <h2>... Maybe next time? </h2>
         </section>
     </div>

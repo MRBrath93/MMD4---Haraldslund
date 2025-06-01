@@ -265,7 +265,7 @@ class="overview-wrapper"
                     role="status"
                     :aria-label="'Holdvisning for ' + dageNavne[selectedDate.getDay()] + ' den ' + selectedDate.getDate() + '/' + (selectedDate.getMonth() + 1)">
                     
-                      {{ dageNavne[selectedDate.getDay()] }} <abbr title="den">d.</abbr> {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}
+                      {{ dageNavne[selectedDate.getDay()] }} d. {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}
                     </div>
                     <button class="right" 
                     @click="gaaFrem"
@@ -280,6 +280,7 @@ class="overview-wrapper"
             <table
             aria-live="polite"
             :aria-busy="isLoading"
+            aria-label="live-view-heading"
             >
                 <caption class="sr-only" tabindex="0">Aktivitetsoversigt for {{ dageNavne[selectedDate.getDay()] }} den {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}</caption>
                 <thead>
@@ -404,10 +405,6 @@ class="overview-wrapper"
     width: 100%;
     max-width: var(--max-width);
     background-color: var(--color-activity-viewer);
-}
-
-abbr {
-    text-decoration: none;
 }
 
 .btn--container{

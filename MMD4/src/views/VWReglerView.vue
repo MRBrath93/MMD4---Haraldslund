@@ -123,10 +123,6 @@ function getImage(billede) {
                 <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
             </div>
         </section>
-        <!-- BILLEDEREFERENCER: 
-         Ordensregler: Facebook: Haraldslund Vand og Kulturhus. 02/05/2024. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=1100666694865842&set=pb.100047675655563.-2207520000&type=3
-         Hygiejneregler: KM, #1186689339. Adobe Stock 2025. (online) Adobe [Accessed 12/05/2025] URL: https://stock.adobe.com/dk/images/fresh-white-towels-hanging-on-chrome-rack-in-modern-gym-locker-room-illuminated-by-warm-sunlight-clean-and-inviting-atmosphere-enhances-relaxation-and-comfort/1186689339
-         -->
         
         <Reklamekort 
         :src="getImage(vwReglerData .reklame_kort.Billede)" 

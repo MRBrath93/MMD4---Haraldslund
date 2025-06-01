@@ -128,7 +128,6 @@ function getImage(billede) {
             <div class="galleri" v-if="index === 1">
                 <ImageHolder  v-for="billede in svoemmehalData.Billeder" :key="billede.id" class="galleryImg" :src="getImage(billede)" :alt="billede.alternativeText" />
             </div>
-            <!-- BILLEDEREFERENCE: Haraldslund Vand og kulturhus. Facebook. 18/05/2023 (online) Meta 2025 [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=999344871664692&set=pb.100047675655563.-2207520000&type=3-->
         </section>
         
         <Reklamekort 

@@ -140,7 +140,6 @@ function getImage(billede) {
         :Btn_text="bibliotekData.reklame_kort.Knapper[0].btn_description" 
         :kategori="bibliotekData.reklame_kort.Kategori" 
         :Btn_icon="bibliotekData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-        <!-- BILLEDEREFERENCE: Instagram. Haraldslund Vand og Kulturhus. 14/10/2019. (online) Meta 2025 [Accessed 08/05/2025] URL: https://www.instagram.com/haraldslundvandogkulturhus/p/B3lvu9xFDAd/ -->
     </div>
 </template>
 

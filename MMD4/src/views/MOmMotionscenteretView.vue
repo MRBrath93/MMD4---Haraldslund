@@ -97,7 +97,6 @@ function getImage(billede) {
         description="Læs om vores moderne motionscenter."
         :image="motionData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="motionData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
-        <!-- BILLEDEREFERENCE: Facebook. Haraldslund Vand og Kulturhus. 15/08/2021 (online) Meta 2025 [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/4346970298694364/?type=3-->
         <div class="breadcrumb-container">
           <TheBreadcrumb></TheBreadcrumb>  
         </div>
@@ -127,7 +126,6 @@ function getImage(billede) {
             <div class="img--container flex1">
                 <ImageHolder v-for="billede in afsnit.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
             </div>
-            <!-- BILLEDEREFERENCE: Facebook. Haraldslund Vand og Kulturhus. 15/11/2022 (online) Meta 2025 [accessed 08/05/2025] URL: https://www.facebook.com/photo.php?fbid=668412328091283&set=pb.100047675655563.-2207520000&type=3-->
         </section>
       <article>
         <h2>Udforsk vores faciliteter i motionscentret</h2>
@@ -139,8 +137,6 @@ function getImage(billede) {
             :src="getImage(billede)"
             :alt="billede?.data?.attributes?.alternativeText || 'Billede'"></ImageHolder>
         </div>
-        <!-- BILLEDEREFERENCE: Facebook. Haraldslund Vand og Kulturhus. 15/11/2022 (online) Meta 2025 [accessed 08/05/2025] URL: https://www.facebook.com/photo.php?fbid=668412401424609&set=pb.100047675655563.-2207520000&type=3 -->
-        <!-- BILLEDEREFERENCE: Facebook. Haraldslund Vand og Kulturhus. 15/11/2022 (online) Meta 2025 [accessed 08/05/2025] URL: https://www.facebook.com/photo/?fbid=668412514757931&set=pb.100047675655563.-2207520000 -->
       </article>
       <Reklamekort 
         :src="getImage(motionData.reklame_kort.Billede) || '' " 

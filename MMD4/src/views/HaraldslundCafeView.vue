@@ -129,10 +129,6 @@ function getImage(billede) {
                     <BookingSquare title="Fødevarestyrelsen" text="Vores café følger Fødevarestyrelsens regler for hygiejne og fødevarehåndtering." btn_title="Fødevarestyrelsen" btn_text="Se seneste smiley-rapport" btn_path="https://www.findsmiley.dk/22876" btn_icon="open_in_new" btn_target="_blank"></BookingSquare>
                 </div>
         </section>
-        <!-- BILLEDEREFERENCER: 
-        Instagram. Haraldslund Vand og Kulturhus. 02/08/2019 (online) Meta 2025 [Accessed 07/05/2025] URL: https://www.instagram.com/haraldslundvandogkulturhus/p/B0qSqPAlLEx/
-        Facebook. Haraldslund Vand og Kulturhus. 10/01/2025 (online) Meta 2025 [accessed 07/05/2025] URL:https://www.facebook.com/photo.php?fbid=1303857611213415&set=pb.100047675655563.-2207520000&type=3
-        -->
         
         <Reklamekort v-if="cafeData.reklame_kort"
         :src="getImage(cafeData.reklame_kort.Billede)" 
