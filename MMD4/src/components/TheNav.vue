@@ -493,11 +493,13 @@ nav .wrapper {
     
 }
 
+.wrapper .nav-links{
+        padding: var(--spacer-x0-5) 0;
+    }
 
 
 @media screen and (min-width: 1200px) {
     .wrapper .nav-links{
-        padding: var(--spacer-x0-5) 0;
         gap: inherit; 
         /* // Beholder gap fra wrapper */
     }

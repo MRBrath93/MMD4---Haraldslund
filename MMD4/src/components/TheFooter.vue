@@ -213,7 +213,8 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                         </div>
                     </div>
             </div>
-            <div 
+            <div class="logoholder">
+                <div 
             role="region"
             class="footer-column wide-column"
             aria-label="links"
@@ -260,13 +261,14 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
             aria-label="contact information">
                 <p>Kastetvej 83 9000 Aalborg</p>
                 <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
-                <p>Tlf: 99 31 67 50</p>
+                <a href="tel:99316750">Tlf: 99 31 67 50</a>
                 <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
-                <p>Haraldslund@aalborg.dk</p>
+                <a href="mailto:Haraldslund@aalborg.dk">Haraldslund@aalborg.dk</a>
                 <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
                 <p>CVR: 29189420</p>
                 <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
             </div>   
+            </div>
         </div>
     </div>
 </template>
@@ -280,7 +282,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: var(--spacer-x1) var(--spacer-x3);
+    padding: var(--spacer-x4) var(--spacer-x3);
 }
 
 .footer h4 {
@@ -297,6 +299,23 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
     font-size: clamp(0.875rem, 1.5vw, 1rem);
     min-width: 1.5rem;
     min-height: 1.5rem;
+}
+
+.logoholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.footer-contact-info a{
+    text-decoration: none;
+    color: var(--color-font-2);
+    font-size: clamp(0.875rem, 1.2vw, 1rem);
+    font-weight: 300;
+    align-items: flex-start;
+    font-family: var(--font-heading);
 }
 
 .footer li button {
@@ -351,13 +370,6 @@ footer li a:hover, footer li button:hover {
 .payment-icon {
     height: 2rem;
     width: 3.125rem;
-}
-
-.footer-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .footer-container {
@@ -424,8 +436,10 @@ footer li a:hover, footer li button:hover {
 
 @media screen and (min-width: 768px) {
     .footer-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        max-width: 1236px;
     }
 
     .opening-hours {
@@ -441,6 +455,12 @@ footer li a:hover, footer li button:hover {
         width: 100%;
     }
 
+    .logoholder {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 }
 
 @media screen and (min-width: 800px) {
@@ -453,26 +473,16 @@ footer li a:hover, footer li button:hover {
     }
 }    
 
-@media screen and (min-width: 1024px) {
-
-    .footer-info {
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
-        padding-top: var(--spacer-x1);
-    }
+@media screen and (min-width: 1120px) {
 
     .footer-container {
         gap: var(--spacer-x2);
         row-gap: var(--spacer-x1);
+        justify-content: center;
     }
 
     .separator {
         display: inline-block;
-    }
-
-    .footer-info {
-        width: 69rem;
     }
 
     .wide-column {
@@ -490,12 +500,17 @@ footer li a:hover, footer li button:hover {
         justify-content: space-between;
         gap: var(--spacer-x2-5);
     }
+
+    .logoholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 }
 
 @media screen and (min-width: 1300px) {
     .footer-container {
         width: 100%;
-
     }
 
 }
