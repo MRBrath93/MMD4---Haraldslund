@@ -8,7 +8,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import TheSpinner from "../components/TheSpinner.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 
-// VARIABLER
+// REAKTIVE VARIABLER
 const isLoading = ref(true);
 const error = ref(null);
 const motionPrisData = ref(null);
@@ -50,7 +50,6 @@ onMounted(() => {
         }
     }
 
-    // Hent data fra Strapi API. Vi bruger Promise.all for at hente alle data samtidigt. 
     Promise.all([
         // Fetch data fra Strapi
         fetch('https://popular-gift-b355856076.strapiapp.com/api/priser-motion?pLevel'),
@@ -58,12 +57,10 @@ onMounted(() => {
         fetch('https://popular-gift-b355856076.strapiapp.com/api/priser-kombi?pLevel'),
         fetch('https://popular-gift-b355856076.strapiapp.com/api/om-haraldslund?pLevel')
     ])
-    // Data hentes asynkront, og vi venter på alle anmodningerne
         .then(async ([resMotion, resVW, resAbout, resKombi]) => {
         if (!resMotion.ok || !resVW.ok || !resAbout || !resKombi.ok) {
             throw new Error(`Fejl ved fetch: ${resMotion.status} / ${resVW.status} / ${resAbout.status} / ${resKombi.status}`);
         }
-        // Den returnerede data fra Strapi er i JSON format, så vi skal parse det
         const [motionJson, vwJson, aboutJson, kombiJson] = await Promise.all([
             resMotion.json(), 
             resVW.json(),
@@ -71,19 +68,17 @@ onMounted(() => {
             resAbout.json()
         ]);
         
-        // dataen tildeles reaktive variabler
-        // Vi bruger .data for at få fat i den relevante del af JSON responsen
         motionPrisData.value = motionJson.data;
         vwPrisData.value = vwJson.data;
         kombiData.value = kombiJson.data;
         aboutData.value = aboutJson.data;
 
-        // Vi gemmer data i localStorage for at undgå unødvendige API-kald
+        // Gem data i localStorage
         localStorage.setItem('aboutData', JSON.stringify(aboutData.value));
         localStorage.setItem('motionPrisData', JSON.stringify(motionPrisData.value));
         localStorage.setItem('vwPrisData', JSON.stringify(vwPrisData.value));
         localStorage.setItem('kombiData', JSON.stringify(kombiData.value));
-        // Vi gemmer timestamp i localStorage for at holde styr på, hvornår data blev hentet sidst. Dette hjælper cachefunktionen med at afgøre, om data er forældet.
+        // Gem timestamp i localStorage for at holde styr på, hvornår data blev hentet sidst
         localStorage.setItem('cacheTimestamp', now.toString());
         })
         .catch(err => {
@@ -94,13 +89,11 @@ onMounted(() => {
         });
 });
 
-// Håndterer vinduesstørrelse for at bestemme, om vi er på en mobil enhed
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize);
   handleResize(); // Kaldes her for at sikre korrekt initialisering af isMobile
 });
 
-// NAVIGATION LABELS
 const internNavLabels = [
   { id: 1, label: "Praktisk Information", name: "haraldslund-praktisk-info" },
   { id: 2, label: "Prisoversigt", name: "haraldslund-priser" },
@@ -313,7 +306,7 @@ function handleResize() {
                 <tbody>
                     <tr v-for="pris in vwPrisData?.Massage || []" :key="pris.id">
                         <td>{{ pris.Titel_paa_billettype }}</td>
-                        <td><p class="regular" >30 minutter</p>{{ pris.pris_30_minutter ? pris.pris_30_minutter + ',-' : '' }}</td>
+                        <td><p class="regular" ">30 minutter</p>{{ pris.pris_30_minutter ? pris.pris_30_minutter + ',-' : '' }}</td>
                         <td><p class="regular" >45 minutter</p>{{ pris.pris_45_minutter ? pris.pris_45_minutter + ',-' : '' }}</td>
                         <td><p class="regular" >60 minutter</p>{{ pris.pris_60_minutter ? pris.pris_60_minutter + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
@@ -739,14 +732,14 @@ function handleResize() {
         </section>
 
     <Reklamekort 
-    :src="getImage(vwPrisData.reklame_kort.Billede)" 
-    :alt="vwPrisData.reklame_kort.Billede.alternativeText" 
-    :title="vwPrisData.reklame_kort.Titel" 
-    :text="vwPrisData.reklame_kort.Tekst_afsnit" 
-    :Btn_title="vwPrisData.reklame_kort.Knapper[0].btn_titel" 
-    :Btn_text="vwPrisData.reklame_kort.Knapper[0].btn_description" 
-    :kategori="vwPrisData.reklame_kort.Kategori" 
-    :Btn_icon="vwPrisData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+    :src="getImage(vwPrisData .reklame_kort.Billede)" 
+    :alt="vwPrisData .reklame_kort.Billede.alternativeText" 
+    :title="vwPrisData .reklame_kort.Titel" 
+    :text="vwPrisData .reklame_kort.Tekst_afsnit" 
+    :Btn_title="vwPrisData .reklame_kort.Knapper[0].btn_titel" 
+    :Btn_text="vwPrisData .reklame_kort.Knapper[0].btn_description" 
+    :kategori="vwPrisData .reklame_kort.Kategori" 
+    :Btn_icon="vwPrisData .reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     
     </div>
 </template>
@@ -892,18 +885,6 @@ abbr {
         margin-right: var(--spacer-Elements);
         max-width: var(--max-width);
     }
-}
-
-@media screen and (max-width: 400px) {
-    .content-container {
-        width: 100vw;
-    }
-
-    .intern-nav {
-        margin: 0;
-        width: 100%;
-    }
-   
 }
 
 </style>

@@ -154,10 +154,11 @@ const internNavLabels = [
           <div class="teams--view">
             <p
             aria-live="polite"
-            role="status">
-              Viser {{ classesStore.numberOfClasses }} ud af {{ classesStore.numberOfTeams }} hold
-            </p>
-            <div class="grid-container">
+            role="status"
+            >Viser {{ classesStore.numberOfClasses }} ud af {{ classesStore.numberOfTeams }} hold</p>
+            <div 
+            class="grid-container"
+            >
             <TheTeamCard
             v-for="klasse in classesStore.filteredClasses"
             :key="klasse.id"

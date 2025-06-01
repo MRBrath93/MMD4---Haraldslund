@@ -482,18 +482,6 @@ figure .small-side-img {
 }
 }
 
-@media screen and (max-width: 400px) {
-    .content-container {
-        width: 100vw;
-    }
-
-    .intern-nav {
-        margin: 0;
-        width: 100%;
-    }
-   
-}
-
 
 
 

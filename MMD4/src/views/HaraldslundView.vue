@@ -104,11 +104,9 @@ function getImage(billede) {
         :image="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
         <TheBreadcrumb></TheBreadcrumb>
-        <div class="content-container">
-            <TheInternNavHaraldslund
-            :label="internNavLabels"
-            ></TheInternNavHaraldslund>
-        </div>
+        <TheInternNavHaraldslund
+        :label="internNavLabels"
+        ></TheInternNavHaraldslund>
         <section v-for="(tekstsektion,index) in aboutData.Indhold.Afsnit" :key="tekstsektion.id">
             <div 
             class="textsection" 
@@ -141,6 +139,7 @@ function getImage(billede) {
                 <!-- REFERENCE BILLEDE: Facebook: Haraldslund Vand og Kulturhus. 21/02/2022. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/4982792758445445/?type=3 -->
             </div>
         </section>
+        
         <Reklamekort v-if="aboutData.reklame_kort"
         :src="getImage(aboutData.reklame_kort.Billede)" 
         :alt="aboutData.reklame_kort.Billede.alternativeText" 
@@ -161,27 +160,22 @@ section{
 }
 
 .loading-container {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.content-container{
-    width: 100%;
-    max-width: var(--max-width);
-    padding-bottom: var(--spacer-x5);
-    position: relative;
-}
+/* TEKST SECTION STYLE */
 
 .textsection {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacer-x2);
-    margin: 0 auto;
-    margin-bottom: var(--spacer-Elements);
-    width: 100%;
-    max-width: var(--max-width);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacer-x2);
+  margin: 0 auto;
+  margin-bottom: var(--spacer-Elements);
+  width: 100%;
+  max-width: var(--max-width);
 }
 
 .small-margin{
@@ -193,8 +187,8 @@ section{
 }
 
 .img--container {
-    flex: 1;
-    display: flex;
+  flex: 1;
+  display: flex;
 }
 
 .subtitle{
@@ -257,31 +251,5 @@ section{
     }
 }
 
-@media screen and (min-width: 1300px) {
-    .content-container {
-        padding-left: var(--spacer-Elements);
-    }
-
-    .breadcrumb-container {
-        margin-left: o;
-    }
-    
-    .breadcrumb-container .breadcrumb {
-        margin: 0;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .content-container {
-        width: 100vw;
-    }
-
-    .intern-nav {
-        margin: 0;
-        width: 100%;
-    }
-   
-}
-
-
+/* TEKSTSTYLE SLUT */
 </style>
