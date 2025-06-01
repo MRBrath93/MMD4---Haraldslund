@@ -171,7 +171,7 @@ const kategoriColor = computed(() => {
   z-index: 3;
 }
 
-.text-wrapper h5 {
+.text-wrapper p {
   font-weight: 500;
   color: var(--color-font-2);
 }
