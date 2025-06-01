@@ -220,7 +220,7 @@ const chartData = computed(() => ({
 
 // FARVETEMA / TOGGLE
 const chartOptions = computed(() => {
-  const isDark = themeStore.mørktTemaAktivt;
+  const isDark = themeStore.moerkTemaAktivt;
 
   return {
     responsive: true,
