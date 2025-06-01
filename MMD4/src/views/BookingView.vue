@@ -1,4 +1,5 @@
 <script setup>
+import TheBreadcrumb from '@/components/TheBreadcrumb.vue';
 </script>
 
 <template>
@@ -15,12 +16,10 @@
 div{
     height: 100vh;
     max-width: var(--max-width);
-    margin: 0 auto;
+    margin: var(--spacer-Elements) auto;
 }
 
 section {
-    padding-top: var(--spacer-x5);
-    margin-bottom: var(--spacer-x5);
     text-align: center;
 }
 </style>

@@ -335,6 +335,7 @@ button.disabled {
   width: 95%;
   max-width: 1000px;
   margin: var(--spacer-x2) auto;
+  padding: var(--spacer-x2) 0;
 }
 
 .rush-hours .intro h4, .rush-hours .intro p {
@@ -421,6 +422,7 @@ text-align: center;
 
   .rush-hours{
     width: 100%;
+    padding: var(--spacer-x1);
   }
 }
 

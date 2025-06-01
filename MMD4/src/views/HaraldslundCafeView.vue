@@ -1,6 +1,7 @@
 <script setup>
 import TheHero from "../components/TheHero.vue";
 import TheInternNavWater from "../components/TheInternNavWater.vue";
+import TheInternNavHaraldslund from "../components/TheInternNavHaraldslund.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import TheSpinner from "@/components/TheSpinner.vue";
 import TheBtn from '@/components/TheBtn.vue';
@@ -100,9 +101,9 @@ function getImage(billede) {
         :image="cafeData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="cafeData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
         <TheBreadcrumb></TheBreadcrumb>
-        <TheInternNavWater
+        <TheInternNavHaraldslund
             :label="internNavLabels"
-        ></TheInternNavWater>
+        ></TheInternNavHaraldslund>
         
         <section class="textsection" v-for="(tekstsektion,index) in cafeData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">

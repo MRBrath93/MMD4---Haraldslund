@@ -97,6 +97,8 @@ const computedBtnLink = computed(() => {
       return '/vand-og-wellness/priser';
     case 'VW regler':
       return '/vand-og-wellness/regler';
+    case 'Events':
+      return '/om-haraldslund/events';
     default:
       return props.Btn_link || '#';
   }

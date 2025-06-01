@@ -62,6 +62,8 @@ const computedBtnLink = computed(() => {
       return '/vand-og-wellness/priser';
     case 'VW regler':
       return '/vand-og-wellness/regler';
+    case 'Events':
+      return '/om-haraldslund/events';
     case 'Email':
       // Forventet at title er en emailadresse';
       return 'mailto:' + props.title;

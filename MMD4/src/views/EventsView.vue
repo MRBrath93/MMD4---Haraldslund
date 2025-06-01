@@ -31,11 +31,10 @@ const internNavLabels = [
 div{
     height: 100vh;
     max-width: var(--max-width);
-    margin: 0 auto;
+    margin: var(--spacer-Elements) auto;
 }
 
 section {
-    margin-bottom: var(--spacer-x5);
     text-align: center;
 }
 </style>
