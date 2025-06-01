@@ -248,11 +248,11 @@ function handleResize() {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col">Klippekort. <span class="th-small">Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00 </span></th>
-                        <th class="regular" scope="col">Voksen</th>
-                        <th class="regular" scope="col">Barn<br>(3-14 år)</th>
-                        <th class="regular" scope="col">Pensionist</th>
-                        <th class="regular" scope="col" aria-hidden="true"></th>
+                    <tr><th scope="col">Klippekort. <span class="regular th-small">Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00 </span></th>
+                        <th scope="col">Voksen</th>
+                        <th scope="col">Barn<br>(3-14 år)</th>
+                        <th scope="col">Pensionist</th>
+                        <th scope="col" aria-hidden="true"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -304,10 +304,10 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr><th scope="col">Massage</th>
-                        <th class="regular" scope="col" aria-hidden="true"></th>
-                        <th class="regular" scope="col" aria-hidden="true"></th>
-                        <th class="regular" scope="col" aria-hidden="true"></th>
-                        <th class="regular" scope="col" aria-hidden="true"></th>
+                        <th scope="col" aria-hidden="true"></th>
+                        <th scope="col" aria-hidden="true"></th>
+                        <th scope="col" aria-hidden="true"></th>
+                        <th scope="col" aria-hidden="true"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -336,8 +336,10 @@ function handleResize() {
             <thead>
                 <tr>
                     <th scope="col">Enkelt billetter</th>
-                    <th class="regular" scope="col">Voksen</th>
-                    <th class="regular" scope="col">Studerende<br><small>(Studiekort skal forvises)</small></th>
+                    <th scope="col">Voksen</th>
+                    <th scope="col">Studerende<br><small>(Studiekort skal forvises)</small></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
                 </tr>
             </thead>
             <tbody>
@@ -349,6 +351,8 @@ function handleResize() {
                 <td>
                     {{ enkeltbillet.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ enkeltbillet.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}
                 </td>
+                <td aria-hidden="true"></td>
+                <td aria-hidden="true"></td>
                 </tr>
                 <!-- I ovenstående kode er der tilføjet en betingelse for at vise prisen kun hvis den findes. 
                     "Priser" er et array, der indeholder objekter med "Genstand" og "Pris". Javascript: "find()" metoden bruges til at finde det objekt, der matcher den ønskede "Genstand".
@@ -365,8 +369,10 @@ function handleResize() {
             <thead>
                 <tr>
                     <th scope="col">Klippekort</th>
-                    <th></th>
-                    <th></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
                 </tr>
             </thead>
             <tbody>
@@ -374,6 +380,8 @@ function handleResize() {
                     <td>{{ klip.Titel + ' ' + klip.Note }}</td>
                     <td>{{ klip.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ klip.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
                     <td>{{ klip.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ klip.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
+                    <td aria-hidden="true"></td>
+                    <td aria-hidden="true"></td>
                 </tr>
             </tbody>
 
@@ -381,8 +389,10 @@ function handleResize() {
             <thead>
                 <tr>
                     <th scope="col">Månedskort</th>
-                    <th></th>
-                    <th></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
                 </tr>
             </thead>
             <tbody>
@@ -390,9 +400,11 @@ function handleResize() {
                     <td>{{ maenedskort.Titel }} {{ maenedskort.Note }}</td>
                     <td>{{ maenedskort.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ maenedskort.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
                     <td>{{ maenedskort.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ maenedskort.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
+                    <td aria-hidden="true"></td>
+                    <td aria-hidden="true"></td>
                 </tr> 
                 <tr>
-                    <td colspan="3" class="note">* Gælder 30 dage fra købsdato, med adgang til bad og omklædning (Kortet gælder ikke til  svømmehal).  
+                    <td colspan="5" class="note">* Gælder 30 dage fra købsdato, med adgang til bad og omklædning (Kortet gælder ikke til  svømmehal).  
                     Kan anvendes 1 gang dagligt og er kun til personligt brug. Holdtræning Inkluderet.</td>
                 </tr>
                 
@@ -401,8 +413,10 @@ function handleResize() {
             <thead>
                 <tr>
                     <th scope="col">Personlig træning</th>
-                    <th></th>
-                    <th></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
                 </tr>
             </thead>
             <tbody>
@@ -410,6 +424,8 @@ function handleResize() {
                     <td>{{ ptraening.Titel }} {{ ptraening.Note }}</td>
                     <td>{{ ptraening.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ ptraening.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
                     <td>{{ ptraening.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ ptraening.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
+                    <td aria-hidden="true"></td>
+                    <td aria-hidden="true"></td>
                 </tr>
             </tbody>
 
@@ -417,8 +433,10 @@ function handleResize() {
             <thead>
                 <tr>
                     <th scope="col">Programlægning</th>
-                    <th></th>
-                    <th></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
+                    <th aria-hidden="true"></th>
                 </tr>
             </thead>
             <tbody>
@@ -426,6 +444,8 @@ function handleResize() {
                     <td>{{ programlaegning.Titel }} {{ programlaegning.Note }}</td>
                     <td>{{ programlaegning.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ programlaegning.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
                     <td>{{ programlaegning.Priser.find(p => p.Genstand === 'Studerende')?.Pris }}{{ programlaegning.Priser.find(p => p.Genstand === 'Studerende') ? ',-' : '' }}</td>
+                    <td aria-hidden="true"></td>
+                    <td aria-hidden="true"></td>
                 </tr>
             </tbody>
         </table>
@@ -644,10 +664,9 @@ function handleResize() {
             <thead>
                 <tr>
                     <th scope="col">Enkelt billetter</th>
-                    <th class="regular" scope="col">Voksen</th>
-                    <th class="regular" scope="col">Studerende<br>(Studiekort skal forvises)</th>
-                    <th class="regular" scope="col" aria-hidden="true"></th>
-
+                    <th scope="col">Voksen</th>
+                    <th scope="col">Studerende<br>(Studiekort skal forvises)</th>
+                    <th scope="col" aria-hidden="true"></th>
                 </tr>
             </thead>
             <tbody>
@@ -732,7 +751,6 @@ function handleResize() {
                     <td>{{ programlaegning.Priser.find(p => p.Genstand === 'Voksen')?.Pris }}{{ programlaegning.Priser.find(p => p.Genstand === 'Voksen') ? ',-' : '' }}</td>
                     <td scope="col" aria-hidden="true"></td>
                     <td scope="col" aria-hidden="true"></td>
-
                 </tr>
             </tbody>
         </table>
@@ -806,7 +824,7 @@ table {
 }
 
 th {
-    font-size: clamp(0.85rem, 1.5vw, 1.25rem);
+    font-size: clamp(0.85rem, 1.5vw, 1.10rem);
     font-family: var(--font-heading);
 }
 

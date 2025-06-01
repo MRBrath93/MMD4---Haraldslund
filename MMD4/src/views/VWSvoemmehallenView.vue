@@ -142,6 +142,7 @@ function getImage(billede) {
           :kategori="svoemmehalData.reklame_kort.Kategori" 
           :Btn_icon="svoemmehalData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
         </div>
+
     </div>
 </template>
 
@@ -292,6 +293,6 @@ function getImage(billede) {
     }
 }
 
-
 /* TEKSTSTYLE SLUT */
+
 </style>
