@@ -93,55 +93,53 @@ function getImage(billede) {
         :subtitle="svoemmehalData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
         :image="svoemmehalData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="svoemmehalData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
-        <div class="page-wrapper">
-          <TheBreadcrumb></TheBreadcrumb>
-          <div class="content-container">
-            <TheInternNavHaraldslund
-                :label="internNavLabels"
-            ></TheInternNavHaraldslund>
-          </div>
-          <section v-for="(tekstsektion,index) in svoemmehalData.Indhold.Afsnit" :key="tekstsektion.id">
-              <div class="textsection" :class="['textsection', { 'small-margin': index === 1 }, { 'reverse-layout': index === 2 }]">
-                  <article class="flex--column flex1">
-                      <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 5)">{{ tekstsektion.Overskrift }}</DynamicHeading>
-                      <div v-for="(single_text,i) in tekstsektion.Tekst || []" :key="single_text.id">
-                        <DynamicHeading :level="Math.min(index+i+2, 5)">{{ single_text.Underoverskift}}</DynamicHeading>
-                          <!-- <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5> -->
-                          <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
-                              <li> {{ single_text.Brodtekst }}</li>
-                          </ul>
-                          <p v-else> {{ single_text.Brodtekst }}</p>
-                      </div>
-                      <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
-                      <TheBtn
-                      v-for="btn in tekstsektion.Knapper"
-                      :key="btn.id"
-                      :link="btn.link_to"
-                      :title="btn.btn_titel"
-                      :text="btn.btn_description"
-                      :icon="btn.Ikon[0]"></TheBtn>
-                  </div>
-              </article>
-              <div class="img--container flex1" v-for="billede in tekstsektion.Billede" :key="billede.id">
-                  <ImageHolder class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
-              </div>
-              </div>
-              <div class="galleri" v-if="index === 1">
-                  <ImageHolder  v-for="billede in svoemmehalData.Billeder" :key="billede.id" class="galleryImg" :src="getImage(billede)" :alt="billede.alternativeText" />
-              </div>
-              <!-- BILLEDEREFERENCE: Haraldslund Vand og kulturhus. Facebook. 18/05/2023 (online) Meta 2025 [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=999344871664692&set=pb.100047675655563.-2207520000&type=3-->
-          </section>
-          
-          <Reklamekort 
-          :src="getImage(svoemmehalData.reklame_kort.Billede)" 
-          :alt="svoemmehalData.reklame_kort.Billede.alternativeText" 
-          :title="svoemmehalData.reklame_kort.Titel" 
-          :text="svoemmehalData.reklame_kort.Tekst_afsnit" 
-          :Btn_title="svoemmehalData.reklame_kort.Knapper[0].btn_titel" 
-          :Btn_text="svoemmehalData.reklame_kort.Knapper[0].btn_description" 
-          :kategori="svoemmehalData.reklame_kort.Kategori" 
-          :Btn_icon="svoemmehalData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
-        </div>
+
+        <TheBreadcrumb></TheBreadcrumb>
+        <TheInternNavHaraldslund
+            :label="internNavLabels"
+        ></TheInternNavHaraldslund>
+        
+        <section v-for="(tekstsektion,index) in svoemmehalData.Indhold.Afsnit" :key="tekstsektion.id">
+            <div class="textsection" :class="['textsection', { 'small-margin': index === 1 }, { 'reverse-layout': index === 2 }]">
+                <article class="flex--column flex1">
+                    <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 5)">{{ tekstsektion.Overskrift }}</DynamicHeading>
+                    <div v-for="(single_text,i) in tekstsektion.Tekst || []" :key="single_text.id">
+                      <DynamicHeading :level="Math.min(index+i+2, 5)">{{ single_text.Underoverskift}}</DynamicHeading>
+                        <!-- <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5> -->
+                        <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
+                            <li> {{ single_text.Brodtekst }}</li>
+                        </ul>
+                        <p v-else> {{ single_text.Brodtekst }}</p>
+                    </div>
+                    <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
+                    <TheBtn
+                    v-for="btn in tekstsektion.Knapper"
+                    :key="btn.id"
+                    :link="btn.link_to"
+                    :title="btn.btn_titel"
+                    :text="btn.btn_description"
+                    :icon="btn.Ikon[0]"></TheBtn>
+                </div>
+            </article>
+            <div class="img--container flex1" v-for="billede in tekstsektion.Billede" :key="billede.id">
+                <ImageHolder class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
+            </div>
+            </div>
+            <div class="galleri" v-if="index === 1">
+                <ImageHolder  v-for="billede in svoemmehalData.Billeder" :key="billede.id" class="galleryImg" :src="getImage(billede)" :alt="billede.alternativeText" />
+            </div>
+            <!-- BILLEDEREFERENCE: Haraldslund Vand og kulturhus. Facebook. 18/05/2023 (online) Meta 2025 [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=999344871664692&set=pb.100047675655563.-2207520000&type=3-->
+        </section>
+        
+        <Reklamekort 
+        :src="getImage(svoemmehalData.reklame_kort.Billede)" 
+        :alt="svoemmehalData.reklame_kort.Billede.alternativeText" 
+        :title="svoemmehalData.reklame_kort.Titel" 
+        :text="svoemmehalData.reklame_kort.Tekst_afsnit" 
+        :Btn_title="svoemmehalData.reklame_kort.Knapper[0].btn_titel" 
+        :Btn_text="svoemmehalData.reklame_kort.Knapper[0].btn_description" 
+        :kategori="svoemmehalData.reklame_kort.Kategori" 
+        :Btn_icon="svoemmehalData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     </div>
 </template>
 
@@ -185,8 +183,10 @@ function getImage(billede) {
   display: flex;
   flex-direction: column;
   gap: var(--spacer-x2);
+  margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
   width: 100%;
+  max-width: var(--max-width);
 }
 
 .small-margin{
@@ -231,20 +231,8 @@ function getImage(billede) {
     flex: 1;
 }
 
-.page-wrapper {
-    display: flex;
-    flex-direction: column;
-    max-width: var(--max-width);
+section{
     width: 95%;
-    margin: 0 auto;
-}
-
-.content-container {
-    width: 100%;
-    max-width: var(--max-width);
-    padding-bottom: var(--spacer-x5);
-    position: relative;
-    height: fit-content;
     margin: 0 auto;
 }
 

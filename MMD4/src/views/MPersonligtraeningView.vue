@@ -102,52 +102,50 @@ function getImage(billede) {
       description="Læs om personlig træning i motionscenter Haraldslund."
       :image="personligTraening.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
       :alt="personligTraening.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
-    <div class="page-wrapper">
-      <TheBreadcrumb></TheBreadcrumb>  
-      <div class="content-container">
-        <TheInternNavHaraldslund
-        :label="internNavLabels"></TheInternNavHaraldslund>
-      </div>
-      <div class="flex-row">
-        <div class="tekst-container">
-          <section v-for="(afsnit,index) in personligTraening?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section" >
-            <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
-            <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-              <span v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</span>
-              <span :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</span>
-            </div>
-            <div v-if="afsnit.Knapper?.length > 0">
-              <TheBtn
-                v-for="btn in afsnit.Knapper || []"
-                :key="btn.id"
-                :link="btn.link_to"
-                :title="btn.btn_titel"
-                :text="btn.btn_description"
-                :icon="btn.Ikon[0]">
-              </TheBtn>
-            </div>
-        </section>
-      </div>
-      <figure class="billede-container" v-if="personligTraening?.Billede?.Billede_element">
-        <ImageHolder
-          v-for="billede in personligTraening.Billede.Billede_element"
-          :key="billede?.id"
-          class="side-img"
-          :src="getImage(billede)"
-          :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
-      </figure>
-      </div>
-      <Reklamekort 
-        :src="getImage(personligTraening.reklame_kort.Billede) || '' " 
-        :alt="personligTraening.reklame_kort.Billede.alternativeText" 
-        :title="personligTraening.reklame_kort.Titel" 
-        :text="personligTraening.reklame_kort.Tekst_afsnit" 
-        :Btn_title="personligTraening.reklame_kort.Knapper[0].btn_titel" 
-        :Btn_text="personligTraening.reklame_kort.Knapper[0].btn_description" 
-        :kategori="personligTraening.reklame_kort.Kategori" 
-        :Btn_icon="personligTraening.reklame_kort.Knapper[0].Ikon[0]">
-      </Reklamekort>
+
+    <TheBreadcrumb></TheBreadcrumb>  
+
+    <TheInternNavHaraldslund
+    :label="internNavLabels"></TheInternNavHaraldslund>
+    <div id="wrapper-content">
+      <div class="tekst-container">
+        <section v-for="(afsnit,index) in personligTraening?.Indhold.Afsnit || []" :key="afsnit.id" class="afsnit-section" >
+          <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
+          <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+            <span v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</span>
+            <span :class="tekst.Underoverskift ? 'fat-text' : ''">{{ tekst.Brodtekst }}</span>
+          </div>
+          <div v-if="afsnit.Knapper?.length > 0">
+            <TheBtn
+              v-for="btn in afsnit.Knapper || []"
+              :key="btn.id"
+              :link="btn.link_to"
+              :title="btn.btn_titel"
+              :text="btn.btn_description"
+              :icon="btn.Ikon[0]">
+            </TheBtn>
+          </div>
+      </section>
     </div>
+    <figure class="billede-container" v-if="personligTraening?.Billede?.Billede_element">
+      <ImageHolder
+        v-for="billede in personligTraening.Billede.Billede_element"
+        :key="billede?.id"
+        class="side-img"
+        :src="getImage(billede)"
+        :alt="billede?.data?.attributes?.alternativeText || 'Billede'" />
+    </figure>
+  </div>
+    <Reklamekort 
+      :src="getImage(personligTraening.reklame_kort.Billede) || '' " 
+      :alt="personligTraening.reklame_kort.Billede.alternativeText" 
+      :title="personligTraening.reklame_kort.Titel" 
+      :text="personligTraening.reklame_kort.Tekst_afsnit" 
+      :Btn_title="personligTraening.reklame_kort.Knapper[0].btn_titel" 
+      :Btn_text="personligTraening.reklame_kort.Knapper[0].btn_description" 
+      :kategori="personligTraening.reklame_kort.Kategori" 
+      :Btn_icon="personligTraening.reklame_kort.Knapper[0].Ikon[0]">
+    </Reklamekort>
   </div>
 </template>
 
@@ -195,32 +193,21 @@ p {
     font-weight: 700;
 }
 
-.page-wrapper {
-    display: flex;
-    flex-direction: column;
-    max-width: var(--max-width);
-    width: 95%;
-    margin: 0 auto;
+#wrapper-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 95%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  gap: var(--spacer-x2);
 }
 
-.content-container {
-    width: 100%;
-    max-width: var(--max-width);
-    padding-bottom: var(--spacer-x5);
-    position: relative;
-    height: fit-content;
-    margin: 0 auto;
-}
-
-
-@media screen and (min-width: 1000px) {
-  .flex-row {
-    display: flex;
+@media screen and (min-width: 768px) {
+  #wrapper-content {
     flex-direction: row;
     gap: var(--spacer-x3);
   }
-  
 }
-
 
 </style>

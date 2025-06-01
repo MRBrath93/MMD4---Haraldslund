@@ -93,51 +93,50 @@ function getImage(billede) {
         :subtitle="vandogwellnessData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
         :image="vandogwellnessData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="vandogwellnessData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
-        <div class="page-wrapper">
-            <TheBreadcrumb></TheBreadcrumb>
-            <div class="content-container">
-                <TheInternNavHaraldslund
-                    :label="internNavLabels"
-                ></TheInternNavHaraldslund>
-            </div>
-            <section class="textsection" v-for="(tekstsektion,index) in vandogwellnessData.Indhold.Afsnit" :key="tekstsektion.id">
-                    <article class="flex--column flex1">
-                        <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
-                        <div v-for="single_text, in tekstsektion.Tekst || []" :key="single_text.id">
-                            <h2 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h2>
-                            <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
-                                <li> {{ single_text.Brodtekst }}</li>
-                            </ul>
-                            <p v-else> {{ single_text.Brodtekst }}</p>
-                        </div>
-                        <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
-                        <TheBtn
-                        v-for="btn in tekstsektion.Knapper"
-                        :key="btn.id"
-                        :link="btn.link_to"
-                        :title="btn.btn_titel"
-                        :text="btn.btn_description"
-                        :icon="btn.Ikon[0]"></TheBtn>
+
+        <TheBreadcrumb></TheBreadcrumb>
+        <TheInternNavHaraldslund
+            :label="internNavLabels"
+        ></TheInternNavHaraldslund>
+        
+        <section class="textsection" v-for="(tekstsektion,index) in vandogwellnessData.Indhold.Afsnit" :key="tekstsektion.id">
+                <article class="flex--column flex1">
+                    <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
+                    <div v-for="single_text, in tekstsektion.Tekst || []" :key="single_text.id">
+                        <h2 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h2>
+                        <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
+                            <li> {{ single_text.Brodtekst }}</li>
+                        </ul>
+                        <p v-else> {{ single_text.Brodtekst }}</p>
                     </div>
-                </article>
-                <div class="img--container flex1">
-                    <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
+                    <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
+                    <TheBtn
+                    v-for="btn in tekstsektion.Knapper"
+                    :key="btn.id"
+                    :link="btn.link_to"
+                    :title="btn.btn_titel"
+                    :text="btn.btn_description"
+                    :icon="btn.Ikon[0]"></TheBtn>
                 </div>
-            </section>
-            <section class="entrypoints">
-                <h2 class="text-align-center">Din tid - vælg det tilbud der passer dig</h2>
-                <div class="card-container">
-                    <EntryPoint v-for="card in vandogwellnessData.Entrypoints" :key="card.id"
-                        class="entrypoint" 
-                        icon="arrow_forward" 
-                        :color="card.Kategori" 
-                        :title="card.label" 
-                        :bgimage= "getImage(card.billede)"
-                        :name="card.link_to">
-                    </EntryPoint>
-                </div>
-            </section>  
-        </div>
+            </article>
+            <div class="img--container flex1">
+                <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
+            </div>
+        </section>
+        <section class="entrypoints">
+            <h2 class="text-align-center">Din tid - vælg det tilbud der passer dig</h2>
+            <div class="card-container">
+                <EntryPoint v-for="card in vandogwellnessData.Entrypoints" :key="card.id"
+                    class="entrypoint" 
+                    icon="arrow_forward" 
+                    :color="card.Kategori" 
+                    :title="card.label" 
+                    :bgimage= "getImage(card.billede)"
+                    :name="card.link_to">
+                </EntryPoint>
+            </div>
+           
+        </section>  
     </div>
 </template>
 
@@ -156,7 +155,10 @@ function getImage(billede) {
   display: flex;
   flex-direction: column;
   gap: var(--spacer-x2);
+  margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
+  width: 95%;
+  max-width: var(--max-width);
   color: var(--color-font-1);
 }
 
@@ -201,20 +203,8 @@ function getImage(billede) {
     flex: 1;
 }
 
-.page-wrapper {
-    display: flex;
-    flex-direction: column;
-    max-width: var(--max-width);
+section{
     width: 95%;
-    margin: 0 auto;
-}
-
-.content-container {
-    width: 100%;
-    max-width: var(--max-width);
-    padding-bottom: var(--spacer-x5);
-    position: relative;
-    height: fit-content;
     margin: 0 auto;
 }
 

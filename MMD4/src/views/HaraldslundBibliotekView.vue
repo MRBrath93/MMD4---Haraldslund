@@ -222,16 +222,7 @@ section{
 }
 
 .breadcrumb-container {
-  margin: 0 auto;
-  width: 95%;
-}
-
-.content-container{
-  width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding-bottom: var(--spacer-x5);
-  position: relative;
+    margin: 0 var(--mobile-site-space);
 }
 
 @media screen and (min-width: 500px) {

@@ -157,7 +157,7 @@ function getImage(billede) {
 
 section{
     max-width: var(--max-width);
-    margin: 0 auto var(--mobile-site-space);
+    margin: 0 auto;
 }
 
 .loading-container {
@@ -171,8 +171,6 @@ section{
     width: 100%;
     max-width: var(--max-width);
     padding-bottom: var(--spacer-x5);
-    padding-left: var(--mobile-site-space);
-    margin: 0 auto;
     position: relative;
 }
 
@@ -180,7 +178,8 @@ section{
     display: flex;
     flex-direction: column;
     gap: var(--spacer-x2);
-    margin-bottom: var(--mobile-site-space);
+    margin: 0 auto;
+    margin-bottom: var(--spacer-Elements);
     width: 100%;
     max-width: var(--max-width);
 }
@@ -259,12 +258,16 @@ section{
 }
 
 @media screen and (min-width: 1300px) {
-    .section {
-        margin-bottom: var(--spacer-Elements);
+    .content-container {
+        padding-left: var(--spacer-Elements);
     }
 
-    .textsection {
-       margin-bottom: var(--spacer-Elements);
+    .breadcrumb-container {
+        margin-left: o;
+    }
+    
+    .breadcrumb-container .breadcrumb {
+        margin: 0;
     }
 }
 

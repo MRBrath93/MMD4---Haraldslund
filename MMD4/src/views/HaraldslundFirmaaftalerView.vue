@@ -35,7 +35,6 @@ div{
     height: 100vh;
     max-width: var(--max-width);
     margin: 0 auto;
-    padding-top: var(--spacer-x5);
 }
 
 section {
@@ -51,11 +50,6 @@ section {
     height: fit-content;
 }
 
-.breadcrumb-container {
-  margin: 0 auto;
-  width: 95%;
-}
-
 @media screen and (max-width: 400px) {
     .content-container {
         width: 100vw;
@@ -65,7 +59,7 @@ section {
         margin: 0;
         width: 100%;
     }
+   
 }
-
 
 </style>

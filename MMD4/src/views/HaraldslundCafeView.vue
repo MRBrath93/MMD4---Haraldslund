@@ -162,7 +162,6 @@ function getImage(billede) {
     max-width: var(--max-width);
     padding-bottom: var(--spacer-x5);
     position: relative;
-    margin: 0 auto;
 }
 
 /* TEKST SECTION STYLE */
@@ -171,7 +170,8 @@ function getImage(billede) {
   display: flex;
   flex-direction: column;
   gap: var(--spacer-x2);
-  margin-bottom: var(--mobile-site-space);
+  margin: 0 var(--mobile-site-space);
+  margin-bottom: var(--spacer-Elements);
   width: 95%;
   max-width: var(--max-width);
 }
@@ -187,10 +187,6 @@ function getImage(billede) {
 .img--container {
   flex: 1;
   display: flex;
-}
-
-h1 {
-    margin-bottom: var(--mobile-site-space);
 }
 
 .subtitle{
@@ -227,14 +223,11 @@ h1 {
 section{
     width: 95%;
     margin: 0 auto;
-    max-width: var(--max-width);
 }
 
 .breadcrumb-container {
-  margin: 0 auto;
-  width: 95%;
+    margin: 0 var(--mobile-site-space);
 }
-
 
 @media screen and (min-width: 500px) {
     .btn--container{
@@ -263,14 +256,21 @@ section{
 }
 
 @media screen and (min-width: 1300px) {
+    .breadcrumb-container {
+        margin-left: var(--spacer-Elements);
+    }
+
+    .content-container {
+        padding-left: var(--spacer-Elements);
+    }
+
     .textsection {
-        margin-bottom: var(--spacer-Elements);
+        margin: 0 var(--spacer-Elements);
     }
 
-    h1 {
-        margin-bottom: var(--spacer-Elements);
+    .reklamekort {
+        margin: 0 var(--spacer-Elements);
     }
-
 }
 
 @media screen and (max-width: 400px) {

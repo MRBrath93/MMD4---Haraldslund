@@ -110,11 +110,8 @@ const internNavLabels = [
         :subtitle="vandogwellnessHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
         :image="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
-      <div class="page-wrapper">
       <TheBreadcrumb></TheBreadcrumb>
-      <div class="content-container">
       <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
-      </div>
       <section class="textsection" v-for="(tekstsektion,index) in vandogwellnessHoldData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
@@ -196,7 +193,6 @@ const internNavLabels = [
         :kategori="vandogwellnessHoldData.reklame_kort.Kategori" 
         :Btn_icon="vandogwellnessHoldData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     </div>
-    </div>
 </template>
 
 <style scoped>
@@ -207,7 +203,9 @@ const internNavLabels = [
   display: flex;
   flex-direction: column;
   gap: var(--spacer-x2);
+  margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
+  max-width: var(--max-width);
 }
 
 .img--container {
@@ -228,6 +226,7 @@ const internNavLabels = [
 .punkt{
     margin-inline-start: var(--spacer-x1);
     font-family: var(--font-text);
+    
 }
 
 .btn--container{
@@ -250,20 +249,8 @@ const internNavLabels = [
     flex: 1;
 }
 
-.page-wrapper {
-    display: flex;
-    flex-direction: column;
-    max-width: var(--max-width);
+section{
     width: 95%;
-    margin: 0 auto;
-}
-
-.content-container {
-    width: 100%;
-    max-width: var(--max-width);
-    padding-bottom: var(--spacer-x5);
-    position: relative;
-    height: fit-content;
     margin: 0 auto;
 }
 
@@ -330,6 +317,12 @@ const internNavLabels = [
     gap: var(--spacer-x1);
     width: 100%;
     margin: 0 auto;
+}
+
+section{
+  width: 95%;
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 .teams--view{

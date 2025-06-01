@@ -18,7 +18,7 @@ const internNavLabels = [
 </script>
 
 <template>
-    <div class="wrapper">
+    <div>
         <TheBreadcrumb></TheBreadcrumb>  
         <div class="content-container">
             <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
@@ -31,11 +31,10 @@ const internNavLabels = [
 </template>
 
 <style scoped>
-.wrapper{
+div{
     height: 100vh;
     max-width: var(--max-width);
     margin: 0 auto;
-    padding-top: var(--spacer-x5);
 }
 
 section {
@@ -49,11 +48,6 @@ section {
     padding-bottom: var(--spacer-x5);
     position: relative;
     height: fit-content;
-}
-
-.breadcrumb-container {
-  margin: 0 auto;
-  width: 95%;
 }
 
 @media screen and (max-width: 400px) {

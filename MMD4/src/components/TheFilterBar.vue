@@ -25,11 +25,7 @@ onMounted(() => {
 
 <template>
   <div class="wrapper">
-    <div 
-    class="flex-row-container"
-    aria-label="Filtrér efter kategori"
-    role="search"
-    > 
+    <div class="flex-row-container"> 
       <i class="material-symbols-rounded" aria-hidden="true">filter_alt</i>
       <p id="filter-headline"><strong>Filtrér efter kategori:</strong></p>
     </div>
@@ -46,9 +42,6 @@ onMounted(() => {
       :key="category"
       @click="store.setCategory(category)"
       :class="{ active: store.selectedCategory === category }"
-      :aria-pressed="store.selectedCategory === category"
-      :aria-label="`Filtrér efter ${category}`"
-      role="button"
     >
       {{ category }}
     </button>

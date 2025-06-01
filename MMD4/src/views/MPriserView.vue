@@ -95,99 +95,95 @@ function getImage(billede) {
         description="Prisoversigt for motionstilbud i Haraldslund Vand og Kulturhus."
         :image="motionPriser.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="motionPriser.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
-      <div class="page-wrapper">
-        <TheBreadcrumb></TheBreadcrumb>  
-        <div class="content-container">
-            <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
-        </div>
-        <h1 tabindex="-1">Priser - Motion</h1>
-        <section class="container-priser">
-            <article class="pris-article" v-for="enkeltPris in motionPriser.Enkeltbilletter || []" :key="enkeltPris.id" >
-                <h3>{{ enkeltPris.Titel }}</h3>
-                <ul>
-                    <li v-for="(fordel, index) in enkeltPris.Fordele || []" :key="'fordel-' + index">
-                        <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
-                    </li>
-                    <li v-for="(ulempe, index) in enkeltPris.Ulemper || []" :key="'ulempe-' + index">
-                        <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
-                    </li>
-                </ul>
-                <p class="small" v-for="pris in enkeltPris.Priser" :key="pris.id"> Pris: {{ pris.Genstand }} {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
-            </article>
-            <article class="pris-article" v-for="klipPris in motionPriser.Klippekort || []" :key="klipPris.id" >
-                <h3>{{ klipPris.Titel }}</h3>
-                <ul>
-                    <li v-for="(fordel, index) in klipPris.Fordele || []" :key="'fordel-' + index">
-                        <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
-                    </li>
-                    <li v-for="(ulempe, index) in klipPris.Ulemper || []" :key="'ulempe-' + index">
-                        <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
-                    </li>
-                </ul>
-                <p class="small" v-for="pris in klipPris.Priser" :key="pris.id"> Pris: {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
-            </article>
-            <article class="pris-article" v-for="programPris in motionPriser.Programlaegning || []" :key="programPris.id" >
-                <h3>Programlægning</h3>
-                <ul>
-                    <li v-for="(fordel, index) in programPris.Fordele || []" :key="'fordel-' + index">
-                        <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
-                    </li>
-                    <li v-for="(ulempe, index) in programPris.Ulemper || []" :key="'ulempe-' + index">
-                        <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
-                    </li>
-                </ul>
-                <p class="small" v-for="pris in programPris.Priser" :key="pris.id">Pris <abbr titel="per"> pr.</abbr> program: {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
-            </article>
-            <article class="pris-article" v-for="maanedsPris in motionPriser.Maanedskort || []" :key="maanedsPris.id" >
-                <h3>{{ maanedsPris.Titel }}</h3>
-                <ul>
-                    <li v-for="(fordel, index) in maanedsPris.Fordele || []" :key="'fordel-' + index">
-                        <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
-                    </li>
-                    <li v-for="(ulempe, index) in maanedsPris.Ulemper || []" :key="'ulempe-' + index">
-                        <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
-                    </li>
-                </ul>
-                <p class="small" v-for="pris in maanedsPris.Priser" :key="pris.id">Pris fra {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
-            </article>
-            <article class="pris-article">
-                <div v-for="(personligPris, index) in motionPriser.Personlig_traening || []" :key="personligPris.id">
-                    <template v-if="index === 0">
-                        <h3>Personlig Træning</h3>
-                        <ul>
-                            <li v-for="fordel in personligPris.Fordele || []" :key="'fordel-' + fordel.index">
-                                <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
-                            </li>
-                            <li v-for="(ulempe, index) in personligPris.Ulemper || []" :key="'ulempe-' + index">
-                                <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
-                            </li>
-                        </ul>
-                    </template>
-                    <p class="small" v-for="pris in personligPris.Priser" :key="pris.id">{{ personligPris.Titel }}: {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
-                </div>
-            </article>
-        </section>
-        <section class="white-bg" v-for="indhold in motionPriser.Indhold.Afsnit || []" :key="indhold.id">
-            <h3>{{ indhold.Overskrift }}</h3>
-            <div v-for="tekst in indhold.Tekst || []" :key="tekst.id">
-                <p class="fatText" v-if="tekst.Underoverskift" :key="tekst.id"> {{ tekst.Underoverskift }}</p>
-                <ul class="liste" v-if="tekst.Skal_det_punktopstilles">
-                    <li> {{ tekst.Brodtekst }}</li>
-                </ul>
-                <p v-else> {{ tekst.Brodtekst }}</p>
+      <TheBreadcrumb></TheBreadcrumb>  
+      <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
+      <h1 tabindex="-1">Priser - Motion</h1>
+      <section class="container-priser">
+        <article class="pris-article" v-for="enkeltPris in motionPriser.Enkeltbilletter || []" :key="enkeltPris.id" >
+            <h3>{{ enkeltPris.Titel }}</h3>
+            <ul>
+                <li v-for="(fordel, index) in enkeltPris.Fordele || []" :key="'fordel-' + index">
+                    <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
+                </li>
+                <li v-for="(ulempe, index) in enkeltPris.Ulemper || []" :key="'ulempe-' + index">
+                    <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
+                </li>
+            </ul>
+            <p class="small" v-for="pris in enkeltPris.Priser" :key="pris.id"> Pris: {{ pris.Genstand }} {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
+        </article>
+        <article class="pris-article" v-for="klipPris in motionPriser.Klippekort || []" :key="klipPris.id" >
+            <h3>{{ klipPris.Titel }}</h3>
+            <ul>
+                <li v-for="(fordel, index) in klipPris.Fordele || []" :key="'fordel-' + index">
+                    <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
+                </li>
+                <li v-for="(ulempe, index) in klipPris.Ulemper || []" :key="'ulempe-' + index">
+                    <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
+                </li>
+            </ul>
+            <p class="small" v-for="pris in klipPris.Priser" :key="pris.id"> Pris: {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
+        </article>
+        <article class="pris-article" v-for="programPris in motionPriser.Programlaegning || []" :key="programPris.id" >
+            <h3>Programlægning</h3>
+            <ul>
+                <li v-for="(fordel, index) in programPris.Fordele || []" :key="'fordel-' + index">
+                    <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
+                </li>
+                <li v-for="(ulempe, index) in programPris.Ulemper || []" :key="'ulempe-' + index">
+                    <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
+                </li>
+            </ul>
+            <p class="small" v-for="pris in programPris.Priser" :key="pris.id">Pris <abbr titel="per"> pr.</abbr> program: {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
+        </article>
+        <article class="pris-article" v-for="maanedsPris in motionPriser.Maanedskort || []" :key="maanedsPris.id" >
+            <h3>{{ maanedsPris.Titel }}</h3>
+            <ul>
+                <li v-for="(fordel, index) in maanedsPris.Fordele || []" :key="'fordel-' + index">
+                    <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
+                </li>
+                <li v-for="(ulempe, index) in maanedsPris.Ulemper || []" :key="'ulempe-' + index">
+                    <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
+                </li>
+            </ul>
+            <p class="small" v-for="pris in maanedsPris.Priser" :key="pris.id">Pris fra {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
+        </article>
+        <article class="pris-article">
+            <div v-for="(personligPris, index) in motionPriser.Personlig_traening || []" :key="personligPris.id">
+                <template v-if="index === 0">
+                    <h3>Personlig Træning</h3>
+                    <ul>
+                        <li v-for="fordel in personligPris.Fordele || []" :key="'fordel-' + fordel.index">
+                            <i class="material-symbols-rounded" aria-hidden="true">check</i> {{ fordel }}
+                        </li>
+                        <li v-for="(ulempe, index) in personligPris.Ulemper || []" :key="'ulempe-' + index">
+                            <i class="material-symbols-rounded" aria-hidden="true">exclamation</i> {{ ulempe }}
+                        </li>
+                    </ul>
+                </template>
+                <p class="small" v-for="pris in personligPris.Priser" :key="pris.id">{{ personligPris.Titel }}: {{ pris.Pris }}<abbr title="kroner">,-</abbr></p>
             </div>
-        </section>
-        <Reklamekort 
-            :src="getImage(motionPriser.reklame_kort.Billede) || '' " 
-            :alt="motionPriser.reklame_kort.Billede.alternativeText" 
-            :title="motionPriser.reklame_kort.Titel" 
-            :text="motionPriser.reklame_kort.Tekst_afsnit" 
-            :Btn_title="motionPriser.reklame_kort.Knapper[0].btn_titel" 
-            :Btn_text="motionPriser.reklame_kort.Knapper[0].btn_description" 
-            :kategori="motionPriser.reklame_kort.Kategori" 
-            :Btn_icon="motionPriser.reklame_kort.Knapper[0].Ikon[0]">
-        </Reklamekort>
+        </article>
+    </section>
+    <section class="white-bg" v-for="indhold in motionPriser.Indhold.Afsnit || []" :key="indhold.id">
+        <h3>{{ indhold.Overskrift }}</h3>
+        <div v-for="tekst in indhold.Tekst || []" :key="tekst.id">
+            <p class="fatText" v-if="tekst.Underoverskift" :key="tekst.id"> {{ tekst.Underoverskift }}</p>
+            <ul class="liste" v-if="tekst.Skal_det_punktopstilles">
+                <li> {{ tekst.Brodtekst }}</li>
+            </ul>
+            <p v-else> {{ tekst.Brodtekst }}</p>
         </div>
+    </section>
+    <Reklamekort 
+        :src="getImage(motionPriser.reklame_kort.Billede) || '' " 
+        :alt="motionPriser.reklame_kort.Billede.alternativeText" 
+        :title="motionPriser.reklame_kort.Titel" 
+        :text="motionPriser.reklame_kort.Tekst_afsnit" 
+        :Btn_title="motionPriser.reklame_kort.Knapper[0].btn_titel" 
+        :Btn_text="motionPriser.reklame_kort.Knapper[0].btn_description" 
+        :kategori="motionPriser.reklame_kort.Kategori" 
+        :Btn_icon="motionPriser.reklame_kort.Knapper[0].Ikon[0]">
+    </Reklamekort>
     </div>
 </template>
 
@@ -294,24 +290,6 @@ main {
   font-weight: 700;
   padding: var(--spacer-x0-5) 0;
 }
-
-.page-wrapper {
-    display: flex;
-    flex-direction: column;
-    max-width: var(--max-width);
-    width: 95%;
-    margin: 0 auto;
-}
-
-.content-container {
-    width: 100%;
-    max-width: var(--max-width);
-    padding-bottom: var(--spacer-x5);
-    position: relative;
-    height: fit-content;
-    margin: 0 auto;
-}
-
 
 @media screen and (min-width: 768px) {
     .pris-article h4 {

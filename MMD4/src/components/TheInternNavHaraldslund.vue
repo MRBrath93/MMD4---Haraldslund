@@ -93,11 +93,11 @@ onBeforeUnmount(() => {
 <style scoped>
 
 .intern-nav {
+    margin: 0 var(--mobile-site-space);
     background: var(--color-btn-primary);
     position: absolute;
     z-index: 2;
     width: 80%;
-    max-width: var(--max-width);
   }
   
 .dropdown-toggle {

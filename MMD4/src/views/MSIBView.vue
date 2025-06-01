@@ -22,7 +22,7 @@ const internNavLabels = [
     <div>
         <TheBreadcrumb></TheBreadcrumb>  
         <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
-        <section class="wrapper">
+        <section>
             <h1>SUNDHED I BEVÆGELSE</h1>
             <h2>... Maybe next time? </h2>
         </section>
@@ -34,12 +34,10 @@ div{
     height: 100vh;
     max-width: var(--max-width);
     margin: 0 auto;
-    padding-top: var(--spacer-x5);
 }
 
-.wrapper {
+section {
     margin-bottom: var(--spacer-x5);
     text-align: center;
-    padding-top: var(--spacer-x5);
 }
 </style>
