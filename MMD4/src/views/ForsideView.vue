@@ -22,7 +22,7 @@ const error = ref(null);
 // Definerer hvor længe cachede data skal være gyldige (1 time)
 const CACHE_DURATION_MS = 60 * 60 * 1000;
 
-// Funktion til at hente det mest passende billedformat. Returnerer det bedst tilgængelige billedformat eller en tom streng, hvis ingen findes
+// Funktion til at hente det mest passende billedformat
 function getImage(billede) {
   if (!billede || !billede.formats) return '';
   return billede.formats.large?.url ||
@@ -34,31 +34,27 @@ function getImage(billede) {
 
 // Når komponenten er monteret...
 onMounted(() => {
-    // Henter det aktuelle tidspunkt
-    const now = Date.now();
+  const now = Date.now();
 
-    // Forsøg at hente cachede data og timestamp
-    const cachedData = localStorage.getItem('forsideData');
-    const cachedTime = Number(localStorage.getItem('cachefrontpageTimestamp'));
-    
-      // Brug cache hvis den er valid/gældende
-    if (cachedData && cachedTime && now - cachedTime < CACHE_DURATION_MS) {
-        try {
-            // Parser cachede data og gemmer dem
-            forsideData.value = JSON.parse(cachedData);
-            // Stopper loading state
-            isLoading.value = false;
-            return;
-        } catch (e) {
-            // Logger fejl, hvis parsing fejler
-            console.warn('Fejl ved parsing af cache:', e);
-        }
+  // Forsøg at hente cachede data og timestamp
+  const cachedData = localStorage.getItem('forsideData');
+  const cachedTime = Number(localStorage.getItem('cachefrontpageTimestamp'));
+
+  // Brug cache hvis den er valid/gældende
+  if (cachedData && cachedTime && now - cachedTime < CACHE_DURATION_MS) {
+    try {
+      forsideData.value = JSON.parse(cachedData);
+      isLoading.value = false;
+      return;
+    } catch (e) {
+      console.warn('Fejl ved parsing af cache:', e);
     }
-    // Hent data fra Strapi hvis der ikke findes valid cache
-    fetch('https://popular-gift-b355856076.strapiapp.com/api/forside?pLevel')
+  }
+
+  // Hent data fra Strapi hvis der ikke findes valid cache
+  fetch('https://popular-gift-b355856076.strapiapp.com/api/forside?pLevel')
     .then(res => {
       if (!res.ok) throw new Error(`Forside fejl: ${res.status}`);
-      // Konverterer respons til JSON
       return res.json();
     })
     .then(json => {
