@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
 :root {
   --spacer-x1: 1rem;
   --spacer-x0-25: calc(var(--spacer-x1) * .25);
@@ -49,10 +51,8 @@
   --color-btn-primary: #FBF8F4;
   --color-btn-primary-hover: #526054;
 
-  --font-heading: 'inter',
-    sans-serif;
-  --font-text: 'open-sans',
-    sans-serif;
+  --font-heading: "Inter", sans-serif;
+  --font-text: "Open Sans", sans-serif;
 
   --border-radius: 3px;
 

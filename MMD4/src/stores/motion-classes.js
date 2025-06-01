@@ -96,7 +96,6 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
         )
             .then(response => response.json())
             .then(data => {
-                console.log("Data hentet fra Strapi:", data);
                 classes.value = data.data.map(item => ({
                     id: item.id,
                     name: item.Titel,
