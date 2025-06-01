@@ -5,7 +5,7 @@ import { ref } from 'vue';
 export const useThemeStore = defineStore('theme', () => {
     // Tjekker om brugeren foretrækker mørkt tema via CSS media query
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const mørktTemaAktivt = ref(prefersDark);
+    const moerkTemaAktivt = ref(prefersDark);
 
     // Funktion til at sætte CSS variabler ud fra tema
     function applyTheme(isDark) {
@@ -53,12 +53,12 @@ export const useThemeStore = defineStore('theme', () => {
     }
 
     // Sætter tema ved opstart
-    applyTheme(mørktTemaAktivt.value);
+    applyTheme(moerkTemaAktivt.value);
 
     function toggleTema() {
-        mørktTemaAktivt.value = !mørktTemaAktivt.value;
-        applyTheme(mørktTemaAktivt.value);
+        moerkTemaAktivt.value = !moerkTemaAktivt.value;
+        applyTheme(moerkTemaAktivt.value);
     }
 
-    return { mørktTemaAktivt, toggleTema };
+    return { moerkTemaAktivt, toggleTema };
 });

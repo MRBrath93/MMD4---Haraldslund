@@ -14,9 +14,8 @@ defineProps({
     class="hero"
     role="banner">
         <div class="hero-text">
-            <h5 aria-label="Hero titel"
-            class="hero-title">{{ title }}</h5>
-            <h6 aria-label="Hero undertitel" class="hero-subtitle"> {{ subtitle }}</h6>
+            <p class="hero-title">{{ title }}</p>
+            <p class="hero-subtitle"> {{ subtitle }}</p>
         </div>
         <img :src="image" :alt="alt" id="hero-image" />
     </div>
@@ -32,14 +31,13 @@ defineProps({
     text-align: center;
     height: 50vh;
     width: 100%;
-    margin-bottom: var(--spacer-x5);
+    margin-bottom: var(--spacer-x4);
 }
 
 .hero-title{
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size: clamp(2rem, 5vw, 4.5rem);
     font-weight: 700;
     font-family: var( --font-heading);
-    text-transform: uppercase;
     color: var(--color-font-2);
     text-shadow:
     -0.5px -0.5px 0 black,

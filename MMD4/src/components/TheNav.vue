@@ -1,17 +1,33 @@
 <script setup>
 // IMPORTS
-import { RouterLink } from "vue-router";
-import { ref, onMounted, onUnmounted } from 'vue';
+import { RouterLink, useRoute } from "vue-router";
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 
+const route = useRoute();
 
-// REAKTIVE VARIABLER
+// VARIABLER
+
 const menuOpen = ref(false);
+
+const isMobile = hasTouchSupport();
+
+const isSmallScreen = ref(window.innerWidth <= 1050);
 
 const dropdownOpen = ref({
   omHaraldslund: false,
   motion: false,
   vandogwellness: false
 });
+
+// -- WATCHERS --
+// Arrow function der lytter efter ændringer i ruten og opdaterer menuOpen-variablen.
+watch(
+  () => route.path,
+  () => {
+        menuOpen.value = false; // Lukker menuen, når ruten ændres
+	},
+	{ immediate: true }
+);
 
 
 // -- FUNKTIONER --
@@ -25,11 +41,6 @@ function hasTouchSupport() {
 }
 // INSPIRATIONSKILDE: Zhan, Stephanie. Detecting Mobile vs. Desktop Browsers in JavaScript. 13/04/2023. Medium, 2025. (online) [Accessed 27/05/2025] URL:  https://medium.com/geekculture/detecting-mobile-vs-desktop-browsers-in-javascript-ad46e8d23ce5
 // INSPIRATIONSKILDE: W3School. touchstart Event. (online) [Accessed 27/05/2025] W3School, By Refsnes Data. 2025. URL: https://www.w3schools.com/jsref/event_touchstart.asp
-
-
-const isMobile = hasTouchSupport();
-
-const isSmallScreen = ref(window.innerWidth <= 1050);
 
 if (isSmallScreen.value) {
   // Hvis det er en mobil enhed, skal dropdowns være åbne som standard
@@ -46,15 +57,20 @@ const isReduced = window.matchMedia(`(prefers-reduced-motion: reduce)`) === true
 // INSPIRATIONSKILDE: Clark, Nat "Nathan". Checking for reduced motion preference in JavaScript. 13/09/2021. DEV Community © 2016 - 2025. (online) [Accessed 27/05/2025] URL: https://dev.to/natclark/checking-for-reduced-motion-preference-in-javascript-4lp9
 
 
+// FUNKTION TIL AT TOGGLE MENU ELEMENTET ML. ÅBEN OG LUKKET TILSTAND
 function toggleMenu() {
   menuOpen.value = !menuOpen.value;
 }
 
 // Dropdowns (til mobilvisning). 
+// Denne funktion toggler dropdown-menuer, når brugeren klikker på en menu-knap.
+// Hvis det er en lille skærm (mobil), toggler den dropdown-menuen for det valgte navn.
 function toggleDropdown(name) {
     if (isMobile && !isSmallScreen.value) {
         dropdownOpen.value[name] = !dropdownOpen.value[name];
-        // Lukker alle andre dropdowns, når en ny åbnes
+        // Object.keys dropdownOpen.value returnerer en liste over alle nøgler i dropdownOpen-objektet, som repræsenterer de forskellige dropdown-menuer.
+        // For hver nøgle i dropdownOpen-objektet, hvis nøglen ikke er den samme som det valgte navn, sættes dens værdi til false (lukket).
+        // Dette sikrer, at kun den dropdown, der er blevet klikket på, forbliver åben, mens alle andre lukkes.
         Object.keys(dropdownOpen.value).forEach(key => {
         if (key !== name) {
             dropdownOpen.value[key] = false;
@@ -64,20 +80,17 @@ function toggleDropdown(name) {
 }
 
 // Håndterer klik uden for dropdown-menuen for at lukke den
+// Vha. eventlistener lyttes der efter klik på dokumentet, og hvis klik ikke er på en menu-knap, nav-links eller dropbox, lukkes menuen.
 function handleOutsideClick(event) {
-  if (!isMobile) {
-    const target = event.target;  if (
-    !target.closest('.dropbox') && 
-    !target.closest('.desktop-item') && 
-    !target.closest('.hover-wrapper')) {
-    Object.keys(dropdownOpen.value).forEach(key => {
-      dropdownOpen.value[key] = false;
-    });
-  }
-}
+    const target = event.target;
+    if (isMobile && !target.closest('.menu-main-btn') && !target.closest('.nav-links') && !target.closest('.dropbox')) {
+        menuOpen.value = false;
+    }
 }
 
-// Funktion for at håndtere dropdown-tilstand 
+// Funktion for at håndtere dropdown-tilstand ved mouseenter og mouseleave events. 
+// Denne funktion åbner eller lukker dropdown-menuer baseret på musens bevægelse. name er navnet på dropdown-menuen, og state er den ønskede tilstand (åben eller lukket).
+// Der sættes en timeout på 100ms for at undgå utilsigtede klik, når brugeren interagerer med dropdown-menuen på desktop-enheder.
 function handleDropdown(name, state) {
     if (!isMobile) {
         setTimeout(() => {
@@ -88,8 +101,7 @@ function handleDropdown(name, state) {
 
 // Scroll-funktionalitet 
 // headeren skjules, når brugeren scroller nedad, og vises igen, når brugeren scroller opad.
-// Dette gøres for at give mere plads til indholdet, når brugeren interagerer med siden.
-// 
+// Dette gøres for at give mere plads til indholdet, når brugeren interagerer med siden. 
 let lastScrollY = window.scrollY;
 
 const onScroll = () => {
@@ -125,9 +137,14 @@ onUnmounted(() => {
     <header>
         <nav tabindex="0" class="header" role="navigation" aria-label="Hovednavigation">
         <div class="wrapper">
-            <div class="logo" aria-label="Logo">
-                <router-link class="no-drop" 
-                :to="{ name: 'frontpage' }">
+            <div class="logo" 
+            aria-label="Logo"
+            role="button"
+            >
+            <router-link 
+            class="no-drop" 
+            aria-label="Gå til forsiden"
+            :to="{ name: 'frontpage' }">
                 <img src="../assets/images/image-removebg-preview.png" alt="Logo til Haraldslund Vand og Kulturhus">
             </router-link>
             </div>
@@ -151,15 +168,16 @@ onUnmounted(() => {
             id="nav-links"
             :class="{ open: menuOpen }" 
             aria-label="Menu links"
+            role="menubar"
             >
-                <li role="button link"><router-link class="no-drop text desktop-item" :to="{ name: 'frontpage' }">Forside</router-link></li>
+                <li role="menuitem"><router-link class="no-drop text desktop-item" :to="{ name: 'frontpage' }">Forside</router-link></li>
                 <li
                 @mouseenter="handleDropdown('omHaraldslund', true)"
                 @mouseleave="handleDropdown('omHaraldslund', false)"
                 @click="toggleDropdown('omHaraldslund')"
                 :aria-expanded="dropdownOpen.omHaraldslund.toString()"
                 aria-controls="dropbox-omHaraldslund"
-                role="button link"
+                role="menuitem"
                 >
                     <router-link 
                     :to="{ name: 'om-haraldslund' }" >
@@ -178,16 +196,16 @@ onUnmounted(() => {
                     >
                             <div class="row">
                                 <ul class="drop-links">
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-praktisk-info' }">Praktisk Information</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-priser' }">Prisoversigt</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-cafe' }">Café Harald</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-personale' }">Personale</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-historie' }">Vores Historie</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-firmaaftaler' }">Firmaaftaler</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-brugerraad' }">Brugerråd</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-events' }">Events</router-link></li>
-                                    <li role="button link"><router-link :to="{ name: 'haraldslund-aktivitetsoversigt' }">Aktivitetsoversigt</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-praktisk-info' }">Praktisk Information</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-priser' }">Prisoversigt</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-cafe' }">Café Harald</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-personale' }">Personale</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-historie' }">Vores Historie</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-firmaaftaler' }">Firmaaftaler</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-brugerraad' }">Brugerråd</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-events' }">Events</router-link></li>
+                                    <li role="menuitem"><router-link :to="{ name: 'haraldslund-aktivitetsoversigt' }">Aktivitetsoversigt</router-link></li>
                                 </ul>
                             </div>
                     </div>
@@ -198,7 +216,7 @@ onUnmounted(() => {
                 @click="toggleDropdown('motion')"
                 :aria-expanded="dropdownOpen.motion.toString()"
                 aria-controls="dropbox-motion"
-                role="button link"
+                role="menuitem"
                 >
                     <router-link :to="{ name: 'motion' }">
                         <span class="hover-wrapper"
@@ -214,13 +232,13 @@ onUnmounted(() => {
                     >
                         <div class="row">
                             <ul class="drop-links">
-                                <li role="button link"><router-link :to="{ name: 'om-motionscenteret' }">Motionscenteret</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'priser-motionscenteret' }">Priser</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'holdoversigt-motionscenteret' }">Holdoversigt</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'regler-motionscenteret' }">Regler</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'personlig-traening-motionscenteret' }">Personlig træning</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'leje-af-sal-og-instruktor-motionscenteret' }">Leje af sal & Instruktør</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'sib-motionscenteret' }">Sundhed & bevægelse</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'om-motionscenteret' }">Motionscenteret</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'priser-motionscenteret' }">Priser</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'holdoversigt-motionscenteret' }">Holdoversigt</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'regler-motionscenteret' }">Regler</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'personlig-traening-motionscenteret' }">Personlig træning</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'leje-af-sal-og-instruktor-motionscenteret' }">Leje af sal & Instruktør</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'sib-motionscenteret' }">Sundhed & bevægelse</router-link></li>
                             </ul>
                         </div>
                     </div>
@@ -230,7 +248,7 @@ onUnmounted(() => {
                 @mouseleave="handleDropdown('vandogwellness', false)"
                 @click="toggleDropdown('vandogwellness')"
                 :aria-expanded="dropdownOpen.vandogwellness.toString()"
-                role="button link"
+                role="menuitem"
                 >
                     <router-link :to="{ name: 'vandogwellness' }">
                     <span class="hover-wrapper"
@@ -247,17 +265,17 @@ onUnmounted(() => {
                     >
                         <div class="row">
                             <ul class="drop-links">
-                                <li role="button link"><router-link :to="{ name: 'svommehallen-vandogwellness' }">Svømmehallen</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'wellness-vandogwellness' }">Wellness</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'holdoversigt-vandogwellness' }">Holdoversigt</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'priser-vandogwellness' }">Priser</router-link></li>
-                                <li role="button link"><router-link :to="{ name: 'regler-vandogwellness' }">Regler</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'svommehallen-vandogwellness' }">Svømmehallen</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'wellness-vandogwellness' }">Wellness</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'holdoversigt-vandogwellness' }">Holdoversigt</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'priser-vandogwellness' }">Priser</router-link></li>
+                                <li role="menuitem"><router-link :to="{ name: 'regler-vandogwellness' }">Regler</router-link></li>
                             </ul>
                         </div>
                     </div>
                 </li>
-                <li role="button link"><router-link class="no-drop text desktop-item" :to="{ name: 'moder-og-konferencer' }">Møder & Konferencer</router-link></li>
-                <li role="button link"><router-link class="no-drop text desktop-item" id="booking-cta" :to="{ name: 'booking' }">Booking</router-link></li>
+                <li role="menuitem"><router-link class="no-drop text desktop-item" :to="{ name: 'moder-og-konferencer' }">Møder & Events</router-link></li>
+                <li role="menuitem"><router-link class="no-drop text desktop-item" id="booking-cta" :to="{ name: 'booking' }">Booking</router-link></li>
             </ul>
         </div>
     </nav>
@@ -285,10 +303,9 @@ ul{
 
 nav {
     position: fixed;
-    z-index: 99;
+    z-index: 1000;
     width: 100vw;
     background: var(--color-navigation);
-    padding: 10px 0;
 }
 
 nav .wrapper {
@@ -383,7 +400,7 @@ nav .wrapper {
 }
 
 .nav-links li:hover .dropbox {
-    top: 60px;
+    top: 69px;
     opacity: 1;
     visibility: visible;
     max-height: 500px;
@@ -480,7 +497,7 @@ nav .wrapper {
 
 @media screen and (min-width: 1200px) {
     .wrapper .nav-links{
-        padding-inline-start: 0;
+        padding: var(--spacer-x0-5) 0;
         gap: inherit; 
         /* // Beholder gap fra wrapper */
     }

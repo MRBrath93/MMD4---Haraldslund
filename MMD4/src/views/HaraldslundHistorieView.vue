@@ -20,7 +20,9 @@ const internNavLabels = [
 <template>
     <div>
         <TheBreadcrumb></TheBreadcrumb>  
-        <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
+        <div class="content-container">
+            <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
+        </div>
         <section>
             <h1>Vores historie</h1>
             <h2>... Maybe next time? </h2>
@@ -33,10 +35,36 @@ div{
     height: 100vh;
     max-width: var(--max-width);
     margin: 0 auto;
+    padding-top: var(--spacer-x5);
 }
 
 section {
     margin-bottom: var(--spacer-x5);
     text-align: center;
+}
+
+.content-container{
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+    height: fit-content;
+}
+
+.breadcrumb-container {
+  margin: 0 auto;
+  width: 95%;
+}
+
+@media screen and (max-width: 400px) {
+    .content-container {
+        width: 100vw;
+    }
+
+    .intern-nav {
+        margin: 0;
+        width: 100%;
+    }
+   
 }
 </style>

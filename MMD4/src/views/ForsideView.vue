@@ -146,15 +146,23 @@ onMounted(() => {
                     :bgimage="getImage(card.billede)"
                     :name="card.link_to"></EntryPoint>
             </div>
-        </section>  
+        </section> 
+        <!-- BILLEDEREFERENCE:
+        Møder & Events: Latkun, Olena. billede: #53959865 (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/moede-business-videnskab-billede-53959865
+        -->
 
         <!-- Sektion med live-aktivitetsvisning og events -->
         <section class="overview-container">
-            <h2 id="live-view-heading">Det sker i Haraldslund</h2>
+            <h2>Det sker i Haraldslund</h2>
             <LiveView></LiveView>
             <RushHoursHaraldslund></RushHoursHaraldslund>
             <EventsCard></EventsCard>
         </section>
+        <!-- BILLEDEREFERENCER EVENTS:  
+         Facebook: Haraldslund Vand og Kulturhus. 14/02/2025. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=1332352351697274&set=pb.100047675655563.-2207520000&type=3
+         Facebook: Haraldslund Vand og Kulturhus. 16/01/2025. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=1308397637426079&set=pb.100047675655563.-2207520000&type=3
+         Facebook: Haraldslund Vand og Kulturhus. 16/05/2024. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/photo.php?fbid=1111684020430776&set=pb.100047675655563.-2207520000&type=3
+         -->
 
         <!-- Reklamekort nederst på siden -->
         <Reklamekort 
@@ -168,9 +176,6 @@ onMounted(() => {
             :Btn_icon="forsideData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     </div>
 </template>
-
-
-
 
 <style scoped>
 .loading-container {

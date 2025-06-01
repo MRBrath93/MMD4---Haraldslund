@@ -4,7 +4,7 @@ import { RouterLink } from "vue-router";
 import { ref, onMounted } from "vue";
 import { useThemeStore } from '@/stores/themeStore';
 
-const themeStore = useThemeStore(); // 🧠 Kobling til Pinia-store
+const themeStore = useThemeStore(); // Kobling til Pinia-store
 
 
 // FETCH DATA
@@ -58,16 +58,25 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
 </script>
 
 <template>
-    <footer class="footer">
-        <div class=footer-container>
-            <div>
-                <h4 class="footer-headline">Navigation</h4>
+    <div 
+    class="footer"
+    role="contentinfo"
+    aria-label="Sidefod med links til navigation, genveje, åbningstider og sociale medier"
+    >
+        <div class="footer-container">
+            <div role="region"
+            aria-labelledby="navigation-headline"
+            >
+                <h4 class="footer-headline"
+                id="navigation-headline">
+                    Navigation
+                </h4>
                 <ul>
                     <li>
                         <router-link :to="{ name: 'frontpage' }">Forside</router-link>
                     </li>
                     <li>
-                        <router-link :to="{ name: 'om-haraldslund' }"> Om Haraldslund</router-link>
+                        <router-link :to="{ name: 'om-haraldslund' }">Om Haraldslund</router-link>
                     </li>
                     <li>
                         <router-link :to="{ name: 'motion' }">Motion</router-link>
@@ -76,15 +85,20 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                         <router-link :to="{ name: 'vandogwellness' }">Vand & Wellness</router-link>
                     </li>
                     <li>
-                        <router-link :to="{ name: 'moder-og-konferencer' }">Møder & Konferencer</router-link>
+                        <router-link :to="{ name: 'moder-og-konferencer' }">Møder & Events</router-link>
                     </li>
                     <li>
                         <a href="#">Booking</a>
                     </li>
                 </ul>
             </div>
-            <div>
-            <h4 class="footer-headline">Genveje</h4>
+            <div role="region"
+            aria-labelledby="genveje-headline"
+            >
+            <h4 class="footer-headline"
+            id="genveje-headline">
+                Genveje
+            </h4>
             <ul>
                 <li>
                     <a href="#">Opret ny bruger</a>
@@ -96,15 +110,27 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                     <a href="#">Privatlivspolitik</a>
                 </li>
                 <li>
-                    <a href="https://www.findsmiley.dk/22876">Smiley-rapport</a>
+                    <a 
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    href="https://www.findsmiley.dk/22876">Smiley-rapport</a>
                 </li>
                 <li>
-                    <a href="http://www.aalborgkommune.dk/">Aalborg Kommune</a>
+                    <a
+                    rel="noopener noreferrer"
+                    target="_blank" 
+                    href="http://www.aalborgkommune.dk/">Aalborg Kommune</a>
                 </li>
             </ul>
             </div>
-            <div>
-                <h4 class="footer-headline">For medlemmer</h4>
+            <div role="region"
+            aria-labelledby="for-medlemmer-headline"
+            >
+                <h4 
+                class="footer-headline"
+                id="for-medlemmer-headline">
+                    For medlemmer
+                </h4>
                 <ul>
                     <li>
                         <router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link>
@@ -114,19 +140,41 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                     </li>
                 </ul>
             </div>
-            <div>
-                <h4 class="footer-headline">Tilgængelighed</h4>
+            <div role="region"
+            aria-labelledby="footer-accessibility-headline"
+            >
+                <h4 
+                class="footer-headline"
+                id="footer-accessibility-headline">
+                    Tilgængelighed
+                </h4>
                 <ul>
                     <li>
-                        <a href="https://was.digst.dk/haraldslund-com">Tilgængelighedserklæring</a>
+                        <a 
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        href="https://was.digst.dk/haraldslund-com">Tilgængelighedserklæring</a>
                     </li>
                     <li>
-                        <button @click="themeStore.toggleTema()">Skift farvetema</button>
+                        <button 
+                        role="button"
+                        aria-label="Skift farvetema mellem lys og mørk tilstand"
+                        :aria-pressed="themeStore.moerkTemaAktivt.toString()"
+                        @click="themeStore.toggleTema()">
+                        Skift farvetema
+                        </button>
+                        <p class="sr-only" aria-live="assertive">
+                            {{ themeStore.moerkTemaAktivt ? 'Mørkt tema aktiveret' : 'Lyst tema aktiveret' }}
+                        </p>
                     </li>
                 </ul>
             </div>
-            <div class="large-column">
-                <h4 class="footer-headline">Åbningstider</h4>
+            <div 
+            role="region"
+            class="large-column"
+            aria-labelledby="opening-hours-headline"
+            >
+                <h4 class="footer-headline" id="opening-hours-headline">Åbningstider</h4>
                     <div class="opening-hours-container">
                         <ul class="opening-hours" v-for="aabningstider in footerData?.Almene_aabningstider || []"
                         :key="aabningstider.id">
@@ -165,14 +213,24 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                         </div>
                     </div>
             </div>
-            <div class="footer-column">
-            <router-link :to="{ name: 'frontpage' }"><img src="../assets/images/image-removebg-preview.png" alt="Logo" class="footer-logo" aria-label="Gå til forsiden af Haraldslunds hjemmeside"></router-link>
+            <div 
+            role="region"
+            class="footer-column wide-column"
+            aria-label="links"
+            >
+                <router-link 
+                :to="{ name: 'frontpage' }"
+                aria-label="Gå til forsiden"
+                >
+                    <img src="../assets/images/image-removebg-preview.png" alt="Logo" class="footer-logo">
+                </router-link>
                 <div class="footer-icons">
                 <a 
                     href="https://www.instagram.com/haraldslundvandogkulturhus/" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    aria-label="Besøg vores Instagram-side (åbner i ny fane)"
+                    role="link"
+                    aria-label="Åben Haraldslunds Instagram-side i ny fane"
                     >
                     <img src="../assets/images/instagram_Glyph_White.png" class="social-icon" alt="Instagram-logo" />
                 </a>
@@ -184,20 +242,38 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                     href="https://www.facebook.com/Haraldslund" 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    aria-label="Besøg vores Facebook-side (åbner i ny fane)"
+                    aria-label="Åben vores Facebook-side i ny fane"
+                    role="link"
                 >
                     <img src="../assets/images/Facebook_Logo_Secondary.png" class="social-icon" alt="Facebook-logo" />
                 </a>
-                    <img src="../assets/images/DK_Logo.png" class="payment-icon" alt="Dankort-logo" aria-label="Du kan betale med Dankort i vores webshop"/>
+                    <img src="../assets/images/DK_Logo.png" 
+                    class="payment-icon" 
+                    alt="Dankort-logo" 
+                    aria-label="Du kan betale med Dankort i vores webshop"/>
                 
                 </div>
             </div>
+            <div 
+            role="region"
+            class="wide-column footer-contact-info"
+            aria-label="contact information">
+                <p>Kastetvej 83 9000 Aalborg</p>
+                <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
+                <p>Tlf: 99 31 67 50</p>
+                <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
+                <p>Haraldslund@aalborg.dk</p>
+                <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
+                <p>CVR: 29189420</p>
+                <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
+            </div>   
         </div>
-    </footer>
+    </div>
 </template>
 <style scoped>
 
-footer {
+
+.footer {
     background-color: var(--color-navigation);
     color: var(--color-font-2);
     display: flex;
@@ -207,24 +283,23 @@ footer {
     padding: var(--spacer-x1) var(--spacer-x3);
 }
 
-footer h4 {
+.footer h4 {
     color: var(--color-font-2);
 }
 
-footer ul {
+.footer ul {
     list-style-type: none;
-
+    padding: 0;
 }
 
-footer li a {
+.footer ul li a {
     color: var(--color-font-2);
     font-size: clamp(0.875rem, 1.5vw, 1rem);
-    padding: var(--spacer-x0-5);
-    padding-left: 0;
-
+    min-width: 1.5rem;
+    min-height: 1.5rem;
 }
 
-footer li button {
+.footer li button {
     background-color: transparent;
     border: none;
     color: var(--color-font-2);
@@ -236,7 +311,7 @@ footer li button {
     cursor: pointer;
 }
 
-footer p, footer li {
+.footer p, .footer li {
     font-family: var(--font-heading);
     font-size: clamp(0.875rem, 1.5vw, 1rem);
     color: var(--color-font-2);
@@ -252,7 +327,7 @@ footer li a:hover, footer li button:hover {
     height: 3.5rem;
 }
 
-footer div {
+.footer div {
     width: fit-content;
 }
 
@@ -265,7 +340,7 @@ footer div {
     padding: var(--spacer-x1) 0;
 }
 
-footer h4 {
+.footer h4 {
     padding-bottom: var(--spacer-x0-5);
 }
 
@@ -325,16 +400,37 @@ footer h4 {
     display: none;
 }
 
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+}
+
+.footer-contact-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-contact-info p {
+    font-size: clamp(0.875rem, 1.2vw, 1rem);
+    font-weight: 300;
+    align-items: flex-start;
+}
+
 @media screen and (min-width: 768px) {
     .footer-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-        width: 100%;
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
     }
 
     .opening-hours {
-    flex-direction: row;
-    width: 24rem;
+        flex-direction: row;
+        gap: var(--spacer-x1);
     }
 
     .footer-column {
@@ -345,11 +441,17 @@ footer h4 {
         width: 100%;
     }
 
-    .footer-logo {
-        width: 17rem;
-        height: 5rem;
-    }
 }
+
+@media screen and (min-width: 800px) {
+    .footer-contact-info {
+        padding-left: var(--spacer-x1);
+    }
+
+    .footer {
+        align-items: center;
+    }
+}    
 
 @media screen and (min-width: 1024px) {
 
@@ -361,7 +463,8 @@ footer h4 {
     }
 
     .footer-container {
-        gap: var(--spacer-x3);
+        gap: var(--spacer-x2);
+        row-gap: var(--spacer-x1);
     }
 
     .separator {
@@ -371,6 +474,30 @@ footer h4 {
     .footer-info {
         width: 69rem;
     }
+
+    .wide-column {
+        grid-column: span 6;
+        margin: 0 auto;    
+    }
+
+    .footer-logo {
+        width: 17rem;
+        height: 5rem;
+    }
+
+    .footer-contact-info {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: var(--spacer-x2-5);
+    }
+}
+
+@media screen and (min-width: 1300px) {
+    .footer-container {
+        width: 100%;
+
+    }
+
 }
 
 

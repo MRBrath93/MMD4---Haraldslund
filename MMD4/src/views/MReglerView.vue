@@ -68,30 +68,32 @@ function getImage(billede) {
         description="Læs om regler og retningslinjer for Haraldslunds motionscenter."
         :image="mReglerData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="mReglerData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
-
-        <TheBreadcrumb></TheBreadcrumb>  
-
-        <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
-        <div class="container-rules">
-            <section v-for="(afsnit,index) in mReglerData.Indhold?.Afsnit || []" :key="afsnit.id" >
-                <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
-                <div class="text-spacer" v-for="tekstafsnit in afsnit.Tekst || []" :key="tekstafsnit.id">
-                    <h4 v-if="tekstafsnit.Underoverskift">{{ tekstafsnit.Underoverskift }}</h4>
-                    <p>{{ tekstafsnit.Brodtekst }}</p>
-                </div>
-            </section>
-            <Reklamekort 
-                :src="getImage(mReglerData?.reklame_kort?.Billede) || '' " 
-                :alt="mReglerData.reklame_kort.Billede.alternativeText" 
-                :title="mReglerData.reklame_kort.Titel" 
-                :text="mReglerData.reklame_kort.Tekst_afsnit" 
-                :Btn_title="mReglerData.reklame_kort.Knapper[0].btn_titel" 
-                :Btn_text="mReglerData.reklame_kort.Knapper[0].btn_description" 
-                :kategori="mReglerData.reklame_kort.Kategori" 
-                :Btn_icon="mReglerData.reklame_kort.Knapper[0].Ikon[0]">
-            </Reklamekort>
-            <!-- REFERENCE BILLEDE: 232319. billede: #37584142 (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/traening-gammeldags-personlig-billede-37584142   -->
-        </div>
+        <div class="page-wrapper">
+          <TheBreadcrumb></TheBreadcrumb>  
+          <div class="content-container">
+          <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
+          </div>
+          <div class="container-rules">
+              <section v-for="(afsnit,index) in mReglerData.Indhold?.Afsnit || []" :key="afsnit.id" >
+                  <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
+                  <div class="text-spacer" v-for="tekstafsnit in afsnit.Tekst || []" :key="tekstafsnit.id">
+                      <h4 v-if="tekstafsnit.Underoverskift">{{ tekstafsnit.Underoverskift }}</h4>
+                      <p>{{ tekstafsnit.Brodtekst }}</p>
+                  </div>
+              </section>
+              <Reklamekort 
+                  :src="getImage(mReglerData?.reklame_kort?.Billede) || '' " 
+                  :alt="mReglerData.reklame_kort.Billede.alternativeText" 
+                  :title="mReglerData.reklame_kort.Titel" 
+                  :text="mReglerData.reklame_kort.Tekst_afsnit" 
+                  :Btn_title="mReglerData.reklame_kort.Knapper[0].btn_titel" 
+                  :Btn_text="mReglerData.reklame_kort.Knapper[0].btn_description" 
+                  :kategori="mReglerData.reklame_kort.Kategori" 
+                  :Btn_icon="mReglerData.reklame_kort.Knapper[0].Ikon[0]">
+              </Reklamekort>
+              <!-- REFERENCE BILLEDE: 232319. billede: #37584142 (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/traening-gammeldags-personlig-billede-37584142   -->
+          </div>
+      </div>
     </div>
 </template>
 
@@ -109,9 +111,6 @@ function getImage(billede) {
     flex-direction: column;
     justify-content: center;
     gap: var(--spacer-x2);
-    max-width: var(--max-width);
-    margin: 0 auto;
-    width: 95%;
 }
 
 h4 {
@@ -122,5 +121,21 @@ p {
     padding-bottom: var(--spacer-x1);
 }
 
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--max-width);
+    width: 95%;
+    margin: 0 auto;
+}
+
+.content-container {
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+    height: fit-content;
+    margin: 0 auto;
+}
 
 </style>

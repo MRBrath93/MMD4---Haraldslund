@@ -85,7 +85,12 @@ const kategoriColor = computed(() => {
 </script>
 
 <template>
-    <router-link :to="{ path: `${computedBtnLink}` }" class="link-wrapper" role="button" aria-label="Gå til kategori">
+    <router-link 
+    :to="{ path: `${computedBtnLink}` }" 
+    class="link-wrapper" 
+    role="button" 
+    :aria-label="`Tryk for at gå til ${title}`"
+    >
       <div class="wrapper" :class="kategoriColor">
         <div class="bg-layer" :style="{ backgroundImage: `url(${bgimage})` }"></div>
         
@@ -93,7 +98,9 @@ const kategoriColor = computed(() => {
           <i v-if="icon" :class="kategoriColor" class="icon material-symbols-rounded" aria-hidden="true">{{ icon }}</i>
         </div>
         
-        <div class="text-wrapper" :class="kategoriColor"><h5>{{ title }}</h5></div>
+        <div class="text-wrapper" :class="kategoriColor">
+          <p>{{ title }}</p>
+        </div>
   
         <div class="overlay">
           <p>Tryk for at læse mere</p>
@@ -103,6 +110,15 @@ const kategoriColor = computed(() => {
 </template>
 
 <style scoped>
+
+.text-wrapper p {
+  font-size: clamp(1.1rem, 2vw, 1.2rem);
+  line-height: 1.4;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  text-align: center;
+}
+
 .wrapper {
   position: relative;
   display: flex;

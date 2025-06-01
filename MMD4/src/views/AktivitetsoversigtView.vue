@@ -91,8 +91,10 @@ onMounted(() => {
         :image="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
         <TheBreadcrumb></TheBreadcrumb>
+        <div class="content-container">
         <TheInternNavHaraldslund
         :label="internNavLabels"></TheInternNavHaraldslund>
+        </div>
         <section>
             <h1 tabindex="-1"> Aktivitetsoversigt </h1>
             <RushHoursHaraldslund></RushHoursHaraldslund>
@@ -113,5 +115,27 @@ section{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.content-container {
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+    height: fit-content;
+    margin: 0 auto;
+}
+
+.breadcrumb-container {
+  margin: 0 auto;
+  width: 95%;
+}
+
+@media screen and (min-width: 1300px) {
+
+    .textsection {
+       margin-bottom: var(--spacer-Elements);
+    }
+
 }
 </style>

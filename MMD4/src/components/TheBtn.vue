@@ -90,7 +90,7 @@ const isExternalLink = computed(() => {
    <!-- Knap uden link -->
   <button 
   v-if="!link" 
-  :aria-label="text" 
+  :aria-label="title" 
   class="button" 
   @click="handleClick"
   role="button"
@@ -109,7 +109,7 @@ const isExternalLink = computed(() => {
   <!-- Eksternt link -->
   <a
   v-else-if="isExternalLink || computedBtnLink.startsWith('mailto:') || computedBtnLink.startsWith('tel:')"
-  :aria-label="text"
+  :aria-label="title"
   :href="computedBtnLink"
   :target="target || (computedBtnLink.startsWith('http') ? '_blank' : null)"
   class="button"
@@ -119,7 +119,7 @@ const isExternalLink = computed(() => {
   <slot>
     <div class="flex">
       <div class="flex-column">
-        <h5 class="title">{{ title }}</h5>
+        <p class="title">{{ title }}</p>
         <p class="small">{{ text }}</p>
       </div>
       <i v-if="icon" class="icon material-symbols-rounded" aria-hidden="true">{{ icon }}</i>
@@ -130,14 +130,14 @@ const isExternalLink = computed(() => {
   <!-- Internt link via RouterLink -->
   <RouterLink 
   v-else :to="computedBtnLink" 
-  :aria-label="text" 
+  :aria-label="title"
   class="button"
   role="button"
   >
     <slot>
       <div class="flex">
         <div class="flex-column">
-          <h5 class="title">{{ title }}</h5>
+          <p class="title">{{ title }}</p>
           <p class="small">{{ text }}</p>
         </div>
         <i v-if="icon" class="icon material-symbols-rounded" aria-hidden="true">{{ icon }}</i>
@@ -147,6 +147,12 @@ const isExternalLink = computed(() => {
 </template>
 
 <style scoped>
+
+.title {
+    font-size: clamp(1.1rem, 2vw, 1.2rem);
+    font-family: var(--font-heading);
+    font-weight: 600;
+}
 
 button{
     text-align: start;

@@ -10,7 +10,9 @@ defineProps({
 
 
 <template>
-    <div class="images-container">
+    <div class="images-container" 
+    role="img" 
+    :aria-label="alt">
       <img :src="src" :alt="alt" class="image" loading="lazy" />
       <div class="overlay-border"></div>
     </div>

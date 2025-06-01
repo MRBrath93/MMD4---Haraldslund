@@ -110,8 +110,11 @@ const internNavLabels = [
         :subtitle="vandogwellnessHoldData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
         :image="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="vandogwellnessHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
+      <div class="page-wrapper">
       <TheBreadcrumb></TheBreadcrumb>
+      <div class="content-container">
       <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
+      </div>
       <section class="textsection" v-for="(tekstsektion,index) in vandogwellnessHoldData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
@@ -138,26 +141,47 @@ const internNavLabels = [
         </section>
       <section class="elementspacing">
           <TheFilterBar
-            :labels="classesStore.availableCategories" :store="classesStore"
+            :labels="classesStore.availableCategories" 
+            :store="classesStore"
             :selectedCategory="classesStore.selectedCategory"
             @categorySelected="classesStore.setCategory"
+            aria-labelledby="filter-headline"
+            role="search"
+            tabindex="0"
           ></TheFilterBar>
 
-        <article> 
+        <article
+        aria-labelledby="filtered-teams"
+        >
+          <h2 class="sr-only filtered-teams">Filtrerede holdresultater</h2>
           <div class="teams--view">
-            <p>Viser {{ classesStore.numberOfClasses }} ud af {{ classesStore.numberOfTeams }} hold</p>
+            <p
+            aria-live="polite"
+            role="status">
+              Viser {{ classesStore.numberOfClasses }} ud af {{ classesStore.numberOfTeams }} hold
+            </p>
             <div class="grid-container">
-              <TheTeamCard
-                v-for="klasse in classesStore.filteredClasses"
-                :key="klasse.id"
-                :labels="{ label: klasse.name || 'Ukendt hold' }"
-                icon="arrow_forward"
-                :backgroundColor="klasse.type_af_hold"
-                :teamCategorys="klasse.kategorier"
-                :link="{ name: 'holdbeskrivelse-vandogwellness', params: { id: klasse.id } }"
-                :teamImage="getCoverImage(klasse)"
-                :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
+            <TheTeamCard
+            v-for="klasse in classesStore.filteredClasses"
+            :key="klasse.id"
+            :labels="{ label: klasse.name || 'Ukendt hold' }"
+            icon="arrow_forward"
+            :backgroundColor="klasse.type_af_hold"
+            :teamCategorys="klasse.kategorier"
+            :link="{ name: 'holdbeskrivelse-vandogwellness', params: { id: klasse.id } }"
+            :teamImage="getCoverImage(klasse)"
+            :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
+            aria-live="polite"
+            :aria-busy="classesStore.isLoading" 
               ></TheTeamCard>
+              <!-- BILLEDEREFERENCER:
+               Plask og leg: URL Facebook: Haraldslund Vand og Kulturhus. 02/09/2019. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/2506492572742155/?type=3 -
+               Vandgymnastik: URL Facebook: Haraldslund Vand og Kulturhus. 06/06/2020. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/3117678114956928/?type=3 -
+               Babysvømning: Instagram. Haraldslund Vand og Kulturhus. 11/07/2024 (online) Meta 2025 [Accessed 08/05/2025] URL: https://www.instagram.com/haraldslundvandogkulturhus/p/C9R-yOZpLOi/
+              kurbadsaftener: Facebook: Haraldslund Vand og Kulturhus. 08/05/2020. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/3042800045778069/?type=3
+              Varmtvandstræning:  Angel Cortijo Nieto. billede: #41728130. (online) Colourbox.com. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.dk/billede/swimming-badning-aeldre-billede-41728130
+              Specialhold:  Angel Cortijo Nieto. billede: #40021547. (online) Colourbox.com. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.dk/billede/aeldre-pool-badning-billede-40021547
+              -->
             </div>
           </div>
         </article>
@@ -172,6 +196,7 @@ const internNavLabels = [
         :kategori="vandogwellnessHoldData.reklame_kort.Kategori" 
         :Btn_icon="vandogwellnessHoldData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     </div>
+    </div>
 </template>
 
 <style scoped>
@@ -182,9 +207,7 @@ const internNavLabels = [
   display: flex;
   flex-direction: column;
   gap: var(--spacer-x2);
-  margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
-  max-width: var(--max-width);
 }
 
 .img--container {
@@ -205,7 +228,6 @@ const internNavLabels = [
 .punkt{
     margin-inline-start: var(--spacer-x1);
     font-family: var(--font-text);
-    
 }
 
 .btn--container{
@@ -228,9 +250,32 @@ const internNavLabels = [
     flex: 1;
 }
 
-section{
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--max-width);
     width: 95%;
     margin: 0 auto;
+}
+
+.content-container {
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+    height: fit-content;
+    margin: 0 auto;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 @media screen and (min-width: 500px) {
@@ -285,12 +330,6 @@ section{
     gap: var(--spacer-x1);
     width: 100%;
     margin: 0 auto;
-}
-
-section{
-  width: 95%;
-  max-width: var(--max-width);
-  margin: 0 auto;
 }
 
 .teams--view{

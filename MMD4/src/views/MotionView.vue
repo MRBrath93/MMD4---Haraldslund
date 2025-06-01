@@ -119,44 +119,44 @@ function checkScreenSize() {
         <!-- KILDEREFERENCE BILLEDE: Seizinger, Corri. Fil #:745719113. Adobe Stock 2025. (online) [Accessed 07/05/2025] URL: https://stock.adobe.com/dk/search/images?filters%5Bcontent_type%3Aphoto%5D=1&filters%5Bcontent_type%3Aimage%5D=1&filters%5Borientation%5D=panoramic&filters%5Bcopy_space%5D=all&filters%5Bcontent_type%3Aillustration%5D=0&filters%5Bcontent_type%3Azip_vector%5D=0&k=styrketr%C3%A6ning&order=relevance&search_type=filter-select&limit=100&search_page=1&acp=&aco=styrketr%C3%A6ning&color=%23427A40&get_facets=1&asset_id=745719113 -->
         <div class="page-wrapper">
             <TheBreadcrumb></TheBreadcrumb>  
-        </div>
-        <TheInternNavHaraldslund 
-        :label="internNavLabels"></TheInternNavHaraldslund>
-        <div class="page-wrapper">
-        <section>
-                <article v-for="(afsnit,index) in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">
-                    <div class="flex-column-container">
-                        <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
-                        <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
-                            <h3 v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</h3>
-                            <p>{{ tekst.Brodtekst }}</p>
+            <div class="content-container">
+                <TheInternNavHaraldslund 
+                :label="internNavLabels"></TheInternNavHaraldslund>
+            </div>
+            <section>
+                    <article v-for="(afsnit,index) in motionViewData.Indhold?.Afsnit || []" :key="afsnit.id"  class="flex-row-container">
+                        <div class="flex-column-container">
+                            <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
+                            <div v-for="tekst in afsnit.Tekst || []" :key="tekst.id">
+                                <h3 v-if="tekst.Underoverskift">{{ tekst.Underoverskift }}</h3>
+                                <p>{{ tekst.Brodtekst }}</p>
+                            </div>
                         </div>
+                        <figure v-if="afsnit.Billede" class="aside-image">
+                            <ImageHolder
+                            v-for="image in afsnit.Billede"
+                            :key="image.id"
+                            :src="getImage(image)"
+                            :alt="image.alternativeText || 'Motionscenter billede'"
+                            ></ImageHolder>
+                        </figure>
+                    </article>
+                </section> 
+                
+                <section class="entrypoints">
+                    <h2>Din tid, din træning - vælg det tilbud der passer dig</h2>
+                    <div class="card-container">
+                        <EntryPoint v-for="card in motionViewData.Entrypoints" :key="card.id"
+                            class="entrypoint" 
+                            icon="arrow_forward" 
+                            :color="card.Kategori" 
+                            :title="card.label" 
+                            :bgimage= "getImage(card.billede)"
+                            :name="card.link_to">
+                        </EntryPoint>
                     </div>
-                    <figure v-if="afsnit.Billede" class="aside-image">
-                        <ImageHolder
-                        v-for="image in afsnit.Billede"
-                        :key="image.id"
-                        :src="getImage(image)"
-                        :alt="image.alternativeText || 'Motionscenter billede'"
-                        ></ImageHolder>
-                    </figure>
-                </article>
-            </section> 
-            
-            <section class="entrypoints">
-                <h2>Din tid, din træning - vælg det tilbud der passer dig</h2>
-                <div class="card-container">
-                    <EntryPoint v-for="card in motionViewData.Entrypoints" :key="card.id"
-                        class="entrypoint" 
-                        icon="arrow_forward" 
-                        :color="card.Kategori" 
-                        :title="card.label" 
-                        :bgimage= "getImage(card.billede)"
-                        :name="card.link_to">
-                    </EntryPoint>
-                </div>
-                <!-- KILDEREFERENCE BILLEDE SUNDHED & BEVÆGELSE: Trautmann, Arne. billede: #12878928. (online) Colourbox.dk. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.dk/billede/traening-senior-fysioterapi-billede-12878928 -->
-        </section>  
+                    <!-- KILDEREFERENCE BILLEDE SUNDHED & BEVÆGELSE: Trautmann, Arne. billede: #12878928. (online) Colourbox.dk. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.dk/billede/traening-senior-fysioterapi-billede-12878928 -->
+            </section>  
         </div>
     </div>
 </template>
@@ -191,6 +191,15 @@ function checkScreenSize() {
 
 .breadcrumb-container {
    margin: 0;
+}
+
+.content-container {
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+    height: fit-content;
+    margin: 0 auto;
 }
 
 .aside-image{

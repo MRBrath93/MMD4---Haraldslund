@@ -8,7 +8,7 @@ import { ref, onMounted, onUnmounted } from "vue";
 import TheSpinner from "../components/TheSpinner.vue";
 import Reklamekort from "@/components/Reklamekort.vue";
 
-// REAKTIVE VARIABLER
+// VARIABLER
 const isLoading = ref(true);
 const error = ref(null);
 const motionPrisData = ref(null);
@@ -50,6 +50,7 @@ onMounted(() => {
         }
     }
 
+    // Hent data fra Strapi API. Vi bruger Promise.all for at hente alle data samtidigt. 
     Promise.all([
         // Fetch data fra Strapi
         fetch('https://popular-gift-b355856076.strapiapp.com/api/priser-motion?pLevel'),
@@ -57,10 +58,12 @@ onMounted(() => {
         fetch('https://popular-gift-b355856076.strapiapp.com/api/priser-kombi?pLevel'),
         fetch('https://popular-gift-b355856076.strapiapp.com/api/om-haraldslund?pLevel')
     ])
+    // Data hentes asynkront, og vi venter på alle anmodningerne
         .then(async ([resMotion, resVW, resAbout, resKombi]) => {
         if (!resMotion.ok || !resVW.ok || !resAbout || !resKombi.ok) {
             throw new Error(`Fejl ved fetch: ${resMotion.status} / ${resVW.status} / ${resAbout.status} / ${resKombi.status}`);
         }
+        // Den returnerede data fra Strapi er i JSON format, så vi skal parse det
         const [motionJson, vwJson, aboutJson, kombiJson] = await Promise.all([
             resMotion.json(), 
             resVW.json(),
@@ -68,17 +71,19 @@ onMounted(() => {
             resAbout.json()
         ]);
         
+        // dataen tildeles reaktive variabler
+        // Vi bruger .data for at få fat i den relevante del af JSON responsen
         motionPrisData.value = motionJson.data;
         vwPrisData.value = vwJson.data;
         kombiData.value = kombiJson.data;
         aboutData.value = aboutJson.data;
 
-        // Gem data i localStorage
+        // Vi gemmer data i localStorage for at undgå unødvendige API-kald
         localStorage.setItem('aboutData', JSON.stringify(aboutData.value));
         localStorage.setItem('motionPrisData', JSON.stringify(motionPrisData.value));
         localStorage.setItem('vwPrisData', JSON.stringify(vwPrisData.value));
         localStorage.setItem('kombiData', JSON.stringify(kombiData.value));
-        // Gem timestamp i localStorage for at holde styr på, hvornår data blev hentet sidst
+        // Vi gemmer timestamp i localStorage for at holde styr på, hvornår data blev hentet sidst. Dette hjælper cachefunktionen med at afgøre, om data er forældet.
         localStorage.setItem('cacheTimestamp', now.toString());
         })
         .catch(err => {
@@ -89,11 +94,13 @@ onMounted(() => {
         });
 });
 
+// Håndterer vinduesstørrelse for at bestemme, om vi er på en mobil enhed
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize);
   handleResize(); // Kaldes her for at sikre korrekt initialisering af isMobile
 });
 
+// NAVIGATION LABELS
 const internNavLabels = [
   { id: 1, label: "Praktisk Information", name: "haraldslund-praktisk-info" },
   { id: 2, label: "Prisoversigt", name: "haraldslund-priser" },
@@ -141,10 +148,11 @@ function handleResize() {
         :image="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
         <TheBreadcrumb></TheBreadcrumb>
-
-        <TheInternNavHaraldslund
-        :label="internNavLabels"
-        ></TheInternNavHaraldslund>
+        <div class="content-container">
+            <TheInternNavHaraldslund
+            :label="internNavLabels"
+            ></TheInternNavHaraldslund>
+        </div>
         <h1>Prisoversigt</h1>
         <section v-if="!isMobile">
         <!-- Tilføjet role="table" for at hjælpe evt. skærmlæsere eller anden teknologi med at identificere tabellen -->
@@ -156,10 +164,10 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr><th scope="col">Enkelt billetter</th>
-                        <th scope="col">Voksen</th>
-                        <th scope="col">Barn<br>(3-14 år)</th>
-                        <th scope="col">Pensionist</th>
-                        <th scope="col">Studerende<br>(Studiekort skal forvises)</th>
+                        <th class="regular" scope="col">Voksen</th>
+                        <th class="regular" scope="col">Barn<br>(3-14 år)</th>
+                        <th class="regular" scope="col">Pensionist</th>
+                        <th class="regular" scope="col">Studerende<br>(Studiekort skal forvises)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -178,11 +186,11 @@ function handleResize() {
                 <!-- --- KLIPPEKORT --- -->
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th class="regular" scope="col">Klippekort. <span class="th-small"> Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</span></th>
-                        <th scope="col">Voksen</th>
-                        <th scope="col">Barn<br>(3-14 år)</th>
-                        <th scope="col">Pensionist</th>
-                        <th scope="col" aria-hidden="true"></th>
+                    <tr><th scope="col">Klippekort. <span class="th-small"> Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</span></th>
+                        <th class="regular" scope="col">Voksen</th>
+                        <th class="regular" scope="col">Barn<br>(3-14 år)</th>
+                        <th class="regular" scope="col">Pensionist</th>
+                        <th class="regular" scope="col" aria-hidden="true"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -203,11 +211,12 @@ function handleResize() {
                 <caption class="screenreaders-only">Priser på billetter i Vand og Wellness</caption>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col">Enkelt billetter</th>
-                        <th scope="col">Voksen</th>
-                        <th scope="col">Barn<br>(3-14 år)</th>
-                        <th scope="col">Pensionist</th>
-                        <th scope="col">Studerende<br>(Studiekort skal forvises)</th>
+                    <tr>
+                        <th scope="col">Enkelt billetter</th>
+                        <th class="regular" scope="col">Voksen</th>
+                        <th class="regular" scope="col">Barn<br>(3-14 år)</th>
+                        <th class="regular" scope="col">Pensionist</th>
+                        <th class="regular" scope="col">Studerende<br>(Studiekort skal forvises)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -222,10 +231,10 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr><th scope="col">Familie billetter</th>
-                        <th scope="col">1 Voksen</th>
-                        <th scope="col">2 Voksne</th>
-                        <th scope="col" aria-hidden="true"></th>
-                        <th scope="col" aria-hidden="true"></th>
+                        <th class="regular" scope="col">1 Voksen</th>
+                        <th class="regular" scope="col">2 Voksne</th>
+                        <th class="regular" scope="col" aria-hidden="true"></th>
+                        <th class="regular" scope="col" aria-hidden="true"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -258,10 +267,10 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr><th scope="col">Diverse billetter</th>
-                        <th scope="col">1 Person</th>
-                        <th scope="col">2 Personer</th>
-                        <th scope="col">3 Personer</th>
-                        <th scope="col">4 Personer</th>
+                        <th class="regular" scope="col">1 Person</th>
+                        <th class="regular" scope="col">2 Personer</th>
+                        <th class="regular" scope="col">3 Personer</th>
+                        <th class="regular" scope="col">4 Personer</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -277,10 +286,10 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr><th scope="col">Personlig træner</th>
-                        <th scope="col">25 minutter</th>
-                        <th scope="col">5 x 25 minutter</th>
-                        <th scope="col" aria-hidden="true"></th>
-                        <th scope="col" aria-hidden="true"></th>
+                        <th class="regular" scope="col">25 minutter</th>
+                        <th class="regular" scope="col">5 x 25 minutter</th>
+                        <th class="regular" scope="col" aria-hidden="true"></th>
+                        <th class="regular" scope="col" aria-hidden="true"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -304,15 +313,15 @@ function handleResize() {
                 <tbody>
                     <tr v-for="pris in vwPrisData?.Massage || []" :key="pris.id">
                         <td>{{ pris.Titel_paa_billettype }}</td>
-                        <td><p class="time">30 minutter</p>{{ pris.pris_30_minutter ? pris.pris_30_minutter + ',-' : '' }}</td>
-                        <td><p class="time">45 minutter</p>{{ pris.pris_45_minutter ? pris.pris_45_minutter + ',-' : '' }}</td>
-                        <td><p class="time">60 minutter</p>{{ pris.pris_60_minutter ? pris.pris_60_minutter + ',-' : '' }}</td>
+                        <td><p class="regular" >30 minutter</p>{{ pris.pris_30_minutter ? pris.pris_30_minutter + ',-' : '' }}</td>
+                        <td><p class="regular" >45 minutter</p>{{ pris.pris_45_minutter ? pris.pris_45_minutter + ',-' : '' }}</td>
+                        <td><p class="regular" >60 minutter</p>{{ pris.pris_60_minutter ? pris.pris_60_minutter + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                     </tr>
                     <tr>
                         <td>Cupping</td>
-                        <td><p class="time"><abbr title="Inklusiv">Inkl.</abbr> i massage</p>+{{ vwPrisData.Cupping?.pris_inklusiv_massage ? vwPrisData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
-                        <td><p class="time"><abbr title="Eksklusiv">Ekskl.</abbr> massage</p>{{vwPrisData.Cupping?.pris_ekslusiv_massage ? vwPrisData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
+                        <td><p class="regular" ><abbr title="Inklusiv">Inkl.</abbr> i massage</p>+{{ vwPrisData.Cupping?.pris_inklusiv_massage ? vwPrisData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
+                        <td><p class="regular" ><abbr title="Eksklusiv">Ekskl.</abbr> massage</p>{{vwPrisData.Cupping?.pris_ekslusiv_massage ? vwPrisData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
                         <td aria-hidden="true"></td>
                     </tr>
@@ -451,9 +460,9 @@ function handleResize() {
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
                         <th scope="col">Enkelt billetter</th>
-                        <th scope="col" v-for="kombiPris in kombiData?.Enkeltbillet_kombi || []" :key="kombiPris.id">{{ kombiPris.Ankomsttidspunkt }}</th>
-                        <th scope="col" aria-hidden="true"></th>
-                        <th scope="col" aria-hidden="true"></th>
+                        <th class="regular" scope="col" v-for="kombiPris in kombiData?.Enkeltbillet_kombi || []" :key="kombiPris.id">{{ kombiPris.Ankomsttidspunkt }}</th>
+                        <th class="regular" scope="col" aria-hidden="true"></th>
+                        <th class="regular" scope="col" aria-hidden="true"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -486,11 +495,11 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular" scope="col">Klippekort</th>
-                        <th scope="col">Voksen</th>
-                        <th scope="col">Barn<br>(3-14 år)</th>
-                        <th scope="col">Pensionist</th>
-                        <th scope="col" aria-hidden="true"></th>
+                        <th scope="col">Klippekort</th>
+                        <th class="regular" scope="col">Voksen</th>
+                        <th class="regular" scope="col">Barn<br>(3-14 år)</th>
+                        <th class="regular" scope="col">Pensionist</th>
+                        <th class="regular" scope="col" aria-hidden="true"></th>
 
                     </tr>
                 </thead>
@@ -518,8 +527,8 @@ function handleResize() {
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
                         <th scope="col">Enkelt billetter</th>
-                        <th scope="col" v-for="pris in vwPrisData?.Enkelt_Billetter || []" :key="pris.id">{{ pris.Ankomsttidspunkt }}</th>
-                        <th scope="col" aria-hidden="true"></th>
+                        <th class="regular" scope="col" v-for="pris in vwPrisData?.Enkelt_Billetter || []" :key="pris.id">{{ pris.Ankomsttidspunkt }}</th>
+                        <th class="regular" scope="col" aria-hidden="true"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -547,9 +556,9 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr><th scope="col">Familie billetter</th>
-                        <th scope="col">1 Voksen</th>
-                        <th scope="col">2 Voksne</th>
-                        <th scope="col" aria-hidden="true"></th>
+                        <th class="regular" scope="col">1 Voksen</th>
+                        <th class="regular" scope="col">2 Voksne</th>
+                        <th class="regular" scope="col" aria-hidden="true"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -563,10 +572,10 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular" scope="col">Klippekort <span class="th-small"> Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</span></th>
-                        <th scope="col">Voksen</th>
-                        <th scope="col">Barn<br>(3-14 år)</th>
-                        <th scope="col">Pensionist</th>
+                        <th scope="col">Klippekort <span class="th-small"> Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</span></th>
+                        <th class="regular" scope="col">Voksen</th>
+                        <th class="regular" scope="col">Barn<br>(3-14 år)</th>
+                        <th class="regular" scope="col">Pensionist</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -610,9 +619,9 @@ function handleResize() {
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
                         <th scope="col">Personlig træner</th>
-                        <th scope="col">25 minutter</th>
-                        <th scope="col">5 x 25 minutter</th>
-                        <th scope="col" aria-hidden="true"></th>
+                        <th class="regular" scope="col">25 minutter</th>
+                        <th class="regular" scope="col">5 x 25 minutter</th>
+                        <th class="regular" scope="col" aria-hidden="true"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -626,7 +635,7 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular" scope="col">Massage</th>
+                        <th scope="col">Massage</th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
@@ -672,10 +681,10 @@ function handleResize() {
             <!-- --- KLIPPEKORT ---  -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Klippekort</th>
-                    <th scope="col" aria-hidden="true"></th>
-                    <th aria-hidden="true"></th>
-                    <th aria-hidden="true"></th>
+                    <th scope="col">Klippekort</th>
+                    <th class="regular" scope="col" aria-hidden="true"></th>
+                    <th class="regular" aria-hidden="true"></th>
+                    <th class="regular" aria-hidden="true"></th>
                 </tr>
             </thead>
             <tbody>
@@ -690,10 +699,10 @@ function handleResize() {
             <!-- --- MÅNEDSKORT --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Månedskort</th>
-                    <th scope="col" aria-hidden="true"></th>
-                    <th scope="col" aria-hidden="true"></th>
-                    <th scope="col" aria-hidden="true"></th>
+                    <th scope="col">Månedskort</th>
+                    <th class="regular" scope="col" aria-hidden="true"></th>
+                    <th class="regular" scope="col" aria-hidden="true"></th>
+                    <th class="regular" scope="col" aria-hidden="true"></th>
                 </tr>
             </thead>
             <tbody>
@@ -712,10 +721,10 @@ function handleResize() {
             <!-- --- PERSONLIG TRÆNING --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Personlig træning</th>
-                    <th scope="col" aria-hidden="true"></th>
-                    <th scope="col" aria-hidden="true"></th>
-                    <th scope="col" aria-hidden="true"></th>
+                    <th scope="col">Personlig træning</th>
+                    <th class="regular" scope="col" aria-hidden="true"></th>
+                    <th class="regular" scope="col" aria-hidden="true"></th>
+                    <th class="regular" scope="col" aria-hidden="true"></th>
                 </tr>
             </thead>
             <tbody>
@@ -730,10 +739,10 @@ function handleResize() {
             <!-- --- PROGRAMLÆGNING --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Programlægning</th>
-                    <th scope="col" aria-hidden="true"></th>
-                    <th scope="col" aria-hidden="true"></th>
-                    <th scope="col" aria-hidden="true"></th>
+                    <th scope="col">Programlægning</th>
+                    <th class="regular" scope="col" aria-hidden="true"></th>
+                    <th class="regular" scope="col" aria-hidden="true"></th>
+                    <th class="regular" scope="col" aria-hidden="true"></th>
                 </tr>
             </thead>
             <tbody>
@@ -748,14 +757,14 @@ function handleResize() {
         </section>
 
     <Reklamekort 
-    :src="getImage(vwPrisData .reklame_kort.Billede)" 
-    :alt="vwPrisData .reklame_kort.Billede.alternativeText" 
-    :title="vwPrisData .reklame_kort.Titel" 
-    :text="vwPrisData .reklame_kort.Tekst_afsnit" 
-    :Btn_title="vwPrisData .reklame_kort.Knapper[0].btn_titel" 
-    :Btn_text="vwPrisData .reklame_kort.Knapper[0].btn_description" 
-    :kategori="vwPrisData .reklame_kort.Kategori" 
-    :Btn_icon="vwPrisData .reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+    :src="getImage(vwPrisData.reklame_kort.Billede)" 
+    :alt="vwPrisData.reklame_kort.Billede.alternativeText" 
+    :title="vwPrisData.reklame_kort.Titel" 
+    :text="vwPrisData.reklame_kort.Tekst_afsnit" 
+    :Btn_title="vwPrisData.reklame_kort.Knapper[0].btn_titel" 
+    :Btn_text="vwPrisData.reklame_kort.Knapper[0].btn_description" 
+    :kategori="vwPrisData.reklame_kort.Kategori" 
+    :Btn_icon="vwPrisData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
     
     </div>
 </template>
@@ -764,10 +773,10 @@ function handleResize() {
 
 <style scoped>
 
-h1{
+h1, h2{
     width: 95%;
     max-width: var(--max-width);
-    margin: 0 auto;
+    margin: 0 auto var(--mobile-site-space);
 }
 
 .loading-container {
@@ -806,6 +815,14 @@ table {
     color: var(--color-font-1);
 }
 
+.content-container{
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+    margin: 0 auto;
+}
+
 th {
     font-size: clamp(0.85rem, 1.5vw, 1.10rem);
     font-family: var(--font-heading);
@@ -814,6 +831,7 @@ th {
 .th-small {
     font-size: 0.85rem;
     display: inline-block;
+    font-weight: 400;
 }
 
 th, td{
@@ -840,7 +858,6 @@ th{
     background-color: var(--color-body-background);
 }
 
-
 td:not(:first-child), th:not(:first-child) {
   text-align: center;
 }
@@ -853,13 +870,6 @@ tr:nth-child(odd){
     background-color: var(--color-pricetable)
 }
 
-
-.time{
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 14px;
-}
-
 .note {
     font-style: italic;
     font-size: 0.85rem;
@@ -869,11 +879,44 @@ abbr {
     text-decoration: none;
 }
 
+.breadcrumb-container {
+  margin: 0 auto;
+  width: 95%;
+}
+
+section {
+    width: 95%;
+    margin: 0 auto;
+    max-width: var(--max-width);
+}
 
 @media screen and (min-width: 700px) {
     td{
         font-size: unset;
     }
+
+}
+
+@media screen and (min-width: 1300px) {
+    section {
+        margin-bottom: var(--spacer-Elements);
+    }
+
+    h1, h2 {
+        margin-bottom: var(--spacer-Elements);
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .content-container {
+        width: 100vw;
+    }
+
+    .intern-nav {
+        margin: 0;
+        width: 100%;
+    }
+   
 }
 
 </style>

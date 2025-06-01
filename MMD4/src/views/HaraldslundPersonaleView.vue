@@ -18,9 +18,11 @@ const internNavLabels = [
 </script>
 
 <template>
-    <div>
+    <div class="wrapper">
         <TheBreadcrumb></TheBreadcrumb>  
-        <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
+        <div class="content-container">
+            <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
+        </div>
         <section>
             <h1>Personale</h1>
             <h2>... Maybe next time? </h2>
@@ -29,14 +31,40 @@ const internNavLabels = [
 </template>
 
 <style scoped>
-div{
+.wrapper{
     height: 100vh;
     max-width: var(--max-width);
     margin: 0 auto;
+    padding-top: var(--spacer-x5);
 }
 
 section {
     margin-bottom: var(--spacer-x5);
     text-align: center;
+}
+
+.content-container{
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+    height: fit-content;
+}
+
+.breadcrumb-container {
+  margin: 0 auto;
+  width: 95%;
+}
+
+@media screen and (max-width: 400px) {
+    .content-container {
+        width: 100vw;
+    }
+
+    .intern-nav {
+        margin: 0;
+        width: 100%;
+    }
+   
 }
 </style>

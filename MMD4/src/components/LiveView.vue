@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { nextTick } from 'vue';
 
 const holdData = ref([]);
  // Holder styr på om data bliver hentet (loader)
@@ -18,7 +19,8 @@ function trimHoldData(holdListe) {
     Titel: hold.Titel,
     Tidspunkter: hold.Tidspunkter,
     Traenings_kategorier: hold.Traenings_kategorier,
-    Lokation: hold.Lokation
+    Lokation: hold.Lokation,
+    Type: hold.Type
   }));
 }
 
@@ -70,8 +72,15 @@ onMounted(async () => {
 
     // Omform JSON-svar til JavaScript-objekter
     const motionsJson = await motionsRes.json();
+    motionsJson.data.forEach(hold => {
+      hold.Type = 'Motion'; // Tilføj type til motionshold 
+    });
+
     const vandsJson = await vandsRes.json();
-    
+    vandsJson.data.forEach(hold => {
+      hold.Type = 'Vand'; // Tilføj type til vands- og wellness-hold
+    });
+
     // Sammensæt motions- og vands-hold i en variable
     const combinedHold = [...motionsJson.data, ...vandsJson.data];
     holdData.value = combinedHold;
@@ -155,7 +164,8 @@ const filteredHold = computed(() => {
             tidspunkt: t.Tidspunkt,
             aktivitet: hold.Titel,
             kategori: kategoriStr,
-            lokation: lokationStr
+            lokation: lokationStr,
+            type: hold.Type, // Tilføj type (Motion/Vand)
           });
         }
       }
@@ -212,13 +222,29 @@ const erTidligereEndIDag = computed(() => {
   return valgt <= iDag;
 });
 
+
+//  -- LINK TIL HOLDBESKRIVELSE I LIVEVIEW --
+// const getRouteForHold tager et hold-objekt som parameter og returnerer et computed link til holdbeskrivelsen
+// computed bruges til at opdatere linket automatisk, når hold ændres
+// routeName afhænger af holdets type (Motion eller Vand), og params indeholder holdets id (begge fra hold-objektet).
+// I funktionen undersøges holdets type. Hvis det er et motionshold, sættes ruten til 'holdbeskrivelse-motion', ellers sættes den til 'holdbeskrivelse-vandogwellness'.
+// når objektet returneres, splittes id ved bindestregen, så vi kun får det første segment. Det gør vi for at undgå at have tid med i vores id, da det ikke er nødvendigt for ruten.
+const getRouteForHold = (hold) => {
+  return computed(() => {
+  
+    const routeName = hold.type === 'Motion'
+      ? 'holdbeskrivelse-motion'
+      : 'holdbeskrivelse-vandogwellness'
+    return { name: routeName, params: { id: hold.id.split('-')[0] } }
+  })
+}
+
+
 </script>
 
 <template>
 <span 
 class="overview-wrapper"
-aria-labelledby="live-view-heading"
-role="table"
 >
             <div class="btn--container">
                 <div class="date--picker">
@@ -233,14 +259,14 @@ role="table"
                     >
                         <i class="material-symbols-rounded" aria-hidden="true">chevron_left</i>
                     </button>
-                    <p class="bold"
+                    <div class="date-picker-status"
                     ref="dateTextRef"
                     tabindex="0"
-                    aria-live="polite"
+                    role="status"
                     :aria-label="'Holdvisning for ' + dageNavne[selectedDate.getDay()] + ' den ' + selectedDate.getDate() + '/' + (selectedDate.getMonth() + 1)">
                     
-                      {{ dageNavne[selectedDate.getDay()] }} d. {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}
-                    </p>
+                      {{ dageNavne[selectedDate.getDay()] }} <abbr title="den">d.</abbr> {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}
+                    </div>
                     <button class="right" 
                     @click="gaaFrem"
                     role="button"
@@ -251,7 +277,10 @@ role="table"
                 </div>
             </div>
             
-            <table>
+            <table
+            aria-live="polite"
+            :aria-busy="isLoading"
+            >
                 <caption class="sr-only" tabindex="0">Aktivitetsoversigt for {{ dageNavne[selectedDate.getDay()] }} den {{ selectedDate.getDate() }}/{{ selectedDate.getMonth() + 1 }}</caption>
                 <thead>
                     <tr>
@@ -262,15 +291,69 @@ role="table"
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="hold in filteredHold" :key="hold.id">
-                        <td>{{ formatTime(hold.tidspunkt) }}</td>
-                        <td><a href="">{{ hold.aktivitet }}</a></td>
-                        <td class="hide">{{ hold.kategori }}</td>
-                        <td>{{ hold.lokation }}</td>
-                    </tr>
-                    <tr v-if="filteredHold.length === 0">
-                        <td colspan="4" style="text-align: center; padding: 1rem;">Der er ingen hold resten af dagen.</td>
-                    </tr>
+                  <tr v-if="isLoading">
+                    <td 
+                    colspan="4" 
+                    class="text-center"
+                    aria-label="Henter holdoversigt"
+                    aria-live="polite"
+                    >
+                      <span class="dot-container" aria-hidden="true">
+                        Henter hold 
+                        <div class="drip-dots">
+                          <span class="dot"></span>
+                          <span class="dot"></span>
+                          <span class="dot"></span>
+                        </div> 
+                      </span>
+           
+                    </td>
+                  </tr>
+                  <tr v-else-if="error">
+                    <td 
+                    colspan="4" 
+                    class="text-center"
+                    aria-label="Der opstod en fejl ved hentning af holdoversigt"
+                    aria-live="assertive"
+                    role="alert">
+                    Der opstod en fejl: {{ error }}
+                    </td>
+                  </tr>
+                  <tr v-else-if="filteredHold.length === 0">
+                    <td colspan="4" 
+                    class="text-center" 
+                    aria-label="Der er ingen hold for den valgte dato"
+                    aria-live="polite">
+                    Der er ingen hold resten af dagen.</td>
+                  </tr>
+                  <tr v-else v-for="hold in filteredHold" 
+                  :key="hold.id"
+                  aria-label="Holdoversigt for {{ hold.aktivitet }} kl. {{ formatTime(hold.tidspunkt) }}"
+                  role="row"
+                  >
+                    <td
+                    role="cell"
+                    aria-label="Tidspunkt for hold">
+                    {{ formatTime(hold.tidspunkt) }}</td>
+                    <td
+                    role="cell"
+                    aria-label="Aktivitet">
+                      <router-link
+                        :to="getRouteForHold(hold).value"
+                        :aria-label="`Se beskrivelse for ${hold.aktivitet}`"
+                      >
+                        {{ hold.aktivitet }}
+                      </router-link>
+                    </td>
+                    <td 
+                    role="cell"
+                    aria-label="Kategori for hold"
+                    class="hide">{{ hold.kategori }}</td>
+                    <td
+                    role="cell"
+                    aria-label="Lokation for hold"
+                    >{{ hold.lokation }}</td>
+                  </tr>
                 </tbody>
             </table>
 </span>
@@ -280,6 +363,39 @@ role="table"
 
 <style scoped>
 
+.text-center {
+    text-align: center;
+    padding: var(--spacer-x1);
+}
+
+.drip-dots {
+  display: flex;
+  gap: 0.5rem;
+  height: 2rem;
+  padding: var(--spacer-x0-5);
+}
+
+.dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  background: var(--color-font-1);
+  border-radius: 50%;
+  animation: drip 1.2s infinite;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.dot-container {
+  display: flex;
+  justify-content: center;
+}
+
 .overview-wrapper{
     display: flex;
     flex-direction: column;
@@ -288,6 +404,10 @@ role="table"
     width: 100%;
     max-width: var(--max-width);
     background-color: var(--color-activity-viewer);
+}
+
+abbr {
+    text-decoration: none;
 }
 
 .btn--container{
@@ -388,11 +508,32 @@ tr:nth-child(even){
   border: 1px solid var(--color-btn-primary-hover);
 }
 
-.date--picker .bold {
+.date-picker-status {
   font-weight: bold;
   text-align: start;
   font-size: 0.8rem;
   color: var(--color-font-1);
+  font-family: var(--font-text);
+}
+
+
+
+@keyframes drip {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(1.2em);
+  }
+  60% {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
 }
 
 @media screen and (min-width: 600px) {

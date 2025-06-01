@@ -108,20 +108,19 @@ function getImage(billede) {
         description="Læs praktisk information om Haraldslund Vand og Kulturhus"
         :image="praktiskData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="praktiskData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" ></TheHero>
-
+        <TheBreadcrumb></TheBreadcrumb>
         <section class="content-container">
-          <TheBreadcrumb></TheBreadcrumb>
           <TheInternNavHaraldslund
           :label="internNavLabels"
           ></TheInternNavHaraldslund>
   
-          <h1 tabindex="-1"> {{ praktiskData.Titel }} </h1>
         </section>
+        <h1 tabindex="-1"> {{ praktiskData.Titel }} </h1>
         <section class="section-container">
             <div v-for="(kontaktoplysning,index) in praktiskData?.Kontaktoplysninger || []" 
             :key="kontaktoplysning.id">
               <DynamicHeading :level="index === 0 ? 2 : 2">{{ kontaktoplysning.Overskrift }}</DynamicHeading>
-                <div v-for="tekst in kontaktoplysning.Tekst || []" :key="tekst.id">
+                <div class="content-seperator" v-for="tekst in kontaktoplysning.Tekst || []" :key="tekst.id">
                     <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
                     <p>{{ tekst.Brodtekst }}</p>
                 </div>
@@ -345,10 +344,19 @@ function getImage(billede) {
   width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
+  padding-bottom: var(--spacer-x5);
+  position: relative;
 }
 
-.content-container h1{
-  margin-bottom: var(--spacer-x2);
+h1{
+  margin-bottom: var(--mobile-site-space);
+  margin: 0 auto;
+  width: 95%;
+  max-width: var(--max-width);
+}
+
+h2 {
+  margin-bottom: var(--spacer-x1);
 }
 
 .heading{
@@ -357,19 +365,9 @@ function getImage(billede) {
     margin: var(--spacer-x1) auto;
 }
 
-.section-container {
-    margin: 0 auto var(--spacer-Elements);
-    max-width: var(--max-width);
-    width: 95%;
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: var(--spacer-x1);
-}
-
-h1 {
-  width: 100%;
-  max-width: var(--max-width);
+.breadcrumb-container {
   margin: 0 auto;
+  width: 95%;
 }
 
 #specielTid {
@@ -401,10 +399,8 @@ span {
 
 .time-container {
     display: flex;
-    flex-direction: row;
-    gap: var(--spacer-x1);
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    gap: var(--spacer-x0-5);
     max-width: 18.75rem;
 }
 
@@ -412,8 +408,12 @@ span {
     display: flex;
     flex-direction: column;
     gap: var(--spacer-x1);
-
 }
+
+.content-seperator {
+  margin-bottom: var(--spacer-x1);
+}
+
 figure {
     display: flex;
     flex-direction: column;
@@ -436,7 +436,65 @@ figure .small-side-img {
     flex-direction: column;
     gap: var(--spacer-x1);
     max-width: 34rem;
+}
 
+.section-container {
+    margin: 0 auto;
+    margin-bottom: var(--mobile-site-space);
+    max-width: var(--max-width);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-x1);
+}
+
+section {
+    width: 95%;
+    margin: 0 auto;
+    max-width: var(--max-width);
+}
+
+
+@media screen and (min-width: 768px) {
+ .section-container {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+}
+
+@media screen and (min-width: 1300px) {
+  h1 {
+    margin-bottom: var(--spacer-Elements);
+  }
+
+  .breadcrumb {
+    margin: 0;
+  }
+
+  .section-container {
+    margin-bottom: var(--spacer-Elements);
+  }
+
+.time-container {
+    flex-direction: row;
+    gap: var(--spacer-x0-5);
+    justify-content: space-between;
+    max-width: 18.75rem;
+}
+
+
+
+}
+
+@media screen and (max-width: 400px) {
+    .content-container {
+        width: 100vw;
+    }
+
+    .intern-nav {
+        margin: 0;
+        width: 100%;
+    }
+   
 }
 
 

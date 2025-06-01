@@ -97,57 +97,63 @@ function getImage(billede) {
         description="Læs om vores moderne motionscenter."
         :image="motionData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="motionData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
-        <div class="breadcrumb-container">
-          <TheBreadcrumb></TheBreadcrumb>  
-        </div>
-      <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
-
-
-      <section class="textsection" v-for="(afsnit,index) in motionData.Indhold.Afsnit || []" :key="afsnit.id">
-                <article class="flex--column flex1">
-                    <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
-                    <div v-for="single_text, in afsnit.Tekst || []" :key="single_text.id">
-                        <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
-                        <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
-                            <li> {{ single_text.Brodtekst }}</li>
-                        </ul>
-                        <p v-else> {{ single_text.Brodtekst }}</p>
-                    </div>
-                    <div v-if="Array.isArray(afsnit.Knapper) && afsnit.Knapper.length > 0" class="btn--container">
-                    <TheBtn
-                    v-for="btn in afsnit.Knapper"
-                    :key="btn.id"
-                    :link="btn.link_to"
-                    :title="btn.btn_titel"
-                    :text="btn.btn_description"
-                    :icon="btn.Ikon[0]"></TheBtn>
-                </div>
-            </article>
-            <div class="img--container flex1">
-                <ImageHolder v-for="billede in afsnit.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
+        <!-- BILLEDEREFERENCE: Facebook. Haraldslund Vand og Kulturhus. 15/08/2021 (online) Meta 2025 [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/4346970298694364/?type=3-->
+        <div class="page-wrapper">
+          <div class="breadcrumb-container">
+            <TheBreadcrumb></TheBreadcrumb>  
+          </div>
+          <div class="content-container">
+            <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
+          </div>
+          <section class="textsection" v-for="(afsnit,index) in motionData.Indhold.Afsnit || []" :key="afsnit.id">
+                  <article class="flex--column flex1">
+                      <DynamicHeading :level="index === 0 ? 1 : 2">{{ afsnit.Overskrift }}</DynamicHeading>
+                      <div v-for="single_text, in afsnit.Tekst || []" :key="single_text.id">
+                          <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
+                          <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
+                              <li> {{ single_text.Brodtekst }}</li>
+                          </ul>
+                          <p v-else> {{ single_text.Brodtekst }}</p>
+                      </div>
+                      <div v-if="Array.isArray(afsnit.Knapper) && afsnit.Knapper.length > 0" class="btn--container">
+                      <TheBtn
+                      v-for="btn in afsnit.Knapper"
+                      :key="btn.id"
+                      :link="btn.link_to"
+                      :title="btn.btn_titel"
+                      :text="btn.btn_description"
+                      :icon="btn.Ikon[0]"></TheBtn>
+                  </div>
+              </article>
+              <div class="img--container flex1">
+                  <ImageHolder v-for="billede in afsnit.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText" />
+              </div>
+              <!-- BILLEDEREFERENCE: Facebook. Haraldslund Vand og Kulturhus. 15/11/2022 (online) Meta 2025 [accessed 08/05/2025] URL: https://www.facebook.com/photo.php?fbid=668412328091283&set=pb.100047675655563.-2207520000&type=3-->
+          </section>
+          <article>
+            <h2>Udforsk vores faciliteter i motionscentret</h2>
+            <div class="gallery-grid">
+              <ImageHolder
+                v-for="billede in motionData.Billeder"
+                :key="billede.id"
+                class="gallery-img"
+                :src="getImage(billede)"
+                :alt="billede?.data?.attributes?.alternativeText || 'Billede'"></ImageHolder>
             </div>
-        </section>
-      <article>
-        <h2>Udforsk vores faciliteter i motionscentret</h2>
-        <div class="gallery-grid">
-          <ImageHolder
-            v-for="billede in motionData.Billeder"
-            :key="billede.id"
-            class="gallery-img"
-            :src="getImage(billede)"
-            :alt="billede?.data?.attributes?.alternativeText || 'Billede'"></ImageHolder>
+            <!-- BILLEDEREFERENCE: Facebook. Haraldslund Vand og Kulturhus. 15/11/2022 (online) Meta 2025 [accessed 08/05/2025] URL: https://www.facebook.com/photo.php?fbid=668412401424609&set=pb.100047675655563.-2207520000&type=3 -->
+            <!-- BILLEDEREFERENCE: Facebook. Haraldslund Vand og Kulturhus. 15/11/2022 (online) Meta 2025 [accessed 08/05/2025] URL: https://www.facebook.com/photo/?fbid=668412514757931&set=pb.100047675655563.-2207520000 -->
+          </article>
+          <Reklamekort 
+            :src="getImage(motionData.reklame_kort.Billede) || '' " 
+            :alt="motionData.reklame_kort.Billede.alternativeText" 
+            :title="motionData.reklame_kort.Titel" 
+            :text="motionData.reklame_kort.Tekst_afsnit" 
+            :Btn_title="motionData.reklame_kort.Knapper[0].btn_titel" 
+            :Btn_text="motionData.reklame_kort.Knapper[0].btn_description" 
+            :kategori="motionData.reklame_kort.Kategori" 
+            :Btn_icon="motionData.reklame_kort.Knapper[0].Ikon[0]">
+          </Reklamekort>
         </div>
-      </article>
-      <Reklamekort 
-        :src="getImage(motionData.reklame_kort.Billede) || '' " 
-        :alt="motionData.reklame_kort.Billede.alternativeText" 
-        :title="motionData.reklame_kort.Titel" 
-        :text="motionData.reklame_kort.Tekst_afsnit" 
-        :Btn_title="motionData.reklame_kort.Knapper[0].btn_titel" 
-        :Btn_text="motionData.reklame_kort.Knapper[0].btn_description" 
-        :kategori="motionData.reklame_kort.Kategori" 
-        :Btn_icon="motionData.reklame_kort.Knapper[0].Ikon[0]">
-      </Reklamekort>
     </div>
   </template>
   
@@ -157,6 +163,14 @@ function getImage(billede) {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--max-width);
+    width: 95%;
+    margin: 0 auto;
 }
 
 .textsection {
@@ -213,6 +227,15 @@ function getImage(billede) {
 
 section{
     width: 95%;
+    margin: 0 auto;
+}
+
+.content-container {
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+    height: fit-content;
     margin: 0 auto;
 }
 

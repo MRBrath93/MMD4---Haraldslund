@@ -137,67 +137,72 @@ const visibleTeamCards = computed(() => {
     :image="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
     :alt="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
     <!-- REFERENCE BILLEDE: Seizinger, Corri. Fil #:745719113. (online) Adobe Stock. 2025. [Accessed 07/05/2025]. URL: https://stock.adobe.com/dk/search/images?filters%5Bcontent_type%3Aphoto%5D=1&filters%5Bcontent_type%3Aimage%5D=1&filters%5Borientation%5D=panoramic&filters%5Bcopy_space%5D=all&filters%5Bcontent_type%3Aillustration%5D=0&filters%5Bcontent_type%3Azip_vector%5D=0&k=styrketr%C3%A6ning&order=relevance&search_type=filter-select&limit=100&search_page=1&acp=&aco=styrketr%C3%A6ning&color=%23427A40&get_facets=1&asset_id=745719113 -->
-    <TheBreadcrumb></TheBreadcrumb>
-    
-    <section class="textsection" v-for="(tekstsektion,index) in selectedClass.indhold.afsnit" :key="tekstsektion.id">
-        <article class="flex--column flex1">
-          <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.overskrift }}</DynamicHeading>
-          <div v-for="single_text in tekstsektion.tekst || []" :key="single_text.id">
-            <h5 class="subtitle" v-if="single_text.underoverskrift">{{ single_text.underoverskrift }}</h5>
-            <ul class="punkt" v-if="single_text.punktopstilles === true">
-              <li> {{ single_text.brodtekst }}</li>
-            </ul>
-            <p v-else> {{ single_text.brodtekst }}</p>
+    <div class="page-wrapper">
+      <TheBreadcrumb></TheBreadcrumb>
+      <section class="textsection" v-for="(tekstsektion,index) in selectedClass.indhold.afsnit" :key="tekstsektion.id">
+          <article class="flex--column flex1">
+            <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.overskrift }}</DynamicHeading>
+            <div v-for="single_text in tekstsektion.tekst || []" :key="single_text.id">
+              <h5 class="subtitle" v-if="single_text.underoverskrift">{{ single_text.underoverskrift }}</h5>
+              <ul class="punkt" v-if="single_text.punktopstilles === true">
+                <li> {{ single_text.brodtekst }}</li>
+              </ul>
+              <p v-else> {{ single_text.brodtekst }}</p>
+            </div>
+            <div v-if="Array.isArray(tekstsektion.knapper) && tekstsektion.knapper.length > 0" class="btn--container">
+              <TheBtn v-for="btn in tekstsektion.knapper"
+              :key="btn.id"
+              :link="btn.link_to"
+              :title="btn.titel"
+              :text="btn.beskrivelse"
+              :icon="btn.ikon"></TheBtn>
+            </div>
+          </article>
+          <div class="img--container flex1">
+            <ImageHolder v-for="billede in tekstsektion.billeder" :key="billede.id" class="img" :src="getArticleImage(billede)" :alt="billede.alternativeText" />
           </div>
-          <div v-if="Array.isArray(tekstsektion.knapper) && tekstsektion.knapper.length > 0" class="btn--container">
-            <TheBtn v-for="btn in tekstsektion.knapper"
-            :key="btn.id"
-            :link="btn.link_to"
-            :title="btn.titel"
-            :text="btn.beskrivelse"
-            :icon="btn.ikon"></TheBtn>
-          </div>
-        </article>
-        <div class="img--container flex1">
-          <ImageHolder v-for="billede in tekstsektion.billeder" :key="billede.id" class="img" :src="getArticleImage(billede)" :alt="billede.alternativeText" />
+      </section>
+      <section class="overviewGrid">
+        <QuickInfo class="quickinfo"  :time="selectedClass.varighed" :group="selectedClass.maalgruppe" :priser="selectedClass.priser" :praticalInfo="selectedClass.praktiskeOplysninger" :cancelBooking="selectedClass.aflysning" :type_af_hold="selectedClass.type_af_hold"></QuickInfo>
+        <BookingSquare title="Sådan tilmelder du dig" text="Du kan tilmelde dig gennem vores online booking system via. nedenstående link." btn_title="Booking" btn_text="Foretag din booking her" btn_path="Booking" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
+        <BookingSquare title="Til- & Afmeldingsfrister" text="Er du forhindret i at deltage på holdet? Sørg for at melde afbud i rette tid." btn_title="Til- & Afmeldingsfrister" btn_text="Få styr på diverse frister" btn_path="VW regler" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
+      </section>
+
+      <section>
+        <h3 class="heading" id="headline">Måske du også kan lide</h3>
+        <div class="three--column-grid">
+          <TheTeamCard v-for="relatedTeam in selectedClass.relateredeHold.slice(0, visibleTeamCards)"
+          :key="relatedTeam.id"
+          :labels="{ label: relatedTeam.name || 'Ukendt hold' }"
+          icon="arrow_forward"
+          :backgroundColor="relatedTeam.type_af_hold"
+          :teamCategorys="relatedTeam.kategorier"
+          :link="{ name: 'holdbeskrivelse-motion', params: { id: relatedTeam.id } }"
+          :teamImage="getCoverImage(relatedTeam)"
+          :alt="relatedTeam.coverbilledeAlt || ' Holdbillede'"
+          aria-role="link"
+          :aria-label="relatedTeam.name || 'Ukendt hold'"
+          aria-describedby="headline"
+          ></TheTeamCard>
         </div>
-    </section>
-    <section class="overviewGrid">
-      <QuickInfo class="quickinfo"  :time="selectedClass.varighed" :group="selectedClass.maalgruppe" :priser="selectedClass.priser" :praticalInfo="selectedClass.praktiskeOplysninger" :cancelBooking="selectedClass.aflysning" :type_af_hold="selectedClass.type_af_hold"></QuickInfo>
-      <BookingSquare title="Sådan tilmelder du dig" text="Du kan tilmelde dig gennem vores online booking system via. nedenstående link." btn_title="Booking" btn_text="Foretag din booking her" btn_path="Booking" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
-      <BookingSquare title="Til- & Afmeldingsfrister" text="Er du forhindret i at deltage på holdet? Sørg for at melde afbud i rette tid." btn_title="Til- & Afmeldingsfrister" btn_text="Få styr på diverse frister" btn_path="VW regler" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
-    </section>
+      </section>
+      <Reklamekort v-if="selectedClass.reklamekort"
+      :src="getArticleImage(selectedClass.reklamekort)" 
+      :alt="selectedClass.reklamekort.billedeAlt" 
+      :title="selectedClass.reklamekort.titel" 
+      :text="selectedClass.reklamekort.tekst"
+      :Btn_title="selectedClass.reklamekort.knapper[0].titel" 
+      :Btn_text="selectedClass.reklamekort.knapper[0].beskrivelse" 
+      :kategori="selectedClass.reklamekort.kategori"
+      :Btn_icon="selectedClass.reklamekort.knapper[0].ikon"></Reklamekort>
+      <!-- REFERENCE BILLEDE: Facebook: Haraldslund Vand og Kulturhus. 24/05/2022. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/5234451549946230/?type=3 -->
 
-    <section>
-      <h3 class="heading">Måske du også kan lide</h3>
-      <div class="three--column-grid">
-        <TheTeamCard v-for="relatedTeam in selectedClass.relateredeHold.slice(0, visibleTeamCards)"
-        :key="relatedTeam.id"
-        :labels="{ label: relatedTeam.name || 'Ukendt hold' }"
-        icon="arrow_forward"
-        :backgroundColor="relatedTeam.type_af_hold"
-        :teamCategorys="relatedTeam.kategorier"
-        :link="{ name: 'holdbeskrivelse-motion', params: { id: relatedTeam.id } }"
-        :teamImage="getCoverImage(relatedTeam)"
-        :alt="relatedTeam.coverbilledeAlt || ' Holdbillede'" ></TheTeamCard>
-      </div>
-    </section>
-    <Reklamekort v-if="selectedClass.reklamekort"
-    :src="getArticleImage(selectedClass.reklamekort)" 
-    :alt="selectedClass.reklamekort.billedeAlt" 
-    :title="selectedClass.reklamekort.titel" 
-    :text="selectedClass.reklamekort.tekst"
-    :Btn_title="selectedClass.reklamekort.knapper[0].titel" 
-    :Btn_text="selectedClass.reklamekort.knapper[0].beskrivelse" 
-    :kategori="selectedClass.reklamekort.kategori"
-    :Btn_icon="selectedClass.reklamekort.knapper[0].ikon"></Reklamekort>
-    <!-- REFERENCE BILLEDE: Facebook: Haraldslund Vand og Kulturhus. 24/05/2022. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/5234451549946230/?type=3 -->
-
+    </div>
   </div>
-  
   <div v-else>
     <p>Holdet med ID {{ $route.params.id }} blev ikke fundet.</p>
   </div>
+ 
 </template>
 
 
@@ -299,7 +304,10 @@ section{
     flex: 1;
 }
 
-section{
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--max-width);
     width: 95%;
     margin: 0 auto;
 }

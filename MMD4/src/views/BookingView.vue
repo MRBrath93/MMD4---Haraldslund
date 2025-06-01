@@ -5,7 +5,7 @@
     <div>
         <TheBreadcrumb></TheBreadcrumb>
         <section>
-            <h1>Brugerråd</h1>
+            <h1>Booking</h1>
             <h2>... Maybe next time? </h2>
         </section>
     </div>

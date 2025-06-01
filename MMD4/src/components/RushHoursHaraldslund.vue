@@ -260,22 +260,22 @@ const chartOptions = computed(() => {
 
 </script>
 <template>
-  <div class="rush-hours" aria-labelledby="rush-hours-title">
+  <div class="rush-hours">
     <div class="intro">
-      <h4 id="rush-hours-title">Planlæg dit besøg - undgå myldretiden</h4>
+      <h3>Planlæg dit besøg - undgå myldretiden</h3>
       <p>Få et hurtigt overblik over, hvornår der typisk er flest besøgende i Haraldslund Kulturhus. Grafen viser det forventede aktivitetsniveau i løbet af dagen baseret på tidligere besøgstal.</p>
     </div>
-    <div class="date--picker" >
-    <button 
-      class="left"
-      @click="goToPreviousDay" 
-      :disabled="isPreviousDisabled" 
-      :class="{ disabled: isPreviousDisabled }"
-      :aria-label="'Gå til dagen før: ' + formattedDate"
-      :aria-disabled="isPreviousDisabled.toString()"
-    >
-    <i class="material-symbols-rounded" aria-hidden="true">chevron_left</i>
-    </button>
+    <div class="date--picker">
+      <button 
+        class="left"
+        @click="goToPreviousDay" 
+        :disabled="isPreviousDisabled" 
+        :class="{ disabled: isPreviousDisabled }"
+        :aria-label="'Gå til dagen før: ' + formattedDate"
+        :aria-disabled="isPreviousDisabled.toString()"
+      >
+        <i class="material-symbols-rounded" aria-hidden="true">chevron_left</i>
+      </button>
       <p class="bold" tabindex="-1" ref="dateTextRef">{{ formattedDate }}</p>
       <button class="right"
         @click="goToNextDay" 

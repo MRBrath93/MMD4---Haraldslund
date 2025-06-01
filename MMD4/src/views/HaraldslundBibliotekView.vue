@@ -9,6 +9,7 @@ import BookingSquare from "@/components/BookingSquare.vue";
 import ImageHolder from '@/components/ImageHolder.vue';
 import DynamicHeading from '@/components/DynamicHeading.vue';
 import { ref, onMounted } from 'vue';
+import TheInternNavHaraldslund from "@/components/TheInternNavHaraldslund.vue";
 
 const internNavLabels = [
 { id: 1, label: "Praktisk Information", name: "haraldslund-praktisk-info" },
@@ -90,21 +91,19 @@ function getImage(billede) {
             <span class="material-icons">sports_gymnastics</span>
         </TheSpinner>
     </div>
-    
     <div v-else-if="error">Der opstod en fejl: {{ error }}</div>
-    
     <div v-else>
         <TheHero
         :title="bibliotekData.Hero_sektion.Hero_titel_h5.Titel_H5"
         :subtitle="bibliotekData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
         :image="bibliotekData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="bibliotekData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
-
         <TheBreadcrumb></TheBreadcrumb>
-        <TheInternNavWater
-            :label="internNavLabels"
-        ></TheInternNavWater>
-        
+        <div class="content-container">
+            <TheInternNavHaraldslund
+                :label="internNavLabels"
+            ></TheInternNavHaraldslund>
+        </div>
         <section class="textsection" v-for="(tekstsektion,index) in bibliotekData.Indhold.Afsnit" :key="tekstsektion.id">
                 <article class="flex--column flex1">
                     <DynamicHeading :level="index === 0 ? 1 : Math.min(index + 1, 6)">{{ tekstsektion.Overskrift }}</DynamicHeading>
@@ -140,6 +139,7 @@ function getImage(billede) {
         :Btn_text="bibliotekData.reklame_kort.Knapper[0].btn_description" 
         :kategori="bibliotekData.reklame_kort.Kategori" 
         :Btn_icon="bibliotekData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+        <!-- BILLEDEREFERENCE: Instagram. Haraldslund Vand og Kulturhus. 14/10/2019. (online) Meta 2025 [Accessed 08/05/2025] URL: https://www.instagram.com/haraldslundvandogkulturhus/p/B3lvu9xFDAd/ -->
     </div>
 </template>
 
@@ -152,13 +152,20 @@ function getImage(billede) {
   align-items: center;
 }
 
+.content-container{
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+}
+
 /* TEKST SECTION STYLE */
 
 .textsection {
   display: flex;
   flex-direction: column;
   gap: var(--spacer-x2);
-  margin: 0 auto;
+  margin: 0 var(--mobile-site-space);
   margin-bottom: var(--spacer-Elements);
   width: 95%;
   max-width: var(--max-width);
@@ -214,6 +221,19 @@ section{
     margin: 0 auto;
 }
 
+.breadcrumb-container {
+  margin: 0 auto;
+  width: 95%;
+}
+
+.content-container{
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding-bottom: var(--spacer-x5);
+  position: relative;
+}
+
 @media screen and (min-width: 500px) {
     .btn--container{
         flex-direction: row;
@@ -238,6 +258,35 @@ section{
     .btn--container{
         flex-direction: row;
     }
+}
+
+
+@media screen and (min-width: 1300px) {
+    .breadcrumb-container {
+        margin-left: var(--spacer-Elements);
+    }
+
+    .content-container {
+        padding-left: var(--spacer-Elements);
+    }
+
+    .textsection {
+       margin-left: var(--spacer-Elements);
+       margin-right: var(--spacer-Elements);
+    }
+
+}
+
+@media screen and (max-width: 400px) {
+    .content-container {
+        width: 100vw;
+    }
+
+    .intern-nav {
+        margin: 0;
+        width: 100%;
+    }
+   
 }
 
 /* TEKSTSTYLE SLUT */

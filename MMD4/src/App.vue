@@ -88,7 +88,6 @@ watch(
     margin: var(--spacer-x1);
     padding: var(--spacer-x0-5) var(--spacer-x1);
     background-color: white;
-    left: 0;
     top: 0;
     width: auto;
     height: auto;

@@ -106,94 +106,108 @@ const internNavLabels = [
         :image="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="motionHoldData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
         <!-- REFERENCE BILLEDE: serebryannikov. Fil:#446475458. (online). Adobe Stock 2025. [Accessed 07/05/2025]. URL: https://stock.adobe.com/dk/images/web-banner-with-fitness-equipment-on-the-floor-in-the-sports-gym-mat-dumbbell-bottle-for-water-healthy-lifestyle-and-sport-exercises/446475458 -->
-      <TheBreadcrumb></TheBreadcrumb>
-      <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
-      <section class="textsection" v-for="(tekstsektion,index) in motionHoldData.Indhold.Afsnit" :key="tekstsektion.id">
-                <article class="flex--column flex1">
-                    <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
-                    <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
-                        <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
-                        <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
-                            <li> {{ single_text.Brodtekst }}</li>
-                        </ul>
-                        <p v-else> {{ single_text.Brodtekst }}</p>
-                    </div>
-                    <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
-                    <TheBtn
-                    v-for="btn in tekstsektion.Knapper"
-                    :key="btn.id"
-                    :link="btn.link_to"
-                    :title="btn.btn_titel"
-                    :text="btn.btn_description"
-                    :icon="btn.Ikon[0]"></TheBtn>
-                </div>
-            </article>
-            <div class="img--container flex1">
-                <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText"></ImageHolder>
+      <div class="page-wrapper">
+        <TheBreadcrumb></TheBreadcrumb>
+        <div class="content-container">
+          <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
+        </div>
+        <section class="textsection" v-for="(tekstsektion,index) in motionHoldData.Indhold.Afsnit" :key="tekstsektion.id">
+          <article class="flex--column flex1">
+            <DynamicHeading :level="index === 0 ? 1 : 2">{{ tekstsektion.Overskrift }}</DynamicHeading>
+            <div v-for="single_text in tekstsektion.Tekst || []" :key="single_text.id">
+                <h5 class="subtitle" v-if="single_text.Underoverskift">{{ single_text.Underoverskift }}</h5>
+                <ul class="punkt" v-if="single_text.Skal_det_punktopstilles">
+                    <li> {{ single_text.Brodtekst }}</li>
+                </ul>
+                <p v-else> {{ single_text.Brodtekst }}</p>
             </div>
-        </section>
-      <section class="elementspacing">
-          <TheFilterBar
-            :labels="classesStore.availableCategories" :store="classesStore"
-            :selectedCategory="classesStore.selectedCategory"
-            @categorySelected="classesStore.setCategory"
-          ></TheFilterBar>
-
-        <article> 
-          <div class="teams--view">
-            <p>Viser {{ classesStore.numberOfClasses }} ud af {{ classesStore.numberOfTeams }} hold</p>
-            <div class="grid-container">
-              <TheTeamCard
-                v-for="klasse in classesStore.filteredClasses"
-                :key="klasse.id"
-                :labels="{ label: klasse.name || 'Ukendt hold' }"
-                icon="arrow_forward"
-                :backgroundColor="klasse.type_af_hold"
-                :teamCategorys="klasse.kategorier"
-                :link="{ name: 'holdbeskrivelse-motion', params: { id: klasse.id } }"
-                :teamImage="getCoverImage(klasse)"
-                :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
-              ></TheTeamCard>
+            <div v-if="Array.isArray(tekstsektion.Knapper) && tekstsektion.Knapper.length > 0" class="btn--container">
+            <TheBtn
+            v-for="btn in tekstsektion.Knapper"
+            :key="btn.id"
+            :link="btn.link_to"
+            :title="btn.btn_titel"
+            :text="btn.btn_description"
+            :icon="btn.Ikon[0]"></TheBtn>
             </div>
+          </article>
+          <div class="img--container flex1">
+              <ImageHolder v-for="billede in tekstsektion.Billede" :key="billede.id" class="img" :src="getImage(billede)" :alt="billede.alternativeText"></ImageHolder>
           </div>
-        </article>
-        <!-- REFERENCER TIL BILLEDER:
-        Specialhold: #221789. billede: #20815361. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/senior-motion-aeldre-billede-20815361
-        Core, Stabilitet og Styrke: #232319. billede: #37584145 (online). Colourbox.dk 2025 . [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/fitness-gruppe-aeldre-billede-37584145
-        Core & Stabilitet: #232319. billede: #36864606. (online).Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/traening-aeldre-gruppe-billede-36864606
-        Grith Strength: Syda Productions. billede: #26909541. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/motionscenter-hold-kondi-billede-26909541
-        Yoga: Takoburito. billede: #46950024. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/hold-yoga-aktiv-billede-46950024
-        Morgen Yoga Flow: Takoburito. billede: #46950001. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/hold-yoga-aktiv-billede-46950001
-        Yin Yoga: Takoburito. billede: #46950007. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/aktiv-sport-mediterende-billede-46950007
-        Yin Flow: Takoburito. billede: #46950014. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/yoga-aktiv-aktivitet-billede-46950014
-        Yin Yang Yoga: Takoburito. billede: #46950021. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/yoga-hold-aktiv-billede-46950021
-        Hatha Yoga: Takoburito. billede: #46949999. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/aktiv-sport-mediterende-billede-46949999
-        Grith Cardio: Takoburito. billede: #33870794. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL:https://www.colourbox.dk/billede/motionscenter-kondi-koncept-billede-33870794
-        Jumping Fitness: Facebook: Haraldslund Vand og kulturhus. 05/03/2018. (online). Facebook.com. Meta 2025. [Accessed 07/05/2025]. URL:https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/1715303271861093/?type=3
-        -->
-      </section>
-      <Reklamekort
-        :src="getImage(motionHoldData.reklame_kort.Billede)"
-        :alt="motionHoldData.reklame_kort.Billede.alternativeText" 
-        :title="motionHoldData.reklame_kort.Titel"
-        :text="motionHoldData.reklame_kort.Tekst_afsnit" 
-        :Btn_title="motionHoldData.reklame_kort.Knapper[0].btn_titel" 
-        :Btn_text="motionHoldData.reklame_kort.Knapper[0].btn_description" 
-        :kategori="motionHoldData.reklame_kort.Kategori" 
-        :Btn_icon="motionHoldData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+        </section>
+        <section class="elementspacing">
+            <TheFilterBar
+              :labels="classesStore.availableCategories" :store="classesStore"
+              :selectedCategory="classesStore.selectedCategory"
+              @categorySelected="classesStore.setCategory"
+              aria-labelledby="filter-headline"
+              role="search"
+              tabindex="0"
+            ></TheFilterBar>
+
+          <article
+          aria-labelledby="filtered-teams"
+          > 
+            <h2 class="sr-only filtered-teams">Filtrerede holdresultater</h2>
+            <div class="teams--view">
+              <p
+              aria-live="polite"
+              role="status"
+              >
+              Viser {{ classesStore.numberOfClasses }} ud af {{ classesStore.numberOfTeams }} hold</p>
+              <div class="grid-container">
+                <TheTeamCard
+                  v-for="klasse in classesStore.filteredClasses"
+                  :key="klasse.id"
+                  :labels="{ label: klasse.name || 'Ukendt hold' }"
+                  icon="arrow_forward"
+                  :backgroundColor="klasse.type_af_hold"
+                  :teamCategorys="klasse.kategorier"
+                  :link="{ name: 'holdbeskrivelse-motion', params: { id: klasse.id } }"
+                  :teamImage="getCoverImage(klasse)"
+                  :alt="klasse.coverbilledeAlt || ' Holdbillede'" 
+                  aria-live="polite"
+                  aria-busy="classesStore.isLoading" 
+                ></TheTeamCard>
+              </div>
+            </div>
+          </article>
+          <!-- REFERENCER TIL BILLEDER:
+          Specialhold: #221789. billede: #20815361. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/senior-motion-aeldre-billede-20815361
+          Core, Stabilitet og Styrke: #232319. billede: #37584145 (online). Colourbox.dk 2025 . [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/fitness-gruppe-aeldre-billede-37584145
+          Core & Stabilitet: #232319. billede: #36864606. (online).Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/traening-aeldre-gruppe-billede-36864606
+          Grith Strength: Syda Productions. billede: #26909541. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/motionscenter-hold-kondi-billede-26909541
+          Yoga: Takoburito. billede: #46950024. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/hold-yoga-aktiv-billede-46950024
+          Morgen Yoga Flow: Takoburito. billede: #46950001. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/hold-yoga-aktiv-billede-46950001
+          Yin Yoga: Takoburito. billede: #46950007. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/aktiv-sport-mediterende-billede-46950007
+          Yin Flow: Takoburito. billede: #46950014. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/yoga-aktiv-aktivitet-billede-46950014
+          Yin Yang Yoga: Takoburito. billede: #46950021. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/yoga-hold-aktiv-billede-46950021
+          Hatha Yoga: Takoburito. billede: #46949999. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL: https://www.colourbox.dk/billede/aktiv-sport-mediterende-billede-46949999
+          Grith Cardio: Takoburito. billede: #33870794. (online). Colourbox.dk 2025. [Accessed 07/05/2025]. URL:https://www.colourbox.dk/billede/motionscenter-kondi-koncept-billede-33870794
+          Jumping Fitness: Facebook: Haraldslund Vand og kulturhus. 05/03/2018. (online). Facebook.com. Meta 2025. [Accessed 07/05/2025]. URL:https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/1715303271861093/?type=3
+          -->
+        </section>
+        <Reklamekort
+          :src="getImage(motionHoldData.reklame_kort.Billede)"
+          :alt="motionHoldData.reklame_kort.Billede.alternativeText" 
+          :title="motionHoldData.reklame_kort.Titel"
+          :text="motionHoldData.reklame_kort.Tekst_afsnit" 
+          :Btn_title="motionHoldData.reklame_kort.Knapper[0].btn_titel" 
+          :Btn_text="motionHoldData.reklame_kort.Knapper[0].btn_description" 
+          :kategori="motionHoldData.reklame_kort.Kategori" 
+          :Btn_icon="motionHoldData.reklame_kort.Knapper[0].Ikon[0]"></Reklamekort>
+      </div>
     </div>
 </template>
 
 <style scoped>
-
-/* TEKST SECTION STYLE */
 
 .textsection {
   display: flex;
   flex-direction: column;
   gap: var(--spacer-x2);
   margin: 0 auto;
-  margin-bottom: var(--spacer-Elements);
+  margin-bottom: var(--mobile-site-space);
   width: 100%;
   max-width: var(--max-width);
 }
@@ -244,31 +258,37 @@ section{
     margin: 0 auto;
 }
 
-@media screen and (min-width: 500px) {
-    .btn--container{
-        flex-direction: row;
-    }
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
-@media screen and (min-width: 900px) {
-    .textsection{
-        flex-direction: row;
-    }
-    .btn--container{
-        flex-direction: column;
-    }
-
-}
-@media screen and (min-width: 1000px) {
-
-    .btn--container{
-        flex-direction: row;
-    }
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: var(--max-width);
+    width: 95%;
+    margin: 0 auto;
 }
 
+.content-container {
+    width: 100%;
+    max-width: var(--max-width);
+    padding-bottom: var(--spacer-x5);
+    position: relative;
+    height: fit-content;
+    margin: 0 auto;
+}
 
-/* TEXT STYLEING SLUT */
-
+.breadcrumb-container {
+  margin: 0;
+}
 
 .elementspacing{
   margin-bottom: var(--spacer-Elements);
@@ -310,6 +330,27 @@ section{
   gap: 1rem;
 }
 
+@media screen and (min-width: 500px) {
+    .btn--container{
+        flex-direction: row;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    .textsection{
+        flex-direction: row;
+    }
+    .btn--container{
+        flex-direction: column;
+    }
+
+}
+@media screen and (min-width: 1000px) {
+
+    .btn--container{
+        flex-direction: row;
+    }
+}
 
 @media screen and (min-width: 700px) {
 
@@ -325,6 +366,11 @@ section{
     grid-template-columns: repeat(3,1fr);
   }
 }
-  
+
+@media screen and (min-width: 1300px) {
+    .textsection {
+        margin-bottom: var(--spacer-Elements);
+    }
+}
   
 </style>
