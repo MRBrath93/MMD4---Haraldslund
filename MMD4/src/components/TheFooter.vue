@@ -4,7 +4,7 @@ import { RouterLink } from "vue-router";
 import { ref, onMounted } from "vue";
 import { useThemeStore } from '@/stores/themeStore';
 
-const themeStore = useThemeStore(); // 🧠 Kobling til Pinia-store
+const themeStore = useThemeStore(); // Kobling til Pinia-store
 
 
 // FETCH DATA
@@ -63,7 +63,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
     role="contentinfo"
     aria-label="Sidefod med links til navigation, genveje, åbningstider og sociale medier"
     >
-        <div class=footer-container>
+        <div class="footer-container">
             <div role="region"
             aria-labelledby="navigation-headline"
             >
@@ -76,7 +76,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                         <router-link :to="{ name: 'frontpage' }">Forside</router-link>
                     </li>
                     <li>
-                        <router-link :to="{ name: 'om-haraldslund' }"> Om Haraldslund</router-link>
+                        <router-link :to="{ name: 'om-haraldslund' }">Om Haraldslund</router-link>
                     </li>
                     <li>
                         <router-link :to="{ name: 'motion' }">Motion</router-link>
@@ -254,10 +254,24 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                 
                 </div>
             </div>
+            <div 
+            role="region"
+            class="wide-column footer-contact-info"
+            aria-label="contact information">
+                <p>Kastetvej 83 9000 Aalborg</p>
+                <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
+                <p>Tlf: 99 31 67 50</p>
+                <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
+                <p>Haraldslund@aalborg.dk</p>
+                <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
+                <p>CVR: 29189420</p>
+                <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
+            </div>   
         </div>
     </div>
 </template>
 <style scoped>
+
 
 .footer {
     background-color: var(--color-navigation);
@@ -303,7 +317,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
     color: var(--color-font-2);
 }
 
-.footer li a:hover, .footer li button:hover {
+footer li a:hover, footer li button:hover {
     text-decoration: underline;
     text-underline-offset: 0.5rem;
 }
@@ -397,15 +411,26 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
     white-space: nowrap;
 }
 
+.footer-contact-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-contact-info p {
+    font-size: clamp(0.875rem, 1.2vw, 1rem);
+    font-weight: 300;
+    align-items: flex-start;
+}
+
 @media screen and (min-width: 768px) {
     .footer-container {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
     }
 
     .opening-hours {
-    flex-direction: row;
-    gap: var(--spacer-x1);
+        flex-direction: row;
+        gap: var(--spacer-x1);
     }
 
     .footer-column {
@@ -416,11 +441,17 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
         width: 100%;
     }
 
-    .footer-logo {
-        width: 17rem;
-        height: 5rem;
-    }
 }
+
+@media screen and (min-width: 800px) {
+    .footer-contact-info {
+        padding-left: var(--spacer-x1);
+    }
+
+    .footer {
+        align-items: center;
+    }
+}    
 
 @media screen and (min-width: 1024px) {
 
@@ -444,14 +475,30 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
         width: 69rem;
     }
 
-}
-
-@media screen and (min-width: 1200px) {
-
     .wide-column {
         grid-column: span 6;
         margin: 0 auto;    
     }
+
+    .footer-logo {
+        width: 17rem;
+        height: 5rem;
+    }
+
+    .footer-contact-info {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: var(--spacer-x2-5);
+    }
 }
+
+@media screen and (min-width: 1300px) {
+    .footer-container {
+        width: 100%;
+
+    }
+
+}
+
 
 </style>
