@@ -94,7 +94,8 @@ onBeforeUnmount(() => {
 
 .intern-nav {
     margin: 0 auto var(--spacer-x1);
-    width: 100vw;
+    width: 95%;
+    max-width: var(--max-width);
     background: var(--color-btn-primary);
   }
   
@@ -114,7 +115,8 @@ onBeforeUnmount(() => {
     flex-direction: column;
     gap: var(--spacer-x1);
     padding: var(--spacer-x0-5) var(--spacer-x1);
-    width: max-content;
+    width: 95%;
+    max-width: var(--max-width);
     color: var(--color-font-1);
 }
   
@@ -125,6 +127,7 @@ li {
 span {
     font-size: clamp(0.875rem, 1.5vw, 1rem);
     color: var(--color-font-1);
+    display: inline-block;
 }
     
 .button-label {
@@ -138,7 +141,7 @@ button{
 }
 
 .menu-item {
-  padding: var(--spacer-x0-5) var(--spacer-x1);
+  padding: var(--spacer-x0-5);
   min-width: 1.5rem;
   min-height: 1.5rem;
 }
@@ -156,14 +159,17 @@ button{
     background: none;
     padding: 0;
     margin-top: 0;
+    justify-content: center;
+    max-width: var(--max-width);
+    width: 100%;
 }
   
 .intern-nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
-    gap: var(--spacer-x3);
+    width: 95%;
+    max-width: var(--max-width);
     background-color: var(--color-body-background);
     padding: var(--spacer-x0-5) var(--spacer-x1);
 }

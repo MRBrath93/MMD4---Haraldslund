@@ -98,7 +98,7 @@ const isExternalLink = computed(() => {
     <slot>
       <div class="flex">
         <div class="flex-column">
-          <h5 class="title">{{ title }}</h5>
+          <p class="title">{{ title }}</p>
           <p class="small">{{ text }}</p>
         </div>
         <i v-if="icon" class="icon material-symbols-rounded" aria-hidden="true">{{ icon }}</i>
@@ -113,7 +113,6 @@ const isExternalLink = computed(() => {
   :href="computedBtnLink"
   :target="target || (computedBtnLink.startsWith('http') ? '_blank' : null)"
   class="button"
-  target="_blank" 
   rel="noopener noreferrer"
   role="button"
 >

@@ -58,7 +58,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
 </script>
 
 <template>
-    <footer 
+    <div 
     class="footer"
     role="contentinfo"
     aria-label="Sidefod med links til navigation, genveje, åbningstider og sociale medier"
@@ -85,7 +85,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                         <router-link :to="{ name: 'vandogwellness' }">Vand & Wellness</router-link>
                     </li>
                     <li>
-                        <router-link :to="{ name: 'moder-og-konferencer' }">Møder & Konferencer</router-link>
+                        <router-link :to="{ name: 'moder-og-konferencer' }">Møder & Events</router-link>
                     </li>
                     <li>
                         <a href="#">Booking</a>
@@ -215,7 +215,7 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
             </div>
             <div 
             role="region"
-            class="footer-column"
+            class="footer-column wide-column"
             aria-label="links"
             >
                 <router-link 
@@ -255,11 +255,11 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                 </div>
             </div>
         </div>
-    </footer>
+    </div>
 </template>
 <style scoped>
 
-footer {
+.footer {
     background-color: var(--color-navigation);
     color: var(--color-font-2);
     display: flex;
@@ -269,24 +269,23 @@ footer {
     padding: var(--spacer-x1) var(--spacer-x3);
 }
 
-footer h4 {
+.footer h4 {
     color: var(--color-font-2);
 }
 
-footer ul {
+.footer ul {
     list-style-type: none;
-
+    padding: 0;
 }
 
-footer li a {
+.footer ul li a {
     color: var(--color-font-2);
     font-size: clamp(0.875rem, 1.5vw, 1rem);
-    padding: var(--spacer-x0-5);
-    padding-left: 0;
-
+    min-width: 1.5rem;
+    min-height: 1.5rem;
 }
 
-footer li button {
+.footer li button {
     background-color: transparent;
     border: none;
     color: var(--color-font-2);
@@ -298,13 +297,13 @@ footer li button {
     cursor: pointer;
 }
 
-footer p, footer li {
+.footer p, .footer li {
     font-family: var(--font-heading);
     font-size: clamp(0.875rem, 1.5vw, 1rem);
     color: var(--color-font-2);
 }
 
-footer li a:hover, footer li button:hover {
+.footer li a:hover, .footer li button:hover {
     text-decoration: underline;
     text-underline-offset: 0.5rem;
 }
@@ -314,7 +313,7 @@ footer li a:hover, footer li button:hover {
     height: 3.5rem;
 }
 
-footer div {
+.footer div {
     width: fit-content;
 }
 
@@ -327,7 +326,7 @@ footer div {
     padding: var(--spacer-x1) 0;
 }
 
-footer h4 {
+.footer h4 {
     padding-bottom: var(--spacer-x0-5);
 }
 
@@ -402,12 +401,11 @@ footer h4 {
     .footer-container {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-        width: 100%;
     }
 
     .opening-hours {
     flex-direction: row;
-    width: 24rem;
+    gap: var(--spacer-x1);
     }
 
     .footer-column {
@@ -434,7 +432,8 @@ footer h4 {
     }
 
     .footer-container {
-        gap: var(--spacer-x3);
+        gap: var(--spacer-x2);
+        row-gap: var(--spacer-x1);
     }
 
     .separator {
@@ -444,7 +443,15 @@ footer h4 {
     .footer-info {
         width: 69rem;
     }
+
 }
 
+@media screen and (min-width: 1200px) {
+
+    .wide-column {
+        grid-column: span 6;
+        margin: 0 auto;    
+    }
+}
 
 </style>

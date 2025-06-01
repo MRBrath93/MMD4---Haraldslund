@@ -155,7 +155,7 @@ function handleResize() {
                 <!-- --- ENKELTBILLETTER --- -->
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col">Enkelt billetter</th>
+                    <tr><th scope="col" class="type">Enkelt billetter</th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -178,7 +178,7 @@ function handleResize() {
                 <!-- --- KLIPPEKORT --- -->
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th class="regular" scope="col">Klippekort. <span class="th-small"> Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</span></th>
+                    <tr><th class="type" scope="col">Klippekort <span class="th-small"> Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</span></th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -203,7 +203,7 @@ function handleResize() {
                 <caption class="screenreaders-only">Priser på billetter i Vand og Wellness</caption>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col">Enkelt billetter</th>
+                    <tr><th scope="col" class="type">Enkelt billetter</th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -221,7 +221,7 @@ function handleResize() {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col">Familie billetter</th>
+                    <tr><th scope="col" class="type">Familie billetter</th>
                         <th scope="col">1 Voksen</th>
                         <th scope="col">2 Voksne</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -239,7 +239,7 @@ function handleResize() {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th class="regular" scope="col">Klippekort. <span class="th-small">Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00 </span></th>
+                    <tr><th class="type" scope="col">Klippekort <span class="th-small">Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00 </span></th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -257,7 +257,7 @@ function handleResize() {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col">Diverse billetter</th>
+                    <tr><th scope="col" class="type">Diverse billetter</th>
                         <th scope="col">1 Person</th>
                         <th scope="col">2 Personer</th>
                         <th scope="col">3 Personer</th>
@@ -276,7 +276,7 @@ function handleResize() {
 
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th scope="col">Personlig træner</th>
+                    <tr><th scope="col" class="type">Personlig træner</th>
                         <th scope="col">25 minutter</th>
                         <th scope="col">5 x 25 minutter</th>
                         <th scope="col" aria-hidden="true"></th>
@@ -294,7 +294,7 @@ function handleResize() {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th class="regular" scope="col">Massage</th>
+                    <tr><th class="type" scope="col">Massage</th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
@@ -326,7 +326,7 @@ function handleResize() {
             <caption class="screenreaders-only">Priser for Motioncenter</caption>
             <thead>
                 <tr>
-                    <th scope="col">Enkelt billetter</th>
+                    <th scope="col" class="type">Enkelt billetter</th>
                     <th scope="col">Voksen</th>
                     <th scope="col">Studerende<br><small>(Studiekort skal forvises)</small></th>
                 </tr>
@@ -355,7 +355,7 @@ function handleResize() {
             <!-- --- KLIPPEKORT ---  -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Klippekort</th>
+                    <th class="type" scope="col">Klippekort</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -371,7 +371,7 @@ function handleResize() {
             <!-- --- MÅNEDSKORT --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Månedskort</th>
+                    <th class="type" scope="col">Månedskort</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -391,7 +391,7 @@ function handleResize() {
             <!-- --- PERSONLIG TRÆNING --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Personlig træning</th>
+                    <th class="type" scope="col">Personlig træning</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -407,7 +407,7 @@ function handleResize() {
             <!-- --- PROGRAMLÆGNING --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Programlægning</th>
+                    <th class="type" scope="col">Programlægning</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -483,7 +483,7 @@ function handleResize() {
                         <td aria-hidden="true"></td>
                     </tr>
                     <tr>
-                        <td colspan="4"> *Ankomst før kl. 14:00 / Ankomst efter kl. 14:00</td>
+                        <td colspan="5"> *Ankomst før kl. 14:00 / Ankomst efter kl. 14:00</td>
                     </tr>
                     <!-- INSPIRATIONSKILDE- COLSPAN: W3Schools. HTML Table Colspan & Rowspan. (online) W3.CSS,  Refsnes Data. [Accessed 21/05/2025] URL: https://www.w3schools.com/html/html_table_colspan_rowspan.asp -->
                 </tbody>
@@ -791,11 +791,22 @@ table {
 th {
     font-size: clamp(0.85rem, 1.5vw, 1.25rem);
     font-family: var(--font-heading);
+    width: auto;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
 }
+
+.type {
+    font-weight: bold;
+    font-size: clamp(1.1rem, 2vw, 1.2rem);
+}
+
 
 .th-small {
     font-size: 0.85rem;
     display: inline-block;
+    font-weight: 400;
 }
 
 th, td{

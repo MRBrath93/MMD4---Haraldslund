@@ -152,7 +152,6 @@ const kategoriColor = computed(() => {
     <article 
     class="ads_cart" 
     :class="kategoriColor" 
-    aria-label="Reklame for Haraldslund"
     :aria-label="`Reklame for ${title}`"
     tabindex="0"
     >

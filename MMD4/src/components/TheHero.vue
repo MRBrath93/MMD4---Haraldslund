@@ -31,7 +31,7 @@ defineProps({
     text-align: center;
     height: 40vh;
     width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: var(--spacer-x4);
 }
 
 

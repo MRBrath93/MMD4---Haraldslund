@@ -262,7 +262,7 @@ onUnmounted(() => {
                         </div>
                     </div>
                 </li>
-                <li role="menuitem"><router-link class="no-drop text desktop-item" :to="{ name: 'moder-og-konferencer' }">Møder & Konferencer</router-link></li>
+                <li role="menuitem"><router-link class="no-drop text desktop-item" :to="{ name: 'moder-og-konferencer' }">Møder & Events</router-link></li>
                 <li role="menuitem"><router-link class="no-drop text desktop-item" id="booking-cta" :to="{ name: 'booking' }">Booking</router-link></li>
             </ul>
         </div>
@@ -344,7 +344,6 @@ nav .wrapper {
     .nav-links li a {
         display: block;
         color: var(--color-font-2);
-        /* padding-left: 20px; */
         border-radius: 5px;
         width: max-content;
         transition: all 0.3s ease;
@@ -354,7 +353,7 @@ nav .wrapper {
         font-family: var(--font-heading);
         font-weight: 500;
         text-decoration: none;
-        font-size: clamp(1rem, 1.2vw, 1.2rem);
+        font-size: 1rem;
         padding: 9px 15px;
         cursor: pointer;
         height: min-content;
@@ -631,5 +630,7 @@ nav .wrapper {
         left: 0;
     }
 }
+
+
 
 </style>

@@ -129,6 +129,7 @@ function getImage(billede) {
                     <ImageHolder class="img" :src="getImage(billede)" :alt="billede.alternativeText"></ImageHolder>
                     <BookingSquare title="Besøg vores hjemmeside" text="Læs mere om vores afdelinger og bestil bøger direkte til dit udvalgte servicepunkt" btn_title="Aalborg Bibliotek" btn_text="Gå til Aalborg Biblioteks hjemmeside" btn_path="https://www.aalborgbibliotekerne.dk/" btn_icon="open_in_new" btn_target="_blank" ></BookingSquare>
                 </div>
+                <!-- Bibliotek: URL Aalborg Bibliotek (online) aalborgbibliotekerne.dk. [Accessed 07/05/2025] URL: https://www.aalborgbibliotekerne.dk/haraldslund -->
         </section>
         
         <Reklamekort v-if="bibliotekData.reklame_kort"

@@ -157,8 +157,8 @@ const kategoriColor = computed(() => {
   z-index: 3;
 }
 
-.icon-wrapper span {
-  padding: 9px;
+.icon-wrapper i {
+  padding: 4px;
 }
 
 .text-wrapper {
