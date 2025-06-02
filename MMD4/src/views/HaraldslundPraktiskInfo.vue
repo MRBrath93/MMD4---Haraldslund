@@ -166,10 +166,6 @@ function getImage(billede) {
                 </div>
               </div>
             </div>
-            <div>
-              <h2>Klagemuligheder</h2>  
-              <p>{{ praktiskData.Klagemuligheder }}</p>
-            </div>
         </section>
 
         <section v-for="findVej in praktiskData?.Find_vej || []" 
