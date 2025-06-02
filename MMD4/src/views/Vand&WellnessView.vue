@@ -32,7 +32,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedvwRaw = localStorage.getItem('vandogwellnessData');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cacheVWTimestamp');
   const now = Date.now();
 
   if (cachedvwRaw && cachedTimestampRaw) {
@@ -59,7 +59,7 @@ onMounted(() => {
     .then(json => {
       vandogwellnessData.value = json.data;
       localStorage.setItem('vandogwellnessData', JSON.stringify(vandogwellnessData.value));
-      localStorage.setItem('cacheTimestamp', now.toString());
+      localStorage.setItem('cacheVWTimestamp', now.toString());
     })
     .catch(err => {
       error.value = err.message;

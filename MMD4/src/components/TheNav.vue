@@ -506,19 +506,18 @@ nav .wrapper {
     nav .wrapper{
         padding: 0 10px;
     }
-
-
-    .drop-links {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
     }
 
 
 @media screen and (min-width: 1051px) {
     .hover-wrapper-active {
     background-color: #414d43;
+    }
+
+    .drop-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
 

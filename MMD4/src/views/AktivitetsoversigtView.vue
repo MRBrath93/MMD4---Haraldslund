@@ -38,7 +38,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedaboutRaw = localStorage.getItem('aboutData');
-  const cachedTimestampRaw = localStorage.getItem('cacheharaldslundTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cacheharaldslundActivityTimestamp');
   const now = Date.now();
 
   if (cachedaboutRaw && cachedTimestampRaw) {
@@ -65,7 +65,7 @@ onMounted(() => {
     .then(json => {
       aboutData.value = json.data;
       localStorage.setItem('aboutData', JSON.stringify(aboutData.value));
-      localStorage.setItem('cacheTimestamp', now.toString());
+      localStorage.setItem('cacheharaldslundActivityTimestamp', now.toString());
     })
     .catch(err => {
       error.value = err.message;

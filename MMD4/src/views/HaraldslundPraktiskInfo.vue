@@ -15,7 +15,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedPraktiskRaw = localStorage.getItem('praktiskData');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cacheHaraldslundPraktiskTimestamp');
   const now = Date.now();
 
   if (cachedPraktiskRaw && cachedTimestampRaw) {
@@ -44,7 +44,7 @@ onMounted(() => {
     .then(json => {
         praktiskData.value = json.data;
         localStorage.setItem('praktiskData', JSON.stringify(praktiskData.value));
-        localStorage.setItem('cacheTimestamp', now.toString());   
+        localStorage.setItem('cacheHaraldslundPraktiskTimestamp', now.toString());   
     })
     .catch(err => {
       error.value = err.message;
