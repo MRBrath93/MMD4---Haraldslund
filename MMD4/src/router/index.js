@@ -346,4 +346,20 @@ const router = createRouter({
 
 export default router;
 
+router.beforeEach((to, from, next) => {
+  const defaultTitle = 'Haraldslund'
+  document.title = to.meta.title || defaultTitle
+
+  const description = to.meta.description
+  let tag = document.querySelector("meta[name='description']")
+  if (!tag) {
+    tag = document.createElement('meta')
+    tag.setAttribute('name', 'description')
+    document.head.appendChild(tag)
+  }
+  tag.setAttribute('content', description || 'Standardbeskrivelse for Haraldslund.')
+
+  next()
+})
+
 // INSPIRATIONSKILDE NESTED ROUTING: Guide - Essentials - Nested Routes. Vue Router. 2014 Evan You, Eduardo San Martin Morote. [Accessed 14/05/2025] URL: https://router.vuejs.org/guide/essentials/nested-routes
