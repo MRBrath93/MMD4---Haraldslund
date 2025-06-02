@@ -39,6 +39,7 @@ defineProps({
     font-weight: 700;
     font-family: var( --font-heading);
     color: var(--color-font-2);
+    line-height: 0.7;
     text-shadow:
     -0.5px -0.5px 0 black,
     0.5px -0.5px 0 black,
