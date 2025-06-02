@@ -167,7 +167,6 @@ function getImage(billede) {
               </div>
             </div>
         </section>
-
         <section v-for="findVej in praktiskData?.Find_vej || []" 
         :key="findVej.id"
         class="section-container"
