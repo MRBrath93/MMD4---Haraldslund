@@ -161,51 +161,6 @@ const kategoriColor = computed(() => {
   padding: 4px;
 }
 
-
-.link-wrapper:hover .overlay p{
-  /* afspil animation i 0.9 sekunder, both betyder animationen bliver på slutstil */
-  animation: bounce-from-top 0.9s both;
-}
-
-
-@keyframes bounce-from-top {
-  0% {
-    transform: translateY(-45px);
-    animation-timing-function: ease-in;
-  }
-  40% {
-    transform: translateY(-24px);
-    animation-timing-function: ease-in;
-  }
-  65% {
-    transform: translateY(-12px);
-    animation-timing-function: ease-in;
-  }
-  82% {
-    transform: translateY(-6px);
-    animation-timing-function: ease-in;
-  }
-  93% {
-    transform: translateY(-4px);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translateY(0px);
-    animation-timing-function: ease-out;
-  }
-
-  /* Procenter med samme egneskaber/stil  */
-  25%,
-  55%,
-  75%,
-  87% {
-    transform: translateY(0px);
-    animation-timing-function: ease-out;
-  }
-}
-
-
-
 .text-wrapper {
   display: flex;
   justify-content: center;
@@ -251,6 +206,48 @@ const kategoriColor = computed(() => {
 
 .link-wrapper:hover .overlay {
   opacity: 1;
+}
+
+
+.link-wrapper:hover .overlay p{
+  /* afspil animation i 0.9 sekunder, both betyder animationen bliver på slutstil */
+  animation: bounce-from-top 0.9s both;
+}
+
+@keyframes bounce-from-top {
+  0% {
+    transform: translateY(-45px);
+    animation-timing-function: ease-in;
+  }
+  40% {
+    transform: translateY(-24px);
+    animation-timing-function: ease-in;
+  }
+  65% {
+    transform: translateY(-12px);
+    animation-timing-function: ease-in;
+  }
+  82% {
+    transform: translateY(-6px);
+    animation-timing-function: ease-in;
+  }
+  93% {
+    transform: translateY(-4px);
+    animation-timing-function: ease-in;
+  }
+  100% {
+    transform: translateY(0px);
+    animation-timing-function: ease-out;
+  }
+
+  /* Procenter med samme egneskaber/stil  */
+  25%,
+  55%,
+  75%,
+  87% {
+    transform: translateY(0px);
+    animation-timing-function: ease-out;
+  }
 }
 
 /* Farve-klasser */
