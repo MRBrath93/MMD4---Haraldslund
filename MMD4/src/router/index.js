@@ -172,6 +172,8 @@ const router = createRouter({
           meta: {
             title: 'Personlig træning - Motioncenteret - Haraldslund',
             breadcrumb: 'Personlig træning',
+            description: 'Denne side handler om at kunne modtage personlig træning i Haraldslund Motioncenteret. Her kan du finde information om, hvordan du booker en personlig træner, priser og tilgængelige trænere.',
+
           }
         },
         {
