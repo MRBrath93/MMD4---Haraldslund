@@ -185,9 +185,9 @@ const goToNextDay = () => {
 /* --------- GRAFOPBYGNING --------- */
 // Returnerer farve til hver søjle baseret på antal besøgende
 const getColor = (amount) => {
-  if (amount >= 40) return '#ef4444';
-  if (amount >= 25) return '#eab308';
-  return '#22c55e';
+  if (amount >= 40) return '#908872';
+  if (amount >= 25) return '#C1BAA1';
+  return '#D7D3BF';
 };
 
 // Forbereder data til grafen: x-akse (tid) og y-akse (antal besøgende)
@@ -240,6 +240,15 @@ const chartOptions = computed(() => {
         grid: { display: false },
         // Skift farve afhængigt af tema
         ticks: { color: isDark ? '#ffffff' : '#1F1F1F' },
+        title: {
+        display: true,
+        text: 'Antal besøgende', // Y-akse beskrivelse
+        color: isDark ? '#ffffff' : '#1F1F1F',
+        font: {
+          size: 14,
+          weight: 'bold',
+        }
+      }
       },
       x: {
         ticks: {
@@ -253,6 +262,15 @@ const chartOptions = computed(() => {
           autoSkip: false,
         },
         grid: { display: false },
+        title: {
+        display: true,
+        text: 'Tidspunkt på dagen', // X-akse beskrivelse
+        color: isDark ? '#ffffff' : '#1F1F1F',
+        font: {
+          size: 14,
+          weight: 'bold',
+        }
+      }
       },
     },
   };
@@ -262,8 +280,8 @@ const chartOptions = computed(() => {
 <template>
   <div class="rush-hours">
     <div class="intro">
-      <h3>Planlæg dit besøg - undgå myldretiden</h3>
-      <p>Få et hurtigt overblik over, hvornår der typisk er flest besøgende i Haraldslund Kulturhus. Grafen viser det forventede aktivitetsniveau i løbet af dagen baseret på tidligere besøgstal.</p>
+      <h3>Besøg os når der er god plads og færre mennesker</h3>
+      <p>Vil du træne, når der er god plads? Her kan du se, hvornår der typisk er færrest besøgende i Haraldslund Vand- & Kulturhus. Grafen viser aktivitetsniveauet i løbet af dagen baseret på tidligere besøgstal, så du kan planlægge dit besøg i ro og mag.</p>
     </div>
     <div class="date--picker">
       <button 
