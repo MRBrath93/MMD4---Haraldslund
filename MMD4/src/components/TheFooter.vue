@@ -346,7 +346,6 @@ function formatDato(datoStr) {
 
 }
 
-
 @media (max-width: 800px) {
     .footer-contact-info {
     flex-direction: column;
