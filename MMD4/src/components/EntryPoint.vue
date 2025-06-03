@@ -89,19 +89,15 @@ const kategoriColor = computed(() => {
     :to="{ path: `${computedBtnLink}` }" 
     class="link-wrapper" 
     role="button" 
-    :aria-label="`Tryk for at gå til ${title}`"
-    >
+    :aria-label="`Tryk for at gå til ${title}`">
       <div class="wrapper" :class="kategoriColor">
         <div class="bg-layer" :style="{ backgroundImage: `url(${bgimage})` }"></div>
-        
         <div class="icon-wrapper">
           <i v-if="icon" :class="kategoriColor" class="icon material-symbols-rounded" aria-hidden="true">{{ icon }}</i>
         </div>
-        
         <div class="text-wrapper" :class="kategoriColor">
           <p>{{ title }}</p>
         </div>
-  
         <div class="overlay">
           <p>Tryk for at læse mere</p>
         </div>
