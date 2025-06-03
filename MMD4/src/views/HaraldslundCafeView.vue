@@ -1,6 +1,5 @@
 <script setup>
 import TheHero from "../components/TheHero.vue";
-import TheInternNavWater from "../components/TheInternNavWater.vue";
 import TheInternNavHaraldslund from "../components/TheInternNavHaraldslund.vue";
 import TheBreadcrumb from "../components/TheBreadcrumb.vue";
 import TheSpinner from "@/components/TheSpinner.vue";

@@ -31,7 +31,7 @@ onMounted(() => {
     isLoading.value = true;
     error.value = null;
     const cachedMotionViewRaw = localStorage.getItem('motionViewData'); // Hent cached data
-    const cachedTimestampRaw = localStorage.getItem('cacheTimestamp'); // Hent cached timestamp
+    const cachedTimestampRaw = localStorage.getItem('cacheMotionViewTimestamp'); // Hent cached timestamp
     const now = Date.now();
 
     // CHECK CACHE
@@ -58,7 +58,7 @@ onMounted(() => {
     .then(json => {
         motionViewData.value = json.data;
         localStorage.setItem('motionViewData', JSON.stringify(motionViewData.value));
-        localStorage.setItem('cacheTimestamp', now.toString());
+        localStorage.setItem('cacheMotionViewTimestamp', now.toString());
     })
     .catch(err => {
         error.value = err.message;

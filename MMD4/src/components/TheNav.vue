@@ -311,7 +311,6 @@ nav {
 nav .wrapper {
     position: relative;
     max-width: 100vw;
-    padding: 0px 30px;
     height: fit-content;
     margin: auto;
     display: flex;
@@ -431,7 +430,7 @@ nav .wrapper {
 .desktop-item{
     display: flex;
     align-items: center;
-    padding: 16px; /** Skubber baren nok ned i undermenuen til at onleave ikke bliver triggered */
+    padding: 16px 9px;
 }
 
 .dropbox .row {
@@ -507,19 +506,18 @@ nav .wrapper {
     nav .wrapper{
         padding: 0 10px;
     }
-
-
-    .drop-links {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
     }
 
 
 @media screen and (min-width: 1051px) {
     .hover-wrapper-active {
     background-color: #414d43;
+    }
+
+    .drop-links {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 }
 

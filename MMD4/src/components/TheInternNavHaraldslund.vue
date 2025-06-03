@@ -18,19 +18,28 @@ const dropdownRef = ref(null);
 // --- FUNKTIONER ---
 
 // ÅBNE OG LUKKE DROPDOWN-MENU PÅ SMÅ SKÆRME
+// Eventlistener til at lukke dropdown-menuen, når der klikkes udenfor elementet
+// event.target bruges til at få fat i det element, der blev klikket på.
+// contains() metoden bruges til at kontrollere, om dropdownRef.value indeholder det klikkede element.
+// Hvis det klikkede element ikke er en del af dropdownRef.value, sættes "isOpen" til false, hvilket lukker dropdown-menuen.
 const handleClickOutside = (event) => {
   if (dropdownRef.value && !dropdownRef.value.contains(event.target)) {
     isOpen.value = false;
   }
 };
+// INSPIRATIONSKILDE: Aparna Rathore. 24/07/2023. How to Detect Clicks Outside an Element with Vue.js?. Medium. (online) [Accessed 13/05/2025] URL: https://rathoreaparna678.medium.com/how-to-detect-clicks-outside-an-element-with-vue-js-64f05804445a
 
 // KLIK PÅ DROPDOWN-MENU
+// Funktion til at håndtere klik på dropdown-menuen, der kaldes ved @click på router-linket.
+// Når brugeren vælger et <li>-punkt i menuen, opdateres den valgte label og dropdown-menuen lukkes.
+// "item" er det valgte <li> i menuen og dets label sendes fra router-linket til funktionen.
 const selectItem = (item) => {
   selectedLabel.value = item.label;
   isOpen.value = false; 
 };
 
 // LIFECYCLE HOOKS
+// Lifecycle hooks til at tilføje og fjerne eventlistenere ved click og scroll
 onMounted(() => {
   document.addEventListener('click', handleClickOutside);
 });
@@ -188,9 +197,9 @@ span:hover {
 .router-link-exact-active {
     font-weight: bold;
 }
-
-
+/* INSPIRATIONSKILDE: Vue Router. Active links. (online) 2014. Evan You, Eduardo San Martin Morote. [Accessed 13/05/2025] URL: https://router.vuejs.org/guide/essentials/active-links */
 
 }
 </style> 
-<!-- INSPIRATIONSKILDER: SE REFERENCER TIL KODE I FILEN "src/components/TheInternNavMotion.vue" -->
+<!-- 
+ INSPIRATIONSKILDE: mmmrks. Building a VueJS dropdown menu component. 28/01/2025. DEV Community 2016-2025. (online) [Accessed 13/05/2025] URL: https://dev.to/mmmrks/building-a-vuejs-dropdown-menu-component-ho3 -->

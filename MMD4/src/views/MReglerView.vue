@@ -8,8 +8,31 @@ import TheSpinner from "@/components/TheSpinner.vue";
 
 import { ref, onMounted } from "vue";
 
+// CACHE VARIABLER
+const CACHE_DURATION_MS = 5 * 60 * 1000;
 
 onMounted(() => {
+  isLoading.value = true;
+  error.value = null;
+
+  const cachedMotionReglerRaw = localStorage.getItem('motionRegler');
+  const cachedTimestampRaw = localStorage.getItem('cacheMReglerTimestamp');
+  const now = Date.now();
+
+  if (cachedMotionReglerRaw && cachedTimestampRaw) {
+    const cachedTimestamp = Number(cachedTimestampRaw);
+
+    if (now - cachedTimestamp < CACHE_DURATION_MS) {
+      try {
+        mReglerData.value = JSON.parse(cachedMotionReglerRaw);
+        isLoading.value = false;
+        return;
+      } catch (e) {
+        console.warn('Fejl ved parsing af cached data:', e);
+      }
+    }
+  }
+
   fetch('https://popular-gift-b355856076.strapiapp.com/api/regler-motionscenter?pLevel')
   .then(response => {
       if (!response.ok) {
@@ -18,7 +41,9 @@ onMounted(() => {
       return response.json();
     })    
     .then(data => {
-        mReglerData.value = data.data;   
+        mReglerData.value = data.data;
+        localStorage.setItem('motionRegler', JSON.stringify(mReglerData.value));
+        localStorage.setItem('cacheMReglerTimestamp', now.toString()); 
     })
     .catch(err => {
       error.value = err.message;

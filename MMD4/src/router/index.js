@@ -42,6 +42,7 @@ const router = createRouter({
       meta: {
         title: 'Forside - Haraldslund',
         breadcrumb: 'Forside',
+        description: 'Velkommen til Haraldslund vand- og kulturhus, hvor du kan finde information om vores faciliteter, hold og aktiviteter.',
       }
     },
     {
@@ -54,6 +55,8 @@ const router = createRouter({
           meta: {
             title: 'Vand & Wellness - Haraldslund',
             breadcrumb: 'Vand & Wellness',
+            description: 'Se vores tilbud inden for vand og wellness, herunder svømmehal, wellness-område og forskellige holdaktiviteter.',
+
           },
         },
         {
@@ -66,6 +69,8 @@ const router = createRouter({
               meta: {
                 title: 'Holdoversigt - Vand & Wellness - Haraldslund',
                 breadcrumb: 'Holdoversigt',
+                description: 'Se vores holdoversigt for Vand & Wellness, hvor du kan se alle de forskellige hold, vi tilbyder.',
+
               }
             },
             {
@@ -75,6 +80,7 @@ const router = createRouter({
               meta: {
                 title: 'Holdbeskrivelse - Vand & Wellness - Haraldslund',
                 breadcrumb: 'Holdbeskrivelse',
+                description: 'Her kan du læse mere om det specifikke hold, find tidspunkter, og niveau.',
               },
             },
           ]
@@ -86,6 +92,8 @@ const router = createRouter({
           meta: {
             title: 'Priser - Vand & Wellness - Haraldslund',
             breadcrumb: 'Priser',
+            description: 'Find information om priser for adgang til svømmehal, wellness-område og holdaktiviteter.',
+
           }
         },
         {
@@ -95,6 +103,7 @@ const router = createRouter({
           meta: {
             title: 'Vand & Wellness - Regler - Haraldslund',
             breadcrumb: 'Regler',
+            description: 'Læs vores regler for brug af svømmehal og wellness-område',
           }
         },
         {
@@ -104,6 +113,7 @@ const router = createRouter({
           meta: {
             title: 'Svømmehallen - Vand & Wellness - Haraldslund',
             breadcrumb: 'Svømmehallen',
+            description: 'Oplev vores svømmehal med forskellige bassiner og aktiviteter for hele familien.',
           }
         },
         {
@@ -113,6 +123,7 @@ const router = createRouter({
           meta: {
             title: 'Wellness - Vand & Wellness - Haraldslund',
             breadcrumb: 'Wellness',
+            description: 'Forkæl dig selv i vores wellness-område med sauna, dampbad og afslapningsområder.',
           }
         },
       ]
@@ -127,6 +138,7 @@ const router = createRouter({
           meta: {
             title: 'Motion - Haraldslund',
             breadcrumb: 'Motion',
+            description: 'Oplev vores motionstilbud, herunder motionscenter, holdaktiviteter og personlig træning.',
           }
         },
         {
@@ -136,6 +148,7 @@ const router = createRouter({
           meta: {
             title: 'Om Motioncenteret - Haraldslund',
             breadcrumb: 'Om Motioncenteret',
+            description: 'Læs om vores motionscenter, faciliteter og hvad vi tilbyder.',
           }
         },
         {
@@ -145,6 +158,7 @@ const router = createRouter({
           meta: {
             title: 'Priser - Motioncenteret - Haraldslund',
             breadcrumb: 'Priser',
+            description: 'Find information om priser for adgang til motionscenteret og personlig træning.',
           }
         },
         {
@@ -154,6 +168,7 @@ const router = createRouter({
           meta: {
             title: 'Regler - Motioncenteret - Haraldslund',
             breadcrumb: 'Regler',
+            description: 'Læs vores regler for brug af motionscenteret.',
           }
         },
         {
@@ -163,6 +178,7 @@ const router = createRouter({
           meta: {
             title: 'Leje af sal og instruktør - Motioncenteret - Haraldslund',
             breadcrumb: 'Leje af sal og instruktør',
+            description: 'Se, hvordan du kan leje en sal og instruktør til dine egne arrangementer i Haraldslund Motioncenter.',
           }
         },
         {
@@ -172,6 +188,7 @@ const router = createRouter({
           meta: {
             title: 'Personlig træning - Motioncenteret - Haraldslund',
             breadcrumb: 'Personlig træning',
+            description: 'Få personlig træning i Haraldslund Motioncenter. Læs mere om vores personlige trænere',
           }
         },
         {
@@ -184,6 +201,7 @@ const router = createRouter({
               meta: {
                 title: 'Holdoversigt - Motioncenteret - Haraldslund',
                 breadcrumb: 'Holdoversigt',
+                description: 'Se vores holdoversigt for Motioncenteret, hvor du kan finde alle de forskellige hold, vi tilbyder.',
               }
             },
             {
@@ -193,6 +211,7 @@ const router = createRouter({
               meta: {
                 title: 'Holdbeskrivelse - Motion - Haraldslund',
                 breadcrumb: 'Holdbeskrivelse',
+                description: 'Læs mere om det specifikke motionshold, find tidspunkter og niveau.',
               }
             },
           ]
@@ -204,6 +223,7 @@ const router = createRouter({
           meta: {
             title: 'Sundhed i bevægelse - Motioncenteret - Haraldslund',
             breadcrumb: 'Sundhed & bevægelse',
+            description: 'Læs om vores Sundhed i Bevægelse-program, der tilbyder træning og aktiviteter.',
           }
         },
       ]
@@ -218,6 +238,7 @@ const router = createRouter({
           meta: {
             title: 'Om Haraldslund - Haraldslund',
             breadcrumb: 'Om Haraldslund',
+            description: 'Få indsigt i Haraldslunds historie, vores praktiske informationer, samt hvad vi tilbyder.',
           },
         },
         {
@@ -227,6 +248,7 @@ const router = createRouter({
           meta: {
             title: 'Priser - Haraldslund',
             breadcrumb: 'Priser',
+            description: 'Find information om priser for adgang til Haraldslund og vores forskellige faciliteter.',
           }
         },
         {
@@ -236,6 +258,7 @@ const router = createRouter({
           meta: {
             title: 'Praktisk Information - Haraldslund',
             breadcrumb: 'Praktisk Information',
+            description: 'Find praktisk information om Haraldslund, herunder åbningstider, kontaktinformation og faciliteter.',
           }
         },
         {
@@ -245,6 +268,7 @@ const router = createRouter({
           meta: {
             title: 'Café Harald - Haraldslund',
             breadcrumb: 'Café Harald',
+            description: 'Besøg Café Harald for en lækker bid mad eller en kop kaffe i hyggelige omgivelser.',
           }
         },
         {
@@ -254,6 +278,8 @@ const router = createRouter({
           meta: {
             title: 'Vores historie - Haraldslund',
             breadcrumb: 'Historien',
+            description: 'Lær om Haraldslunds lange spændende historie og hvordan vi har udviklet os gennem årene.',
+
           }
         },
         {
@@ -263,6 +289,7 @@ const router = createRouter({
           meta: {
             title: 'Personale - Haraldslund',
             breadcrumb: 'Personale',
+            description: 'Mød vores dedikerede personale, der arbejder hårdt for at gøre din oplevelse i Haraldslund så god som muligt.',
           }
         },
         {
@@ -272,6 +299,7 @@ const router = createRouter({
           meta: {
             title: 'Bibliotek - Haraldslund',
             breadcrumb: 'Bibliotek',
+            description: 'Besøg Haraldslund Bibliotek for at låne bøger og afhente din bestillinger.',
           }
         },
         {
@@ -281,6 +309,7 @@ const router = createRouter({
           meta: {
             title: 'Firmaaftaler - Haraldslund',
             breadcrumb: 'Firmaaftaler',
+            description: 'Læs om vores firmaaftaler, der tilbyder specielle vilkår for virksomheder og organisationer.',
           }
         },
         {
@@ -290,6 +319,7 @@ const router = createRouter({
           meta: {
             title: 'Brugerraad - Haraldslund',
             breadcrumb: 'Brugerråd',
+            description: 'Læs om vores brugerråd, der repræsenterer brugerne af Haraldslund.',
           }
         },
         {
@@ -299,6 +329,7 @@ const router = createRouter({
           meta: {
             title: 'Events - Haraldslund',
             breadcrumb: 'Events',
+            description: 'Hold dig opdateret med de seneste events og arrangementer i Haraldslund.',
           }
         },
         {
@@ -308,6 +339,7 @@ const router = createRouter({
           meta: {
             title: 'Aktivitetsoversigt - Haraldslund',
             breadcrumb: 'Aktivitetsoversigt',
+            description: 'Se hvornår der er flest mennesker i Haraldslund',
           }
         },
       ]
@@ -319,6 +351,7 @@ const router = createRouter({
       meta: {
         title: 'Møder og Events - Haraldslund',
         breadcrumb: 'Møder og Events',
+        description: 'Planlæg dit næste møde eller event i Haraldslund med vores moderne faciliteter.',
       }
     },
     {
@@ -328,20 +361,50 @@ const router = createRouter({
       meta: {
         title: 'Booking - Haraldslund',
         breadcrumb: 'Booking',
+        description: 'Book dine aktiviteter, hold eller faciliteter i Haraldslund nemt online.',
       }
     },
   ],
+
+  // Scroll-adfærd ved navigation i Vue Router
   scrollBehavior(to, from, savedPosition) {
-    // Hvis du navigerer tilbage, behold positionen
+    // Hvis brugeren bruger browserens "tilbage"-knap, behold scrollpositionen
     if (savedPosition) {
       return savedPosition;
     } else {
-      // Ellers scroll til toppen
+      // Ellers scroll til toppen af siden ved navigation
       return { top: 0 };
     }
   }
 });
 
 export default router;
+
+// Global navigationfunktion, der kører før hver route-skift
+router.beforeEach((to, from, next) => {
+  const defaultTitle = 'Haraldslund';
+
+  // Sæt dokumentets titel til den titel, der er defineret i route meta, ellers brug standardtitel
+  document.title = to.meta.title || defaultTitle;
+
+  // Hent meta description for den nye route
+  const description = to.meta.description;
+
+  // Find det eksisterende meta-tag for beskrivelse i dokumentets head
+  let tag = document.querySelector("meta[name='description']");
+
+  // Hvis meta-tagget ikke findes, opret det og tilføj det til head
+  if (!tag) {
+    tag = document.createElement('meta');
+    tag.setAttribute('name', 'description');
+    document.head.appendChild(tag);
+  }
+
+  // Sæt eller opdater meta description indholdet til route-specifik beskrivelse eller en standardtekst
+  tag.setAttribute('content', description || 'Velkommen til Haraldslund, hvor du kan finde information om vores faciliteter, hold og aktiviteter.');
+
+  // Fortsæt navigationen
+  next();
+});
 
 // INSPIRATIONSKILDE NESTED ROUTING: Guide - Essentials - Nested Routes. Vue Router. 2014 Evan You, Eduardo San Martin Morote. [Accessed 14/05/2025] URL: https://router.vuejs.org/guide/essentials/nested-routes

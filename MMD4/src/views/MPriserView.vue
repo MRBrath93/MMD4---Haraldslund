@@ -24,7 +24,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedMotionPriserkRaw = localStorage.getItem('motionPriser');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cacheMPriserTimestamp');
   const now = Date.now();
 
   if (cachedMotionPriserkRaw && cachedTimestampRaw) {
@@ -51,7 +51,7 @@ onMounted(() => {
     .then(json => {
         motionPriser.value = json.data;
         localStorage.setItem('motionPriser', JSON.stringify(motionPriser.value));
-        localStorage.setItem('cacheTimestamp', now.toString());   
+        localStorage.setItem('cacheMPriserTimestamp', now.toString());   
     })
     .catch(err => {
       error.value = err.message;

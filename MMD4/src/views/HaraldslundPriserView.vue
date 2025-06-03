@@ -30,7 +30,7 @@ onMounted(() => {
     const cachedMotionPriserRaw = localStorage.getItem('motionPrisData');
     const cachedKombiPriserRaw = localStorage.getItem('kombiData');
     const cachedaboutRaw = localStorage.getItem('aboutData');
-    const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+    const cachedTimestampRaw = localStorage.getItem('cacheHaraldslundPriserTimestamp');
     const now = Date.now();
    
     if (cachedvwPriserRaw && cachedMotionPriserRaw && cachedKombiPriserRaw && cachedaboutRaw && cachedTimestampRaw) {
@@ -79,7 +79,7 @@ onMounted(() => {
         localStorage.setItem('vwPrisData', JSON.stringify(vwPrisData.value));
         localStorage.setItem('kombiData', JSON.stringify(kombiData.value));
         // Gem timestamp i localStorage for at holde styr på, hvornår data blev hentet sidst
-        localStorage.setItem('cacheTimestamp', now.toString());
+        localStorage.setItem('cacheHaraldslundPriserTimestamp', now.toString());
         })
         .catch(err => {
         error.value = err.message;
