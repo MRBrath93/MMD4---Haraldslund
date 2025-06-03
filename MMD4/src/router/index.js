@@ -29,8 +29,7 @@ import MEnkeltHoldView from '@/views/MEnkeltHoldView.vue';
 import VWEnkeltHoldView from '@/views/VWEnkeltHoldView.vue';
 import EventsView from '@/views/EventsView.vue';
 import AktivitetsoversigtView from '@/views/AktivitetsoversigtView.vue';
-import { useClassesStoreMotion } from '@/stores/motion-classes';
-import { useClassesStoreWater } from '@/stores/water-classes';
+import NotFound from '@/views/404NotFoundView.vue';
 
 const router = createRouter({
   history: createWebHashHistory(), // Brug hash-baseret historik
@@ -363,6 +362,11 @@ const router = createRouter({
         breadcrumb: 'Booking',
         description: 'Book dine aktiviteter, hold eller faciliteter i Haraldslund nemt online.',
       }
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound
     },
   ],
 

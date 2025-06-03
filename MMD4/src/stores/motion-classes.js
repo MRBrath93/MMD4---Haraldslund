@@ -156,7 +156,7 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
                                 id: text.id,
                                 underoverskrift: text.Underoverskift,
                                 brodtekst: text.Brodtekst,
-                                punktopstilles: text.Skal_det_punkteopstilles,
+                                punktopstilles: text.Skal_det_punktopstilles,
                             })) : [], // Hvis "Tekst" er null, giv en tom array
                             // Håndtering af Billeder i Afsnit (som array)
                             billeder: section.Billede ? section.Billede.map(billede => ({

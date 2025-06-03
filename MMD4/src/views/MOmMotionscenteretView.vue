@@ -169,7 +169,7 @@ function getImage(billede) {
   gap: var(--spacer-x2);
   margin: 0 auto;
   margin-bottom: var(--spacer-Elements);
-  width: 100%;
+  width: 95%;
   max-width: var(--max-width);
   color: var(--color-font-1);
 }

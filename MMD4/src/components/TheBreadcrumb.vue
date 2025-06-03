@@ -49,7 +49,7 @@
   font-weight: bold;
 }
 
-li, span {
+li, span, a {
   font-size: clamp(0.875rem, 1.5vw, 1rem);
   font-family: var(--font-text);
 }

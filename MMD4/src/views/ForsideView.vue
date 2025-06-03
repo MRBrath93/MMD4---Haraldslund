@@ -248,6 +248,7 @@ main{
 
 .btn--container{
     display: flex;
+    flex-direction: column;
     justify-content: left;
     gap: var(--spacer-x1);
     width: 100%;
@@ -324,6 +325,10 @@ section{
 @media screen and (min-width: 500px) {
     .four--column-grid{
         gap: 1rem;
+    }
+
+    .btn--container{
+        flex-direction: row;
     }
 }
 

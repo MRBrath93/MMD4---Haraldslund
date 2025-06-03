@@ -429,7 +429,7 @@ figure {
     max-width: var(--max-width);
     display: flex;
     flex-direction: column;
-    gap: var(--spacer-x1);
+    gap: var(--spacer-x3);
 }
 
 section {
@@ -442,6 +442,7 @@ section {
 @media screen and (min-width: 768px) {
  .section-container {
     display: grid;
+    gap: var(--spacer-x1);
     grid-template-columns: repeat(2,1fr);
 }
 }

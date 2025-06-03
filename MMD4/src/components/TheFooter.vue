@@ -192,7 +192,7 @@ function formatDato(datoStr) {
   border-bottom: 1px solid #bcbcbc85;
   padding-bottom: 5px;
   color: var(--color-font-2);
-  font-size: clamp(1.1rem, 3vw, 1.2rem);
+  font-size: clamp(1rem, 3vw, 1.1rem);
   font-weight: 700;
   font-family: var(--font-heading);
 }
