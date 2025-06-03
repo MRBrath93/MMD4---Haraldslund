@@ -122,7 +122,7 @@ onBeforeUnmount(() => {
 .intern-nav-container {
     display: flex;
     flex-direction: column;
-    gap: var(--spacer-x1);
+    gap: var(--spacer-x0-5);
     padding: var(--spacer-x0-5) var(--spacer-x1);
     width: 95%;
     max-width: var(--max-width);
@@ -199,6 +199,12 @@ span:hover {
 }
 /* INSPIRATIONSKILDE: Vue Router. Active links. (online) 2014. Evan You, Eduardo San Martin Morote. [Accessed 13/05/2025] URL: https://router.vuejs.org/guide/essentials/active-links */
 
+}
+
+@media screen and (min-width: 1300px) {
+  .intern-nav-container {
+      gap: var(--spacer-x1);
+  }
 }
 </style> 
 <!-- 

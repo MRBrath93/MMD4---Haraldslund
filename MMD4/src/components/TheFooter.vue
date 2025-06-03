@@ -54,25 +54,20 @@ const footerData = ref([]);
 // CACHE VARIABLER
 const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
 
+function formatDato(datoStr) {
+  const [year, month, day] = datoStr.split('-');
+  return `${day}.${month}.${year}`;
+}
 
 </script>
 
 <template>
-    <div 
-    class="footer"
-    role="contentinfo"
-    aria-label="Sidefod med links til navigation, genveje, åbningstider og sociale medier"
-    >
-        <div class="footer-container">
-            <div role="region"
-            aria-labelledby="navigation-headline"
-            >
-                <h4 class="footer-headline"
-                id="navigation-headline">
-                    Navigation
-                </h4>
-                <ul>
-                    <li>
+    <footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-column">
+      <h3>Navigation</h3>
+      <ul>
+        <li>
                         <router-link :to="{ name: 'frontpage' }">Forside</router-link>
                     </li>
                     <li>
@@ -90,17 +85,12 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                     <li>
                         <a href="#">Booking</a>
                     </li>
-                </ul>
-            </div>
-            <div role="region"
-            aria-labelledby="genveje-headline"
-            >
-            <h4 class="footer-headline"
-            id="genveje-headline">
-                Genveje
-            </h4>
-            <ul>
-                <li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3>Genveje</h3>
+      <ul>
+        <li>
                     <a href="#">Opret ny bruger</a>
                 </li>
                 <li>
@@ -121,35 +111,23 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                     target="_blank" 
                     href="http://www.aalborgkommune.dk/">Aalborg Kommune</a>
                 </li>
-            </ul>
-            </div>
-            <div role="region"
-            aria-labelledby="for-medlemmer-headline"
-            >
-                <h4 
-                class="footer-headline"
-                id="for-medlemmer-headline">
-                    For medlemmer
-                </h4>
-                <ul>
-                    <li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3>Formedlemmer</h3>
+      <ul>
+         <li>
                         <router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link>
                     </li>
                     <li>
                         <a href="#">Events</a>
                     </li>
-                </ul>
-            </div>
-            <div role="region"
-            aria-labelledby="footer-accessibility-headline"
-            >
-                <h4 
-                class="footer-headline"
-                id="footer-accessibility-headline">
-                    Tilgængelighed
-                </h4>
-                <ul>
-                    <li>
+      </ul>
+    </div>
+    <div class="footer-column">
+      <h3>Tilgængelighed</h3>
+      <ul>
+         <li>
                         <a 
                         rel="noopener noreferrer"
                         target="_blank"
@@ -167,16 +145,17 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                             {{ themeStore.moerkTemaAktivt ? 'Mørkt tema aktiveret' : 'Lyst tema aktiveret' }}
                         </p>
                     </li>
-                </ul>
-            </div>
-            <div 
+      </ul>
+    </div>
+     <div class="footer-column">
+      <h3>Åbningstider</h3>
+      <div 
             role="region"
             class="large-column"
             aria-labelledby="opening-hours-headline"
             >
-                <h4 class="footer-headline" id="opening-hours-headline">Åbningstider</h4>
-                    <div class="opening-hours-container">
-                        <ul class="opening-hours" v-for="aabningstider in footerData?.Almene_aabningstider || []"
+            <div class="opening-hours-container">
+                        <ul class="opening-hours" v-for="aabningstider in footerData?.Almindelige_aabningstider || []"
                         :key="aabningstider.id">
                             <li v-if="aabningstider.Dag">{{ aabningstider.Dag }}:</li>
                             <li v-if="aabningstider.Har_Vi_Lukket === true">Lukket</li>
@@ -189,18 +168,26 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                                 </span>
                             </li>
                         </ul>
-                    </div>
-                    <div
+                </div>
+        </div>
+    </div>
+     <div class="footer-column">
+      <h3>Specielle åbningstider</h3>
+      <div 
+            role="region"
+            class="large-column"
+            aria-labelledby="opening-hours-headline"
+            >
+             <div
                         v-if="footerData?.Specielle_aabningstider && footerData.Specielle_aabningstider.length > 0"
                         class="special-opening-hours"
                     >
-                        <h4>Specielle åbningstider</h4>
                         <div
                         v-for="specielTid in footerData.Specielle_aabningstider"
                         :key="specielTid.id"
                         class="special-opening-day"
                         >
-                            <p v-if="specielTid.Dag">{{ specielTid.Dag }}</p>
+                            <p v-if="specielTid.Anledning">{{ specielTid.Anledning }} ({{ formatDato(specielTid.Dato) }}):</p>
                             <span v-if="specielTid.Har_Vi_Lukket === true">Lukket</span>
                             <span v-else-if="specielTid.Har_Vi_Lukket === false">
                                 <span v-if="specielTid.Start_tidspunkt">
@@ -212,8 +199,13 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                             </span>
                         </div>
                     </div>
-            </div>
-            <div class="logoholder">
+        </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2025 Haraldslund Vand- og Kulturhus</p>
+  </div>
+  <div class="logoholder">
                 <div 
             role="region"
             class="footer-column wide-column"
@@ -269,251 +261,99 @@ const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
                 <img src="../assets/images/separator.png" class="separator" alt="Streg" aria-hidden="true" />
             </div>   
             </div>
-        </div>
-    </div>
+</footer>
+
 </template>
 <style scoped>
-
-
-.footer {
-    background-color: var(--color-navigation);
-    color: var(--color-font-2);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: var(--spacer-x4) var(--spacer-x3);
-}
-
-.footer h4 {
-    color: var(--color-font-2);
-}
-
-.footer ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.footer ul li a {
-    color: var(--color-font-2);
-    font-size: clamp(0.875rem, 1.5vw, 1rem);
-    min-width: 1.5rem;
-    min-height: 1.5rem;
-}
-
-.logoholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-}
-
-.footer-contact-info a{
-    text-decoration: none;
-    color: var(--color-font-2);
-    font-size: clamp(0.875rem, 1.2vw, 1rem);
-    font-weight: 300;
-    align-items: flex-start;
-    font-family: var(--font-heading);
-}
-
-.footer li button {
-    background-color: transparent;
-    border: none;
-    color: var(--color-font-2);
-    font-size: clamp(0.875rem, 1.5vw, 1rem);
-    padding-bottom: var(--spacer-x0-5);
-    padding-left: 1px;
-    padding-top: 0.2rem;
-    border: none;
-    cursor: pointer;
-}
-
-.footer p, .footer li {
-    font-family: var(--font-heading);
-    font-size: clamp(0.875rem, 1.5vw, 1rem);
-    color: var(--color-font-2);
-}
-
-footer li a:hover, footer li button:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.5rem;
-}
-
-.footer-logo {
-    width: 12rem;
-    height: 3.5rem;
-}
-
-.footer div {
-    width: fit-content;
-}
-
-.footer-icons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1.5rem;
-    width: 100%;
-    padding: var(--spacer-x1) 0;
-}
-
-.footer h4 {
-    padding-bottom: var(--spacer-x0-5);
-}
-
-.social-icon {
-    width: 2.1rem;
-    height: 2.2rem;
-}
-.payment-icon {
-    height: 2rem;
-    width: 3.125rem;
+.site-footer {
+  background-color: var(--color-navigation);
+  padding: 40px 20px;
+  font-family: sans-serif;
 }
 
 .footer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--spacer-x1-5);
-    max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  gap: 20px;
+  color: var(--color-font-2);
+}
+
+.footer-column {
+  flex: 1 1;
+}
+
+.footer-column h3 {
+  margin-bottom: 10px;
+  font-size: 1.2em;
+  border-bottom: 1px solid var(--color-font-2);;
+  padding-bottom: 5px;
+  color: var(--color-font-2);
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  margin-bottom: 8px;
+  color: var(--color-font-2);
+}
+
+.footer-column ul li a {
+  color: var(--color-font-2);
+  text-decoration: none;
+  color: var(--color-font-2);
+}
+
+.footer-column ul li a:hover {
+  color: var(--color-font-2);
+  text-decoration: underline;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 0.9em;
+  color: #aaa;
+  border-top: 1px solid #444;
+  padding-top: 15px;
 }
 
 .large-column {
-    grid-column: span 2;
+  display: flex;
+  gap: var(--spacer-x1);
+  min-width: 20rem;
 }
 
-.opening-hours {
+.opening-hours, .special-opening-day {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
+    min-width: 20rem;
+    color: var(--color-font-2);
+}
+
+.special-opening-day>p {
+    color: var(--color-font-2);
+}
+
+/* Responsiv til mobil */
+@media (max-width: 600px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-column {
+    flex: none;
     width: 100%;
-    padding-bottom: var(--spacer-x1);
+  }
 }
 
-#opening-hours-container {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--spacer-x1);
-    flex-wrap: wrap;
-}
-
-.special-opening-hours {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: var(--spacer-x1);
-    padding: var(--spacer-x1);
-    background-color: var(--color-pricetable);
-}
-
-.separator {
-    display: none;
-}
-
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-}
-
-.footer-contact-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.footer-contact-info p {
-    font-size: clamp(0.875rem, 1.2vw, 1rem);
-    font-weight: 300;
-    align-items: flex-start;
-}
-
-@media screen and (min-width: 768px) {
-    .footer-container {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        max-width: 1236px;
-    }
-
-    .opening-hours {
-        flex-direction: row;
-        gap: var(--spacer-x1);
-    }
-
-    .footer-column {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-    }
-
-    .logoholder {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-}
-
-@media screen and (min-width: 800px) {
-    .footer-contact-info {
-        padding-left: var(--spacer-x1);
-    }
-
-    .footer {
-        align-items: center;
-    }
-}    
-
-@media screen and (min-width: 1120px) {
-
-    .footer-container {
-        gap: var(--spacer-x2);
-        row-gap: var(--spacer-x1);
-        justify-content: center;
-    }
-
-    .separator {
-        display: inline-block;
-    }
-
-    .wide-column {
-        grid-column: span 6;
-        margin: 0 auto;    
-    }
-
-    .footer-logo {
-        width: 17rem;
-        height: 5rem;
-    }
-
-    .footer-contact-info {
-        flex-direction: row;
-        justify-content: space-between;
-        gap: var(--spacer-x2-5);
-    }
-
-    .logoholder {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-}
-
-@media screen and (min-width: 1300px) {
-    .footer-container {
-        width: 100%;
-    }
-
-}
 
 
 </style>

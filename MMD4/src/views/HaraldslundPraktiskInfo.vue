@@ -15,7 +15,7 @@ onMounted(() => {
   error.value = null;
 
   const cachedPraktiskRaw = localStorage.getItem('praktiskData');
-  const cachedTimestampRaw = localStorage.getItem('cacheHaraldslundPraktiskTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
   const now = Date.now();
 
   if (cachedPraktiskRaw && cachedTimestampRaw) {
@@ -44,7 +44,7 @@ onMounted(() => {
     .then(json => {
         praktiskData.value = json.data;
         localStorage.setItem('praktiskData', JSON.stringify(praktiskData.value));
-        localStorage.setItem('cacheHaraldslundPraktiskTimestamp', now.toString());   
+        localStorage.setItem('cacheTimestamp', now.toString());   
     })
     .catch(err => {
       error.value = err.message;
@@ -92,6 +92,11 @@ function getImage(billede) {
   billede.url || '';
 }
 
+function formatDato(datoStr) {
+  const [year, month, day] = datoStr.split('-');
+  return `${day}.${month}.${year}`;
+}
+
 </script>
 
 <template>
@@ -108,20 +113,14 @@ function getImage(billede) {
         description="Læs praktisk information om Haraldslund Vand og Kulturhus"
         :image="praktiskData.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="praktiskData.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'" ></TheHero>
-
-        <section class="content-container">
-          <TheBreadcrumb></TheBreadcrumb>
-          <TheInternNavHaraldslund
-          :label="internNavLabels"
-          ></TheInternNavHaraldslund>
-  
-          <h1 tabindex="-1"> {{ praktiskData.Titel }} </h1>
-        </section>
+        <TheBreadcrumb></TheBreadcrumb>
+        <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
+        <h1 tabindex="-1"> {{ praktiskData.Titel }} </h1>
         <section class="section-container">
             <div v-for="(kontaktoplysning,index) in praktiskData?.Kontaktoplysninger || []" 
             :key="kontaktoplysning.id">
               <DynamicHeading :level="index === 0 ? 2 : 2">{{ kontaktoplysning.Overskrift }}</DynamicHeading>
-                <div v-for="tekst in kontaktoplysning.Tekst || []" :key="tekst.id">
+                <div class="content-seperator" v-for="tekst in kontaktoplysning.Tekst || []" :key="tekst.id">
                     <p v-if="tekst.Underoverskift" class="fat-text">{{ tekst.Underoverskift }}</p>
                     <p>{{ tekst.Brodtekst }}</p>
                 </div>
@@ -139,9 +138,9 @@ function getImage(billede) {
             </div>
             <div class="wrapper-content">
               <h2>Åbningstider</h2>
-              <div v-for="aabningstider in praktiskData?.Almene_aabningstider || []" :key="aabningstider.id">
+              <div v-for="aabningstider in praktiskData?.Almindelige_aabningstider || []" :key="aabningstider.id">
                   <div class="time-container">
-                      <p v-if="aabningstider.Dag">{{ aabningstider.Dag }} :</p>
+                      <p class="bold" v-if="aabningstider.Dag">{{ aabningstider.Dag }}:</p>
                       <span v-if="aabningstider.Har_Vi_Lukket  === true "> Lukket </span>
                       <div v-else-if="aabningstider.Har_Vi_Lukket  === false ">
                           <span v-if="aabningstider.Start_tidspunkt "> {{  aabningstider.Start_tidspunkt.split(':')[0] }}:{{ aabningstider.Start_tidspunkt.split(':')[1] }} - </span>
@@ -151,22 +150,20 @@ function getImage(billede) {
                       INSPIRATIONSKILDE SPLIT: W3Schools.JavaScript String split(). 2025. [Accessed 20/05/25] (online) URL: https://www.w3schools.com/jsref/jsref_split.asp -->
                   </div>
               </div>
-              <div v-if="praktiskData?.Specielle_aabningstider && praktiskData.Specielle_aabningstider.length > 0">
-                <div v-for="specielTid in praktiskData?.Specielle_aabningstider || []" :key="specielTid.id" id="specielTid">            
-                  <section>
-                    <div>
-                        <p v-if="specielTid.Dag">{{ specielTid.Dag }}</p>
+              <div v-if="praktiskData?.Specielle_aabningstider && praktiskData.Specielle_aabningstider.length > 0" id="specielTid">
+                <h5>Specielle åbningstider</h5>
+                    <div v-for="specielTid in praktiskData?.Specielle_aabningstider || []" :key="specielTid.id" class="flex">
+                        <p class="bold" v-if="specielTid.Anledning">{{ specielTid.Anledning }} ({{ formatDato(specielTid.Dato) }}):</p>
                         <span v-if="specielTid.Har_Vi_Lukket  === true "> Lukket </span>
                         <div v-else-if="specielTid.Har_Vi_Lukket  === false ">
                             <span v-if="specielTid.Start_tidspunkt "> {{  specielTid.Start_tidspunkt.split(':')[0] }}:{{ specielTid.Start_tidspunkt.split(':')[1] }} - </span>
                             <span v-if="specielTid.Slut_tidspunkt "> {{  specielTid.Slut_tidspunkt.split(':')[0] }}:{{ specielTid.Slut_tidspunkt.split(':')[1] }}</span>
                         </div>
                     </div>
-                  </section>
-                </div>
               </div>
             </div>
         </section>
+
         <section v-for="findVej in praktiskData?.Find_vej || []" 
         :key="findVej.id"
         class="section-container"
@@ -337,12 +334,19 @@ function getImage(billede) {
 }
 
 .content-container{
-  width: 100%;
-  margin: 0 auto;
+  width: 95%;
+  max-width: var(--max-width);
 }
 
-.content-container h1{
-  margin-bottom: var(--spacer-x2);
+.bold{
+  font-weight: 600;
+}
+
+h1{
+  padding-bottom: var(--spacer-x1);
+  margin: 0 auto;
+  width: 95%;
+  max-width: var(--max-width);
 }
 
 .heading{
@@ -351,26 +355,15 @@ function getImage(billede) {
     margin: var(--spacer-x1) auto;
 }
 
-.section-container {
-    margin: 0 auto var(--spacer-Elements);
-    max-width: var(--max-width);
-    width: 95%;
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    gap: var(--spacer-x1);
-}
-
-h1 {
-  width: 100%;
-  max-width: var(--max-width);
+.breadcrumb-container {
   margin: 0 auto;
+  width: 95%;
 }
 
 #specielTid {
-  border: 1px solid var(--color-font-1);
-  padding: var(--spacer-x1);
-  margin: var(--spacer-x1);
-  background-color: var(--color-pricetable);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacer-x1);
 }
 
 .fat-text {
@@ -385,6 +378,12 @@ h1 {
     width: 100%;
 }
 
+.flex{
+  display: flex;
+  justify-content: space-between;
+  max-width: 18.75rem;
+}
+
 span {
   font-size: 1rem;
   line-height: 1.5;
@@ -395,19 +394,21 @@ span {
 
 .time-container {
     display: flex;
-    flex-direction: row;
-    gap: var(--spacer-x1);
-    align-items: center;
-    justify-content: space-between;
+    gap: var(--spacer-x0-5);
     max-width: 18.75rem;
+    justify-content: space-between;
 }
 
 .wrapper-content {
     display: flex;
     flex-direction: column;
     gap: var(--spacer-x1);
-
 }
+
+.content-seperator {
+  margin-bottom: var(--spacer-x1);
+}
+
 figure {
     display: flex;
     flex-direction: column;
@@ -415,22 +416,67 @@ figure {
     gap: var(--spacer-x1);
 }
 
-figure .side-img {
-    max-width: 43.75rem;
-    max-height: 21.5rem;
-
-}
-figure .small-side-img {
-    max-width: 40rem;
-    max-height: 16rem;
-}
-
 .persondata-container {
     display: flex;
     flex-direction: column;
     gap: var(--spacer-x1);
     max-width: 34rem;
+}
 
+.section-container {
+    margin: 0 auto;
+    margin-bottom: var(--mobile-site-space);
+    max-width: var(--max-width);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacer-x1);
+}
+
+section {
+    width: 95%;
+    margin: 0 auto;
+    max-width: var(--max-width);
+}
+
+
+@media screen and (min-width: 768px) {
+ .section-container {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
+}
+
+@media screen and (min-width: 1300px) {
+
+  .breadcrumb {
+    margin: 0;
+  }
+
+  .section-container {
+    margin-bottom: var(--spacer-Elements);
+  }
+
+.time-container {
+    flex-direction: row;
+    gap: var(--spacer-x0-5);
+    justify-content: space-between;
+    max-width: 18.75rem;
+}
+
+
+
+}
+
+@media screen and (max-width: 400px) {
+    .content-container {
+        width: 100vw;
+    }
+
+    .intern-nav {
+        margin: 0;
+        width: 100%;
+    }
+   
 }
 
 
