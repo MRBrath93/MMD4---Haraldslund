@@ -165,7 +165,7 @@ const visibleTeamCards = computed(() => {
     <section class="overviewGrid">
       <QuickInfo class="quickinfo"  :time="selectedClass.varighed" :group="selectedClass.maalgruppe" :priser="selectedClass.priser" :praticalInfo="selectedClass.praktiskeOplysninger" :cancelBooking="selectedClass.aflysning" :type_af_hold="selectedClass.type_af_hold"></QuickInfo>
       <BookingSquare title="Sådan tilmelder du dig" text="Du kan tilmelde dig gennem vores online booking system via. nedenstående link." btn_title="Booking" btn_text="Foretag din booking her" btn_path="Booking" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
-      <BookingSquare title="Til- & Afmeldingsfrister" text="Er du forhindret i at deltage på holdet? Sørg for at melde afbud i rette tid." btn_title="Til- & Afmeldingsfrister" btn_text="Få styr på diverse frister" btn_path="VW regler" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
+      <BookingSquare title="Til- & Afmeldingsfrister" text="Er du forhindret i at deltage på holdet? Sørg for at melde afbud i rette tid." btn_title="Til- & Afmeldingsfrister" btn_text="Få styr på diverse frister" btn_path="Motion regler" btn_icon="arrow_forward" :type_af_hold="selectedClass.type_af_hold" ></BookingSquare>
     </section>
 
     <section>
