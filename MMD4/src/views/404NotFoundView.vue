@@ -1,16 +1,4 @@
 <script setup>
-import { useThemeStore } from '@/stores/themeStore';
-import { computed } from 'vue';
-import TheBtn from '@/components/TheBtn.vue';
-
-const themeStore = useThemeStore();
-
-// Computed værdi for tema
-const isDark = computed(() => themeStore.moerkTemaAktivt);
-
-// Dynamisk fill-farve baseret på tema
-const backgroundFill = computed(() => (isDark.value ? '#1F1F1F' : 'var(--color-haraldslund-light)'));
-const strokeFill = computed(() => (isDark.value ? '#7A7A7A' : '#FFFFFF'));
 </script>
 
 
