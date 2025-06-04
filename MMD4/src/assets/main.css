@@ -146,3 +146,10 @@ li {
 #app {
   height: 100svh;
 }
+
+@media (max-width: 700px) {
+  :root {
+    --spacer-Elements: calc(var(--spacer-x1) * 3);
+    /* eller en anden værdi til mobil */
+  }
+}
