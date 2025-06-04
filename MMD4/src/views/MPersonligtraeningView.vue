@@ -71,7 +71,7 @@ const internNavLabels = [
   { id: 4, label: "Regler", name: "regler-motionscenteret" },
   { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
   { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
-  { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
+  { id: 7, label: "Sundhed i bevægelse", name: "sib-motionscenteret" },
 ];
 
 
@@ -103,7 +103,9 @@ function getImage(billede) {
       :image="personligTraening.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
       :alt="personligTraening.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
 
-    <TheBreadcrumb></TheBreadcrumb>  
+    <div class="wrapper">
+      <TheBreadcrumb></TheBreadcrumb>  
+    </div>
 
     <TheInternNavHaraldslund
     :label="internNavLabels"></TheInternNavHaraldslund>
@@ -150,6 +152,12 @@ function getImage(billede) {
 </template>
 
 <style scoped>
+.wrapper {
+  width: 95%;
+  margin: 0 auto;
+}
+
+
 .loading-container {
   min-height: 100vh;
   display: flex;

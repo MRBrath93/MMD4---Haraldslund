@@ -6,14 +6,15 @@ import TheBreadcrumb from '@/components/TheBreadcrumb.vue';
     <div>
         <TheBreadcrumb></TheBreadcrumb>
         <section>
-            <h1>Møder & Events</h1>
-            <h2>... Maybe next time? </h2>
+            <h1>Møder & Konferencer</h1>
+            <h2>En del af vores afgrænsning</h2>
         </section>
     </div>
 </template>
 
 <style scoped>
 div{
+    width: 95%;
     height: 100vh;
     max-width: var(--max-width);
     margin: var(--spacer-Elements) auto;

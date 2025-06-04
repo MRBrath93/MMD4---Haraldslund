@@ -15,7 +15,7 @@ const internNavLabels = [
   { id: 4, label: "Regler", name: "regler-motionscenteret" },
   { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
   { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
-  { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
+  { id: 7, label: "Sundhed i bevægelse", name: "sib-motionscenteret" },
 ];
 
 // FETCH DATA OG CACHE
@@ -95,7 +95,9 @@ function getImage(billede) {
         description="Prisoversigt for motionstilbud i Haraldslund Vand og Kulturhus."
         :image="motionPriser.Hero_sektion?.Hero_Baggrundsbillede?.Billede[0].url"
         :alt="motionPriser.Hero_sektion.Hero_Baggrundsbillede?.data?.attributes?.alternativeText || 'Hero billede'"></TheHero>
-      <TheBreadcrumb></TheBreadcrumb>  
+        <div class="wrapper">
+            <TheBreadcrumb></TheBreadcrumb>  
+        </div>
       <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
       <h1 tabindex="-1">Priser - Motion</h1>
       <section class="container-priser">
@@ -188,6 +190,11 @@ function getImage(billede) {
 </template>
 
 <style scoped>
+.wrapper {
+    width: 95%;
+    margin: 0 auto;
+}
+
 .loading-container {
   min-height: 100vh;
   display: flex;
@@ -199,6 +206,7 @@ h1 {
     max-width: var(--max-width);
     margin: auto;
     padding-bottom: var(--spacer-x2);
+    width: 95%;
 }
 
 .pris-article .small {
@@ -212,7 +220,6 @@ abbr {
 
 .container-priser {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
     gap: var(--spacer-x2-5);
     max-width: var(--max-width);
     margin: 0 auto;
@@ -280,7 +287,7 @@ main {
 }
 
 .white-bg {
-    padding: var(--spacer-x3) var(--spacer-x5);
+    padding: var(--spacer-x1) var(--spacer-x3);
     max-width: 1043px;
     width: 95%;
     margin: var(--spacer-x4) auto;
@@ -292,6 +299,14 @@ main {
 }
 
 @media screen and (min-width: 768px) {
+    .container-priser {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+    }
+
+    .white-bg {
+    padding: var(--spacer-x3) var(--spacer-x5);
+    }
 
     .pris-article h4 {
         justify-content: flex-end;

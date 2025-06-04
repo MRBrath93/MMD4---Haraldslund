@@ -7,7 +7,7 @@ import TheBreadcrumb from '@/components/TheBreadcrumb.vue';
         <TheBreadcrumb></TheBreadcrumb>
         <section>
             <h1>Booking</h1>
-            <h2>... Maybe next time? </h2>
+            <h2>En del af vores afgrænsning</h2>
         </section>
     </div>
 </template>

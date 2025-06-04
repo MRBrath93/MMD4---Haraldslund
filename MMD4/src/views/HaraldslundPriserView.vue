@@ -140,7 +140,10 @@ function handleResize() {
         :subtitle="aboutData.Hero_sektion.Hero_undertitel_h6.Undertitel_H6"
         :image="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].url"
         :alt="aboutData.Hero_sektion.Hero_Baggrundsbillede.Billede[0].alternativeText"></TheHero>
-        <TheBreadcrumb></TheBreadcrumb>
+
+        <div class="breadwrapper">
+            <TheBreadcrumb></TheBreadcrumb>
+        </div>
 
         <TheInternNavHaraldslund
         :label="internNavLabels"
@@ -466,7 +469,7 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular" scope="col">Klippekort</th>
+                        <th scope="col">Klippekort</th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -543,7 +546,7 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular" scope="col">Klippekort <span class="th-small"> Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</span></th>
+                        <th scope="col">Klippekort <span class="th-small"> Ankomst før kl. 14:00 /<br>Ankomst efter kl. 14:00</span></th>
                         <th scope="col">Voksen</th>
                         <th scope="col">Barn<br>(3-14 år)</th>
                         <th scope="col">Pensionist</th>
@@ -606,7 +609,7 @@ function handleResize() {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular" scope="col">Massage</th>
+                        <th scope="col">Massage</th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
@@ -653,7 +656,7 @@ function handleResize() {
             <!-- --- KLIPPEKORT ---  -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Klippekort</th>
+                    <th scope="col">Klippekort</th>
                     <th scope="col" aria-hidden="true"></th>
                     <th aria-hidden="true"></th>
                     <th aria-hidden="true"></th>
@@ -671,7 +674,7 @@ function handleResize() {
             <!-- --- MÅNEDSKORT --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Månedskort</th>
+                    <th scope="col">Månedskort</th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
@@ -693,7 +696,7 @@ function handleResize() {
             <!-- --- PERSONLIG TRÆNING --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Personlig træning</th>
+                    <th scope="col">Personlig træning</th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
@@ -711,7 +714,7 @@ function handleResize() {
             <!-- --- PROGRAMLÆGNING --- -->
             <thead>
                 <tr>
-                    <th class="regular" scope="col">Programlægning</th>
+                    <th scope="col">Programlægning</th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
                     <th scope="col" aria-hidden="true"></th>
@@ -746,10 +749,18 @@ function handleResize() {
 
 <style scoped>
 
+.breadwrapper{
+    width: 95%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    margin-bottom: var(--spacer-x1);
+}
+
 h1{
     width: 95%;
     max-width: var(--max-width);
     margin: 0 auto;
+    margin-bottom: var(--spacer-x1);
 }
 
 .loading-container {
@@ -789,7 +800,6 @@ table {
 }
 
 th {
-    font-size: clamp(0.85rem, 1.5vw, 1.25rem);
     font-family: var(--font-heading);
     width: auto;
     padding: 10px;
@@ -813,6 +823,7 @@ th, td{
     width: auto;
     padding: 10px;
     text-align: left;
+    font-size: clamp(0.85rem, 1.5vw, 1.25rem);
 }
 
 td{

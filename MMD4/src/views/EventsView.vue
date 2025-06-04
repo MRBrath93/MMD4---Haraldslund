@@ -17,17 +17,21 @@ const internNavLabels = [
 </script>
 
 <template>
-    <div>
+    <div class="wrapper">
         <TheBreadcrumb></TheBreadcrumb>  
         <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
         <section>
             <h1>Events</h1>
-            <h2>... Maybe next time? </h2>
+            <h2>En del af vores afgrænsning</h2>
         </section>
     </div>
 </template>
 
 <style scoped>
+.wrapper{
+    width: 95%;
+}
+
 div{
     height: 100vh;
     margin: var(--spacer-Elements) auto;

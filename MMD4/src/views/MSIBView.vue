@@ -13,23 +13,27 @@ const internNavLabels = [
   { id: 4, label: "Regler", name: "regler-motionscenteret" },
   { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
   { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
-  { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
+  { id: 7, label: "Sundhed i bevægelse", name: "sib-motionscenteret" },
 ];
 
 </script>
 
 <template>
-    <div>
+    <div class="wrapper">
         <TheBreadcrumb></TheBreadcrumb>  
         <TheInternNavHaraldslund :label="internNavLabels"></TheInternNavHaraldslund>
         <section>
             <h1>SUNDHED I BEVÆGELSE</h1>
-            <h2>... Maybe next time? </h2>
+            <h2>En del af vores afgrænsning</h2>
         </section>
     </div>
 </template>
 
 <style scoped>
+.wrapper {
+    width: 95%;
+}
+
 div{
     height: 100vh;
     max-width: var(--max-width);

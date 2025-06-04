@@ -69,7 +69,7 @@ const internNavLabels = [
   { id: 4, label: "Regler", name: "regler-motionscenteret" },
   { id: 5, label: "Personlig træning", name: "personlig-traening-motionscenteret" },
   { id: 6, label: "Leje af sal & instruktør", name: "leje-af-sal-og-instruktor-motionscenteret" },
-  { id: 7, label: "Sundhed & bevægelse", name: "sib-motionscenteret" },
+  { id: 7, label: "Sundhed i bevægelse", name: "sib-motionscenteret" },
 ];
 
 function getImage(billede) {
@@ -156,6 +156,7 @@ function getImage(billede) {
   </template>
   
 <style scoped>
+
 .loading-container {
   min-height: 100vh;
   display: flex;
@@ -244,9 +245,7 @@ section{
 /* TEKSTSTYLE SLUT */
 
 .breadcrumb-container {
-  max-width: var(--max-width);
-  width: 100%;
-  margin: 0 auto;
+  width: 95%;
 }
 
 .section-wrapper {

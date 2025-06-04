@@ -241,7 +241,7 @@ onUnmounted(() => {
                 </tbody>
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
-                    <tr><th class="regular type" scope="col">Massage</th>
+                    <tr><th class="type" scope="col">Massage</th>
                         <!-- <th scope="col">30 minutter</th>
                         <th scope="col">45 minutter</th>
                         <th scope="col">60 minutter</th> -->
@@ -386,7 +386,7 @@ onUnmounted(() => {
                 <thead>
                     <!-- Tilføjet scope="col" på alle kolonneoverskrifter for bedre tilgængelighed -->
                     <tr>
-                        <th class="regular type" scope="col">Massage</th>
+                        <th class="type" scope="col">Massage</th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
                         <th scope="col" aria-hidden="true"></th>
@@ -400,7 +400,7 @@ onUnmounted(() => {
                         <td><p class="time">60 minutter</p>{{ pris.pris_60_minutter ? pris.pris_60_minutter + ',-' : '' }}</td>
                     </tr>
                     <tr>
-                        <td class="type">Cupping</td>
+                        <td>Cupping</td>
                         <td><p class="time">Inkl. i massage</p>+{{ vandogwellnessPriserData.Cupping.pris_inklusiv_massage ? vandogwellnessPriserData.Cupping.pris_inklusiv_massage + ',-' : '' }}</td>
                         <td><p class="time">Ekskl. massage</p>{{vandogwellnessPriserData.Cupping.pris_ekslusiv_massage ? vandogwellnessPriserData.Cupping.pris_ekslusiv_massage + ',-' : '' }}</td>
                         <td aria-hidden="true"></td>
