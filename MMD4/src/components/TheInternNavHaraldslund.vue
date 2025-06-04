@@ -81,11 +81,10 @@ onBeforeUnmount(() => {
       id="intern-nav-menu"
       tabindex="0"
       >
-          <li v-for="(item, index) in label" :key="index">
+          <li v-for="(item, index) in label" :key="index" role="menuitem">
               <router-link 
               :to="{ name: item.name }" 
               @click="selectItem(item)"
-              role="menuitem"
               :aria-current="$route.name === item.name ? 'page' : null"
               class="menu-item"
               :aria-label="`Gå til ${item.label}`"

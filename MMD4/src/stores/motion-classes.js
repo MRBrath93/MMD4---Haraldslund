@@ -67,7 +67,7 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
     };
     const CACHE_KEY = 'MotionClasses';
     const CACHE_TIMESTAMP_KEY = 'MotionClassesCacheTimestamp';
-    const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter cache tid
+    const CACHE_DURATION_MS = 60 * 60 * 1000; // 60 minutter cache tid
 
     const fetchClasses = () => {
         isLoading.value = true;
@@ -82,7 +82,8 @@ export const useClassesStoreMotion = defineStore("classesStoreMotion", () => {
                     const cachedData = JSON.parse(cachedRaw);
                     classes.value = cachedData;
                     numberOfTeams.value = cachedData.length;
-                    numberOfClasses.value = cachedData.length; // Opdaterer antallet af klasser til det samlede antal
+                    // Opdaterer antallet af klasser til det samlede antal
+                    numberOfClasses.value = cachedData.length;
                     isLoading.value = false;
                     return;
                 } catch (e) {
