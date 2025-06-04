@@ -6,7 +6,6 @@ import { computed } from 'vue';
 const props = defineProps({
   src: {
     type: String,
-    default: 'https://via.placeholder.com/600x400?text=Test+Billede',
   },
   alt: {
     type: String,

@@ -1,4 +1,5 @@
 <script setup>
+import TheBtn from '../components/TheBtn.vue';
 </script>
 
 

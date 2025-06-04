@@ -14,8 +14,11 @@ onMounted(() => {
   isLoading.value = true;
   error.value = null;
 
+  // CACHE VARIABLER
+const CACHE_DURATION_MS = 60 * 60 * 1000;
+
   const cachedPraktiskRaw = localStorage.getItem('praktiskData');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cachePracticalTimestamp');
   const now = Date.now();
 
   if (cachedPraktiskRaw && cachedTimestampRaw) {
@@ -44,7 +47,7 @@ onMounted(() => {
     .then(json => {
         praktiskData.value = json.data;
         localStorage.setItem('praktiskData', JSON.stringify(praktiskData.value));
-        localStorage.setItem('cacheTimestamp', now.toString());   
+        localStorage.setItem('cachePracticalTimestamp', now.toString());   
     })
     .catch(err => {
       error.value = err.message;
@@ -64,8 +67,6 @@ const praktiskData = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
 
-// CACHE VARIABLER
-const CACHE_DURATION_MS = 5 * 60 * 1000;
 
 
 // Intern navigation labels (fra Strapi)

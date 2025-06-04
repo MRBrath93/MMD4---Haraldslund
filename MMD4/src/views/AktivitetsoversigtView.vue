@@ -29,7 +29,7 @@ const isLoading = ref(true);
 const error = ref(null);
 
 // CACHE VARIABLER
-const CACHE_DURATION_MS = 1 * 60 * 1000;
+const CACHE_DURATION_MS = 60 * 60 * 1000;
 
 // FETCH DATA
 // Henter data fra Strapi API og cacher det i localStorage

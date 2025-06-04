@@ -19,7 +19,7 @@ const motionHoldData = ref(null);
 
 const CACHE_KEY = "motionHoldData";
 const CACHE_TIMESTAMP_KEY = "motionsHoldTimestamp";
-const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
+const CACHE_DURATION_MS = 60 * 60 * 1000;
 
 onMounted(async () => {
   isLoading.value = true;

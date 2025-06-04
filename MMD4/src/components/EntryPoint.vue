@@ -250,7 +250,6 @@ const kategoriColor = computed(() => {
   }
 }
 
-/* Farve-klasser */
 .green {
   background-color: var(--color-motion);
 }

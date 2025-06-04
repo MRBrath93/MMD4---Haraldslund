@@ -25,10 +25,6 @@ const tag = computed(() => `h${props.level}`);
     Klassen 'dynamic-heading' bruges til styling.
     id="main" og tabindex="-1" tilgodeser tilgængelighed ved skip-link funktion.
   -->
-  <!-- <component :is="tag" class="dynamic-heading" id="main" tabindex="-1"> -->
-    <!-- Slot til at indsætte overskriftstekst eller andet indhold -->
-    <!-- <slot></slot>
-  </component> -->
   
   <component :is="tag" class="dynamic-heading" tabindex="-1"
      v-bind="props.level === 1 ? { id: 'page-title', tabindex: -1 } : {}" >

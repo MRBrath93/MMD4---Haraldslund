@@ -4,7 +4,7 @@ import { RouterLink } from 'vue-router';
 
 
 const events = ref([]);
-
+// FETCH EVENTS FRA STRAPI
 const fetchEvents = () => {
   fetch('https://popular-gift-b355856076.strapiapp.com/api/eventlistes?pLevel')
     .then((response) => response.json())
@@ -19,7 +19,7 @@ const fetchEvents = () => {
 onMounted(() => {
   fetchEvents();
 });
-
+// FUNKTION TIL AT HENTE BILLEDE URL
 function getImage(billede) {
   if (!billede || !billede.formats) return '';
   return billede.formats.medium?.url ||

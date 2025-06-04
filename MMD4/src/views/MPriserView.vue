@@ -67,7 +67,7 @@ const isLoading = ref(true);
 const error = ref(null);
 
 // CACHE VARIABLER
-const CACHE_DURATION_MS = 5 * 60 * 1000;
+const CACHE_DURATION_MS = 60 * 60 * 1000;
 
 // FUNKTIONER
 function getImage(billede) {

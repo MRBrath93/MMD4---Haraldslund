@@ -9,9 +9,11 @@ const themeStore = useThemeStore(); // Kobling til Pinia-store
 
 // FETCH DATA
 onMounted(() => {
+    // CACHE VARIABLER
+const CACHE_DURATION_MS = 60 * 60 * 1000;
 
   const cachedFooterRaw = localStorage.getItem('footerData');
-  const cachedTimestampRaw = localStorage.getItem('cacheTimestamp');
+  const cachedTimestampRaw = localStorage.getItem('cachePracticalTimestamp');
   const now = Date.now();
 
   if (cachedFooterRaw && cachedTimestampRaw) {
@@ -38,7 +40,7 @@ onMounted(() => {
     .then(json => {
         footerData.value = json.data;
         localStorage.setItem('footerData', JSON.stringify(footerData.value));
-        localStorage.setItem('cacheTimestamp', now.toString());   
+        localStorage.setItem('cachePracticalTimestamp', now.toString());   
     })
     .catch(err => {
       error.value = err.message;
@@ -51,8 +53,6 @@ onMounted(() => {
 const footerData = ref([]);
 
 
-// CACHE VARIABLER
-const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
 
 function formatDato(datoStr) {
   const [year, month, day] = datoStr.split('-');

@@ -62,7 +62,7 @@ const lejeData = ref(null);
 const isLoading = ref(true);
 const error = ref(null);
 
-const CACHE_DURATION_MS = 5 * 60 * 1000;
+const CACHE_DURATION_MS = 60 * 60 * 1000;
 
 
 // Intern navigation labels (fra Strapi)

@@ -25,7 +25,7 @@ const vandogwellnessData = ref([]);
 const isLoading = ref(true);
 const error = ref(null);
 
-const CACHE_DURATION_MS = 5 * 60 * 1000;
+const CACHE_DURATION_MS = 60 * 60 * 1000;
 
 onMounted(() => {
   isLoading.value = true;

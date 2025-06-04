@@ -8,7 +8,7 @@ const isLoading = ref(true);
 // Holder eventuelle fejlmeddelelser
 const error = ref(null);
 // Hvor længe cachedata er gyldige (5 minutter)
-const CACHE_DURATION_MS = 5 * 60 * 1000;
+const CACHE_DURATION_MS = 60 * 60 * 1000;
 // Reference til dato-tekst i datovælgeren
 const dateTextRef = ref(null);
 

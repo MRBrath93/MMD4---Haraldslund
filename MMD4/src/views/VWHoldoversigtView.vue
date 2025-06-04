@@ -20,7 +20,7 @@ const loadingMessage = ref('Indhold indlæses...');
 
 const CACHE_KEY = "vandogwellnessHoldData";
 const CACHE_TIMESTAMP_KEY = "cachevandholdTimestamp";
-const CACHE_DURATION_MS = 5 * 60 * 1000; // 5 minutter
+const CACHE_DURATION_MS = 60 * 60 * 1000;
 
 
 watch(isLoading, (newVal) => {
@@ -180,6 +180,8 @@ const internNavLabels = [
               kurbadsaftener: Facebook: Haraldslund Vand og Kulturhus. 08/05/2020. (online) Facebook.com. Meta 2025. [Accessed 07/05/2025] URL: https://www.facebook.com/Haraldslund/photos/pb.100047675655563.-2207520000/3042800045778069/?type=3
               Varmtvandstræning:  Angel Cortijo Nieto. billede: #41728130. (online) Colourbox.com. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.dk/billede/swimming-badning-aeldre-billede-41728130
               Specialhold:  Angel Cortijo Nieto. billede: #40021547. (online) Colourbox.com. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.dk/billede/aeldre-pool-badning-billede-40021547
+              Børnesvømning:  #230226. billede: #29513736. (online) Colourbox.com. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.com/image/children-swimming-underwater-in-pool-image-29513736
+              Infrarød Sauna:  Simon Kadula. billede: #52431381. (online) Colourbox.com. 2025 [Accessed 07/05/2025] URL: https://www.colourbox.com/image/modern-infrared-sauna-in-a-wellness-studio-image-52431381
               -->
             </div>
           </div>

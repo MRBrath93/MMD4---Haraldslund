@@ -1,6 +1,8 @@
 <script setup>
+// Importerer nødvendige funktioner fra Vue
 import { defineProps, ref, onMounted } from 'vue';
 
+// Definerer komponentens props og kræver en 'store'-prop som et objekt
 const props = defineProps({
   store: {
     type: Object,
@@ -9,18 +11,25 @@ const props = defineProps({
 });
 
 const scrollContainer = ref(null);
+
+// Reaktive variabler til visning af venstre og højre scroll-pil
 const showLeftArrow = ref(false);
 const showRightArrow = ref(true);
 
+// Funktion der tjekker scroll-positionen og opdaterer pilenes synlighed
 const handleScroll = () => {
   const el = scrollContainer.value;
+  // Vis venstre pil hvis brugeren har scrollet mere end 10px til højre
   showLeftArrow.value = el.scrollLeft > 10;
+  // Vis højre pil hvis der stadig er mere indhold at scrolle til højre
   showRightArrow.value = el.scrollLeft + el.clientWidth < el.scrollWidth - 10;
 };
 
+// Når komponenten er mountet, tjekkes scroll-positionen med det samme
 onMounted(() => {
   handleScroll();
 });
+
 </script>
 
 <template>
