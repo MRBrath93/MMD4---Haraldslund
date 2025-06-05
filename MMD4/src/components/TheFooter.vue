@@ -89,7 +89,7 @@ function formatDato(datoStr) {
             <p class="headline">For medlemmer</p>
             <ul>
                 <li><router-link :to="{ name: 'haraldslund-bibliotek' }">Bibliotek</router-link></li>
-                <li><a href="#">Events</a></li>
+                <li><router-link :to="{ name: 'haraldslund-events' }">Events</router-link></li>
             </ul>
         </div>
         <div class="footer-column">
