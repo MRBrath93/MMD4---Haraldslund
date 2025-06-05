@@ -823,7 +823,7 @@ th, td{
     width: auto;
     padding: 10px;
     text-align: left;
-    font-size: clamp(0.85rem, 1.5vw, 1.25rem);
+    font-size: clamp(0.85rem, 1.5vw, 1.1rem);
 }
 
 td{
