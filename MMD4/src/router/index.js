@@ -55,7 +55,6 @@ const router = createRouter({
             title: 'Vand & Wellness - Haraldslund',
             breadcrumb: 'Vand & Wellness',
             description: 'Se vores tilbud inden for vand og wellness, herunder svømmehal, wellness-område og forskellige holdaktiviteter.',
-
           },
         },
         {
@@ -69,7 +68,6 @@ const router = createRouter({
                 title: 'Holdoversigt - Vand & Wellness - Haraldslund',
                 breadcrumb: 'Holdoversigt',
                 description: 'Se vores holdoversigt for Vand & Wellness, hvor du kan se alle de forskellige hold, vi tilbyder.',
-
               }
             },
             {
