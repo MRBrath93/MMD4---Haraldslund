@@ -290,7 +290,7 @@ main {
     padding: var(--spacer-x1) var(--spacer-x3);
     max-width: 1043px;
     width: 95%;
-    margin: var(--spacer-x4) auto;
+    margin: var(--spacer-x1) auto;
 }
 
 .fatText {
